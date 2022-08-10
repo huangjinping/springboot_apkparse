@@ -181,6 +181,8 @@ public class ManiParse {
         Element applicationElement = root.element("application");
         application.setRequestLegacyExternalStorage(applicationElement.attributeValue("requestLegacyExternalStorage"));
         application.setNetworkSecurityConfig(applicationElement.attributeValue("networkSecurityConfig"));
+        application.setPackageName(root.attributeValue("package"));
+
 
 //        XPath xPath = new DefaultXPath("/manifest/application");
 //        List<Element> list = xPath.selectNodes(document.getRootElement());

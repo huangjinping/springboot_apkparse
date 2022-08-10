@@ -62,7 +62,6 @@ public class ApkController {
             }
             file.transferTo(resultFile);
             String unzipPath = realPath + "/" + oldName;
-            FileUtils.deleteDirWithPath(unzipPath);
             String apktoolPath = savePos.getParentFile().getAbsolutePath() + "/jks/apktool.jar";
 
             System.out.println("=======suffix=====" + suffix);
@@ -72,7 +71,7 @@ public class ApkController {
 //                int value = process.waitFor();
 //                Map<String, Object> map = ManiParse.parseAndroidManifest(unzipPath + "/AndroidManifest.xml");
 //
-                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath,resultFile.getAbsolutePath(), unzipPath);
+                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
 
@@ -96,7 +95,18 @@ public class ApkController {
                 process = Runtime.getRuntime().exec(cmd);
                 value = process.waitFor();
 
+                File deviceApkFile = new File(deviceApkPath);
+
                 String masterApkPath = deviceApkPath + "/base-master.apk";
+
+                for (File childFile : deviceApkFile.listFiles()) {
+                    if (childFile.isFile() && childFile.getName().startsWith("base-master")) {
+                        masterApkPath = childFile.getAbsolutePath();
+                    }
+
+                }
+
+
                 String masterApkBPath = deviceApkPath + "/base-master";
                 Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath);
                 resultMap.putAll(map);

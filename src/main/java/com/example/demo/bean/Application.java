@@ -6,6 +6,13 @@ public class Application {
     private int compileSdkVersion;
     private String packageName;
 
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
 
     public int getCompileSdkVersion() {
         return compileSdkVersion;

@@ -24,10 +24,10 @@ public class MainTest {
     public static void main(String[] args) {
         System.out.println("vvvv");
         try {
-            Map<String, Object> map = ManiParse.parseAndroidManifest("/Users/huhuijie/Documents/work/web/demo/src/main/resources/static/AndroidManifest.xml");
+            Map<String, Object> map = ManiParse.parseAndroidManifest("/Users/huhuijie/Documents/GitHub/springboot_apkparse/src/main/resources/static/AndroidManifest.xml");
             Gson gson = new Gson();
             String result = gson.toJson(map);
-            System.out.println(result);
+//            System.out.println(result);
         } catch (DocumentException e) {
             e.printStackTrace();
         }

@@ -126,6 +126,10 @@
         </div>
         <ul class="resultUl applicationUl">
             <li class="resultli">
+                <span class="resultliname">packageName</span><span
+                    class="resultlistate packageName"></span>
+            </li>
+            <li class="resultli">
                 <span class="resultliname">compileSdkVersion</span><span class="resultlistate targetsdk"></span>
             </li>
             <li class="resultli">
@@ -290,6 +294,10 @@
             }
 
             if (data.application) {
+
+                var packageName = data.application.packageName;
+                $(".packageName").html(packageName);
+
                 var compileSdkVersion = data.application.compileSdkVersion;
                 if (compileSdkVersion < 31) {
                     $(".targetsdk").addClass("redText");
@@ -306,6 +314,7 @@
                     $(".networkSecurityConfig").removeClass("redText");
                     $(".networkSecurityConfig").html(networkSecurityConfig);
                 }
+
 
                 var requestLegacyExternalStorage = data.application.requestLegacyExternalStorage;
                 $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage);
