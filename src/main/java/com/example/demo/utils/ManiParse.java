@@ -9,19 +9,25 @@ import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
 import org.dom4j.xpath.DefaultXPath;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class ManiParse {
 
 
-    public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String miniFastPath, String outFilePath) throws Exception {
-        String cmd = "java -jar " + apktoolPath + " d " + miniFastPath + " -o " + outFilePath;
+    public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath) throws Exception {
+        String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
         System.out.println(cmd);
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
         Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml");
+
+        File file = new File(apktoolPath);
+        Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+        map.putAll(aapt);
         return map;
     }
 
@@ -34,6 +40,53 @@ public class ManiParse {
         return map;
     }
 
+
+    public static Map<String, Object> parseAndroidApk(String aaptPath, String apkPath) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            String cmd = aaptPath + " dump badging " + apkPath;
+            Process process = Runtime.getRuntime().exec(cmd);
+            System.out.println(cmd);
+            BufferedReader bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = "";
+            while ((line = bis.readLine()) != null) {
+                try {
+                    if (line.contains("sdkVersion")) {
+                        String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
+                        result.put("sdkVersion", Integer.parseInt(sdkVersion));
+                    }
+                    if (line.contains("targetSdkVersion")) {
+                        String targetSdkVersion = line.replace("targetSdkVersion:'", "").replace("'", "");
+                        result.put("targetSdkVersion", Integer.parseInt(targetSdkVersion));
+                    }
+                    if (line.contains("compileSdkVersion") && line.contains("versionName")) {
+                        line = line.replace("package: name", "packageName");
+                        String[] verline = line.split(" ");
+                        for (String item : verline) {
+                            System.out.println(item);
+
+                            String[] split = item.split("=");
+                            System.out.println(split[0]);
+
+                            result.put(split[0], split[1].replace("'", "").replace("'", ""));
+                        }
+                    }
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            bis.close();
+        } catch (Exception var9) {
+            System.out.println("parseAndroidApk7" + var9.getMessage());
+
+            var9.printStackTrace();
+        }
+        return result;
+    }
 
     public static Map<String, Object> parseAndroidManifest(String path) throws DocumentException {
         SAXReader reader = new SAXReader();
@@ -87,12 +140,26 @@ public class ManiParse {
         XPath xPath = new DefaultXPath("/manifest/queries/intent/action");
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<Query> dataList = new ArrayList<>();
+
+        String mainFlag = "android.intent.action.MAIN";
+        boolean hashMain = false;
         for (Element element : list) {
             Query query = new Query();
             String name = element.attributeValue("name");
             query.setActionName(name);
+            query.setState(1);
+            dataList.add(query);
+            if (name != null && name.contains(mainFlag)) {
+                hashMain = true;
+            }
+        }
+        if (!hashMain) {
+            Query query = new Query();
+            query.setActionName(mainFlag);
+            query.setState(0);
             dataList.add(query);
         }
+
         return dataList;
     }
 

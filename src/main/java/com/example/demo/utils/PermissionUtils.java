@@ -8,6 +8,8 @@ public class PermissionUtils {
             "android.permission.CALL_PHONE",
             "android.permission.RECEIVE_SMS",
             "android.permission.WRITE_CONTACTS",
+            "android.permission.QUERY_ALL_PACKAGES",
+            "android.permission.ACCESS_BACKGROUND_LOCATION"
     };
 
 
@@ -23,7 +25,7 @@ public class PermissionUtils {
             "android.permission.READ_CALENDAR",
             "android.permission.WRITE_CALENDAR",
             "android.permission.ACCESS_COARSE_LOCATION",
-            "android.permission.QUERY_ALL_PACKAGES",
+//            "android.permission.QUERY_ALL_PACKAGES",
             "android.permission.INTERNET",
             "android.permission.GET_ACCOUNTS",
 //            "android.permission.READ_CALL_LOG",

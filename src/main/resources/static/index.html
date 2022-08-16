@@ -130,8 +130,18 @@
                     class="resultlistate packageName"></span>
             </li>
             <li class="resultli">
-                <span class="resultliname">compileSdkVersion</span><span class="resultlistate targetsdk"></span>
+                <span class="resultliname">minSdkVersion</span><span class="resultlistate sdkVersion"></span>
             </li>
+            <li class="resultli">
+                <span class="resultliname">targetSdkVersion</span><span class="resultlistate targetSdkVersion"></span>
+            </li>
+            <li class="resultli">
+                <span class="resultliname">versionCode</span><span class="resultlistate versionCode"></span>
+            </li>
+            <li class="resultli">
+                <span class="resultliname">versionName</span><span class="resultlistate versionName"></span>
+            </li>
+
             <li class="resultli">
                 <span class="resultliname">networkSecurityConfig</span><span
                     class="resultlistate networkSecurityConfig"></span>
@@ -193,6 +203,7 @@
         <div class="resultTitle">
             queries
         </div>
+
 
         <ul class="resultUl queriesUl">
         </ul>
@@ -293,19 +304,25 @@
                 $(".permissionUl").html(autoHtml);
             }
 
+
             if (data.application) {
 
                 var packageName = data.application.packageName;
                 $(".packageName").html(packageName);
+                $(".sdkVersion").html(data.sdkVersion);
+                $(".versionName").html(data.versionName);
+                $(".versionCode").html(data.versionCode);
 
-                var compileSdkVersion = data.application.compileSdkVersion;
+
+                var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 31) {
-                    $(".targetsdk").addClass("redText");
-                    $(".targetsdk").html("当前" + compileSdkVersion + ",google play targetSdk 最少31");
+                    $(".targetSdkVersion").addClass("redText");
+                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少31");
                 } else {
-                    $(".targetsdk").html(compileSdkVersion);
-                    $(".targetsdk").removeClass("redText");
+                    $(".targetSdkVersion").html(compileSdkVersion);
+                    $(".targetSdkVersion").removeClass("redText");
                 }
+
                 var networkSecurityConfig = data.application.networkSecurityConfig;
                 if (isEmpty(networkSecurityConfig)) {
                     $(".networkSecurityConfig").addClass("redText");
@@ -431,6 +448,13 @@
                 data.queries.forEach(function (v, i) {
                     var state = "";
                     var stateText = "";
+
+                    if (1 == v.state) {
+                        state = "已配置";
+                    } else {
+                        stateText="redText";
+                        state = "缺失";
+                    }
                     autoHtml += "  <li class=\"resultli\">\n" +
                         "                <span class=\"resultliname\">" + v.actionName + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
                         "            </li>";

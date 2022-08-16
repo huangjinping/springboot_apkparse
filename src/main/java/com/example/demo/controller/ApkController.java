@@ -71,6 +71,7 @@ public class ApkController {
 //                int value = process.waitFor();
 //                Map<String, Object> map = ManiParse.parseAndroidManifest(unzipPath + "/AndroidManifest.xml");
 //
+
                 Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
@@ -103,9 +104,7 @@ public class ApkController {
                     if (childFile.isFile() && childFile.getName().startsWith("base-master")) {
                         masterApkPath = childFile.getAbsolutePath();
                     }
-
                 }
-
 
                 String masterApkBPath = deviceApkPath + "/base-master";
                 Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath);
