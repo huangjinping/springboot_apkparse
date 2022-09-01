@@ -20,15 +20,55 @@ public class ManiParse {
 
     public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath) throws Exception {
         String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
-        System.out.println(cmd);
+//        System.out.println(cmd);
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
         Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml");
-
         File file = new File(apktoolPath);
         Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
         map.putAll(aapt);
+
+
+        Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
+        map.putAll(parsePackage);
         return map;
+    }
+
+    public static Map<String, Object> parsePackage(String filePath) {
+        Map<String, Object> parsePackageResult = new HashMap<>();
+        try {
+            ArrayList<Object> fileList = FolderFileScanner.startScanFilesWithRecursion(filePath);
+            parsePackageResult.put("keepPackage", getKeepList(fileList));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return parsePackageResult;
+    }
+
+
+    private static List<KeepPackage> getKeepList(ArrayList<Object> fileList) {
+        Map<String, String> catchMap = new HashMap<>();
+        List<KeepPackage> packageList = new ArrayList<>();
+
+        for (int i = 0; i < fileList.size(); i++) {
+            String packageNo = (String) fileList.get(i);
+
+            for (int j = 0; j < FolderFileScanner.PACKAGE_KILL_LIST.length; j++) {
+                String noItem = FolderFileScanner.PACKAGE_KILL_LIST[j];
+                if (packageNo.contains(noItem)) {
+                    KeepPackage keepPackage = new KeepPackage();
+                    String realNamePage = FolderFileScanner.getRealNamePage(packageNo);
+                    if (catchMap.containsKey(realNamePage)) {
+                    } else {
+                        catchMap.put(realNamePage, realNamePage);
+                        keepPackage.setName(realNamePage);
+                        keepPackage.setState(-1);
+                        packageList.add(keepPackage);
+                    }
+                }
+            }
+        }
+        return packageList;
     }
 
 

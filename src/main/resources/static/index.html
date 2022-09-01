@@ -207,6 +207,15 @@
 
         <ul class="resultUl queriesUl">
         </ul>
+
+        <div class="resultTitle">
+            库检测
+        </div>
+        <ul class="keepLibUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
     </div>
 
 </div>
@@ -452,7 +461,7 @@
                     if (1 == v.state) {
                         state = "已配置";
                     } else {
-                        stateText="redText";
+                        stateText = "redText";
                         state = "缺失";
                     }
                     autoHtml += "  <li class=\"resultli\">\n" +
@@ -461,6 +470,21 @@
                 });
 
                 $(".queriesUl").html(autoHtml);
+            }
+
+
+            if (data.keepPackage) {
+                var autoHtml = "";
+                data.keepPackage.forEach(function (v, i) {
+                    var state = "建议删除";
+                    var stateText = "";
+                    stateText = "redText";
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                        "            </li>";
+                });
+                $(".keepLibUl").html(autoHtml);
+
             }
 
         }
