@@ -17,8 +17,13 @@ public class FolderFileScanner {
 
 
     public static final String[] PACKAGE_KILL_LIST = new String[]{
-            "/com/umeng/",
-            "/com/tencent/",
+            "/com/umeng/",//友盟
+            "/com/tencent/",//腾讯库
+            "/com/alibaba/sdk/android/",//阿里云
+            "com.baidu.location",//百度定位
+            "com.baidu.mapapi",//百度定位
+            "com.amap.api"//高德定位
+
     };
 
     public static ArrayList<Object> scanFiles = new ArrayList<Object>();
@@ -31,8 +36,10 @@ public class FolderFileScanner {
 
     public static String getRealNamePage(String packageLine) {
         packageLine = packageLine.replace(".smali", "");
-        String[] packageList = packageLine.split("/smali/");
+        String[] packageList = packageLine.split("/smal");
         String resName = packageList[1];
+        int i = resName.indexOf("/");
+        resName = resName.substring(i);
         String[] split = resName.split("/");
         List<String> list = Arrays.asList(split);
         List<String> myList = new ArrayList<>(list);

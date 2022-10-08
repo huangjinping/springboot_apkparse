@@ -91,10 +91,57 @@
 
         .resultli {
         }
+
+        .spiritContainer {
+            width: 200px;
+            height: 40px;
+            border: deepskyblue solid 1px;
+            border-radius: 10px;
+            background-color: deepskyblue;
+            color: white;
+            position: absolute;
+            top: 20px;
+            overflow: hidden;
+            right: 10px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .spiritContainer:hover {
+            background-color: #f40;
+            border: #f40 solid 1px;
+            height: auto;
+            overflow: hidden;
+
+        }
+
+        .spiritContainer a {
+            color: white;
+        }
+
+
+        .appAlert {
+            border: red dashed 5px;
+            border-radius: 10px;
+            background-color: white;
+            color: #f40;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 <div class="pageCenter">
+
+
+    <div class="spiritContainer">
+        <span class="spirit">菜单</span>
+        <ul>
+            <li><a href="/index">apk aab</a></li>
+            <li><a href="/nbjson">检测大json</a></li>
+            <li><a href="">意见反馈</a></li>
+        </ul>
+    </div>
     <div class="requestView">
         <div>
             <span>点击上传:Apk或者aab</span>
@@ -114,9 +161,15 @@
         </form>
     </div>
 
+
     <div class="resultContainer">
         <div class="resultTitle">
             Permission（权限配置）
+        </div>
+        <div class="appAlert">
+            <ul>
+                <li>android.permission.READ_CALL_LOG，通话记录权限，请确认这个包是不是需要配置。</li>
+            </ul>
         </div>
         <ul class="resultUl permissionUl">
         </ul>
@@ -223,6 +276,25 @@
 <script>
     (function () {
         console.log($);
+
+        init();
+
+        function init() {
+            if (window.timerAp) {
+                clearInterval(window.timerAp);
+                window.timerAp = null;
+            }
+            window.timerAp = setInterval(function () {
+                try {
+                    var list = ['solid', 'dashed', "dotted", "double", "groove"];
+                    var index = Math.floor(Math.random() * list.length);
+                    $(".appAlert").css("borderStyle", list[index]);
+                } catch (e) {
+                }
+            }, 1000)
+
+        }
+
 
         function hideResult() {
             $(".resultContainer").css("display", 'none');

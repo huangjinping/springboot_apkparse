@@ -11,4 +11,11 @@ public class IndexRestController {
         return new ModelAndView("index");
     }
 
+
+    @RequestMapping("/nbjson")
+    public ModelAndView nbjson() {
+        return new ModelAndView("nbjson");
+    }
+
+
 }

@@ -37,6 +37,8 @@ public class ManiParse {
     public static Map<String, Object> parsePackage(String filePath) {
         Map<String, Object> parsePackageResult = new HashMap<>();
         try {
+
+            LogUtils.log("parsePackage====:" + filePath);
             ArrayList<Object> fileList = FolderFileScanner.startScanFilesWithRecursion(filePath);
             parsePackageResult.put("keepPackage", getKeepList(fileList));
         } catch (Exception e) {
@@ -58,7 +60,9 @@ public class ManiParse {
                 if (packageNo.contains(noItem)) {
                     KeepPackage keepPackage = new KeepPackage();
                     String realNamePage = FolderFileScanner.getRealNamePage(packageNo);
+
                     if (catchMap.containsKey(realNamePage)) {
+
                     } else {
                         catchMap.put(realNamePage, realNamePage);
                         keepPackage.setName(realNamePage);

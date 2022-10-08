@@ -19,4 +19,5 @@ public class Query {
     public void setState(int state) {
         this.state = state;
     }
+
 }

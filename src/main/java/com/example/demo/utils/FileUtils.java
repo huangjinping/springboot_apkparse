@@ -1,6 +1,8 @@
 package com.example.demo.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,5 +55,22 @@ public class FileUtils {
         }
     }
 
+    public static String getTextByPath(String path) {
+        String reader = null;
+        BufferedReader br = null;
+        File f = new File(path);
+        String result = "";
+        if (f.exists()) {
+            try {
+                br = new BufferedReader(new FileReader(f));
+                while ((reader = br.readLine()) != null) {
+                    result += reader;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 
 }

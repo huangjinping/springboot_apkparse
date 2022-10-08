@@ -9,7 +9,8 @@ public class PermissionUtils {
             "android.permission.RECEIVE_SMS",
             "android.permission.WRITE_CONTACTS",
             "android.permission.QUERY_ALL_PACKAGES",
-            "android.permission.ACCESS_BACKGROUND_LOCATION"
+            "android.permission.ACCESS_BACKGROUND_LOCATION",
+            "android.permission.REQUEST_INSTALL_PACKAGES"
     };
 
 
@@ -28,7 +29,7 @@ public class PermissionUtils {
 //            "android.permission.QUERY_ALL_PACKAGES",
             "android.permission.INTERNET",
             "android.permission.GET_ACCOUNTS",
-//            "android.permission.READ_CALL_LOG",
+            "android.permission.READ_CALL_LOG",
             "com.google.android.gms.permission.AD_ID",
     };
 }

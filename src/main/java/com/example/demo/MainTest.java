@@ -1,9 +1,12 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.bean.AppPermissions;
-import com.example.demo.utils.ManiParse;
-import com.example.demo.utils.PermissionUtils;
+import com.example.demo.jsonBean.Jentity;
+import com.example.demo.utils.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -22,33 +25,24 @@ import java.util.Map;
 
 public class MainTest {
     public static void main(String[] args) {
-        System.out.println("vvvv");
+//        System.out.println("vvvv");
+
         try {
-            Map<String, Object> map = ManiParse.parseAndroidManifest("/Users/huhuijie/Documents/GitHub/springboot_apkparse/src/main/resources/static/AndroidManifest.xml");
-            Gson gson = new Gson();
-            String result = gson.toJson(map);
+//            Map<String, Object> map = ManiParse.parseAndroidManifest("/Users/huhuijie/Documents/GitHub/springboot_apkparse/src/main/resources/static/AndroidManifest.xml");
+//            Gson gson = new Gson();
+//            String result = gson.toJson(map);
 //            System.out.println(result);
-        } catch (DocumentException e) {
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/282483.json");
+            LogUtils.log(5/20);
+//            JsonParser.parseRoot(textByPath);
+
+            LogUtils.log(CheckUtils.percentage(2,10,2));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static String getTextByPath(String path) {
-        String reader = null;
-        BufferedReader br = null;
-        File f = new File(path);
-        String result = "";
-        if (f.exists()) {
-            try {
-                br = new BufferedReader(new FileReader(f));
-                while ((reader = br.readLine()) != null) {
-                    result += reader;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
+
+
 
 }
