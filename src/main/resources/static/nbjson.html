@@ -1051,6 +1051,10 @@
             }
 
             if (data.account) {
+
+                console.log("=========data.account=====");
+                console.log(data.account);
+
                 var account = data.account;
                 var isSuccess = 1;
                 var value = account.value.value;
@@ -1096,35 +1100,32 @@
             if (data.call) {
                 var call = data.call;
                 var value = call.value.value;
-                var htmlString = "";
-                for (let i = 0; i < value.length; i++) {
-                    htmlString += createLUItem(value[i]);
-                }
-
-                $(".call").html(htmlString);
-                $(".itemChildDiv").hide();
-
-                $(".call .titleItemDiv").click(function () {
-                    $(this).siblings(".itemChildDiv").toggle();
-                });
-
                 var isSuccess = 1;
-                var message = "";
-                if (call.state == 0) {
-                    message = "没有列表数据;";
-                    isSuccess = 0;
-                } else {
-                    if (call.value.state == 0) {
-                        message += call.value.msg
-                        isSuccess = 0;
+
+                try {
+                    if (value) {
+                        var htmlString = "";
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+
+                        $(".call").html(htmlString);
+                        $(".itemChildDiv").hide();
+
+                        $(".call .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
                     }
+
+                } catch (e) {
+                    isSuccess = 0;
+
                 }
 
-                $(".callTitle .pMessage").html(message)
-                var isSuccess = 1;
+
                 var message = "";
                 if (call.state == 0) {
-                    message = "没有application数据";
+                    message += "没有call数据";
                     isSuccess = 0;
                 } else {
                     if (call.value.state == 0) {
@@ -1134,7 +1135,7 @@
                 }
 
                 if (isSuccess == 0) {
-                    message = "数据异常";
+                    message += "数据异常";
                     addRed(".callTitle .pMessage");
                 } else {
                     message = "数据正常";

@@ -122,10 +122,10 @@
 
 
         .appAlert {
-            border: red dashed 5px;
+            border: orange dashed 5px;
             border-radius: 10px;
             background-color: white;
-            color: #f40;
+            color: grey;
             font-size: 12px;
         }
     </style>
@@ -286,7 +286,7 @@
             }
             window.timerAp = setInterval(function () {
                 try {
-                    var list = ['solid', 'dashed', "dotted", "double", "groove"];
+                    var list = ['solid', 'dashed', "dotted", "double"];
                     var index = Math.floor(Math.random() * list.length);
                     $(".appAlert").css("borderStyle", list[index]);
                 } catch (e) {

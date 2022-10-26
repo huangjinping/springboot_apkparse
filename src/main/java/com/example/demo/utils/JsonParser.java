@@ -22,11 +22,9 @@ public class JsonParser {
         Jentity storage = new Jentity("storage", stringStorage, stringStorage.isEmpty() ? 0 : 1);
         root.put("storage", storage);
 
-
         Map<String, Object> parsegeneral_data = parsegeneral_data(source);
         Jentity general_data = new Jentity("general_data", parsegeneral_data, parsegeneral_data.isEmpty() ? 0 : 1);
         root.put("general_data", general_data);
-
 
         Map<String, Object> other_dataMap = parseother_data(source);
         Jentity other_data = new Jentity("other_data", other_dataMap, other_dataMap.isEmpty() ? 0 : 1);
@@ -42,9 +40,15 @@ public class JsonParser {
         Jentity parsecontact = new Jentity("contact", parseContractMap, parseContractMap.isEmpty() ? 0 : 1);
         root.put("contact", parsecontact);
 
+
         Map<String, Object> parseSMSMap = parseSMS(source);
         Jentity parseSMS = new Jentity("sms", parseSMSMap, parseSMSMap.isEmpty() ? 0 : 1);
         root.put("sms", parseSMS);
+
+
+//        Map<String, Object> parseSMSMap = parseSMS(source);
+//        Jentity parseSMS = new Jentity("sms", parseSMSMap, parseSMSMap.isEmpty() ? 0 : 1);
+//        root.put("sms", parseSMS);
 
         Map<String, Object> parselocation = parseLocation(source);
         Jentity location = new Jentity("location", parselocation, parselocation.isEmpty() ? 0 : 1);
@@ -360,13 +364,13 @@ public class JsonParser {
 
             key = "locale_display_language";
             String locale_display_language = general_data.getString(key);
-            if (!TextUtils.isEmpty(locale_iso_3_language)) {
+            if (!TextUtils.isEmpty(locale_display_language)) {
                 generalResult.put(key, new Jentity(key, locale_display_language, 1));
             } else {
                 stats = 0;
-
                 generalResult.put(key, new Jentity(key, locale_display_language, 0));
             }
+
 
             key = "locale_iso_3_country";
             String locale_iso_3_country = general_data.getString(key);
@@ -737,7 +741,6 @@ public class JsonParser {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> hardwareResult = new HashMap<>();
 
-
         //hardware
         if (jsonObject.containsKey("hardware")) {
             int stats = 1;
@@ -896,11 +899,13 @@ public class JsonParser {
 
             List<Jentity> appList = new ArrayList<>();
 
-            int appListState = 1;
             int appCount = 0;
+            int appAllListState = 1;
 
             for (int i = 0; i < appArr.size(); i++) {
                 appCount++;
+                int appListState = 1;
+
                 JSONObject item = appArr.getJSONObject(i);
                 Map<String, Object> app = new HashMap<>();
                 String key = "name";
@@ -973,19 +978,23 @@ public class JsonParser {
 //                    appListState = 0;
 //                }
                 appList.add(new Jentity(item.getString("name"), app, appListState));
+                if (appListState != 1) {
+                    appAllListState = 0;
+                }
+
             }
 
             StringBuilder builder = new StringBuilder();
             if (appCount < 2) {
-                appListState = 0;
+                appAllListState = 0;
                 builder.append("图片数量有问题\n");
             }
-            if (appListState == 0) {
+            if (appAllListState == 0) {
                 builder.append("数据有问题\n");
             }
 
             other_dataResult.put("value", appList);
-            other_dataResult.put("state", appListState);
+            other_dataResult.put("state", appAllListState);
             other_dataResult.put("msg", builder);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1094,13 +1103,13 @@ public class JsonParser {
                     }
 
 
-                    key = "source";
-                    String source1 = item.getString(key);
-                    int sourceState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"sim", "device"});
-                    app.put(key, new Jentity(key, source1, sourceState));
-                    if (sourceState != 1) {
-                        appListState = 0;
-                    }
+//                    key = "source";
+//                    String source1 = item.getString(key);
+//                    int sourceState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"sim", "device"});
+//                    app.put(key, new Jentity(key, source1, sourceState));
+//                    if (sourceState != 1) {
+//                        appListState = 0;
+//                    }
 
 
                     key = "up_time";
@@ -1170,6 +1179,25 @@ public class JsonParser {
                         app.put(key, new Jentity(key, app_name, 0));
                     }
 
+                    String[] limitTime = new String[]{"0", "254058000", "254059000", "34526428000", "34526427000", "34526426000"};
+
+                    key = "app_type";
+                    String app_type = item.getString(key);
+                    if ("0".equals(app_type)) {
+                        app_type0++;
+                    }
+
+                    if ("1".equals(app_type)) {
+                        app_type1++;
+                    }
+
+                    int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+                    app.put(key, new Jentity(key, app_type, app_typeState));
+                    if (app_typeState != 1) {
+                        appListState = 0;
+                    }
+
+
                     key = "package";
                     String packageName = item.getString(key);
                     if (!TextUtils.isEmpty(packageName)) {
@@ -1182,7 +1210,7 @@ public class JsonParser {
                     key = "in_time";
                     String in_time = item.getString(key);
                     int in_timeState = CheckUtils.getSaferStringWithTimeTempApplication(item, key);
-                    int in_timeStateString = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "254058000", "254059000"});
+                    int in_timeStateString = CheckUtils.getSaferStringWithLimit(item, key, limitTime);
                     if (in_timeStateString == 1) {
                         in_timeState = 1;
                     }
@@ -1196,14 +1224,18 @@ public class JsonParser {
                     if (!TextUtils.isEmpty(version_name)) {
                         app.put(key, new Jentity(key, version_name, 1));
                     } else {
-                        appListState = 0;
-                        app.put(key, new Jentity(key, version_name, 0));
+                        if (!"1".equals(app_type)) {
+                            appListState = 0;
+                            app.put(key, new Jentity(key, version_name, 0));
+                        } else {
+                            appListState = 1;
+                            app.put(key, new Jentity(key, version_name, 1));
+                        }
                     }
-
 
                     key = "version_code";
                     String version_code = item.getString(key);
-                    int version_codeState = CheckUtils.getSaferLimitInt(item, key, 1);
+                    int version_codeState = CheckUtils.getSaferLimitInt(item, key, 0);
                     app.put(key, new Jentity(key, version_code, version_codeState));
                     if (version_codeState != 1) {
                         appListState = 0;
@@ -1218,28 +1250,10 @@ public class JsonParser {
                     }
 
 
-                    key = "app_type";
-                    String app_type = item.getString(key);
-                    if ("0".equals(app_type)) {
-                        app_type0++;
-                    }
-
-                    if ("1".equals(app_type)) {
-                        app_type1++;
-                    }
-
-
-                    int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
-                    app.put(key, new Jentity(key, app_type, app_typeState));
-                    if (flagsState != 1) {
-                        appListState = 0;
-                    }
-
-
                     key = "up_time";
                     String up_time = item.getString(key);
                     int up_timeState = CheckUtils.getSaferStringWithTimeTempApplication(item, key);
-                    int up_timeStateString = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "254058000", "254059000"});
+                    int up_timeStateString = CheckUtils.getSaferStringWithLimit(item, key, limitTime);
                     if (up_timeStateString == 1) {
                         up_timeState = 1;
                         badTime++;
@@ -1433,9 +1447,11 @@ public class JsonParser {
 
                 StringBuilder builder = new StringBuilder();
                 if (appAllState == 0) {
+
                     builder.append("账号有问题\n");
                 }
                 if (count < 1) {
+                    appAllState = 0;
                     builder.append("账号个数不对\n");
                 }
                 smsResult.put("value", appList);
@@ -1618,6 +1634,22 @@ public class JsonParser {
                     }
 
 
+                    key = "date_sent";
+                    String sent_date = item.getString(key);
+                    if ("2".equals(type)) {
+                        app.put(key, new Jentity(key, sent_date, 1));
+
+                    } else {
+                        int date_sentStatus = CheckUtils.getSaferLimitDouble(item, key, 0);
+                        if (date_sentStatus == 1) {
+                            app.put(key, new Jentity(key, sent_date, 1));
+                        } else {
+                            app.put(key, new Jentity(key, sent_date + "", 0));
+                            appListState = 0;
+                        }
+                    }
+
+
                     key = "_id";
                     String _id = item.getString(key);
                     int _idState = CheckUtils.getSaferLimitInt(item, key, 0);
@@ -1625,22 +1657,6 @@ public class JsonParser {
                         app.put(key, new Jentity(key, _id, 1));
                     } else {
                         app.put(key, new Jentity(key, _id, 0));
-                        appListState = 0;
-
-                    }
-
-
-                    key = "sent_date";
-                    String sent_date = item.getString(key);
-                    int date_sentStatus = CheckUtils.getSaferStringWithTimeTemp(item, key);
-
-
-                    if (date_sentStatus == 1) {
-                        app.put(key, new Jentity(key, sent_date, 1));
-
-                    } else {
-                        app.put(key, new Jentity(key, sent_date + "", 0));
-
                         appListState = 0;
 
                     }
@@ -1671,15 +1687,14 @@ public class JsonParser {
 
                     key = "status";
                     String status = item.getString(key);
-                    int statusState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"-1", "0", "64", "128"});
+                    //"68","32","70"
+                    int statusState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"-1", "0", "64", "128", "32"});
                     if (statusState == 1) {
                         app.put(key, new Jentity(key, status, 1));
                     } else {
                         app.put(key, new Jentity(key, status, 0));
                         appListState = 0;
-
                     }
-
 
                     key = "person";
                     String person = item.getString(key);
@@ -1700,7 +1715,7 @@ public class JsonParser {
                 if (appAllState == 0) {
                     builder.append("短信数据有问题\n");
                 }
-                if (count < 2) {
+                if (count < 1) {
                     appAllState = 0;
                     builder.append("短信条数太少\n");
                 }
@@ -1772,6 +1787,25 @@ public class JsonParser {
             if (dbmStats != 1) {
                 stats = 0;
             }
+
+            key = "total_boot_time";
+            String total_boot_time = other_data.getString(key);
+            int total_boot_timeStats = CheckUtils.getSaferLimitDouble(other_data, key, 0);
+            other_dataResult.put(key, new Jentity(key, total_boot_time, total_boot_timeStats));
+            if (total_boot_timeStats != 1) {
+                stats = 0;
+            }
+
+
+            key = "total_boot_time_wake";
+            String total_boot_time_wake = other_data.getString(key);
+            int total_boot_time_wakeStats = CheckUtils.getSaferLimitDouble(other_data, key, 0);
+            other_dataResult.put(key, new Jentity(key, total_boot_time_wake, total_boot_time_wakeStats));
+            if (total_boot_time_wakeStats != 1) {
+                stats = 0;
+            }
+
+
             Map<String, Object> result = new HashMap<>();
             result.put("value", other_dataResult);
             result.put("state", stats);

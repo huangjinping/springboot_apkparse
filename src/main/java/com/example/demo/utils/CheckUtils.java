@@ -55,7 +55,6 @@ public class CheckUtils {
     }
 
 
-
     static int getSaferLimitInt(JSONObject doc, String key, int limit) {
         if (doc.containsKey(key)) {
             try {
@@ -166,6 +165,15 @@ public class CheckUtils {
 
 
             String string = doc.getString(key);
+
+
+            if (string.endsWith("000")) {
+                int saferLimitDouble = getSaferLimitDouble(doc, key, 1000000);
+                if (saferLimitDouble == 1) {
+                    return 1;
+                }
+            }
+
             if (TextUtils.isEmpty(string)) {
                 return 0;
             }
@@ -228,7 +236,6 @@ public class CheckUtils {
             String value = doc.getString(key);
             SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
             sdf.parse(value);
-
             return 1;
         } catch (Exception e) {
             e.printStackTrace();

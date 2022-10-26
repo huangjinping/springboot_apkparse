@@ -28,6 +28,7 @@ public class JsonController {
             return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file cannot be empty");
         }
 
+
         String fileName = file.getOriginalFilename();
 
         String oldName = fileName;

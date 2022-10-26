@@ -4,13 +4,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @RestController
 public class IndexRestController {
     @RequestMapping("/index")
-    public ModelAndView demo1() {
+    public ModelAndView index() {
         return new ModelAndView("index");
     }
 
+    @RequestMapping("/parsepackage")
+    public ModelAndView parsepackage() {
+        return new ModelAndView("index");
+    }
+
+    @RequestMapping("/")
+    public ModelAndView demo1(HttpServletResponse resp) throws IOException {
+        return new ModelAndView("router");
+    }
 
     @RequestMapping("/nbjson")
     public ModelAndView nbjson() {

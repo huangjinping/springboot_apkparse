@@ -3,12 +3,33 @@ package com.example.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@RestController
 public class HelloController {
-    @RequestMapping("/")
-    @ResponseBody
-    public String hello() {
-        return "hello world <img src=\"img/dianji.png\">";
+
+
+    @RequestMapping("/demo/index")
+    public ModelAndView index() {
+        return new ModelAndView("index");
     }
+
+
+    @RequestMapping("/demo/parsepackage")
+    public ModelAndView parsepackage() {
+        return new ModelAndView("index");
+    }
+
+
+    @RequestMapping("/demo/nbjson")
+
+    public ModelAndView nbjson() {
+        return new ModelAndView("nbjson");
+    }
+
+
 }

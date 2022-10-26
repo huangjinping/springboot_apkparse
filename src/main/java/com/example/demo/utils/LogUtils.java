@@ -9,7 +9,12 @@ public class LogUtils {
     }
 
     public static void logJson(Object msg) {
-        Gson gson=new Gson();
-        System.out.println(gson.toJson(msg));
+        if (msg instanceof String) {
+            System.out.println(msg);
+        } else {
+            Gson gson = new Gson();
+            System.out.println(gson.toJson(msg));
+        }
+
     }
 }
