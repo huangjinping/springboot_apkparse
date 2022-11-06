@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.ZipUtil;
-import cn.hutool.log.Log;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.utils.FileUtils;
@@ -13,24 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipFile;
 
 @RestController
 public class ApkController {
 
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
-    public RestResponse uploadImage(@RequestParam("file") MultipartFile file) {
+    public RestResponse uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("appType") String appType) {
         Map<String, Object> resultMap = new HashMap<>();
-
 
         if (file.isEmpty()) {
             return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file cannot be empty");
@@ -39,14 +29,14 @@ public class ApkController {
         StringBuilder frontUrl = new StringBuilder();
         String fileName = file.getOriginalFilename();
 
-        String suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        String suffix = fileName.substring(fileName.lastIndexOf("."));
         String oldName = fileName;
         if (oldName.contains(".")) {
             oldName = oldName.substring(0, oldName.lastIndexOf("."));
         }
         fileName = System.currentTimeMillis() + suffix;
         oldName = "" + System.currentTimeMillis();
-//        File savePos = new File("src/main/resources/static/." + System.currentTimeMillis());
+
         File savePos = new File("./.tempApp" + System.currentTimeMillis());
         if (!savePos.exists()) {  // 不存在，则创建该文件夹
             savePos.mkdir();
@@ -66,13 +56,8 @@ public class ApkController {
 
             System.out.println("=======suffix=====" + suffix);
             if (".apk".equals(suffix)) {
-//                String cmd = "apktool d " + resultFile.getAbsolutePath() + " -o " + unzipPath;
-//                Process process = Runtime.getRuntime().exec(cmd);
-//                int value = process.waitFor();
-//                Map<String, Object> map = ManiParse.parseAndroidManifest(unzipPath + "/AndroidManifest.xml");
-//
 
-                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath);
+                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
 
@@ -107,7 +92,7 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
-                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath);
+                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);

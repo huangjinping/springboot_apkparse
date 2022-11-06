@@ -1,0 +1,238 @@
+20:06:19.159 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8069 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:06:19.162 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:06:19.212 logback [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in /Users/huhuijie/.m2/repository/xalan/xalan/2.6.0/xalan-2.6.0.jar referenced one or more files that do not exist: file:/Users/huhuijie/.m2/repository/xalan/xalan/2.6.0/xercesImpl.jar,file:/Users/huhuijie/.m2/repository/xalan/xalan/2.6.0/xml-apis.jar
+20:06:19.213 logback [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+20:06:19.213 logback [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+20:06:20.210 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:06:20.217 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:06:20.218 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:06:20.218 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:06:20.261 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:06:20.261 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1048 ms
+20:06:20.504 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:06:20.697 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:06:20.742 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:06:20.764 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:06:20.774 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:06:20.790 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 2.255 seconds (JVM running for 3.049)
+20:06:44.921 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:06:44.922 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:06:44.923 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+20:15:58.621 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:15:58.624 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:15:58.672 logback [restartedMain] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in /Users/huhuijie/.m2/repository/xalan/xalan/2.6.0/xalan-2.6.0.jar referenced one or more files that do not exist: file:/Users/huhuijie/.m2/repository/xalan/xalan/2.6.0/xercesImpl.jar,file:/Users/huhuijie/.m2/repository/xalan/xalan/2.6.0/xml-apis.jar
+20:15:58.673 logback [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+20:15:58.673 logback [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+20:15:59.796 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:15:59.803 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:15:59.804 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:15:59.805 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:15:59.848 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:15:59.849 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1176 ms
+20:16:00.089 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:16:00.357 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:16:00.409 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:16:00.434 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:16:00.445 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:16:00.464 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 2.772 seconds (JVM running for 3.542)
+20:16:12.651 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:16:12.652 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:16:12.654 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+20:16:51.637 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:16:51.638 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:16:51.882 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:16:51.883 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:16:51.883 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:16:51.884 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:16:51.895 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:16:51.895 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 253 ms
+20:16:51.962 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:16:52.019 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:16:52.028 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:16:52.039 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:16:52.041 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:16:52.048 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.482 seconds (JVM running for 55.127)
+20:16:52.056 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:16:52.717 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:16:52.718 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:16:52.719 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+20:16:52.724 logback [http-nio-8092-exec-1] INFO  recommend - ihis
+20:16:52.991 logback [http-nio-8092-exec-5] INFO  recommend - ihis
+20:16:53.223 logback [http-nio-8092-exec-8] INFO  recommend - ihis
+20:16:53.443 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:17:39.710 logback [http-nio-8092-exec-7] INFO  recommend - ihis
+20:17:39.959 logback [http-nio-8092-exec-10] INFO  recommend - ihis
+20:17:40.170 logback [http-nio-8092-exec-4] INFO  recommend - ihis
+20:17:41.264 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:17:41.265 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:17:41.515 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:17:41.517 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:17:41.518 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:17:41.518 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:17:41.524 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:17:41.524 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 251 ms
+20:17:41.586 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:17:41.645 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:17:41.660 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:17:41.669 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:17:41.671 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:17:41.675 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.502 seconds (JVM running for 104.754)
+20:17:41.676 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:17:41.967 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:17:41.968 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:17:41.969 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+20:17:41.974 logback [http-nio-8092-exec-1] INFO  recommend - ihis
+20:17:42.192 logback [http-nio-8092-exec-4] INFO  recommend - ihis
+20:17:43.292 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:17:43.293 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:17:43.629 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:17:43.631 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:17:43.632 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:17:43.633 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:17:43.645 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:17:43.645 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 343 ms
+20:17:43.724 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:17:43.759 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:17:43.781 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:17:43.788 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:17:43.790 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:17:43.796 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.615 seconds (JVM running for 106.875)
+20:17:43.797 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:18:14.129 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:18:14.131 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:18:14.351 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:18:14.353 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:18:14.354 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:18:14.354 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:18:14.360 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:18:14.360 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 220 ms
+20:18:14.388 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:18:14.413 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:18:14.421 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:18:14.425 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:18:14.428 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:18:14.431 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.394 seconds (JVM running for 137.51)
+20:18:14.433 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:18:15.289 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:18:15.291 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:18:15.292 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+20:18:15.297 logback [http-nio-8092-exec-1] INFO  recommend - ihis
+20:18:15.298 logback [http-nio-8092-exec-1] INFO  recommend - ihis
+20:18:15.559 logback [http-nio-8092-exec-5] INFO  recommend - ihis
+20:18:15.559 logback [http-nio-8092-exec-5] INFO  recommend - ihis
+20:18:15.836 logback [http-nio-8092-exec-9] INFO  recommend - ihis
+20:18:15.837 logback [http-nio-8092-exec-9] INFO  recommend - ihis
+20:18:16.144 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:18:16.145 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:18:16.407 logback [http-nio-8092-exec-7] INFO  recommend - ihis
+20:18:16.407 logback [http-nio-8092-exec-7] INFO  recommend - ihis
+20:18:16.660 logback [http-nio-8092-exec-10] INFO  recommend - ihis
+20:18:16.660 logback [http-nio-8092-exec-10] INFO  recommend - ihis
+20:18:36.077 logback [http-nio-8092-exec-4] INFO  recommend - ihis
+20:18:36.077 logback [http-nio-8092-exec-4] INFO  recommend - ihis
+20:18:37.354 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:18:37.371 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:18:37.635 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:18:37.637 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:18:37.638 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:18:37.640 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:18:37.650 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:18:37.651 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 271 ms
+20:18:37.687 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:18:37.707 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:18:37.713 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:18:37.718 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:18:37.720 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:18:37.726 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.495 seconds (JVM running for 160.805)
+20:18:37.727 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:18:39.314 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:18:39.317 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:18:39.485 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:18:39.488 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:18:39.488 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:18:39.488 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:18:39.494 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:18:39.494 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 171 ms
+20:18:39.532 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:18:39.555 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:18:39.562 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:18:39.568 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:18:39.571 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:18:39.575 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.342 seconds (JVM running for 162.654)
+20:18:39.575 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:18:44.794 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:18:44.797 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:18:44.798 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+20:18:44.804 logback [http-nio-8092-exec-1] INFO  recommend - ihis
+20:18:44.806 logback [http-nio-8092-exec-1] INFO  recommend - ih12is
+20:18:45.806 logback [http-nio-8092-exec-3] INFO  recommend - ihis
+20:18:45.807 logback [http-nio-8092-exec-3] INFO  recommend - ih12is
+20:18:46.410 logback [http-nio-8092-exec-7] INFO  recommend - ihis
+20:18:46.411 logback [http-nio-8092-exec-7] INFO  recommend - ih12is
+20:18:46.606 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:18:46.606 logback [http-nio-8092-exec-2] INFO  recommend - ih12is
+20:19:55.909 logback [http-nio-8092-exec-7] INFO  recommend - ihis
+20:19:55.909 logback [http-nio-8092-exec-7] INFO  recommend - ih12is
+20:19:56.175 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:19:56.175 logback [http-nio-8092-exec-2] INFO  recommend - ih12is
+20:19:56.424 logback [http-nio-8092-exec-6] INFO  recommend - ihis
+20:19:56.424 logback [http-nio-8092-exec-6] INFO  recommend - ih12is
+20:19:56.650 logback [http-nio-8092-exec-8] INFO  recommend - ihis
+20:19:56.650 logback [http-nio-8092-exec-8] INFO  recommend - ih12is
+20:19:58.132 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:19:58.136 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:19:58.352 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:19:58.354 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:19:58.355 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:19:58.355 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:19:58.363 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:19:58.363 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 220 ms
+20:19:58.392 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:19:58.415 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:19:58.423 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:19:58.430 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:19:58.432 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:19:58.436 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.412 seconds (JVM running for 241.516)
+20:19:58.442 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:20:14.873 logback [http-nio-8092-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+20:20:14.880 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+20:20:14.883 logback [http-nio-8092-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+20:20:14.896 logback [http-nio-8092-exec-1] INFO  recommend - ihis
+20:20:15.290 logback [http-nio-8092-exec-5] INFO  recommend - ihis
+20:20:15.514 logback [http-nio-8092-exec-9] INFO  recommend - ihis
+20:20:15.780 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:20:15.991 logback [http-nio-8092-exec-6] INFO  recommend - ihis
+20:20:16.212 logback [http-nio-8092-exec-10] INFO  recommend - ihis
+20:20:16.432 logback [http-nio-8092-exec-4] INFO  recommend - ihis
+20:20:16.647 logback [http-nio-8092-exec-9] INFO  recommend - ihis
+20:20:17.114 logback [http-nio-8092-exec-2] INFO  recommend - ihis
+20:23:25.773 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:23:25.789 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:23:26.099 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:23:26.102 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:23:26.102 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:23:26.103 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:23:26.110 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:23:26.110 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 313 ms
+20:23:26.145 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:23:26.179 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:23:26.192 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:23:26.201 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:23:26.206 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:23:26.210 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.54 seconds (JVM running for 449.292)
+20:23:26.213 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+20:23:27.799 logback [restartedMain] INFO  com.example.demo.DemoApplication - Starting DemoApplication using Java 11.0.15.1 on localhost with PID 8170 (/Users/huhuijie/Documents/GitHub/springboot_apkparse/target/classes started by huhuijie in /Users/huhuijie/Documents/GitHub/springboot_apkparse)
+20:23:27.802 logback [restartedMain] INFO  com.example.demo.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+20:23:27.994 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8092 (http)
+20:23:27.997 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8092"]
+20:23:27.998 logback [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+20:23:27.998 logback [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+20:23:28.003 logback [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+20:23:28.003 logback [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 194 ms
+20:23:28.034 logback [restartedMain] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+20:23:28.050 logback [restartedMain] WARN  o.s.b.a.f.FreeMarkerAutoConfiguration - Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+20:23:28.056 logback [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+20:23:28.061 logback [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8092"]
+20:23:28.066 logback [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8092 (http) with context path ''
+20:23:28.071 logback [restartedMain] INFO  com.example.demo.DemoApplication - Started DemoApplication in 0.363 seconds (JVM running for 451.152)
+20:23:28.071 logback [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged

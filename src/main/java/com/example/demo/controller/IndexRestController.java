@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,7 +13,20 @@ import java.io.IOException;
 public class IndexRestController {
     @RequestMapping("/index")
     public ModelAndView index() {
+//        Logger logger = LoggerFactory.getLogger("recommend");
+//        System.out.println("log"+logger);
+//        logger.info("ihis");
+
         return new ModelAndView("index");
+    }
+
+    @RequestMapping("/debug1")
+    public ModelAndView debug1() {
+//        Logger logger = LoggerFactory.getLogger("recommend");
+//        System.out.println("log"+logger);
+//        logger.info("ihis");
+
+        return new ModelAndView("debug1");
     }
 
     @RequestMapping("/parsepackage")

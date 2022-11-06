@@ -129,7 +129,13 @@ public class JsonParser {
 
         key = "build_id";
         String build_id = item.getString(key);
-        result.put(key, new Jentity(key, build_id, CheckUtils.getSaferLimitInt(item, key, 0)));
+//        result.put(key, new Jentity(key, build_id, CheckUtils.getSaferLimitInt(item, key, 0)));
+        if (!TextUtils.isEmpty(build_id)) {
+            result.put(key, new Jentity(key, build_id, 1));
+        } else {
+            result.put(key, new Jentity(key, build_id, 0));
+        }
+
 
         key = "build_name";
         String build_name = item.getString(key);
@@ -763,18 +769,17 @@ public class JsonParser {
 
             String release = hardware.getString("release");
             try {
-                double lrelease = Double.parseDouble(release);
+                double lrelease = Double.parseDouble(release.replace(".", ""));
                 if (lrelease >= 5.0) {
                     hardwareResult.put("release", new Jentity("release", release, 1));
                 } else {
                     stats = 0;
-
                     hardwareResult.put("release", new Jentity("release", release, 0));
                 }
             } catch (Exception e) {
                 stats = 0;
                 hardwareResult.put("release", new Jentity("release", release, 0));
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
 
@@ -997,7 +1002,7 @@ public class JsonParser {
             other_dataResult.put("state", appAllListState);
             other_dataResult.put("msg", builder);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return other_dataResult;
 
@@ -1041,7 +1046,7 @@ public class JsonParser {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 
@@ -1139,7 +1144,7 @@ public class JsonParser {
                 other_dataResult.put("state", appAllState);
                 other_dataResult.put("msg", builder);
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else {
@@ -1300,7 +1305,7 @@ public class JsonParser {
                 other_dataResult.put("state", appAllState);
                 other_dataResult.put("msg", builder);
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else {
@@ -1387,7 +1392,7 @@ public class JsonParser {
                 smsResult.put("msg", builder.toString());
 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else {
@@ -1459,7 +1464,7 @@ public class JsonParser {
                 smsResult.put("msg", builder.toString());
 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else {
@@ -1562,7 +1567,7 @@ public class JsonParser {
                 smsResult.put("msg", builder.toString());
 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else {
@@ -1650,16 +1655,16 @@ public class JsonParser {
                     }
 
 
-                    key = "_id";
-                    String _id = item.getString(key);
-                    int _idState = CheckUtils.getSaferLimitInt(item, key, 0);
-                    if (_idState == 1) {
-                        app.put(key, new Jentity(key, _id, 1));
-                    } else {
-                        app.put(key, new Jentity(key, _id, 0));
-                        appListState = 0;
-
-                    }
+//                    key = "_id";
+//                    String _id = item.getString(key);
+//                    int _idState = CheckUtils.getSaferLimitInt(item, key, 0);
+//                    if (_idState == 1) {
+//                        app.put(key, new Jentity(key, _id, 1));
+//                    } else {
+//                        app.put(key, new Jentity(key, _id, 0));
+//                        appListState = 0;
+//
+//                    }
 
 
                     key = "read";
@@ -1725,7 +1730,7 @@ public class JsonParser {
                 smsResult.put("msg", builder.toString());
 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         } else {
@@ -1773,7 +1778,9 @@ public class JsonParser {
 
             key = "simulator";
             String simulator = other_data.getString(key);
-            int simulatorStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"1", "0"});
+//            int simulatorStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"1", "0"});
+            int simulatorStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"0"});
+
             other_dataResult.put(key, new Jentity(key, simulator, simulatorStats));
             if (simulatorStats != 1) {
                 stats = 0;

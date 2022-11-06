@@ -126,7 +126,7 @@ public class CheckUtils {
 
             return 1;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return 0;
     }
@@ -151,7 +151,7 @@ public class CheckUtils {
             sdf.format(date);
             return 1;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 
@@ -191,7 +191,7 @@ public class CheckUtils {
             sdf.format(date);
             return 1;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 
@@ -220,7 +220,7 @@ public class CheckUtils {
             sdf.format(date);
             return 1;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 
@@ -238,7 +238,7 @@ public class CheckUtils {
             sdf.parse(value);
             return 1;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
 

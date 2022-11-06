@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +17,8 @@ public class HelloController {
 
     @RequestMapping("/demo/index")
     public ModelAndView index() {
+
+
         return new ModelAndView("index");
     }
 

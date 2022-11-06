@@ -1,7 +1,6 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.*;
-import com.google.gson.Gson;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -11,24 +10,24 @@ import org.dom4j.xpath.DefaultXPath;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
 public class ManiParse {
 
 
-    public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath) throws Exception {
+    public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
+
+        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
+
         String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
 //        System.out.println(cmd);
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
-        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml");
+        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
         File file = new File(apktoolPath);
         Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
         map.putAll(aapt);
-
-
         Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
         map.putAll(parsePackage);
         return map;
@@ -76,13 +75,13 @@ public class ManiParse {
     }
 
 
-    public static Map<String, Object> parseAndroidManifestByCmd(String miniFastPath, String outFilePath) throws Exception {
-        String cmd = "apktool d " + miniFastPath + " -o " + outFilePath;
-        Process process = Runtime.getRuntime().exec(cmd);
-        int value = process.waitFor();
-        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml");
-        return map;
-    }
+//    public static Map<String, Object> parseAndroidManifestByCmd(String miniFastPath, String outFilePath) throws Exception {
+//        String cmd = "apktool d " + miniFastPath + " -o " + outFilePath;
+//        Process process = Runtime.getRuntime().exec(cmd);
+//        int value = process.waitFor();
+//        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml");
+//        return map;
+//    }
 
 
     public static Map<String, Object> parseAndroidApk(String aaptPath, String apkPath) {
@@ -95,8 +94,13 @@ public class ManiParse {
             System.out.println(cmd);
             BufferedReader bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = "";
+
+
             while ((line = bis.readLine()) != null) {
                 try {
+
+                    LogUtils.logJson(line);
+
                     if (line.contains("sdkVersion")) {
                         String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
                         result.put("sdkVersion", Integer.parseInt(sdkVersion));
@@ -105,7 +109,8 @@ public class ManiParse {
                         String targetSdkVersion = line.replace("targetSdkVersion:'", "").replace("'", "");
                         result.put("targetSdkVersion", Integer.parseInt(targetSdkVersion));
                     }
-                    if (line.contains("compileSdkVersion") && line.contains("versionName")) {
+                    if (line.contains("versionName")) {
+//                        if (line.contains("compileSdkVersion") && line.contains("versionName")) {
                         line = line.replace("package: name", "packageName");
                         String[] verline = line.split(" ");
                         for (String item : verline) {
@@ -132,11 +137,12 @@ public class ManiParse {
         return result;
     }
 
-    public static Map<String, Object> parseAndroidManifest(String path) throws DocumentException {
+    public static Map<String, Object> parseAndroidManifest(String path, String appType) throws DocumentException {
         SAXReader reader = new SAXReader();
-        File file = new File(path);
+//        File file = new File(path);
+        LogUtils.logJson(path);
         Document document = reader.read(path);
-        List<AppPermissions> appPermissions = parsePermissions(document);
+        List<AppPermissions> appPermissions = parsePermissions(document, appType);
         Application application = parseApplication(document);
         Activity activity = parseLauncherActivity(document);
         List<MetaData> metaData = parseMetadata(document);
@@ -288,7 +294,11 @@ public class ManiParse {
         Application application = new Application();
 
         Element root = document.getRootElement();
-        application.setCompileSdkVersion(Integer.parseInt(root.attributeValue("compileSdkVersion")));
+        try {
+            application.setCompileSdkVersion(Integer.parseInt(root.attributeValue("compileSdkVersion")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Element applicationElement = root.element("application");
         application.setRequestLegacyExternalStorage(applicationElement.attributeValue("requestLegacyExternalStorage"));
         application.setNetworkSecurityConfig(applicationElement.attributeValue("networkSecurityConfig"));
@@ -305,16 +315,53 @@ public class ManiParse {
         return application;
     }
 
-    private static List<AppPermissions> parsePermissions(Document document) {
+    private static List<AppPermissions> parsePermissions(Document document, String appType) {
         XPath xPath = new DefaultXPath("/manifest/uses-permission");
         List<Element> list = xPath.selectNodes(document.getRootElement());
-        List<AppPermissions> dataList = new ArrayList<>();
-        for (int j = 0; j < PermissionUtils.permissionsMast.length; j++) {
+        List<AppPermissions> resultList = null;
+
+        if (AppConfig.AppType.TYPE_DEBUG1.equals(appType)) {
+            resultList = createDebug(list);
+
+        } else {
+            resultList = createRelease(list);
+
+        }
+
+
+        return resultList;
+    }
+
+
+    private static List<AppPermissions> createDebug(List<Element> list) {
+        List<AppPermissions> resultList = new ArrayList<>();
+
+        for (Element element : list) {
+            String name = element.attributeValue("name");
             AppPermissions appPermisstions = new AppPermissions();
-            appPermisstions.setPermission(PermissionUtils.permissionsMast[j]);
+            appPermisstions.setPermission(name);
+            appPermisstions.setState(2);
+            if (insideDebugAllPermission(appPermisstions.getPermission())) {
+                appPermisstions.setState(1);
+            } else {
+                appPermisstions.setState(3);
+            }
+            resultList.add(appPermisstions);
+        }
+        Collections.sort(resultList);
+        return resultList;
+    }
+
+
+    private static List<AppPermissions> createRelease(List<Element> list) {
+        List<AppPermissions> resultList = new ArrayList<>();
+
+        List<AppPermissions> dataList = new ArrayList<>();
+        for (int j = 0; j < PermissionUtils.permissionsReleaseMast.length; j++) {
+            AppPermissions appPermisstions = new AppPermissions();
+            appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast[j]);
             dataList.add(appPermisstions);
         }
-        List<AppPermissions> resultList = new ArrayList<>();
 
         for (Element element : list) {
             String name = element.attributeValue("name");
@@ -335,19 +382,50 @@ public class ManiParse {
                 /**
                  * 判断
                  */
-                for (String permkill : PermissionUtils.permissionKillList) {
-                    if (permkill.equals(appPermisstions.getPermission())) {
-                        appPermisstions.setState(3);
-                        break;
-                    }
+//                for (String permkill : PermissionUtils.permissionKillList) {
+//                    if (permkill.equals(appPermisstions.getPermission())) {
+//                        appPermisstions.setState(3);
+//                        break;
+//                    }
+//                }
+                if (!insideAllPermission(appPermisstions.getPermission())) {
+                    LogUtils.log("========1========" + appPermisstions.getPermission());
+                    appPermisstions.setState(3);
                 }
                 resultList.add(appPermisstions);
             }
         }
         resultList.addAll(dataList);
-
         Collections.sort(resultList);
         return resultList;
     }
 
+
+    private static boolean insideDebugAllPermission(String currentPermission) {
+        if (!currentPermission.startsWith("android.permission.")) {
+            return true;
+        }
+
+        for (String item : PermissionUtils.permissionsDebugMast) {
+            if (item.equals(currentPermission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean insideAllPermission(String currentPermission) {
+        if (!currentPermission.startsWith("android.permission.")) {
+            return true;
+        }
+
+        for (String item : PermissionUtils.permissionsAll) {
+            if (item.equals(currentPermission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
