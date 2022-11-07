@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.jsonBean.Jentity;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JsonParser {
 
@@ -151,11 +153,18 @@ public class JsonParser {
         if (!TextUtils.isEmpty(package_name)) {
             String[] split = package_name.split("[.]+");
 
-            if (split != null && split.length > 2) {
+            if (package_name.startsWith("uni.UN")) {
                 result.put(key, new Jentity(key, package_name, 1));
+
             } else {
-                result.put(key, new Jentity(key, package_name, 0));
+                if (split != null && split.length > 2) {
+                    result.put(key, new Jentity(key, package_name, 1));
+                } else {
+                    result.put(key, new Jentity(key, package_name, 0));
+                }
             }
+
+
         } else {
             result.put(key, new Jentity(key, package_name, 0));
         }

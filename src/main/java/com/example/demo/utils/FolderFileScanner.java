@@ -26,6 +26,16 @@ public class FolderFileScanner {
 
     };
 
+
+
+    public static final String[] PACKAGE_SHOULD_LIST = new String[]{
+            " com.google.firebase.crashlytics"//
+    };
+
+
+
+
+
     public static ArrayList<Object> scanFiles = new ArrayList<Object>();
 
     /**

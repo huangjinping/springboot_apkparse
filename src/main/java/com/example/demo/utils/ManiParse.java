@@ -51,6 +51,16 @@ public class ManiParse {
         Map<String, String> catchMap = new HashMap<>();
         List<KeepPackage> packageList = new ArrayList<>();
 
+
+        List<KeepPackage> shouldList = new ArrayList<>();
+        for (String shouldItem : FolderFileScanner.PACKAGE_SHOULD_LIST) {
+            KeepPackage keepPackage = new KeepPackage();
+            keepPackage.setName(shouldItem);
+            keepPackage.setState(0);
+            shouldList.add(keepPackage);
+        }
+
+
         for (int i = 0; i < fileList.size(); i++) {
             String packageNo = (String) fileList.get(i);
 
@@ -59,7 +69,6 @@ public class ManiParse {
                 if (packageNo.contains(noItem)) {
                     KeepPackage keepPackage = new KeepPackage();
                     String realNamePage = FolderFileScanner.getRealNamePage(packageNo);
-
                     if (catchMap.containsKey(realNamePage)) {
 
                     } else {
@@ -70,7 +79,21 @@ public class ManiParse {
                     }
                 }
             }
+
+//            for (int j = 0; j < shouldList.size(); j++) {
+//                KeepPackage keepPackage = shouldList.get(j);
+//                if ("1".equals(keepPackage.getState())) {
+//                } else {
+//                    if (packageNo.contains(keepPackage.getName())) {
+//                        keepPackage.setState(1);
+//                    }
+//                }
+//            }
         }
+
+//        packageList.addAll(shouldList);
+
+
         return packageList;
     }
 

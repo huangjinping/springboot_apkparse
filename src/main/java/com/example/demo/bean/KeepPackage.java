@@ -2,6 +2,11 @@ package com.example.demo.bean;
 
 public class KeepPackage {
 
+    /**
+     * 0.未配置
+     * 1.已配置
+     * -1.不可配置
+     */
     private String name;
     private int state;
 
