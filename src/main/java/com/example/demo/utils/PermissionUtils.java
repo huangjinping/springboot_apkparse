@@ -30,6 +30,7 @@ public class PermissionUtils {
             "android.permission.GET_ACCOUNTS",
             "android.permission.READ_CALL_LOG",
             "com.google.android.gms.permission.AD_ID",
+            "android.permission.FOREGROUND_SERVICE"
     };
 
     public static final String[] permissionsDebugMast = new String[]{
