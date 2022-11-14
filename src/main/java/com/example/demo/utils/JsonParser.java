@@ -1365,7 +1365,9 @@ public class JsonParser {
 
                     key = "startTime";
                     String startTime = item.getString(key);
-                    int startTimeState = CheckUtils.getSaferStringWithTimeTemp01(item, key);
+                    int startTimeState = CheckUtils.getSaferStringWithTimeTemp03(item, key);
+
+
                     app.put(key, new Jentity(key, startTime, startTimeState));
                     if (startTimeState != 1) {
                         appListState = 0;
@@ -1373,7 +1375,7 @@ public class JsonParser {
 
                     key = "endTime";
                     String endTime = item.getString(key);
-                    int endTimeState = CheckUtils.getSaferStringWithTimeTemp01(item, key);
+                    int endTimeState = CheckUtils.getSaferStringWithTimeTemp03(item, key);
                     app.put(key, new Jentity(key, endTime, endTimeState));
                     if (endTimeState != 1) {
                         appListState = 0;

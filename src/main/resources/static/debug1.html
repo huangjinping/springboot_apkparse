@@ -224,7 +224,14 @@
             </li>
          
         </ul>
-
+        <div class="resultTitle">
+            域名检测
+        </div>
+        <ul class="domainNameUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
 
         <div class="resultTitle">
             库检测(占坑配置)
@@ -524,6 +531,28 @@
                 $(".keepLibUl").html(autoHtml);
 
             }
+
+            if (data.domainName) {
+                var autoHtml = "";
+                data.domainName.forEach(function (v, i) {
+
+                    var state = "";
+                    var stateText = "";
+                    if (1 == v.state) {
+                        state = "";
+                    } else if (-1 == v.state) {
+                        stateText = "redText";
+                        state = "问题域名";
+                    }
+                    // stateText = "redText";
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                        "            </li>";
+                });
+                $(".domainNameUl").html(autoHtml);
+
+            }
+
 
         }
 

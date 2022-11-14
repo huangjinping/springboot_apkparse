@@ -139,10 +139,10 @@
     </div>
     <div class="spiritContainer">
         <span class="spirit">菜单</span>
-        <ul  class="menuList">
-<!--            <li><a href="/index">apk,aab业务包</a></li>-->
-<!--            <li><a href="/nbjson">检测大json</a></li>-->
-<!--            <li><a href="/debug1">检测占坑包</a></li>-->
+        <ul class="menuList">
+            <!--            <li><a href="/index">apk,aab业务包</a></li>-->
+            <!--            <li><a href="/nbjson">检测大json</a></li>-->
+            <!--            <li><a href="/debug1">检测占坑包</a></li>-->
         </ul>
     </div>
     <div class="requestView">
@@ -202,10 +202,10 @@
                 <span class="resultliname">networkSecurityConfig</span><span
                     class="resultlistate networkSecurityConfig"></span>
             </li>
-            <li class="resultli pRequestLegacyExternalStorage">
-                <span class="resultliname">requestLegacyExternalStorage</span><span
-                    class="resultlistate requestLegacyExternalStorage"></span>
-            </li>
+            <!--            <li class="resultli pRequestLegacyExternalStorage">-->
+            <!--                <span class="resultliname">requestLegacyExternalStorage</span><span-->
+            <!--                    class="resultlistate requestLegacyExternalStorage"></span>-->
+            <!--            </li>-->
         </ul>
         <div class="resultTitle">
             Activity 启动
@@ -263,6 +263,14 @@
 
         <ul class="resultUl queriesUl">
         </ul>
+        <div class="resultTitle">
+            域名检测
+        </div>
+        <ul class="domainNameUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
 
         <div class="resultTitle">
             库检测
@@ -272,6 +280,7 @@
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
             <!--            </li>-->
         </ul>
+
     </div>
 
 </div>
@@ -418,16 +427,16 @@
                 }
 
 
-                var requestLegacyExternalStorage = data.application.requestLegacyExternalStorage;
-                $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage);
-                $(".pRequestLegacyExternalStorage").show();
-                if (isEmpty(requestLegacyExternalStorage)) {
-                    $(".pRequestLegacyExternalStorage").hide();
-                    $(".requestLegacyExternalStorage").removeClass("redText");
-                } else {
-                    $(".requestLegacyExternalStorage").addClass("redText");
-                    $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage + ":这个选项去掉");
-                }
+                // var requestLegacyExternalStorage = data.application.requestLegacyExternalStorage;
+                // $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage);
+                // $(".pRequestLegacyExternalStorage").show();
+                // if (isEmpty(requestLegacyExternalStorage)) {
+                //     $(".pRequestLegacyExternalStorage").hide();
+                //     $(".requestLegacyExternalStorage").removeClass("redText");
+                // } else {
+                //     $(".requestLegacyExternalStorage").addClass("redText");
+                //     $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage + ":这个选项去掉");
+                // }
             }
             if (data.activity) {
                 var launcherName = data.activity.launcherName;
@@ -573,6 +582,28 @@
                 $(".keepLibUl").html(autoHtml);
 
             }
+
+            if (data.domainName) {
+                var autoHtml = "";
+                data.domainName.forEach(function (v, i) {
+
+                    var state = "";
+                    var stateText = "";
+                    if (1 == v.state) {
+                        state = "";
+                    } else if (-1 == v.state) {
+                        stateText = "redText";
+                        state = "问题域名";
+                    }
+                    // stateText = "redText";
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                        "            </li>";
+                });
+                $(".domainNameUl").html(autoHtml);
+
+            }
+
 
         }
 

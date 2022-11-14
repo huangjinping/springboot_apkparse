@@ -30,13 +30,30 @@ public class ManiParse {
         map.putAll(aapt);
         Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
         map.putAll(parsePackage);
+        Map<String, Object> domainName = ManiParse.parseDomainName(outFilePath);
+        map.putAll(domainName);
         return map;
     }
+
+
+    public static Map<String, Object> parseDomainName(String filePath) {
+        Map<String, Object> parseDomainNameResult = new HashMap<>();
+        try {
+            SearchTask searchTask = new SearchTask();
+            List<DomainName> httpsList = searchTask.getHttpsList(filePath);
+            httpsList.addAll(searchTask.getHttpList(filePath));
+            LogUtils.logJson(httpsList);
+            parseDomainNameResult.put("domainName", httpsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return parseDomainNameResult;
+    }
+
 
     public static Map<String, Object> parsePackage(String filePath) {
         Map<String, Object> parsePackageResult = new HashMap<>();
         try {
-
             LogUtils.log("parsePackage====:" + filePath);
             ArrayList<Object> fileList = FolderFileScanner.startScanFilesWithRecursion(filePath);
             parsePackageResult.put("keepPackage", getKeepList(fileList));

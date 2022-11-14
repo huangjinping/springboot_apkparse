@@ -29,8 +29,7 @@ public class PermissionUtils {
             "android.permission.INTERNET",
             "android.permission.GET_ACCOUNTS",
             "android.permission.READ_CALL_LOG",
-            "com.google.android.gms.permission.AD_ID",
-            "android.permission.FOREGROUND_SERVICE"
+            "com.google.android.gms.permission.AD_ID"
     };
 
     public static final String[] permissionsDebugMast = new String[]{
@@ -112,7 +111,9 @@ public class PermissionUtils {
             "android.permission.READ_MEDIA_AUDIO",
             "android.permission.READ_MEDIA_IMAGES",
             "android.permission.READ_MEDIA_VIDEO",
-            "android.permission.POST_NOTIFICATIONS"
+            "android.permission.POST_NOTIFICATIONS",
+            "android.permission.FOREGROUND_SERVICE"
+
     };
 
 }

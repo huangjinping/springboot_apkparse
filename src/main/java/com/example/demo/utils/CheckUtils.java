@@ -153,11 +153,31 @@ public class CheckUtils {
         } catch (Exception e) {
 //            e.printStackTrace();
         }
-
-
         return 0;
     }
 
+    public static int getSaferStringWithTimeTemp03(JSONObject doc, String key) {
+
+        try {
+            String string = doc.getString(key);
+            if (TextUtils.isEmpty(string)) {
+                return 0;
+            }
+
+//            Date date = new Date();//为系统当前时间
+            String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
+//            date.setTime(longValue);
+            SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+            sdf.parse(string);
+            LogUtils.log("=======startTime=====format=2=====");
+
+
+            return 1;
+        } catch (Exception e) {
+//            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public static int getSaferStringWithTimeTempApplication(JSONObject doc, String key) {
 
@@ -185,7 +205,10 @@ public class CheckUtils {
 
             Date date = new Date();//为系统当前时间
             String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
-            long longValue = doc.getLongValue(key);
+
+
+            long longValue = Long.parseLong(string);
+//            long longValue = doc.getLongValue(key);
             date.setTime(longValue);
             SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
             sdf.format(date);
@@ -214,7 +237,8 @@ public class CheckUtils {
 
             Date date = new Date();//为系统当前时间
             String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
-            long longValue = doc.getLongValue(key);
+//            long longValue = doc.getLongValue(key);
+            long longValue = Long.parseLong(string);
             date.setTime(longValue);
             SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
             sdf.format(date);
