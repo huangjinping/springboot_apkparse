@@ -9,7 +9,6 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.xpath.DefaultXPath;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.util.*;
 
@@ -18,21 +17,38 @@ public class ManiParse {
 
     public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
 
-        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
+//        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
 
         String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
 //        System.out.println(cmd);
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
-        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
-        File file = new File(apktoolPath);
-        Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
-        map.putAll(aapt);
-        Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
-        map.putAll(parsePackage);
-        Map<String, Object> domainName = ManiParse.parseDomainName(outFilePath);
-        map.putAll(domainName);
+
+        ThreadM threadM = new ThreadM();
+        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType);
+
+//        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
+//        File file = new File(apktoolPath);
+//        Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+//        map.putAll(aapt);
+//        Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
+//        map.putAll(parsePackage);
+//        Map<String, Object> domainName = ManiParse.parseDomainName(outFilePath);
+//        map.putAll(domainName);
         return map;
+    }
+
+
+    public static Map<String, Object> parseMethod(String filePath) {
+        Map<String, Object> parseDomainNameResult = new HashMap<>();
+        try {
+            SearchTask searchTask = new SearchTask();
+            List<MethodSolr> methodSolr = searchTask.getMethodSolr(filePath);
+            parseDomainNameResult.put("methodSolr", methodSolr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return parseDomainNameResult;
     }
 
 
@@ -97,18 +113,19 @@ public class ManiParse {
                 }
             }
 
-//            for (int j = 0; j < shouldList.size(); j++) {
-//                KeepPackage keepPackage = shouldList.get(j);
-//                if ("1".equals(keepPackage.getState())) {
-//                } else {
-//                    if (packageNo.contains(keepPackage.getName())) {
-//                        keepPackage.setState(1);
-//                    }
-//                }
-//            }
+            for (int j = 0; j < shouldList.size(); j++) {
+                KeepPackage keepPackage = shouldList.get(j);
+                if ("1".equals(keepPackage.getState())) {
+
+                } else {
+                    if (packageNo.contains(keepPackage.getName())) {
+                        keepPackage.setState(1);
+                    }
+                }
+            }
         }
 
-//        packageList.addAll(shouldList);
+        packageList.addAll(shouldList);
 
 
         return packageList;
@@ -139,7 +156,7 @@ public class ManiParse {
             while ((line = bis.readLine()) != null) {
                 try {
 
-                    LogUtils.logJson(line);
+//                    LogUtils.logJson(line);
 
                     if (line.contains("sdkVersion")) {
                         String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
@@ -154,10 +171,10 @@ public class ManiParse {
                         line = line.replace("package: name", "packageName");
                         String[] verline = line.split(" ");
                         for (String item : verline) {
-                            System.out.println(item);
+//                            System.out.println(item);
 
                             String[] split = item.split("=");
-                            System.out.println(split[0]);
+//                            System.out.println(split[0]);
 
                             result.put(split[0], split[1].replace("'", "").replace("'", ""));
                         }
@@ -177,10 +194,34 @@ public class ManiParse {
         return result;
     }
 
+
+    public static Map<String, String> parseStringXML(String path, String appType) {
+        SAXReader reader = new SAXReader();
+        Map<String, String> colMap = new HashMap<>();
+        for (String key : FolderFileScanner.STRING_SHOULD_LIST) {
+            colMap.put(key, "");
+        }
+        try {
+            Document document = reader.read(path);
+            XPath xPath = new DefaultXPath("/resources/string");
+            List<Element> list = xPath.selectNodes(document.getRootElement());
+            for (Element e : list) {
+                String name = e.attributeValue("name");
+                String value = e.getStringValue();
+                if (colMap.containsKey(name)) {
+                    colMap.put(name, value);
+                }
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return colMap;
+    }
+
     public static Map<String, Object> parseAndroidManifest(String path, String appType) throws DocumentException {
         SAXReader reader = new SAXReader();
 //        File file = new File(path);
-        LogUtils.logJson(path);
+//        LogUtils.logJson(path);
         Document document = reader.read(path);
         List<AppPermissions> appPermissions = parsePermissions(document, appType);
         Application application = parseApplication(document);

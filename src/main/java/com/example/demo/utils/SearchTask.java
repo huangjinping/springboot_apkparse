@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.DomainName;
+import com.example.demo.bean.MethodSolr;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -91,8 +92,8 @@ public class SearchTask {
 
     public List<DomainName> getHttpsList(String dir) {
         List<String> commands = new ArrayList<>();
-        commands.add("ls");
-        commands.add("pwd");
+//        commands.add("ls");
+//        commands.add("pwd");
 //            commands.add("cd /Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719");
         commands.add("grep -rnR 'https://' " + dir + "/*");
         System.out.println("===================before=====》》》》》");
@@ -102,8 +103,8 @@ public class SearchTask {
 
     public List<DomainName> getHttpList(String dir) {
         List<String> commands = new ArrayList<>();
-        commands.add("ls");
-        commands.add("pwd");
+//        commands.add("ls");
+//        commands.add("pwd");
 //            commands.add("cd /Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719");
         commands.add("grep -rnR 'http://' " + dir + "/*");
         System.out.println("===================before=====》》》》》");
@@ -182,7 +183,6 @@ public class SearchTask {
 //                System.out.println(rspLine);
                 rspList.add(rspLine);
             }
-            System.out.println("===============================++>>>>>>1>>>");
             proc.waitFor();
             in.close();
             out.close();
@@ -208,9 +208,7 @@ public class SearchTask {
                     DomainName domainName = new DomainName();
                     int state = 0;
                     if (result.length > 0) {
-
                         String path = result[0];
-
                         String link = target + path;
                         int i = link.indexOf(" ");
                         if (i == -1) {
@@ -220,17 +218,19 @@ public class SearchTask {
                             link = link.substring(0, i);
                         }
                         if (link.length() > 15) {
+
                             String key = link.substring(0, 14);
                             if (!tempMap.containsKey(key) && !mWhiteList.containsKey(key)) {
+                                String[] tope = link.split("://");
+                                String[] split = tope[1].split("/");
+                                String realPath = split[0];
                                 tempMap.put(key, link);
                                 domainName.setName(link);
-                                if (link.substring(7).contains(":")) {
+                                if (realPath.contains(":")) {
                                     state = -1;
                                 } else {
                                     state = 0;
                                 }
-
-
                                 domainName.setState(state);
                                 domainNames.add(domainName);
                             }
@@ -244,6 +244,66 @@ public class SearchTask {
 
         }
         return domainNames;
+    }
+
+
+    public List<MethodSolr> getMethodSolr(String dir) {
+        List<String> commands = new ArrayList<>();
+//        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
+        commands.add("grep -rnR '.proceed(' " + dir + "/*");
+        System.out.println("===================before=====》》》》》");
+        List<String> strings = executeNewFlow(commands);
+
+        return getMethodSolrByCmd(dir, strings, "onReceivedSslError");
+
+    }
+
+
+    private int checkReceivedSslError(String item) {
+
+        if (item.contains("/io/dcloud/")) {
+            return 1;
+        }
+        if (item.contains("com/taobao/weex")) {
+            return 1;
+        }
+        if (item.contains("211:.method public onReceivedSslError(") || item.contains("com/facebook/internal/")) {
+            return 1;
+        }
+        if (item.contains("smali:226:    invoke-super {p0, p1, p2, p3}") || item.contains("com/facebook/internal/")) {
+            return 1;
+        }
+
+        if (!item.contains("WebView") && !item.contains("webkit")) {
+            return 1;
+        }
+
+
+        return -1;
+    }
+
+
+    private List<MethodSolr> getMethodSolrByCmd(String path, List<String> result, String target) {
+        List<MethodSolr> resultSolr = new ArrayList<>();
+        for (String item : result) {
+//            LogUtils.log("===============" + item);
+            MethodSolr solr = new MethodSolr();
+            try {
+                String content = item.replace(path, "").replace("smali", "a").replace("/", ".");
+                solr.setContent(content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            solr.setName(target);
+            int i = checkReceivedSslError(item);
+            if (i == -1) {
+                solr.setState(i);
+                resultSolr.add(solr);
+
+            }
+        }
+        return resultSolr;
     }
 
 

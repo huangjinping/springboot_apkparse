@@ -128,6 +128,12 @@
             color: grey;
             font-size: 12px;
         }
+
+        .methodLine{
+            border: #808080 solid 1px;
+            margin-top: 10px;
+
+        }
     </style>
 </head>
 <body>
@@ -275,12 +281,22 @@
         <div class="resultTitle">
             库检测
         </div>
+
+
         <ul class="keepLibUl">
             <!--            <li class="resultli">-->
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
             <!--            </li>-->
         </ul>
 
+        <div class="resultTitle">
+            方法检测
+        </div>
+        <ul class="methodLibUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
     </div>
 
 </div>
@@ -562,22 +578,32 @@
                 var autoHtml = "";
                 data.keepPackage.forEach(function (v, i) {
 
-                    // var state = "";
-                    // var stateText = "";
-                    //
-                    // if (1 == v.state) {
-                    //     state = "已配置";
-                    // } else {
-                    //     stateText = "redText";
-                    //     state = "缺失";
-                    // }
-
-                    var state = "建议删除";
+                    var state = "";
                     var stateText = "";
-                    stateText = "redText";
+
+                    if (1 == v.state) {
+                        state = "已配置";
+                    } else if (-1 == v.state) {
+                        stateText = "redText";
+                        state = "建议删除";
+                    } else {
+                        stateText = "redText";
+                        state = "缺失";
+                    }
+
+                    if (v.name == "com/google/firebase/crashlytics") {
+                        if (isEmpty(data.Strings["com.google.firebase.crashlytics.mapping_file_id"])) {
+                            stateText = "redText";
+                            state = "缺失1";
+                        }
+                    }
+
+
                     autoHtml += "  <li class=\"resultli\">\n" +
                         "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
                         "            </li>";
+
+
                 });
                 $(".keepLibUl").html(autoHtml);
 
@@ -604,6 +630,26 @@
 
             }
 
+            if (data.methodSolr) {
+                var autoHtml = "";
+                data.methodSolr.forEach(function (v, i) {
+
+                    var state = "";
+                    var stateText = "";
+                    if (1 == v.state) {
+                        state = "";
+                    } else if (-1 == v.state) {
+                        stateText = "redText";
+                        state = "可疑方法";
+                    }
+                    // stateText = "redText";
+                    autoHtml += "  <li class=\"resultli methodLine\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "--->:&nbsp;" + v.content + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                        "            </li>";
+                });
+                $(".methodLibUl").html(autoHtml);
+
+            }
 
         }
 

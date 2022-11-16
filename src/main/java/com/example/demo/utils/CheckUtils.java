@@ -265,7 +265,6 @@ public class CheckUtils {
 //            e.printStackTrace();
         }
 
-
         return 0;
     }
 

@@ -1,8 +1,6 @@
 package com.example.demo.utils;
 
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,20 +18,23 @@ public class FolderFileScanner {
             "/com/umeng/",//友盟
             "/com/tencent/",//腾讯库
             "/com/alibaba/sdk/android/",//阿里云
-            "com.baidu.location",//百度定位
-            "com.baidu.mapapi",//百度定位
-            "com.amap.api"//高德定位
+            "/com/baidu/location",//百度定位
+            "/com/baidu/mapapi",//百度定位
+            "/com/amap/api"//高德定位
 
     };
-
 
 
     public static final String[] PACKAGE_SHOULD_LIST = new String[]{
-            " com.google.firebase.crashlytics"//
+            "com/google/firebase/crashlytics"//
     };
 
-
-
+    public static final String[] STRING_SHOULD_LIST = new String[]{
+            "com.google.firebase.crashlytics.mapping_file_id",
+            "google_app_id",
+            "google_crash_reporting_api_key",
+            "firebase_database_url"
+    };
 
 
     public static ArrayList<Object> scanFiles = new ArrayList<Object>();
