@@ -174,10 +174,16 @@
             height: auto;
             overflow: hidden;
 
+
         }
 
         .spiritContainer a {
             color: white;
+        }
+        .locationUrl{
+            color: blue;
+            font-size: 10px;
+            text-decoration: underline;
         }
     </style>
 
@@ -314,7 +320,7 @@
             <div class="reportItem">
                 <div class="resultTitle locationTitle">
                     <span class="pName">location</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                          src="arrow_right.png">
+                                                                                          src="arrow_right.png"> <a class="locationUrl">具体位置</a>
                 </div>
                 <ul class="resultUl location">
                 </ul>
@@ -877,7 +883,7 @@
                 var isSuccess = 1;
                 var message = "";
                 if (location.state == 0) {
-                    message = "没有 storage数据";
+                    message = "没有 location数据";
                     isSuccess = 0;
                 } else {
                     if (location.value.state == 0) {
@@ -887,11 +893,19 @@
                 }
 
 
+
+                if (!isEmpty(location.value.url)){
+                    $(".locationUrl").show();
+                        $(".locationUrl").click(function (){
+                            window.open(location.value.url);
+                        });
+                }
+
                 if (isSuccess == 0) {
-                    message = "数据异常";
+                    message += "数据异常";
                     addRed(".locationTitle .pMessage");
                 } else {
-                    message = "数据正常";
+                    message += "数据正常";
                     addGreen(".locationTitle .pMessage");
                 }
                 $(".locationTitle .pMessage").html(message)
@@ -1175,6 +1189,7 @@
             $(".resultUl").hide();
             $(".resultUl").html("");
             $(".pMessage").html("");
+            $(".locationUrl").hide();
             // setRest(".BranchKey");
             // setRest(".TestMode");
             // setRest(".ApplicationId");

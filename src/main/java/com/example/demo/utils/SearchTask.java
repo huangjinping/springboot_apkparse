@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import com.example.demo.bean.AppConfig;
 import com.example.demo.bean.DomainName;
 import com.example.demo.bean.MethodSolr;
 
@@ -247,14 +248,25 @@ public class SearchTask {
     }
 
 
-    public List<MethodSolr> getMethodSolr(String dir) {
+    public List<MethodSolr> getMethodSolr_ssl(String dir) {
         List<String> commands = new ArrayList<>();
 //        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
         commands.add("grep -rnR '.proceed(' " + dir + "/*");
         System.out.println("===================before=====》》》》》");
         List<String> strings = executeNewFlow(commands);
 
-        return getMethodSolrByCmd(dir, strings, "onReceivedSslError");
+        return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
+
+    }
+
+    public List<MethodSolr> getMethodSolr_phoneNumber(String dir) {
+        List<String> commands = new ArrayList<>();
+//        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
+        commands.add("grep -rnR 'getLine1Number()' " + dir + "/*");
+        System.out.println("===================before=====》》》》》");
+        List<String> strings = executeNewFlow(commands);
+
+        return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.getLine1Number);
 
     }
 
@@ -283,6 +295,17 @@ public class SearchTask {
     }
 
 
+    private int checkReceivedLine1Number(String item) {
+
+        if (item.contains("telephony/TelephonyManager") && item.contains("getLine1Number(")) {
+            return -1;
+        }
+
+
+        return 1;
+    }
+
+
     private List<MethodSolr> getMethodSolrByCmd(String path, List<String> result, String target) {
         List<MethodSolr> resultSolr = new ArrayList<>();
         for (String item : result) {
@@ -296,12 +319,22 @@ public class SearchTask {
             }
 
             solr.setName(target);
-            int i = checkReceivedSslError(item);
-            if (i == -1) {
-                solr.setState(i);
-                resultSolr.add(solr);
+            if (AppConfig.MethodTarget.onReceivedSslError.equals(target)) {
+                int i = checkReceivedSslError(item);
+                if (i == -1) {
+                    solr.setState(i);
+                    resultSolr.add(solr);
 
+                }
+            } else if (AppConfig.MethodTarget.getLine1Number.equals(target)) {
+                int i = checkReceivedLine1Number(item);
+                if (i == -1) {
+                    solr.setState(i);
+                    resultSolr.add(solr);
+                }
             }
+
+
         }
         return resultSolr;
     }

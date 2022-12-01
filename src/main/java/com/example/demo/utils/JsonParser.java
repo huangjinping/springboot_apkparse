@@ -294,6 +294,7 @@ public class JsonParser {
             String gps_address_province = Location.getString("gps_address_province");
             String gps_address_street = Location.getString("gps_address_street");
             String msm = latitude + "," + longitude;
+            String url="https://www.google.com.hk/maps/search/"+msm;
             int stats = 1;
             if (msm.length() < 8) {
                 stats = 0;
@@ -307,14 +308,37 @@ public class JsonParser {
             if (!msm.equals(gps_address_street)) {
                 stats = 0;
             }
+
+
+            try {
+                if (latitude!=null&&longitude!=null){
+                    if (Double.parseDouble(latitude)>Double.parseDouble(longitude)){
+                        stats = 0;
+                    }
+                }
+
+            } catch (Exception e) {
+                stats = 0;
+
+//                e.printStackTrace();
+            }
+
+
             StringBuilder builder = new StringBuilder();
             if (stats == 0) {
-                builder.append("数据有问题\n");
+                builder.append("请确实经纬度是否正常\n");
+                builder.append("(纬度,经度)\n");
+
             }
             Map<String, Object> result = new HashMap<>();
+
+
             locationResult.put("value", new Jentity("location", smsg, stats));
             result.put("value", locationResult);
             result.put("state", stats);
+            result.put("msg",builder);
+            result.put("url",url);
+
             return result;
         }
 

@@ -43,8 +43,11 @@ public class ManiParse {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
         try {
             SearchTask searchTask = new SearchTask();
-            List<MethodSolr> methodSolr = searchTask.getMethodSolr(filePath);
-            parseDomainNameResult.put("methodSolr", methodSolr);
+
+            List<MethodSolr> resultAll = new ArrayList<>();
+            resultAll.addAll(searchTask.getMethodSolr_ssl(filePath));
+            resultAll.addAll(searchTask.getMethodSolr_phoneNumber(filePath));
+            parseDomainNameResult.put("methodSolr", resultAll);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,12 +162,20 @@ public class ManiParse {
 //                    LogUtils.logJson(line);
 
                     if (line.contains("sdkVersion")) {
-                        String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
-                        result.put("sdkVersion", Integer.parseInt(sdkVersion));
+                       try {
+                           String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
+                           result.put("sdkVersion", Integer.parseInt(sdkVersion));
+                       }catch (Exception e){
+                           e.printStackTrace();
+                       }
                     }
                     if (line.contains("targetSdkVersion")) {
-                        String targetSdkVersion = line.replace("targetSdkVersion:'", "").replace("'", "");
-                        result.put("targetSdkVersion", Integer.parseInt(targetSdkVersion));
+                        try {
+                            String targetSdkVersion = line.replace("targetSdkVersion:'", "").replace("'", "");
+                            result.put("targetSdkVersion", Integer.parseInt(targetSdkVersion));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                     if (line.contains("versionName")) {
 //                        if (line.contains("compileSdkVersion") && line.contains("versionName")) {
