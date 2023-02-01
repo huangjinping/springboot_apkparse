@@ -227,12 +227,14 @@ public class SearchTask {
                                 String realPath = split[0];
                                 tempMap.put(key, link);
                                 domainName.setName(link);
-                                if (realPath.contains(":")) {
-                                    state = -1;
-                                } else {
-                                    state = 0;
-                                }
-                                domainName.setState(state);
+                                LogUtils.logJson("-------------------------------->>>>>");
+                                LogUtils.logJson(realPath);
+//                                if (realPath.contains(":")) {
+//                                    state = -1;
+//                                } else {
+//                                    state = 0;
+//                                }
+                                domainName.setState(CheckUtils.checkRealPath(realPath));
                                 domainNames.add(domainName);
                             }
                         }
@@ -279,6 +281,10 @@ public class SearchTask {
         if (item.contains("com/taobao/weex")) {
             return 1;
         }
+        if (item.contains("com/taobao/weex")) {
+            return 1;
+        }
+
         if (item.contains("211:.method public onReceivedSslError(") || item.contains("com/facebook/internal/")) {
             return 1;
         }

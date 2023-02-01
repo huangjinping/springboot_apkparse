@@ -323,7 +323,7 @@
                 url: "/uploadImage",
                 type: "post",
                 data: formData,
-                timeout : 1000*120,
+                timeout: 1000 * 120,
                 contentType: false,
                 processData: false,
                 dataType: "text",
@@ -402,16 +402,16 @@
                 }
 
 
-                var requestLegacyExternalStorage = data.application.requestLegacyExternalStorage;
-                $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage);
-                $(".pRequestLegacyExternalStorage").show();
-                if (isEmpty(requestLegacyExternalStorage)) {
-                    $(".pRequestLegacyExternalStorage").hide();
-                    $(".requestLegacyExternalStorage").removeClass("redText");
-                } else {
-                    $(".requestLegacyExternalStorage").addClass("redText");
-                    $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage + ":这个选项去掉");
-                }
+                // var requestLegacyExternalStorage = data.application.requestLegacyExternalStorage;
+                // $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage);
+                // $(".pRequestLegacyExternalStorage").show();
+                // if (isEmpty(requestLegacyExternalStorage)) {
+                $(".pRequestLegacyExternalStorage").hide();
+                $(".requestLegacyExternalStorage").removeClass("redText");
+                // } else {
+                //     $(".requestLegacyExternalStorage").addClass("redText");
+                //     $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage + ":这个选项去掉");
+                // }
             }
             if (data.activity) {
                 var launcherName = data.activity.launcherName;

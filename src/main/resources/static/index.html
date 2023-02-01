@@ -129,7 +129,7 @@
             font-size: 12px;
         }
 
-        .methodLine{
+        .methodLine {
             border: #808080 solid 1px;
             margin-top: 10px;
 
@@ -365,7 +365,7 @@
                 url: "/uploadImage",
                 type: "post",
                 data: formData,
-                timeout : 1000*120,
+                timeout: 1000 * 120,
                 contentType: false,
                 processData: false,
                 dataType: "text",
@@ -425,6 +425,16 @@
                 $(".versionCode").html(data.versionCode);
 
 
+                var sdkVersion = data.sdkVersion;
+                if (sdkVersion > 23) {
+                    $(".sdkVersion").addClass("redText");
+                    $(".sdkVersion").html("当前" + sdkVersion + ",minSdkVersion 兼容6.0及以上所有版本");
+                } else {
+                    $(".sdkVersion").html(sdkVersion);
+                    $(".sdkVersion").removeClass("redText");
+                }
+
+
                 var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 31) {
                     $(".targetSdkVersion").addClass("redText");
@@ -433,6 +443,7 @@
                     $(".targetSdkVersion").html(compileSdkVersion);
                     $(".targetSdkVersion").removeClass("redText");
                 }
+
 
                 var networkSecurityConfig = data.application.networkSecurityConfig;
                 if (isEmpty(networkSecurityConfig)) {

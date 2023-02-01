@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.jsonBean.Jentity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JsonParser {
 
@@ -84,6 +81,9 @@ public class JsonParser {
         root.put("call", parseCall);
 
         Map<String, Object> parseCommMap = parseComm(source);
+
+
+
         root.putAll(parseCommMap);
 //        Gson gson = new Gson();
 //        LogUtils.log(gson.toJson(root));
@@ -1188,7 +1188,15 @@ public class JsonParser {
 
     public static Map<String, Object> parseApplication(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
+
+
         Map<String, Object> other_dataResult = new HashMap<>();
+
+        String currentPackageName="";
+        if (jsonObject.containsKey("package_name")){
+             currentPackageName = jsonObject.getString("package_name");
+        }
+
 
         //hardware
         if (jsonObject.containsKey("application")) {
@@ -1202,6 +1210,7 @@ public class JsonParser {
                 int app_type1 = 0;
                 int count = 0;
                 int badTime = 0;
+                int  currentPackageStats=0;
 
                 for (int i = 0; i < appArr.size(); i++) {
                     int appListState = 1;
@@ -1243,6 +1252,16 @@ public class JsonParser {
                     } else {
                         appListState = 0;
                         app.put(key, new Jentity(key, packageName, 0));
+                    }
+
+                    try {
+                        if(currentPackageName.equals(packageName)){
+                            if (app_type.equals("0")){
+                                currentPackageStats=1;
+                            }
+                        }
+                    }catch (Exception e){
+
                     }
 
                     key = "in_time";
@@ -1325,6 +1344,11 @@ public class JsonParser {
                     appAllState = 0;
                 }
 
+                if (currentPackageStats==0){
+                    builder.append("当前应用app_type应该是0;\n");
+                    appAllState = 0;
+                }
+
                 if (app_type0 < 2) {
                     builder.append("三方应用数量有问题\n");
                     appAllState = 0;
@@ -1334,6 +1358,9 @@ public class JsonParser {
                     builder.append("数据有问题\n");
                 }
 
+
+
+                Collections.sort(appList,new AppComparator());
                 other_dataResult.put("value", appList);
                 other_dataResult.put("state", appAllState);
                 other_dataResult.put("msg", builder);

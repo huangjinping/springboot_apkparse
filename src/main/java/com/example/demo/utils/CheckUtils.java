@@ -281,6 +281,7 @@ public class CheckUtils {
         return false;
     }
 
+
     /**
      * IP校验
      *
@@ -297,6 +298,21 @@ public class CheckUtils {
             }
         }
         return true;
+    }
+
+
+    public static int checkRealPath(String realPath) {
+        try {
+            realPath = realPath.replace(":", "/");
+            realPath = realPath.replace("?", "/");
+            String[] split = realPath.split("/");
+            if (split.length > 0 && RegexUtils.isIP(split[0])) {
+                return -1;
+            }
+        } catch (Exception e) {
+        }
+
+        return 0;
     }
 
 }
