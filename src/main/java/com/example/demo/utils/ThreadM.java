@@ -9,6 +9,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 //https://www.cnblogs.com/skyfreedom/p/16417792.html
 public class ThreadM {
 
@@ -29,17 +30,17 @@ public class ThreadM {
         CountDownLatch countDownLatch = new CountDownLatch(poolLength);
 
 
-
-
-
         threadPoolExecutor.execute(new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    File file = new File(apktoolPath);
+                    Map<String, Object> aapt = ManiParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+                    result.putAll(aapt);
+
                     Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
                     result.putAll(map);
-                    Map<String, Object> stringObjectMap = ManiParse.parseMethod(outFilePath);
-                    result.putAll(stringObjectMap);
+
 
                 } catch (DocumentException e) {
                     e.printStackTrace();
@@ -53,9 +54,10 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
-                    File file = new File(apktoolPath);
-                    Map<String, Object> aapt = ManiParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
-                    result.putAll(aapt);
+
+
+                    Map<String, Object> stringObjectMap = ManiParse.parseMethod(outFilePath);
+                    result.putAll(stringObjectMap);
 
                 } catch (Exception e) {
                     e.printStackTrace();

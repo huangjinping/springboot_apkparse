@@ -40,6 +40,10 @@ public class JsonParser {
         root.put("contact", parsecontact);
 
 
+        Map<String, Object> parseNetworkMap = parseNetWork(source);
+        Jentity parseNetWork = new Jentity("network", parseNetworkMap, parseNetworkMap.isEmpty() ? 0 : 1);
+        root.put("network", parseNetWork);
+
         Map<String, Object> parseSMSMap = parseSMS(source);
         Jentity parseSMS = new Jentity("sms", parseSMSMap, parseSMSMap.isEmpty() ? 0 : 1);
         root.put("sms", parseSMS);
@@ -81,7 +85,6 @@ public class JsonParser {
         root.put("call", parseCall);
 
         Map<String, Object> parseCommMap = parseComm(source);
-
 
 
         root.putAll(parseCommMap);
@@ -294,7 +297,7 @@ public class JsonParser {
             String gps_address_province = Location.getString("gps_address_province");
             String gps_address_street = Location.getString("gps_address_street");
             String msm = latitude + "," + longitude;
-            String url="https://www.google.com.hk/maps/search/"+msm;
+            String url = "https://www.google.com.hk/maps/search/" + msm;
             int stats = 1;
             if (msm.length() < 8) {
                 stats = 0;
@@ -311,8 +314,8 @@ public class JsonParser {
 
 
             try {
-                if (latitude!=null&&longitude!=null){
-                    if (Double.parseDouble(latitude)>Double.parseDouble(longitude)){
+                if (latitude != null && longitude != null) {
+                    if (Double.parseDouble(latitude) > Double.parseDouble(longitude)) {
                         stats = 0;
                     }
                 }
@@ -336,8 +339,8 @@ public class JsonParser {
             locationResult.put("value", new Jentity("location", smsg, stats));
             result.put("value", locationResult);
             result.put("state", stats);
-            result.put("msg",builder);
-            result.put("url",url);
+            result.put("msg", builder);
+            result.put("url", url);
 
             return result;
         }
@@ -361,8 +364,9 @@ public class JsonParser {
             }
 
             key = "and_id";
+//            0e4d4389aac32055
             String and_id = general_data.getString(key);
-            if (!TextUtils.isEmpty(and_id)) {
+            if (!TextUtils.isEmpty(and_id) && and_id.length() == 16) {
                 generalResult.put(key, new Jentity(key, and_id, 1));
             } else {
                 stats = 0;
@@ -375,13 +379,13 @@ public class JsonParser {
                 generalResult.put(key, new Jentity(key, phone_type, 1));
             } else {
                 stats = 0;
-
                 generalResult.put(key, new Jentity(key, phone_type, 0));
             }
+            LogUtils.logJson("=======5====================" + stats);
 
             key = "mac";
             String mac = general_data.getString(key);
-            if (!TextUtils.isEmpty(mac) && mac.length() > 10 && mac.contains(":")) {
+            if (CheckUtils.isMac(mac)) {
                 generalResult.put(key, new Jentity(key, mac, 1));
             } else {
                 stats = 0;
@@ -396,10 +400,8 @@ public class JsonParser {
                 generalResult.put(key, new Jentity(key, locale_iso_3_language, 1));
             } else {
                 stats = 0;
-
                 generalResult.put(key, new Jentity(key, locale_iso_3_language, 0));
             }
-
 
             key = "locale_display_language";
             String locale_display_language = general_data.getString(key);
@@ -436,7 +438,6 @@ public class JsonParser {
                 generalResult.put(key, new Jentity(key, network_operator_name, 1));
             } else {
                 stats = 0;
-
                 generalResult.put(key, new Jentity(key, network_operator_name, 0));
             }
 
@@ -531,6 +532,7 @@ public class JsonParser {
                 stats = 0;
             }
             generalResult.put(key, new Jentity(key, elapsedRealtime, elapsedRealtimeStats));
+            LogUtils.logJson("=======3====================" + stats);
 
             key = "currentSystemTime";
             String currentSystemTime = general_data.getString(key);
@@ -541,6 +543,7 @@ public class JsonParser {
                 stats = 0;
 
             }
+            LogUtils.logJson("=======2====================" + stats);
 
 
             key = "uptimeMillis";
@@ -550,6 +553,8 @@ public class JsonParser {
             if (uptimeMillisStats != 1) {
                 stats = 0;
             }
+
+            LogUtils.logJson("=======1====================" + stats);
 
 
             key = "sensor_list";
@@ -662,70 +667,93 @@ public class JsonParser {
         return generalResult;
     }
 
-
     public static Map<String, Object> parseStorage(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> storageResult = new HashMap<>();
+
+
+        List<Jentity> compareList = new ArrayList<>();
+
+
         if (jsonObject.containsKey("storage")) {
             JSONObject storage = jsonObject.getJSONObject("storage");
             int stats = 1;
             String key = "ram_total_size";
             String ram_total_size = storage.getString(key);
-            int ram_total_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
-            storageResult.put(key, new Jentity(key, ram_total_size, ram_total_sizeStats));
+            int ram_total_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            Jentity ram_total_sizejentity = new Jentity(key, ram_total_size, ram_total_sizeStats);
+
+            storageResult.put(key, ram_total_sizejentity);
             if (ram_total_sizeStats != 1) {
                 stats = 0;
             }
+            compareList.add(ram_total_sizejentity);
 
 
             key = "ram_usable_size";
             String ram_usable_size = storage.getString(key);
-            int ram_usable_size_stats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int ram_usable_size_stats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
             if (ram_usable_size_stats != 1) {
                 stats = 0;
             }
+            Jentity ram_usable_size_statsjentity = new Jentity(key, ram_usable_size, ram_usable_size_stats);
             storageResult.put(key, new Jentity(key, ram_usable_size, ram_usable_size_stats));
+            compareList.add(ram_usable_size_statsjentity);
+
 
             key = "memory_card_size";
             String memory_card_size = storage.getString(key);
-            int memory_card_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int memory_card_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 1022);
             if (memory_card_sizeStats != 1) {
                 stats = 0;
             }
-            storageResult.put(key, new Jentity(key, memory_card_size, memory_card_sizeStats));
+            Jentity memory_card_sizejentity = new Jentity(key, memory_card_size, memory_card_sizeStats);
+            storageResult.put(key, memory_card_sizejentity);
+            compareList.add(memory_card_sizejentity);
 
             key = "memory_card_usable_size";
             String memory_card_usable_size = storage.getString(key);
-            int memory_card_usable_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
-            storageResult.put(key, new Jentity(key, memory_card_usable_size, memory_card_usable_sizeStats));
+            int memory_card_usable_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 100);
+            Jentity memory_card_usable_sizejentity = new Jentity(key, memory_card_usable_size, memory_card_usable_sizeStats);
+            storageResult.put(key, memory_card_usable_sizejentity);
             if (memory_card_usable_sizeStats != 1) {
                 stats = 0;
             }
+            compareList.add(memory_card_usable_sizejentity);
+
 
             key = "memory_card_size_use";
             String memory_card_size_use = storage.getString(key);
-            int memory_card_size_useStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int memory_card_size_useStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            Jentity memory_card_size_usejentity = new Jentity(key, memory_card_size_use, memory_card_size_useStats);
             storageResult.put(key, new Jentity(key, memory_card_size_use, memory_card_size_useStats));
             if (memory_card_size_useStats != 1) {
                 stats = 0;
             }
+            compareList.add(memory_card_size_usejentity);
+
 
             key = "internal_storage_total";
             String internal_storage_total = storage.getString(key);
-            int internal_storage_totalStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
-            storageResult.put(key, new Jentity(key, internal_storage_total, internal_storage_totalStats));
+            int internal_storage_totalStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            Jentity internal_storage_totaljentity = new Jentity(key, internal_storage_total, internal_storage_totalStats);
+            storageResult.put(key, internal_storage_totaljentity);
             if (internal_storage_totalStats != 1) {
                 stats = 0;
             }
+            compareList.add(internal_storage_totaljentity);
+
 
             key = "internal_storage_usable";
             String internal_storage_usable = storage.getString(key);
-            int internal_storage_usableStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
-            storageResult.put(key, new Jentity(key, internal_storage_usable, internal_storage_usableStats));
+            int internal_storage_usableStats = CheckUtils.getSaferLimitDouble(storage, key, 100);
+            Jentity internal_storage_usablejentity = new Jentity(key, internal_storage_usable, internal_storage_usableStats);
+            storageResult.put(key, internal_storage_usablejentity);
             if (internal_storage_usableStats != 1) {
                 stats = 0;
-
             }
+            compareList.add(internal_storage_usablejentity);
+
 
             key = "contain_sd";
             String contain_sd = storage.getString(key);
@@ -746,35 +774,78 @@ public class JsonParser {
 
             key = "app_max_memory";
             String app_max_memory = storage.getString(key);
-            int app_max_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int app_max_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            Jentity app_max_memoryjentity = new Jentity(key, app_max_memory, app_max_memoryStats);
             storageResult.put(key, new Jentity(key, app_max_memory, app_max_memoryStats));
             if (app_max_memoryStats != 1) {
                 stats = 0;
             }
+            compareList.add(app_max_memoryjentity);
 
 
             key = "app_available_memory";
             String app_available_memory = storage.getString(key);
-            int app_available_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int app_available_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 500);
+            Jentity app_available_memoryjentity = new Jentity(key, app_available_memory, app_available_memoryStats);
             storageResult.put(key, new Jentity(key, app_available_memory, app_available_memoryStats));
             if (app_available_memoryStats != 1) {
                 stats = 0;
             }
+            compareList.add(app_available_memoryjentity);
+
+
             key = "app_free_memory";
             String app_free_memory = storage.getString(key);
-            int app_free_memoryStatus = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int app_free_memoryStatus = CheckUtils.getSaferLimitDouble(storage, key, 500);
             if (app_free_memoryStatus != 1) {
                 stats = 0;
             }
-            storageResult.put(key, new Jentity(key, app_free_memory, app_free_memoryStatus));
+            Jentity app_free_memoryjentity = new Jentity(key, app_free_memory, app_free_memoryStatus);
+            storageResult.put(key, app_free_memoryjentity);
+            compareList.add(app_free_memoryjentity);
+
+            Jentity jentity = onCompareList(compareList);
+            if (jentity.getState() != 1) {
+                stats = jentity.getState();
+            }
+
+
             Map<String, Object> result = new HashMap<>();
             result.put("value", storageResult);
             result.put("state", stats);
-            result.put("msg", "");
+            result.put("msg", jentity.getValue());
             return result;
         }
         return storageResult;
     }
+
+    //1,2,3,4,5,6
+    //1,2,3,4,5,6
+    private static Jentity onCompareList(List<Jentity> compareList) {
+        int stats = 1;
+        StringBuilder builder = new StringBuilder();
+        try {
+            Map<String, String> map = new HashMap<>();
+            for (int i = 0; i < compareList.size(); i++) {
+                Jentity jent1 = compareList.get(i);
+                if (jent1.getValue() != null) {
+                    String key = jent1.getValue().toString();
+                    if (map.containsKey(key)) {
+                        stats = 0;
+                        builder.append(map.get(key) + "=" + jent1.getName() + ";\n");
+                    } else {
+                        map.put(key, jent1.getName());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Jentity jentity = new Jentity("参数比较", builder.toString(), stats);
+
+        return jentity;
+    }
+
 
     public static Map<String, Object> parseHardware(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
@@ -1192,9 +1263,9 @@ public class JsonParser {
 
         Map<String, Object> other_dataResult = new HashMap<>();
 
-        String currentPackageName="";
-        if (jsonObject.containsKey("package_name")){
-             currentPackageName = jsonObject.getString("package_name");
+        String currentPackageName = "";
+        if (jsonObject.containsKey("package_name")) {
+            currentPackageName = jsonObject.getString("package_name");
         }
 
 
@@ -1210,7 +1281,7 @@ public class JsonParser {
                 int app_type1 = 0;
                 int count = 0;
                 int badTime = 0;
-                int  currentPackageStats=0;
+                int currentPackageStats = 0;
 
                 for (int i = 0; i < appArr.size(); i++) {
                     int appListState = 1;
@@ -1255,12 +1326,12 @@ public class JsonParser {
                     }
 
                     try {
-                        if(currentPackageName.equals(packageName)){
-                            if (app_type.equals("0")){
-                                currentPackageStats=1;
+                        if (currentPackageName.equals(packageName)) {
+                            if (app_type.equals("0")) {
+                                currentPackageStats = 1;
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
 
@@ -1344,7 +1415,7 @@ public class JsonParser {
                     appAllState = 0;
                 }
 
-                if (currentPackageStats==0){
+                if (currentPackageStats == 0) {
                     builder.append("当前应用app_type应该是0;\n");
                     appAllState = 0;
                 }
@@ -1359,8 +1430,7 @@ public class JsonParser {
                 }
 
 
-
-                Collections.sort(appList,new AppComparator());
+                Collections.sort(appList, new AppComparator());
                 other_dataResult.put("value", appList);
                 other_dataResult.put("state", appAllState);
                 other_dataResult.put("msg", builder);
@@ -1638,6 +1708,7 @@ public class JsonParser {
         return smsResult;
     }
 
+
     public static Map<String, Object> parseSMS(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> smsResult = new HashMap<>();
@@ -1884,6 +1955,143 @@ public class JsonParser {
 
         }
         return other_dataResult;
+    }
+
+
+    public static Map<String, Object> parseNetWork(String source) {
+        JSONObject jsonObject = JSON.parseObject(source);
+        Map<String, Object> netWorkResult = new HashMap<>();
+        if (jsonObject.containsKey("network")) {
+            int stats = 1;
+            JSONObject network = jsonObject.getJSONObject("network");
+            String key = "IP";
+            String IP = network.getString(key);
+            int ipstate = CheckUtils.isValidIPAddress(IP) ? 1 : 0;
+            netWorkResult.put(key, new Jentity(key, IP, ipstate));
+            if (ipstate != 1) {
+                stats = 0;
+            }
+
+            key = "wifi_count";
+            String wifi_count = network.getString(key);
+            int wifi_countstate = CheckUtils.getSaferLimitInt(network, key, 0);
+            if (TextUtils.isEmpty(wifi_count)) {
+                wifi_countstate = 0;
+            }
+
+            netWorkResult.put(key, new Jentity(key, wifi_count, wifi_countstate));
+            if (wifi_countstate != 1) {
+                stats = 0;
+            }
+            String key_ = "current_wifi";
+
+            if (network.containsKey(key_)) {
+                JSONObject current_wifi = network.getJSONObject(key_);
+                Jentity wifiItem = getWifiItem(current_wifi);
+                netWorkResult.put(key_, new Jentity(key_, wifiItem.getValue(), wifiItem.getState()));
+                if (0 == wifiItem.getState()) {
+                    stats = 0;
+                }
+            } else {
+                netWorkResult.put(key_, new Jentity(key_, new HashMap<String, String>(), 0));
+                stats = 0;
+            }
+
+            String key_1 = "configured_wifi";
+
+            if (network.containsKey(key_1)) {
+
+                JSONArray configured_wifi = network.getJSONArray(key_1);
+                List<Jentity> configuredResultList = new ArrayList<>();
+                int configured_wifi_stats = 1;
+
+                if (configured_wifi.size() > 0) {
+                    for (int i = 0; i < configured_wifi.size(); i++) {
+                        JSONObject wifiItem = configured_wifi.getJSONObject(i);
+                        Jentity wifi_child_item = getWifiItem(wifiItem);
+                        if (wifi_child_item.getState() != 1) {
+                            configured_wifi_stats = 0;
+                        }
+                        configuredResultList.add(wifi_child_item);
+                    }
+                } else {
+                    configured_wifi_stats = 0;
+                }
+                if (configured_wifi_stats != 1) {
+                    stats = 0;
+                }
+
+                netWorkResult.put(key_1, new Jentity(key_1, configuredResultList, configured_wifi_stats));
+
+            } else {
+                netWorkResult.put(key_1, new Jentity(key_1, new ArrayList(), 0));
+                stats = 0;
+            }
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("value", netWorkResult);
+            result.put("state", stats);
+            result.put("msg", "");
+            return result;
+
+        }
+        return netWorkResult;
+    }
+
+
+    public static Jentity getWifiItem(JSONObject current_wifi) {
+        int current_wifi_stats = 1;
+
+        Map<String, Object> current_wifiResult = new HashMap<>();
+
+        if (current_wifi == null) {
+            return new Jentity("wifi", current_wifiResult, 0);
+        }
+        JSONObject current_wifiObject = current_wifi;
+        String key_ = "bssid";
+        String bssid = current_wifiObject.getString(key_);
+        boolean bssidState = CheckUtils.isMac(bssid);
+
+        if (bssidState) {
+
+
+            current_wifiResult.put(key_, new Jentity(key_, CheckUtils.filterValue(bssid), 1));
+        } else {
+            current_wifiResult.put(key_, new Jentity(key_, bssid, 0));
+            current_wifi_stats = 0;
+
+        }
+
+        key_ = "ssid";
+        String ssid = current_wifiObject.getString(key_);
+
+
+        if (!TextUtils.isEmpty(ssid)) {
+            current_wifiResult.put(key_, new Jentity(key_, CheckUtils.filterValue(ssid), 1));
+        } else {
+            current_wifiResult.put(key_, new Jentity(key_, ssid, 0));
+            current_wifi_stats = 0;
+        }
+
+
+        key_ = "mac";
+        String mac = current_wifiObject.getString(key_);
+        boolean macState = CheckUtils.isMac(mac);
+        current_wifiResult.put(key_, new Jentity(key_, mac, macState ? 1 : 0));
+        if (!macState) {
+            current_wifi_stats = 0;
+        }
+
+        key_ = "name";
+        String name = current_wifiObject.getString(key_);
+        if (!TextUtils.isEmpty(name)) {
+            current_wifiResult.put(key_, new Jentity(key_, CheckUtils.filterValue(name), 1));
+        } else {
+            current_wifiResult.put(key_, new Jentity(key_, name, 0));
+            current_wifi_stats = 0;
+        }
+//        netWorkResult.put("current_wifi", new Jentity("current_wifi", current_wifiResult, current_wifi_stats));
+        return new Jentity(name + "", current_wifiResult, current_wifi_stats);
     }
 
 }

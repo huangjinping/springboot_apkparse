@@ -273,6 +273,16 @@ public class SearchTask {
     }
 
 
+    public List<MethodSolr> getMethodWebViewWebSettings(String dir) {
+        List<String> commands = new ArrayList<>();
+        commands.add("grep -rnR 'WebSettings' " + dir + "/*");
+        List<String> strings = executeNewFlow(commands);
+
+        return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
+
+    }
+
+
     private int checkReceivedSslError(String item) {
 
         if (item.contains("/io/dcloud/")) {
@@ -311,6 +321,14 @@ public class SearchTask {
         return 1;
     }
 
+
+    private int checkReceivedSetting(String item) {
+
+        if (item.contains("android/webkit/WebSettings")) {
+            return -1;
+        }
+        return 1;
+    }
 
     private List<MethodSolr> getMethodSolrByCmd(String path, List<String> result, String target) {
         List<MethodSolr> resultSolr = new ArrayList<>();

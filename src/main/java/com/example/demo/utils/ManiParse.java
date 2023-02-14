@@ -47,6 +47,7 @@ public class ManiParse {
             List<MethodSolr> resultAll = new ArrayList<>();
             resultAll.addAll(searchTask.getMethodSolr_ssl(filePath));
             resultAll.addAll(searchTask.getMethodSolr_phoneNumber(filePath));
+//            resultAll.addAll(searchTask.getMethodWebViewWebSettings(filePath));
             parseDomainNameResult.put("methodSolr", resultAll);
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,18 +163,18 @@ public class ManiParse {
 //                    LogUtils.logJson(line);
 
                     if (line.contains("sdkVersion")) {
-                       try {
-                           String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
-                           result.put("sdkVersion", Integer.parseInt(sdkVersion));
-                       }catch (Exception e){
-                           e.printStackTrace();
-                       }
+                        try {
+                            String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
+                            result.put("sdkVersion", Integer.parseInt(sdkVersion));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     if (line.contains("targetSdkVersion")) {
                         try {
                             String targetSdkVersion = line.replace("targetSdkVersion:'", "").replace("'", "");
                             result.put("targetSdkVersion", Integer.parseInt(targetSdkVersion));
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -231,8 +232,6 @@ public class ManiParse {
 
     public static Map<String, Object> parseAndroidManifest(String path, String appType) throws DocumentException {
         SAXReader reader = new SAXReader();
-//        File file = new File(path);
-//        LogUtils.logJson(path);
         Document document = reader.read(path);
         List<AppPermissions> appPermissions = parsePermissions(document, appType);
         Application application = parseApplication(document);
@@ -357,16 +356,18 @@ public class ManiParse {
                         /**
                          * App scheme
                          */
+                        System.out.println("===parseLauncherActivity===3=" + scheme);
+
                         Scheme sch = new Scheme();
                         sch.setScheme(scheme);
                         sch.setHost(host);
                         activity.setScheme(sch);
                     }
                 }
-
-
             }
-            System.out.println("======2=");
+
+            LogUtils.logJson(activity);
+            System.out.println("===parseLauncherActivity===2=");
 
         }
 
@@ -417,7 +418,6 @@ public class ManiParse {
 
         } else {
             resultList = createRelease(list);
-
         }
 
 

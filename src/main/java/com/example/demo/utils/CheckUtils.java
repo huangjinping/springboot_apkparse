@@ -55,6 +55,16 @@ public class CheckUtils {
     }
 
 
+    public static String filterValue(String input) {
+        input = input.replace("&", "&amp;");
+        input = input.replace("\"", "&quot;");
+        input = input.replace("<", "&lt;");
+        input = input.replace(">", "&gt;");
+        input = input.replace("'", "'");
+
+        return input;
+    }
+
     static int getSaferLimitInt(JSONObject doc, String key, int limit) {
         if (doc.containsKey(key)) {
             try {
@@ -277,6 +287,14 @@ public class CheckUtils {
     public static boolean isValidIPAddress(String ipAddress) {
         if ((ipAddress != null) && (!ipAddress.isEmpty())) {
             return Pattern.matches("^([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}$", ipAddress);
+        }
+        return false;
+    }
+
+
+    public static boolean isMac(String mac) {
+        if (!TextUtils.isEmpty(mac) && mac.length() > 10 && mac.contains(":")) {
+            return true;
         }
         return false;
     }

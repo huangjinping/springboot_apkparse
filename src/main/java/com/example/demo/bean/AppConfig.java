@@ -14,6 +14,8 @@ public interface AppConfig {
     interface MethodTarget {
         String onReceivedSslError = "onReceivedSslError";
         String getLine1Number = "getLine1Number";
+        String WebSettings = "WebSettings";
+
     }
 
 }

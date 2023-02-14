@@ -7,7 +7,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>GooglePlay检验</title>
+    <title>GooglePlay检验占坑包</title>
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="utils.js"></script>
 
@@ -113,26 +113,26 @@
             border: #f40 solid 1px;
             height: auto;
             overflow: hidden;
-
         }
 
         .spiritContainer a {
             color: white;
         }
 
-
         .appAlert {
             border: orange dashed 5px;
             border-radius: 10px;
+            margin: 0.3rem auto;
             background-color: white;
-            color: grey;
+            text-align: center;
+            color: red;
+            font-weight: bold;
             font-size: 12px;
         }
 
         .methodLine {
             border: #808080 solid 1px;
             margin-top: 10px;
-
         }
     </style>
 </head>
@@ -140,20 +140,17 @@
 <div class="pageCenter">
 
 
-    <div>
-
-    </div>
     <div class="spiritContainer">
         <span class="spirit">菜单</span>
         <ul class="menuList">
-            <!--            <li><a href="/index">apk,aab业务包</a></li>-->
-            <!--            <li><a href="/nbjson">检测大json</a></li>-->
-            <!--            <li><a href="/debug1">检测占坑包</a></li>-->
+            <!--    <li><a href="/index">apk aab</a></li>
+                <li><a href="/nbjson">检测大json</a></li>
+                <li><a href="">意见反馈</a></li>-->
         </ul>
     </div>
     <div class="requestView">
         <div>
-            <span>点击上传:正式Apk或者aab</span>
+            <span>点击占坑上传:Apk或者aab</span>
         </div>
         <img class="imgClickIt" src="dianji.png">
         <form id="uploadForm" action="/uploadImage" method="POST" enctype="multipart/form-data">
@@ -164,27 +161,33 @@
 
             <div class="iffsubmitContainer">
             <span class="iffsubmit">
-                业务包上传
+                占坑包上传
             </span>
             </div>
         </form>
+
+    </div>
+
+
+    <div>
+        <div class="appAlert">
+            <ul>
+                <li>请确定这是一个占坑包</li>
+            </ul>
+        </div>
     </div>
 
 
     <div class="resultContainer">
+
         <div class="resultTitle">
-            Permission（权限配置）
-        </div>
-        <div class="appAlert">
-            <ul>
-                <li>android.permission.READ_CALL_LOG，通话记录权限，请确认这个包是不是需要配置。</li>
-            </ul>
+            Permission（权限占坑配置）
         </div>
         <ul class="resultUl permissionUl">
         </ul>
 
         <div class="resultTitle">
-            Application 配置
+            Application (占坑配置)
         </div>
         <ul class="resultUl applicationUl">
             <li class="resultli">
@@ -204,17 +207,17 @@
                 <span class="resultliname">versionName</span><span class="resultlistate versionName"></span>
             </li>
 
-            <li class="resultli">
-                <span class="resultliname">networkSecurityConfig</span><span
-                    class="resultlistate networkSecurityConfig"></span>
-            </li>
-            <!--            <li class="resultli pRequestLegacyExternalStorage">-->
-            <!--                <span class="resultliname">requestLegacyExternalStorage</span><span-->
-            <!--                    class="resultlistate requestLegacyExternalStorage"></span>-->
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">networkSecurityConfig</span><span-->
+            <!--                    class="resultlistate networkSecurityConfig"></span>-->
             <!--            </li>-->
+            <li class="resultli pRequestLegacyExternalStorage">
+                <span class="resultliname">requestLegacyExternalStorage</span><span
+                    class="resultlistate requestLegacyExternalStorage"></span>
+            </li>
         </ul>
         <div class="resultTitle">
-            Activity 启动
+            Activity 启动(占坑配置)
         </div>
 
         <ul class="resultUl activityUl">
@@ -224,50 +227,7 @@
             <li class="resultli">
                 <span class="resultliname">exported</span><span class="resultlistate exported"></span>
             </li>
-            <li class="resultli">
-                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">appLink</span><span class="resultlistate appLink"></span>
-            </li>
-        </ul>
 
-        <div class="resultTitle">
-            meta-data
-        </div>
-
-        <ul class="resultUl metaDataUl">
-            <li class="resultli">
-
-                <span class="resultliname">io.branch.sdk.BranchKey</span><span class="resultlistate BranchKey"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">io.branch.sdk.TestMode</span><span class="resultlistate TestMode"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">com.facebook.sdk.ApplicationId</span><span
-                    class="resultlistate ApplicationId"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">com.facebook.sdk.AutoLogAppEventsEnabled</span><span
-                    class="resultlistate AutoLogAppEventsEnabled"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">com.facebook.sdk.AdvertiserIDCollectionEnabled</span><span
-                    class="resultlistate AdvertiserIDCollectionEnabled"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">com.facebook.sdk.ClientToken</span><span
-                    class="resultlistate ClientToken"></span>
-            </li>
-        </ul>
-
-        <div class="resultTitle">
-            queries
-        </div>
-
-
-        <ul class="resultUl queriesUl">
         </ul>
         <div class="resultTitle">
             域名检测
@@ -279,10 +239,8 @@
         </ul>
 
         <div class="resultTitle">
-            库检测
+            库检测(占坑配置)
         </div>
-
-
         <ul class="keepLibUl">
             <!--            <li class="resultli">-->
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
@@ -358,7 +316,7 @@
             }
             var formData = new FormData();
             formData.append("file", $file[0].files[0]); // 要上传的文件
-            formData.append("appType", "0");
+            formData.append("appType", "1");
             showLoading();
             hideResult();
             $.ajax({
@@ -425,16 +383,6 @@
                 $(".versionCode").html(data.versionCode);
 
 
-                var sdkVersion = data.sdkVersion;
-                if (sdkVersion > 23) {
-                    $(".sdkVersion").addClass("redText");
-                    $(".sdkVersion").html("当前" + sdkVersion + ",minSdkVersion 兼容6.0及以上所有版本");
-                } else {
-                    $(".sdkVersion").html(sdkVersion);
-                    $(".sdkVersion").removeClass("redText");
-                }
-
-
                 var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 31) {
                     $(".targetSdkVersion").addClass("redText");
@@ -443,7 +391,6 @@
                     $(".targetSdkVersion").html(compileSdkVersion);
                     $(".targetSdkVersion").removeClass("redText");
                 }
-
 
                 var networkSecurityConfig = data.application.networkSecurityConfig;
                 if (isEmpty(networkSecurityConfig)) {
@@ -459,8 +406,8 @@
                 // $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage);
                 // $(".pRequestLegacyExternalStorage").show();
                 // if (isEmpty(requestLegacyExternalStorage)) {
-                //     $(".pRequestLegacyExternalStorage").hide();
-                //     $(".requestLegacyExternalStorage").removeClass("redText");
+                $(".pRequestLegacyExternalStorage").hide();
+                $(".requestLegacyExternalStorage").removeClass("redText");
                 // } else {
                 //     $(".requestLegacyExternalStorage").addClass("redText");
                 //     $(".requestLegacyExternalStorage").html(requestLegacyExternalStorage + ":这个选项去掉");
@@ -505,10 +452,6 @@
                     if (!isEmpty(host) && !isEmpty(scheme)) {
                         $(".scheme").removeClass("redText");
                         scheme = "host:" + host + "　scheme:" + scheme;
-                        $(".scheme").html(scheme);
-                    } else if (!isEmpty(scheme)) {
-                        $(".scheme").removeClass("redText");
-                        scheme = "　scheme:" + scheme;
                         $(".scheme").html(scheme);
                     } else {
                         $(".scheme").addClass("redText");
@@ -614,7 +557,6 @@
                         }
                     }
 
-
                     autoHtml += "  <li class=\"resultli\">\n" +
                         "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
                         "            </li>";
@@ -624,6 +566,20 @@
                 $(".keepLibUl").html(autoHtml);
 
             }
+
+            // if (data.keepPackage) {
+            //     var autoHtml = "";
+            //     data.keepPackage.forEach(function (v, i) {
+            //         var state = "建议删除";
+            //         var stateText = "";
+            //         stateText = "redText";
+            //         autoHtml += "  <li class=\"resultli\">\n" +
+            //             "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+            //             "            </li>";
+            //     });
+            //     $(".keepLibUl").html(autoHtml);
+            //
+            // }
 
             if (data.domainName) {
                 var autoHtml = "";
@@ -677,7 +633,6 @@
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
 
-
         }
 
         function setRest(e) {
@@ -696,8 +651,8 @@
 
 
     })();
-</script>
 
+</script>
 <script type="text/javascript" src="build.js"></script>
 
 </body>
