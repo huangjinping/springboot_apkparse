@@ -327,6 +327,10 @@ public class CheckUtils {
             if (split.length > 0 && RegexUtils.isIP(split[0])) {
                 return -1;
             }
+
+            if (split.length > 0 && split[0].contains("ultracreditosmx.com")) {
+                return -1;
+            }
         } catch (Exception e) {
         }
 

@@ -15,10 +15,12 @@ import java.util.Map;
 //参考文献
 public class SearchTask {
     public Map<String, String> mWhiteList = new HashMap<>();
+    public Map<String, String> mBlackList = new HashMap<>();
 
     public SearchTask() {
 
         initWhiteListList();
+        initBlackListList();
     }
 
     private void initWhiteListList() {
@@ -85,6 +87,20 @@ public class SearchTask {
 
         for (String item : list) {
             mWhiteList.put(item.substring(0, 14), item);
+        }
+
+
+    }
+
+
+    private void initBlackListList() {
+
+        List<String> list = new ArrayList<>();
+        list.add("http://schemas.android.com/apk/res/android");
+        list.add("http://www.apache.org/licenses/LICENSE-2.0");
+
+        for (String item : list) {
+            mBlackList.put(item.substring(0, 14), item);
         }
 
 

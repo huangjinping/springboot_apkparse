@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import com.example.demo.bean.UserParam;
 import org.dom4j.DocumentException;
 
 import java.io.File;
@@ -35,10 +36,14 @@ public class ThreadM {
             public void run() {
                 try {
                     File file = new File(apktoolPath);
-                    Map<String, Object> aapt = ManiParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+                    Map<String, Object> aapt = PackageParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
                     result.putAll(aapt);
 
-                    Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
+
+                    UserParam userParam = new UserParam();
+                    userParam.setAppType(appType);
+                    userParam.setTargetSdk(aapt.get("targetSdkVersion").toString());
+                    Map<String, Object> map = PackageParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", userParam);
                     result.putAll(map);
 
 
@@ -56,7 +61,7 @@ public class ThreadM {
                 try {
 
 
-                    Map<String, Object> stringObjectMap = ManiParse.parseMethod(outFilePath);
+                    Map<String, Object> stringObjectMap = PackageParse.parseMethod(outFilePath);
                     result.putAll(stringObjectMap);
 
                 } catch (Exception e) {
@@ -72,7 +77,7 @@ public class ThreadM {
             public void run() {
                 try {
 
-                    Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
+                    Map<String, Object> parsePackage = PackageParse.parsePackage(outFilePath);
                     result.putAll(parsePackage);
 
 
@@ -89,7 +94,7 @@ public class ThreadM {
             public void run() {
                 try {
 
-                    Map<String, Object> domainName = ManiParse.parseDomainName(outFilePath);
+                    Map<String, Object> domainName = PackageParse.parseDomainName(outFilePath);
                     result.putAll(domainName);
 
                 } catch (Exception e) {
@@ -105,7 +110,7 @@ public class ThreadM {
             public void run() {
                 try {
                     Map<String, Object> res = new HashMap<>();
-                    Map<String, String> stringObjectMap = ManiParse.parseStringXML(outFilePath + "/res/values/strings.xml", "0");
+                    Map<String, String> stringObjectMap = PackageParse.parseStringXML(outFilePath + "/res/values/strings.xml", "0");
                     res.put("Strings", stringObjectMap);
                     result.putAll(res);
 

@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.utils.FileUtils;
-import com.example.demo.utils.ManiParse;
+import com.example.demo.utils.PackageParse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,7 +57,7 @@ public class ApkController {
             System.out.println("=======suffix=====" + suffix);
             if (".apk".equals(suffix)) {
 
-                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
+                Map<String, Object> map = PackageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
 
@@ -92,7 +92,7 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
-                Map<String, Object> map = ManiParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
+                Map<String, Object> map = PackageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);

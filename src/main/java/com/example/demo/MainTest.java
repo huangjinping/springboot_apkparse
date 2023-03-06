@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.utils.LogUtils;
-import com.example.demo.utils.ManiParse;
+import com.example.demo.utils.PackageParse;
 
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class MainTest {
 //            LogUtils.logJson(result.size());
 
 
-            Map<String, String> stringObjectMap = ManiParse.parseStringXML("/Users/huhuijie/Documents/git/inx-sdk/app/release/app-v3.5-141120221444-release/res/values/strings.xml", "0");
+            Map<String, String> stringObjectMap = PackageParse.parseStringXML("/Users/huhuijie/Documents/git/inx-sdk/app/release/app-v3.5-141120221444-release/res/values/strings.xml", "0");
             LogUtils.logJson(stringObjectMap);
 
 //            searchTask.getUrlList("/Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719/smali");

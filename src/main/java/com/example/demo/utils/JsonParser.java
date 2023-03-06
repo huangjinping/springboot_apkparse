@@ -741,7 +741,7 @@ public class JsonParser {
             if (internal_storage_totalStats != 1) {
                 stats = 0;
             }
-            compareList.add(internal_storage_totaljentity);
+//            compareList.add(internal_storage_totaljentity);
 
 
             key = "internal_storage_usable";
@@ -752,7 +752,7 @@ public class JsonParser {
             if (internal_storage_usableStats != 1) {
                 stats = 0;
             }
-            compareList.add(internal_storage_usablejentity);
+//            compareList.add(internal_storage_usablejentity);
 
 
             key = "contain_sd";
@@ -1177,7 +1177,12 @@ public class JsonParser {
                     Map<String, Object> app = new HashMap<>();
                     String key = "last_time_contacted";
                     String last_time_contacted = item.getString(key);
-                    int last_time_contactedState = CheckUtils.getSaferLimitInt(item, key, 0);
+
+                    int last_time_contactedState = CheckUtils.getSaferStringWithTimeTemp(item, key);
+
+                    if ("0".equals(last_time_contacted)) {
+                        last_time_contactedState = 1;
+                    }
                     app.put(key, new Jentity(key, last_time_contacted, last_time_contactedState));
                     if (last_time_contactedState != 1) {
                         appListState = 0;
@@ -1964,15 +1969,15 @@ public class JsonParser {
         if (jsonObject.containsKey("network")) {
             int stats = 1;
             JSONObject network = jsonObject.getJSONObject("network");
-            String key = "IP";
-            String IP = network.getString(key);
-            int ipstate = CheckUtils.isValidIPAddress(IP) ? 1 : 0;
-            netWorkResult.put(key, new Jentity(key, IP, ipstate));
-            if (ipstate != 1) {
-                stats = 0;
-            }
+//            String key = "IP";
+//            String IP = network.getString(key);
+//            int ipstate = CheckUtils.isValidIPAddress(IP) ? 1 : 0;
+//            netWorkResult.put(key, new Jentity(key, IP, ipstate));
+//            if (ipstate != 1) {
+//                stats = 0;
+//            }
 
-            key = "wifi_count";
+            String key = "wifi_count";
             String wifi_count = network.getString(key);
             int wifi_countstate = CheckUtils.getSaferLimitInt(network, key, 0);
             if (TextUtils.isEmpty(wifi_count)) {

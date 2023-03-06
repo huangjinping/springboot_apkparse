@@ -32,6 +32,25 @@ public class PermissionUtils {
             "com.google.android.gms.permission.AD_ID"
     };
 
+    public static final String[] permissionsReleaseMast33 = new String[]{
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.ACCESS_NETWORK_STATE",
+            "android.permission.ACCESS_WIFI_STATE",
+            "android.permission.READ_PHONE_STATE",
+            "android.permission.CAMERA",
+            "android.permission.READ_CONTACTS",
+            "android.permission.READ_SMS",
+            "android.permission.READ_CALENDAR",
+            "android.permission.WRITE_CALENDAR",
+            "android.permission.ACCESS_COARSE_LOCATION",
+            "android.permission.INTERNET",
+            "android.permission.GET_ACCOUNTS",
+            "android.permission.READ_CALL_LOG",
+            "com.google.android.gms.permission.AD_ID",
+            "android.permission.READ_MEDIA_IMAGES"
+    };
+
     public static final String[] permissionsDebugMast = new String[]{
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -111,6 +130,7 @@ public class PermissionUtils {
             "android.permission.READ_MEDIA_VIDEO",
             "android.permission.POST_NOTIFICATIONS",
             "android.permission.FOREGROUND_SERVICE"
+
 
     };
 

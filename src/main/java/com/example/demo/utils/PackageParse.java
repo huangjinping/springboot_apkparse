@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class ManiParse {
+public class PackageParse {
 
 
     public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
@@ -62,7 +62,6 @@ public class ManiParse {
             SearchTask searchTask = new SearchTask();
             List<DomainName> httpsList = searchTask.getHttpsList(filePath);
             httpsList.addAll(searchTask.getHttpList(filePath));
-            LogUtils.logJson(httpsList);
             parseDomainNameResult.put("domainName", httpsList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,10 +229,10 @@ public class ManiParse {
         return colMap;
     }
 
-    public static Map<String, Object> parseAndroidManifest(String path, String appType) throws DocumentException {
+    public static Map<String, Object> parseAndroidManifest(String path, UserParam userParam) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(path);
-        List<AppPermissions> appPermissions = parsePermissions(document, appType);
+        List<AppPermissions> appPermissions = parsePermissions(document, userParam);
         Application application = parseApplication(document);
         Activity activity = parseLauncherActivity(document);
         List<MetaData> metaData = parseMetadata(document);
@@ -408,16 +407,30 @@ public class ManiParse {
         return application;
     }
 
-    private static List<AppPermissions> parsePermissions(Document document, String appType) {
+    private static List<AppPermissions> parsePermissions(Document document, UserParam userParam) {
         XPath xPath = new DefaultXPath("/manifest/uses-permission");
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<AppPermissions> resultList = null;
 
-        if (AppConfig.AppType.TYPE_DEBUG1.equals(appType)) {
+        if (AppConfig.AppType.TYPE_DEBUG1.equals(userParam.getAppType())) {
             resultList = createDebug(list);
 
         } else {
-            resultList = createRelease(list);
+            /**
+             * targetSDK是不是33
+             */
+            String targetSdk = userParam.getTargetSdk();
+            int targetSdkInt = 0;
+            try {
+                targetSdkInt = Integer.parseInt(targetSdk);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (targetSdkInt >= 33) {
+                resultList = createRelease33(list);
+            } else {
+                resultList = createRelease(list);
+            }
         }
 
 
@@ -452,6 +465,53 @@ public class ManiParse {
         for (int j = 0; j < PermissionUtils.permissionsReleaseMast.length; j++) {
             AppPermissions appPermisstions = new AppPermissions();
             appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast[j]);
+            dataList.add(appPermisstions);
+        }
+
+        for (Element element : list) {
+            String name = element.attributeValue("name");
+            AppPermissions appPermisstions = new AppPermissions();
+            appPermisstions.setPermission(name);
+            appPermisstions.setState(2);
+            boolean isOutside = true;
+
+            for (int j = 0; j < dataList.size(); j++) {
+                AppPermissions tempPer = dataList.get(j);
+                if (tempPer.getPermission().equals(appPermisstions.getPermission())) {
+                    tempPer.setState(1);
+                    isOutside = false;
+                    break;
+                }
+            }
+            if (isOutside) {
+                /**
+                 * 判断
+                 */
+//                for (String permkill : PermissionUtils.permissionKillList) {
+//                    if (permkill.equals(appPermisstions.getPermission())) {
+//                        appPermisstions.setState(3);
+//                        break;
+//                    }
+//                }
+                if (!insideAllPermission(appPermisstions.getPermission())) {
+                    LogUtils.log("========1========" + appPermisstions.getPermission());
+                    appPermisstions.setState(3);
+                }
+                resultList.add(appPermisstions);
+            }
+        }
+        resultList.addAll(dataList);
+        Collections.sort(resultList);
+        return resultList;
+    }
+
+    private static List<AppPermissions> createRelease33(List<Element> list) {
+        List<AppPermissions> resultList = new ArrayList<>();
+
+        List<AppPermissions> dataList = new ArrayList<>();
+        for (int j = 0; j < PermissionUtils.permissionsReleaseMast33.length; j++) {
+            AppPermissions appPermisstions = new AppPermissions();
+            appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast33[j]);
             dataList.add(appPermisstions);
         }
 
