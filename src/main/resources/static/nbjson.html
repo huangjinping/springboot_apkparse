@@ -703,7 +703,7 @@
 
                     var message = "";
                     if (sencorStats.state == 0) {
-                        message = "没有sencorStats数据";
+                        message += sencorStats.msg;
                         isSuccess = 0;
                     } else {
                         if (sencorStats.value.state == 0) {
@@ -713,10 +713,10 @@
                     }
 
                     if (isSuccess == 0) {
-                        message = "数据异常";
+                        message += "数据异常";
                         addRed(".sensorTitle .pMessage");
                     } else {
-                        message = "数据正常";
+                        message += "数据正常";
                         addGreen(".sensorTitle .pMessage");
                     }
                     $(".sensorTitle .pMessage").html(message)

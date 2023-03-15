@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
+import com.example.demo.utils.AESUtil;
 import com.example.demo.utils.FileUtils;
+import com.example.demo.utils.GzipUtil;
 import com.example.demo.utils.JsonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,12 +12,44 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class JsonController {
+
+
+    @RequestMapping(value = "/msgFeature", method = RequestMethod.POST)
+    public RestResponse uploadImageForJson(HttpServletRequest request) {
+        InputStream is = null;
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try {
+            is = request.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            StringBuffer sbf = new StringBuffer();
+            String lines;
+            while ((lines = reader.readLine()) != null) {
+                lines = new String(lines.getBytes(), "utf-8");
+                sbf.append(lines);
+            }
+            System.out.println("解压大小：" + sbf.toString());
+            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
+            String jsontext = sbf.toString();
+            jsontext = AESUtil.decrypt(jsontext, key);
+            jsontext = GzipUtil.unCompress(jsontext);
+            System.out.println("解压大小==uploadImageForJson====：" + jsontext);
+            resultMap.put("result", jsontext);
+
+        } catch (Exception ex) {
+        }
+        return RestResponse.success(resultMap);
+    }
 
 
     @RequestMapping(value = "/uploadBigJson", method = RequestMethod.POST)
@@ -49,6 +83,21 @@ public class JsonController {
             file.transferTo(resultFile);
             String unzipPath = realPath + "/" + oldName;
             String jsontext = FileUtils.getTextByPath(unzipPath);
+
+//            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
+//            jsontext = AESUtil.decrypt(jsontext, key);
+//            jsontext = GzipUtil.unCompress(jsontext);
+
+
+//            System.out.println("原文大小：" + jsontext.getBytes().length + " \n压缩前：");
+//
+//            String compress = GzipUtil.compress(jsontext);
+//            System.out.println("解压大小：" + compress.getBytes().length + " \n压缩后：");
+//
+//            String uncompress = GzipUtil.unCompress(compress);
+//            System.out.println("解压大小：" + uncompress.getBytes().length + " \n解压缩：");
+
+
             Map<String, Object> stringObjectMap = JsonParser.parseRoot(jsontext);
             resultMap.putAll(stringObjectMap);
 

@@ -281,7 +281,6 @@ public class SearchTask {
         List<String> commands = new ArrayList<>();
 //        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
         commands.add("grep -rnR 'getLine1Number()' " + dir + "/*");
-        System.out.println("===================before=====》》》》》");
         List<String> strings = executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.getLine1Number);
@@ -308,6 +307,14 @@ public class SearchTask {
             return 1;
         }
         if (item.contains("com/taobao/weex")) {
+            return 1;
+        }
+
+
+//        LogUtils.log("" + "----182-------" + item);
+
+
+        if (item.contains("/SafeBrowsingResponse")) {
             return 1;
         }
 

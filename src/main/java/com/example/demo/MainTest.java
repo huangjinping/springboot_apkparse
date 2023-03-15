@@ -1,9 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.utils.LogUtils;
-import com.example.demo.utils.PackageParse;
-
-import java.util.Map;
+import com.example.demo.utils.*;
+import com.google.gson.Gson;
 
 public class MainTest {
     public static void main(String[] args) {
@@ -19,8 +17,8 @@ public class MainTest {
 //            JsonParser.parseRoot(textByPath);
 
 //            LogUtils.log(CheckUtils.percentage(2,10,2));
-//            InxSpider inxSpider = new InxSpider();
-//            inxSpider.start();
+            InxSpider inxSpider = new InxSpider();
+            inxSpider.start();
 
 //            SearchTask searchTask = new SearchTask();
 //
@@ -44,9 +42,22 @@ public class MainTest {
 //            LogUtils.logJson(strings);
 //            LogUtils.logJson(result.size());
 
+//            Map<String, String> stringObjectMap = PackageParse.parseStringXML("/Users/huhuijie/Documents/git/inx-sdk/app/release/app-v3.5-141120221444-release/res/values/strings.xml", "0");
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Downloads/online11.json");
 
-            Map<String, String> stringObjectMap = PackageParse.parseStringXML("/Users/huhuijie/Documents/git/inx-sdk/app/release/app-v3.5-141120221444-release/res/values/strings.xml", "0");
-            LogUtils.logJson(stringObjectMap);
+            Gson gson = new Gson();
+            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
+
+            String compress = GzipUtil.compress(textByPath);
+            compress = AESUtil.encrypt(compress, key);
+            LogUtils.logJson("----------------1-");
+
+            LogUtils.logJson(compress);
+
+            LogUtils.logJson("----------------2-");
+            compress = AESUtil.decrypt(compress, key);
+            LogUtils.logJson(GzipUtil.unCompress(compress));
+
 
 //            searchTask.getUrlList("/Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719/smali");
 
@@ -58,6 +69,8 @@ public class MainTest {
 //            threadM.threadMethod();
 
         } catch (Exception e) {
+            LogUtils.logJson("---------222-------1-");
+
             e.printStackTrace();
         }
     }

@@ -560,6 +560,7 @@ public class JsonParser {
             key = "sensor_list";
 
             int sensorStats = 1;
+            String sensorMsg = "";
 
             if (general_data.containsKey("sensor_list")) {
                 JSONArray sensor_list = general_data.getJSONArray("sensor_list");
@@ -644,10 +645,18 @@ public class JsonParser {
                         }
                         sensorResultList.add(new Jentity(sensor.getString("name"), sensor_0, sensorCCStats));
                     }
-                    generalResult.put(key, new Jentity(key, sensorResultList, sensorStats));
+
+                    if (sensorResultList.size() > 0 && sensorResultList.size() < 6) {
+                        sensorStats = 0;
+                        sensorMsg = "传感器个数异常";
+                    }
+                    Jentity jentity = new Jentity(key, sensorResultList, sensorStats);
+                    jentity.setMsg(sensorMsg);
+                    generalResult.put(key, jentity);
                 } else {
                     generalResult.put(key, new Jentity(key, "", CheckUtils.getSaferLimitDouble(general_data, key, 0)));
                 }
+
             } else {
                 sensorStats = 0;
                 generalResult.put(key, new Jentity(key, "", CheckUtils.getSaferLimitDouble(general_data, key, 0)));
@@ -659,7 +668,7 @@ public class JsonParser {
             Map<String, Object> result = new HashMap<>();
             result.put("value", generalResult);
             result.put("state", stats);
-            result.put("msg", "");
+            result.put("msg","" );
             return result;
         }
 
@@ -680,7 +689,7 @@ public class JsonParser {
             int stats = 1;
             String key = "ram_total_size";
             String ram_total_size = storage.getString(key);
-            int ram_total_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            int ram_total_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity ram_total_sizejentity = new Jentity(key, ram_total_size, ram_total_sizeStats);
 
             storageResult.put(key, ram_total_sizejentity);
@@ -692,7 +701,7 @@ public class JsonParser {
 
             key = "ram_usable_size";
             String ram_usable_size = storage.getString(key);
-            int ram_usable_size_stats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            int ram_usable_size_stats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             if (ram_usable_size_stats != 1) {
                 stats = 0;
             }
@@ -703,7 +712,7 @@ public class JsonParser {
 
             key = "memory_card_size";
             String memory_card_size = storage.getString(key);
-            int memory_card_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 1022);
+            int memory_card_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             if (memory_card_sizeStats != 1) {
                 stats = 0;
             }
@@ -713,7 +722,7 @@ public class JsonParser {
 
             key = "memory_card_usable_size";
             String memory_card_usable_size = storage.getString(key);
-            int memory_card_usable_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 100);
+            int memory_card_usable_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity memory_card_usable_sizejentity = new Jentity(key, memory_card_usable_size, memory_card_usable_sizeStats);
             storageResult.put(key, memory_card_usable_sizejentity);
             if (memory_card_usable_sizeStats != 1) {
@@ -724,7 +733,7 @@ public class JsonParser {
 
             key = "memory_card_size_use";
             String memory_card_size_use = storage.getString(key);
-            int memory_card_size_useStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            int memory_card_size_useStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity memory_card_size_usejentity = new Jentity(key, memory_card_size_use, memory_card_size_useStats);
             storageResult.put(key, new Jentity(key, memory_card_size_use, memory_card_size_useStats));
             if (memory_card_size_useStats != 1) {
@@ -735,7 +744,7 @@ public class JsonParser {
 
             key = "internal_storage_total";
             String internal_storage_total = storage.getString(key);
-            int internal_storage_totalStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            int internal_storage_totalStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity internal_storage_totaljentity = new Jentity(key, internal_storage_total, internal_storage_totalStats);
             storageResult.put(key, internal_storage_totaljentity);
             if (internal_storage_totalStats != 1) {
@@ -746,7 +755,7 @@ public class JsonParser {
 
             key = "internal_storage_usable";
             String internal_storage_usable = storage.getString(key);
-            int internal_storage_usableStats = CheckUtils.getSaferLimitDouble(storage, key, 100);
+            int internal_storage_usableStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity internal_storage_usablejentity = new Jentity(key, internal_storage_usable, internal_storage_usableStats);
             storageResult.put(key, internal_storage_usablejentity);
             if (internal_storage_usableStats != 1) {
@@ -757,7 +766,8 @@ public class JsonParser {
 
             key = "contain_sd";
             String contain_sd = storage.getString(key);
-            int contain_sdStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+//            int contain_sdStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int contain_sdStats = CheckUtils.getSaferStringWithLimit(storage, key, new String[]{"0", "1"});
             storageResult.put(key, new Jentity(key, contain_sd, contain_sdStats));
 
             if (contain_sdStats != 1) {
@@ -766,7 +776,9 @@ public class JsonParser {
 
             key = "extra_sd";
             String extra_sd = storage.getString(key);
-            int extra_sdStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+//            int extra_sdStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
+            int extra_sdStats = CheckUtils.getSaferStringWithLimit(storage, key, new String[]{"0", "1"});
+
             storageResult.put(key, new Jentity(key, extra_sd, extra_sdStats));
             if (extra_sdStats != 1) {
                 stats = 0;
@@ -774,7 +786,7 @@ public class JsonParser {
 
             key = "app_max_memory";
             String app_max_memory = storage.getString(key);
-            int app_max_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 1024);
+            int app_max_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity app_max_memoryjentity = new Jentity(key, app_max_memory, app_max_memoryStats);
             storageResult.put(key, new Jentity(key, app_max_memory, app_max_memoryStats));
             if (app_max_memoryStats != 1) {
@@ -785,7 +797,7 @@ public class JsonParser {
 
             key = "app_available_memory";
             String app_available_memory = storage.getString(key);
-            int app_available_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 500);
+            int app_available_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             Jentity app_available_memoryjentity = new Jentity(key, app_available_memory, app_available_memoryStats);
             storageResult.put(key, new Jentity(key, app_available_memory, app_available_memoryStats));
             if (app_available_memoryStats != 1) {
@@ -796,7 +808,7 @@ public class JsonParser {
 
             key = "app_free_memory";
             String app_free_memory = storage.getString(key);
-            int app_free_memoryStatus = CheckUtils.getSaferLimitDouble(storage, key, 500);
+            int app_free_memoryStatus = CheckUtils.getSaferLimitDouble(storage, key, 10240);
             if (app_free_memoryStatus != 1) {
                 stats = 0;
             }

@@ -4,6 +4,15 @@ public class Jentity {
     String name;
     Object value;
     int state;
+    String msg;
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public String getName() {
         return name;

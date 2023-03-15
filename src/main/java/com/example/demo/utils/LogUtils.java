@@ -9,6 +9,8 @@ public class LogUtils {
     }
 
     public static void logJson(Object msg) {
+
+
         if (msg instanceof String) {
             System.out.println(msg);
         } else {
