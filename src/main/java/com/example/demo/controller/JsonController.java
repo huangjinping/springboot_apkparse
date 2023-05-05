@@ -101,7 +101,6 @@ public class JsonController {
             Map<String, Object> stringObjectMap = JsonParser.parseRoot(jsontext);
             resultMap.putAll(stringObjectMap);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }

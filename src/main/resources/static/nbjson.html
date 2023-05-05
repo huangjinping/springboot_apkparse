@@ -852,10 +852,10 @@
                 }
 
                 if (isSuccess == 0) {
-                    message = "数据异常";
+                    message += "数据异常";
                     addRed(".networkTitle .pMessage");
                 } else {
-                    message = "数据正常";
+                    message += "数据正常";
                     addGreen(".networkTitle .pMessage");
                 }
                 $(".networkTitle .pMessage").html(message)
@@ -1154,7 +1154,7 @@
 
                 var message = "";
                 if (dataList.state == 0) {
-                    message += "没有图片数据数据";
+                    message += dataList.msg;
                     isSuccess = 0;
                 } else {
                     if (dataList.value.state == 0) {

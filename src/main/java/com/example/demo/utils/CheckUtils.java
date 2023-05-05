@@ -3,6 +3,7 @@ package com.example.demo.utils;
 import com.alibaba.fastjson.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -67,9 +68,37 @@ public class CheckUtils {
 
     static int getSaferLimitInt(JSONObject doc, String key, int limit) {
         if (doc.containsKey(key)) {
+
             try {
                 String value = doc.getString(key);
                 if (Integer.parseInt(value) >= limit) {
+                    return 1;
+                }
+            } catch (Exception e) {
+//                e.printStackTrace();
+            }
+            doc.getString(key);
+
+        }
+        return 0;
+    }
+
+
+    static int getSaferLimitInt(JSONObject doc, String key, int min, int max) {
+        if (doc.containsKey(key)) {
+//            try {
+//                if (doc.get(key) instanceof Integer) {
+//
+//                } else {
+//                    return 0;
+//                }
+//            } catch (Exception e) {
+//                return 0;
+//            }
+            try {
+                String value = doc.getString(key);
+                int val = Integer.parseInt(value);
+                if (val >= min && val <= max) {
                     return 1;
                 }
             } catch (Exception e) {
@@ -120,6 +149,25 @@ public class CheckUtils {
 
     public static boolean checkNumber(String number) {
         return RegexUtils.isMatch(RegexConstants.REGEX_All_NUM, number);
+    }
+
+    public static int getSaferStringContractPhoneNumber(JSONObject doc, String key) {
+        try {
+            String string = doc.getString(key);
+            if (TextUtils.isEmpty(string)) {
+                return 0;
+            }
+
+            if (!checkNumber(string)) {
+                return 0;
+            }
+
+
+            return 1;
+        } catch (Exception e) {
+//            e.printStackTrace();
+        }
+        return 0;
     }
 
     public static int getSaferStringPhoneNumber(JSONObject doc, String key) {
@@ -179,7 +227,6 @@ public class CheckUtils {
 //            date.setTime(longValue);
             SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
             sdf.parse(string);
-            LogUtils.log("=======startTime=====format=2=====");
 
 
             return 1;
@@ -266,10 +313,25 @@ public class CheckUtils {
 
         try {
             String strDateFormat = "yyyy/MM/dd HH:mm:ss";//设置日期格式
+            Calendar calendar = Calendar.getInstance();
+
+            Calendar calTarget = Calendar.getInstance();
 
             String value = doc.getString(key);
             SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
-            sdf.parse(value);
+            Date parse = sdf.parse(value);
+            calTarget.setTime(parse);
+            if (calTarget.after(calendar)) {
+                return 0;
+            }
+            String min = "2000/12/12 10:10:10";
+            Calendar minCal = Calendar.getInstance();
+            minCal.setTime(sdf.parse(min));
+            if (calTarget.before(minCal)) {
+                return 0;
+            }
+
+
             return 1;
         } catch (Exception e) {
 //            e.printStackTrace();

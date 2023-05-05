@@ -3,6 +3,7 @@ package com.example.demo.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.bean.PropSolrGroup;
 import com.example.demo.jsonBean.Jentity;
 
 import java.util.*;
@@ -668,7 +669,7 @@ public class JsonParser {
             Map<String, Object> result = new HashMap<>();
             result.put("value", generalResult);
             result.put("state", stats);
-            result.put("msg","" );
+            result.put("msg", "");
             return result;
         }
 
@@ -689,7 +690,7 @@ public class JsonParser {
             int stats = 1;
             String key = "ram_total_size";
             String ram_total_size = storage.getString(key);
-            int ram_total_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int ram_total_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity ram_total_sizejentity = new Jentity(key, ram_total_size, ram_total_sizeStats);
 
             storageResult.put(key, ram_total_sizejentity);
@@ -701,7 +702,7 @@ public class JsonParser {
 
             key = "ram_usable_size";
             String ram_usable_size = storage.getString(key);
-            int ram_usable_size_stats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int ram_usable_size_stats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             if (ram_usable_size_stats != 1) {
                 stats = 0;
             }
@@ -712,7 +713,7 @@ public class JsonParser {
 
             key = "memory_card_size";
             String memory_card_size = storage.getString(key);
-            int memory_card_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int memory_card_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             if (memory_card_sizeStats != 1) {
                 stats = 0;
             }
@@ -722,7 +723,7 @@ public class JsonParser {
 
             key = "memory_card_usable_size";
             String memory_card_usable_size = storage.getString(key);
-            int memory_card_usable_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int memory_card_usable_sizeStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity memory_card_usable_sizejentity = new Jentity(key, memory_card_usable_size, memory_card_usable_sizeStats);
             storageResult.put(key, memory_card_usable_sizejentity);
             if (memory_card_usable_sizeStats != 1) {
@@ -733,7 +734,7 @@ public class JsonParser {
 
             key = "memory_card_size_use";
             String memory_card_size_use = storage.getString(key);
-            int memory_card_size_useStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int memory_card_size_useStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity memory_card_size_usejentity = new Jentity(key, memory_card_size_use, memory_card_size_useStats);
             storageResult.put(key, new Jentity(key, memory_card_size_use, memory_card_size_useStats));
             if (memory_card_size_useStats != 1) {
@@ -744,7 +745,7 @@ public class JsonParser {
 
             key = "internal_storage_total";
             String internal_storage_total = storage.getString(key);
-            int internal_storage_totalStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int internal_storage_totalStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity internal_storage_totaljentity = new Jentity(key, internal_storage_total, internal_storage_totalStats);
             storageResult.put(key, internal_storage_totaljentity);
             if (internal_storage_totalStats != 1) {
@@ -755,7 +756,7 @@ public class JsonParser {
 
             key = "internal_storage_usable";
             String internal_storage_usable = storage.getString(key);
-            int internal_storage_usableStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int internal_storage_usableStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity internal_storage_usablejentity = new Jentity(key, internal_storage_usable, internal_storage_usableStats);
             storageResult.put(key, internal_storage_usablejentity);
             if (internal_storage_usableStats != 1) {
@@ -786,7 +787,7 @@ public class JsonParser {
 
             key = "app_max_memory";
             String app_max_memory = storage.getString(key);
-            int app_max_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int app_max_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity app_max_memoryjentity = new Jentity(key, app_max_memory, app_max_memoryStats);
             storageResult.put(key, new Jentity(key, app_max_memory, app_max_memoryStats));
             if (app_max_memoryStats != 1) {
@@ -797,7 +798,7 @@ public class JsonParser {
 
             key = "app_available_memory";
             String app_available_memory = storage.getString(key);
-            int app_available_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int app_available_memoryStats = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             Jentity app_available_memoryjentity = new Jentity(key, app_available_memory, app_available_memoryStats);
             storageResult.put(key, new Jentity(key, app_available_memory, app_available_memoryStats));
             if (app_available_memoryStats != 1) {
@@ -808,7 +809,7 @@ public class JsonParser {
 
             key = "app_free_memory";
             String app_free_memory = storage.getString(key);
-            int app_free_memoryStatus = CheckUtils.getSaferLimitDouble(storage, key, 10240);
+            int app_free_memoryStatus = CheckUtils.getSaferLimitDouble(storage, key, 999999);
             if (app_free_memoryStatus != 1) {
                 stats = 0;
             }
@@ -1019,6 +1020,7 @@ public class JsonParser {
             JSONArray appArr = dataList;
 
             List<Jentity> appList = new ArrayList<>();
+            PropSolrGroup solrGroup = new PropSolrGroup();
 
             int appCount = 0;
             int appAllListState = 1;
@@ -1031,6 +1033,7 @@ public class JsonParser {
                 Map<String, Object> app = new HashMap<>();
                 String key = "name";
                 String name = item.getString(key);
+                solrGroup.addPropSolr(key, name);
                 if (!TextUtils.isEmpty(name)) {
                     app.put(key, new Jentity(key, name, 1));
                 } else {
@@ -1041,6 +1044,8 @@ public class JsonParser {
 
                 key = "createTime";
                 String createTime = item.getString(key);
+                solrGroup.addPropSolr(key, name);
+
                 int createTimeState = CheckUtils.getSaferStringWithTime01(item, key);
                 app.put(key, new Jentity(key, createTime, createTimeState));
                 if (createTimeState != 1) {
@@ -1048,6 +1053,8 @@ public class JsonParser {
                 }
                 key = "date";
                 String date = item.getString(key);
+                solrGroup.addPropSolr(key, name);
+
                 int dateState = CheckUtils.getSaferStringWithTime01(item, key);
                 app.put(key, new Jentity(key, date, dateState));
                 if (dateState != 1) {
@@ -1114,6 +1121,12 @@ public class JsonParser {
                 builder.append("数据有问题\n");
             }
 
+            Jentity solrResult = solrGroup.getResult();
+            if (solrResult.getState() < 1) {
+                appAllListState = 0;
+                builder.append(solrResult.getMsg());
+            }
+
             other_dataResult.put("value", appList);
             other_dataResult.put("state", appAllListState);
             other_dataResult.put("msg", builder);
@@ -1137,7 +1150,6 @@ public class JsonParser {
                     JSONObject albs1 = albs0.getJSONObject("albs");
                     if (albs1.containsKey("dataList")) {
                         JSONArray dataList = albs1.getJSONArray("dataList");
-
                         other_dataResult.putAll(hopedataList(dataList));
                     }
                 }
@@ -1178,6 +1190,7 @@ public class JsonParser {
 
             try {
                 JSONArray appArr = jsonObject.getJSONArray("contact");
+                PropSolrGroup solrGroup = new PropSolrGroup();
 
                 List<Jentity> appList = new ArrayList<>();
                 int appAllState = 1;
@@ -1200,18 +1213,19 @@ public class JsonParser {
                         appListState = 0;
                     }
 
-
                     key = "number";
                     String number = item.getString(key);
-
-                    int numberStats = CheckUtils.getSaferStringPhoneNumber(item, key);
+                    int numberStats = CheckUtils.getSaferStringContractPhoneNumber(item, key);
+                    solrGroup.addPropSolr(key, number + "", 4);
                     app.put(key, new Jentity(key, number, numberStats));
                     if (numberStats != 1) {
                         appListState = 0;
                     }
 
                     key = "contact_display_name";
-                    String contact_display_name = item.getString(key);
+                    String contact_display_name = item.getString(key).trim();
+                    solrGroup.addPropSolr(key, contact_display_name + "", 4);
+
                     if (!TextUtils.isEmpty(contact_display_name)) {
                         app.put(key, new Jentity(key, contact_display_name, 1));
                     } else {
@@ -1219,15 +1233,19 @@ public class JsonParser {
                         app.put(key, new Jentity(key, contact_display_name, 0));
                     }
 
-
                     key = "times_contacted";
-                    String times_contacted = item.getString(key);
-                    int times_contactedState = CheckUtils.getSaferLimitInt(item, key, 0);
-                    app.put(key, new Jentity(key, times_contacted, times_contactedState));
-                    if (times_contactedState != 1) {
-                        appListState = 0;
-                    }
+//                    item.getJSONObject(key);
+                    try {
+                        String times_contacted = item.getString(key);
+                        int times_contactedState = CheckUtils.getSaferLimitInt(item, key, 0, 200);
+                        app.put(key, new Jentity(key, times_contacted, times_contactedState));
+                        if (times_contactedState != 1) {
+                            appListState = 0;
+                        }
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
 //                    key = "source";
 //                    String source1 = item.getString(key);
@@ -1240,12 +1258,13 @@ public class JsonParser {
 
                     key = "up_time";
                     String up_time = item.getString(key);
+//                    solrGroup.addPropSolr(key, up_time);
+
                     int up_timeState = CheckUtils.getSaferStringWithTimeTemp01(item, key);
                     app.put(key, new Jentity(key, up_time, up_timeState));
                     if (up_timeState != 1) {
                         appListState = 0;
                     }
-
 
                     if (appListState == 0) {
                         appAllState = appListState;
@@ -1254,10 +1273,17 @@ public class JsonParser {
 
                 }
 
+
                 StringBuilder builder = new StringBuilder();
                 if (count < 3) {
                     builder.append("数据有问题\n");
                     appAllState = 0;
+                }
+                Jentity result = solrGroup.getResult();
+
+                if (result.getState() != 1) {
+                    appAllState = 0;
+                    builder.append(result.getMsg());
                 }
                 if (appAllState == 0) {
                 }
@@ -1291,6 +1317,7 @@ public class JsonParser {
 
             try {
                 JSONArray appArr = jsonObject.getJSONArray("application");
+                PropSolrGroup solrGroup = new PropSolrGroup();
 
                 List<Jentity> appList = new ArrayList<>();
                 int appAllState = 1;
@@ -1318,7 +1345,10 @@ public class JsonParser {
 
                     key = "app_type";
                     String app_type = item.getString(key);
+
                     if ("0".equals(app_type)) {
+                        solrGroup.addPropSolr("app_name", app_name);
+
                         app_type0++;
                     }
 
@@ -1335,6 +1365,8 @@ public class JsonParser {
 
                     key = "package";
                     String packageName = item.getString(key);
+                    solrGroup.addPropSolr(key, packageName);
+
                     if (!TextUtils.isEmpty(packageName)) {
                         app.put(key, new Jentity(key, packageName, 1));
                     } else {
@@ -1354,6 +1386,10 @@ public class JsonParser {
 
                     key = "in_time";
                     String in_time = item.getString(key);
+                    if ("0".equals(app_type) && !TextUtils.isEmpty(in_time) && in_time.length() > 8 && !in_time.endsWith("000")) {
+                        solrGroup.addPropSolr(key, in_time);
+                    }
+
                     int in_timeState = CheckUtils.getSaferStringWithTimeTempApplication(item, key);
                     int in_timeStateString = CheckUtils.getSaferStringWithLimit(item, key, limitTime);
                     if (in_timeStateString == 1) {
@@ -1397,6 +1433,10 @@ public class JsonParser {
 
                     key = "up_time";
                     String up_time = item.getString(key);
+                    if ("0".equals(app_type) && !TextUtils.isEmpty(up_time) && up_time.length() > 8 && !up_time.endsWith("000")) {
+                        solrGroup.addPropSolr(key, up_time);
+                    }
+
                     int up_timeState = CheckUtils.getSaferStringWithTimeTempApplication(item, key);
                     int up_timeStateString = CheckUtils.getSaferStringWithLimit(item, key, limitTime);
                     if (up_timeStateString == 1) {
@@ -1427,6 +1467,7 @@ public class JsonParser {
 
                 }
 
+
                 if (CheckUtils.percentage(badTime, count, 3) > 30) {
                     builder.append("30%日期都有问题\n");
                     appAllState = 0;
@@ -1445,7 +1486,11 @@ public class JsonParser {
                 if (appAllState == 0) {
                     builder.append("数据有问题\n");
                 }
-
+                Jentity result = solrGroup.getResult();
+                if (result.getState() < 1) {
+                    builder.append(result.getMsg());
+                    appAllState = 0;
+                }
 
                 Collections.sort(appList, new AppComparator());
                 other_dataResult.put("value", appList);
@@ -1561,6 +1606,8 @@ public class JsonParser {
             try {
                 JSONArray appArr = jsonObject.getJSONArray("account");
 
+                PropSolrGroup solrGroup = new PropSolrGroup();
+
                 List<Jentity> appList = new ArrayList<>();
 
                 int appAllState = 1;
@@ -1573,25 +1620,23 @@ public class JsonParser {
                     Map<String, Object> app = new HashMap<>();
                     String key = "name";
                     String name = item.getString(key);
+                    solrGroup.addPropSolr(key, name, appArr.size() - 1);
                     if (!TextUtils.isEmpty(name)) {
                         app.put(key, new Jentity(key, name, 1));
                     } else {
                         app.put(key, new Jentity(key, name, 0));
                         appListState = 0;
-
                     }
 
                     key = "type";
                     String type = item.getString(key);
+                    solrGroup.addPropSolr(key, type, appArr.size() - 1);
                     if (!TextUtils.isEmpty(type)) {
                         app.put(key, new Jentity(key, type, 1));
                     } else {
                         app.put(key, new Jentity(key, type, 0));
                         appListState = 0;
-
                     }
-
-
                     if (appListState == 0) {
                         appAllState = 0;
                     }
@@ -1608,12 +1653,19 @@ public class JsonParser {
                     appAllState = 0;
                     builder.append("账号个数不对\n");
                 }
+//                Jentity solrGroupResult = solrGroup.getResult();
+//                if (solrGroupResult.getState() < 1) {
+//                    appAllState = 0;
+//                    builder.append(solrGroupResult.getMsg());
+//                }
+
+
                 smsResult.put("value", appList);
                 smsResult.put("state", appAllState);
                 smsResult.put("msg", builder.toString());
 
             } catch (Exception e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
 
         } else {
@@ -1631,6 +1683,7 @@ public class JsonParser {
 
             try {
                 JSONArray appArr = jsonObject.getJSONArray("call");
+                PropSolrGroup solrGroup = new PropSolrGroup();
 
                 List<Jentity> appList = new ArrayList<>();
 
@@ -1689,6 +1742,7 @@ public class JsonParser {
 
                     key = "date";
                     String date = item.getString(key);
+                    solrGroup.addPropSolr(key, date);
                     int dateStats = CheckUtils.getSaferStringWithTimeTemp(item, key);
                     app.put(key, new Jentity(key, date, dateStats));
                     if (dateStats != 1) {
@@ -1710,6 +1764,13 @@ public class JsonParser {
                 if (appAllState == 0) {
                     builder.append("有问题\n");
                 }
+
+                Jentity solrGroupResult = solrGroup.getResult();
+                if (solrGroupResult.getState() < 1) {
+                    appAllState = 0;
+                    builder.append(solrGroupResult.getMsg());
+                }
+
 
                 smsResult.put("value", appList);
                 smsResult.put("state", appAllState);
@@ -1737,6 +1798,7 @@ public class JsonParser {
                 JSONArray appArr = jsonObject.getJSONArray("sms");
 
                 List<Jentity> appList = new ArrayList<>();
+                PropSolrGroup solrGroup = new PropSolrGroup();
 
                 int appAllState = 1;
                 int count = 0;
@@ -1758,6 +1820,8 @@ public class JsonParser {
 
                     key = "content";
                     String content = item.getString(key);
+                    solrGroup.addPropSolr(key, content);
+
                     if (!TextUtils.isEmpty(content)) {
                         app.put(key, new Jentity(key, content, 1));
                     } else {
@@ -1768,6 +1832,8 @@ public class JsonParser {
 
                     key = "time";
                     String time = item.getString(key);
+                    solrGroup.addPropSolr(key, time);
+
                     int timeTemp = CheckUtils.getSaferStringWithTimeTemp(item, key);
                     if (timeTemp == 1) {
                         app.put(key, new Jentity(key, time, 1));
@@ -1780,6 +1846,8 @@ public class JsonParser {
                     key = "type";
                     String type = item.getString(key);
                     int typeState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1", "2", "3", "4", "5", "6"});
+
+
                     if (typeState == 1) {
                         app.put(key, new Jentity(key, type, 1));
                     } else {
@@ -1791,10 +1859,13 @@ public class JsonParser {
 
                     key = "date_sent";
                     String sent_date = item.getString(key);
+
                     if ("2".equals(type)) {
                         app.put(key, new Jentity(key, sent_date, 1));
 
                     } else {
+//                        solrGroup.addPropSolr(key, sent_date);
+
                         int date_sentStatus = CheckUtils.getSaferLimitDouble(item, key, 0);
                         if (date_sentStatus == 1) {
                             app.put(key, new Jentity(key, sent_date, 1));
@@ -1875,6 +1946,11 @@ public class JsonParser {
                     builder.append("短信条数太少\n");
                 }
 
+                Jentity solrGroupResult = solrGroup.getResult();
+                if (solrGroupResult.getState() < 1) {
+                    appAllState = 0;
+                    builder.append(solrGroupResult.getMsg());
+                }
                 smsResult.put("value", appList);
                 smsResult.put("state", appAllState);
                 smsResult.put("msg", builder.toString());
@@ -1980,6 +2056,8 @@ public class JsonParser {
         Map<String, Object> netWorkResult = new HashMap<>();
         if (jsonObject.containsKey("network")) {
             int stats = 1;
+            PropSolrGroup solrGroup = new PropSolrGroup();
+
             JSONObject network = jsonObject.getJSONObject("network");
 //            String key = "IP";
 //            String IP = network.getString(key);
@@ -2004,7 +2082,7 @@ public class JsonParser {
 
             if (network.containsKey(key_)) {
                 JSONObject current_wifi = network.getJSONObject(key_);
-                Jentity wifiItem = getWifiItem(current_wifi);
+                Jentity wifiItem = getWifiItemWithSolr(current_wifi, solrGroup);
                 netWorkResult.put(key_, new Jentity(key_, wifiItem.getValue(), wifiItem.getState()));
                 if (0 == wifiItem.getState()) {
                     stats = 0;
@@ -2023,17 +2101,25 @@ public class JsonParser {
                 int configured_wifi_stats = 1;
 
                 if (configured_wifi.size() > 0) {
+
+
                     for (int i = 0; i < configured_wifi.size(); i++) {
                         JSONObject wifiItem = configured_wifi.getJSONObject(i);
-                        Jentity wifi_child_item = getWifiItem(wifiItem);
+                        Jentity wifi_child_item = getWifiItemWithSolr(wifiItem, solrGroup);
+
+
                         if (wifi_child_item.getState() != 1) {
                             configured_wifi_stats = 0;
                         }
                         configuredResultList.add(wifi_child_item);
                     }
+
+
                 } else {
                     configured_wifi_stats = 0;
                 }
+
+
                 if (configured_wifi_stats != 1) {
                     stats = 0;
                 }
@@ -2044,17 +2130,81 @@ public class JsonParser {
                 netWorkResult.put(key_1, new Jentity(key_1, new ArrayList(), 0));
                 stats = 0;
             }
-
+            StringBuilder builder = new StringBuilder();
+            Jentity solrGroupResult = solrGroup.getResult();
+            if (solrGroupResult.getState() < 1) {
+                builder.append(solrGroupResult.getMsg());
+                stats = 0;
+            }
             Map<String, Object> result = new HashMap<>();
             result.put("value", netWorkResult);
             result.put("state", stats);
-            result.put("msg", "");
+            result.put("msg", builder.toString());
             return result;
 
         }
         return netWorkResult;
     }
 
+
+    public static Jentity getWifiItemWithSolr(JSONObject current_wifi, PropSolrGroup solrGroup) {
+        int current_wifi_stats = 1;
+
+        Map<String, Object> current_wifiResult = new HashMap<>();
+
+        if (current_wifi == null) {
+            return new Jentity("wifi", current_wifiResult, 0);
+        }
+        JSONObject current_wifiObject = current_wifi;
+        String key_ = "bssid";
+        String bssid = current_wifiObject.getString(key_);
+        solrGroup.addPropSolr(key_, bssid);
+        boolean bssidState = CheckUtils.isMac(bssid);
+
+        if (bssidState) {
+
+            current_wifiResult.put(key_, new Jentity(key_, CheckUtils.filterValue(bssid), 1));
+        } else {
+            current_wifiResult.put(key_, new Jentity(key_, bssid, 0));
+            current_wifi_stats = 0;
+
+        }
+
+        key_ = "ssid";
+        String ssid = current_wifiObject.getString(key_);
+
+//        solrGroup.addPropSolr(key_, ssid);
+
+        if (!TextUtils.isEmpty(ssid)) {
+            current_wifiResult.put(key_, new Jentity(key_, CheckUtils.filterValue(ssid), 1));
+        } else {
+            current_wifiResult.put(key_, new Jentity(key_, ssid, 0));
+            current_wifi_stats = 0;
+        }
+
+        key_ = "mac";
+        String mac = current_wifiObject.getString(key_);
+        solrGroup.addPropSolr(key_, mac);
+
+        boolean macState = CheckUtils.isMac(mac);
+        current_wifiResult.put(key_, new Jentity(key_, mac, macState ? 1 : 0));
+        if (!macState) {
+            current_wifi_stats = 0;
+        }
+
+        key_ = "name";
+        String name = current_wifiObject.getString(key_);
+//        solrGroup.addPropSolr(key_, name);
+
+        if (!TextUtils.isEmpty(name)) {
+            current_wifiResult.put(key_, new Jentity(key_, CheckUtils.filterValue(name), 1));
+        } else {
+            current_wifiResult.put(key_, new Jentity(key_, name, 0));
+            current_wifi_stats = 0;
+        }
+//        netWorkResult.put("current_wifi", new Jentity("current_wifi", current_wifiResult, current_wifi_stats));
+        return new Jentity(name + "", current_wifiResult, current_wifi_stats);
+    }
 
     public static Jentity getWifiItem(JSONObject current_wifi) {
         int current_wifi_stats = 1;

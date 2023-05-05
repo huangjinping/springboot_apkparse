@@ -2,6 +2,7 @@ package com.example.demo.utils;
 
 import com.example.demo.bean.AppConfig;
 import com.example.demo.bean.DomainName;
+import com.example.demo.bean.GrepModel;
 import com.example.demo.bean.MethodSolr;
 
 import java.io.*;
@@ -17,11 +18,34 @@ public class SearchTask {
     public Map<String, String> mWhiteList = new HashMap<>();
     public Map<String, String> mBlackList = new HashMap<>();
 
+    public List<GrepModel> grepModelList = new ArrayList<>();
+
     public SearchTask() {
 
         initWhiteListList();
         initBlackListList();
+        createGrepModelList();
     }
+
+    private void createGrepModelList() {
+        grepModelList.add(new GrepModel("TrustManager", "TrustManager"));
+        grepModelList.add(new GrepModel("ObtainUserData", "ObtainUserData"));
+    }
+
+    private String buildCMD(String dir) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("grep -rnR '");
+        for (int i = 0; i < grepModelList.size(); i++) {
+            GrepModel model = grepModelList.get(i);
+            builder.append(model.getSearchCode());
+            if (i < grepModelList.size() - 1) {
+                builder.append("\\|");
+            }
+        }
+        builder.append("' " + dir + " /*");
+        return builder.toString();
+    }
+
 
     private void initWhiteListList() {
 
@@ -266,21 +290,71 @@ public class SearchTask {
     }
 
 
+    public List<MethodSolr> getMethodSolr_ByList(String dir) {
+        List<String> commands = new ArrayList<>();
+        String command = buildCMD(dir);
+
+        LogUtils.logJson("------------___>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        LogUtils.logJson(command);
+        commands.add(command);
+
+        List<String> strings = executeNewFlow(commands);
+
+        return getMethodSolrByCmdList(dir, strings);
+    }
+
+    private List<MethodSolr> getMethodSolrByCmdList(String path, List<String> result) {
+        List<MethodSolr> resultSolr = new ArrayList<>();
+        for (String item : result) {
+            MethodSolr solr = new MethodSolr();
+            try {
+                String content = item.replace(path, "").replace("smali", "a").replace("/", ".");
+                solr.setContent(content);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            for (GrepModel model : grepModelList) {
+                if (item.contains(model.getSearchCode())) {
+                    solr.setName(model.getTarget());
+                    solr.setState(checkFilterByTarget(item, model.getTarget()));
+                }
+            }
+
+
+        }
+        return resultSolr;
+    }
+
+
+    public int checkFilterByTarget(String source, String target) {
+
+        if (source.toUpperCase().contains("OKHTTP3/")) {
+            return 1;
+        }
+
+
+        return -1;
+    }
+
+
+    //    https://blog.csdn.net/volcano2339/article/details/115947208
     public List<MethodSolr> getMethodSolr_ssl(String dir) {
         List<String> commands = new ArrayList<>();
 //        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
         commands.add("grep -rnR '.proceed(' " + dir + "/*");
+
         System.out.println("===================before=====》》》》》");
         List<String> strings = executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
-
     }
 
     public List<MethodSolr> getMethodSolr_phoneNumber(String dir) {
         List<String> commands = new ArrayList<>();
 //        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
+//        commands.add("grep -rnR 'getLine1Number()\\|TrustManager\\|ObtainUserData' " + dir + "/*");
         commands.add("grep -rnR 'getLine1Number()' " + dir + "/*");
+
         List<String> strings = executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.getLine1Number);
@@ -340,8 +414,7 @@ public class SearchTask {
             return -1;
         }
 
-
-        return 1;
+        return 0;
     }
 
 

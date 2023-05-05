@@ -27,7 +27,6 @@
             list-style: none;
         }
 
-
         .greenText {
             color: green;
         }
@@ -436,14 +435,13 @@
 
 
                 var compileSdkVersion = data.targetSdkVersion;
-                if (compileSdkVersion < 31) {
+                if (compileSdkVersion < 33) {
                     $(".targetSdkVersion").addClass("redText");
-                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少31");
+                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少33");
                 } else {
                     $(".targetSdkVersion").html(compileSdkVersion);
                     $(".targetSdkVersion").removeClass("redText");
                 }
-
 
                 var networkSecurityConfig = data.application.networkSecurityConfig;
                 if (isEmpty(networkSecurityConfig)) {

@@ -47,6 +47,8 @@ public class PackageParse {
             List<MethodSolr> resultAll = new ArrayList<>();
             resultAll.addAll(searchTask.getMethodSolr_ssl(filePath));
             resultAll.addAll(searchTask.getMethodSolr_phoneNumber(filePath));
+//            resultAll.addAll(searchTask.getMethodSolr_ByList(filePath));
+
 //            resultAll.addAll(searchTask.getMethodWebViewWebSettings(filePath));
             parseDomainNameResult.put("methodSolr", resultAll);
         } catch (Exception e) {
