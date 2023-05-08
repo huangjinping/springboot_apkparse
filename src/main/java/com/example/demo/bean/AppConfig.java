@@ -6,8 +6,9 @@ public interface AppConfig {
     interface AppType {
         String TYPE_RELEASE = "0";
         String TYPE_DEBUG1 = "1";
-        String TYPE_DEBUG2 = "2";
-
+        String TYPE_RELEASE531 = "2";
+        String TYPE_DEBUG531 = "3";
+        
     }
 
 

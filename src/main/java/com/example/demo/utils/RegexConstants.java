@@ -7,6 +7,9 @@ package com.example.demo.utils;
  */
 public class RegexConstants {
 
+
+    public static final String REGEX_TEL1 = "^[1-9]\\d{8}";
+
     /**
      * 正则：手机号（简单）
      */

@@ -25,6 +25,10 @@ public class RegexUtils {
         return isMatch(RegexConstants.REGEX_MOBILE_SIMPLE, input);
     }
 
+
+    public static boolean isTel1(final CharSequence input) {
+        return isMatch(RegexConstants.REGEX_TEL1, input);
+    }
     /**
      * 验证手机号（精确）
      *

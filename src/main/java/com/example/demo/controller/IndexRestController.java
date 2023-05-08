@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,6 +40,21 @@ public class IndexRestController {
     @RequestMapping("/nbjson")
     public ModelAndView nbjson() {
         return new ModelAndView("nbjson");
+    }
+
+    @RequestMapping("/index531")
+    public ModelAndView index531() {
+        return new ModelAndView("index531");
+    }
+
+    @RequestMapping("/debug531")
+    public ModelAndView debug531() {
+        return new ModelAndView("debug531");
+    }
+
+    @RequestMapping("/nbjson531")
+    public ModelAndView nbjson531() {
+        return new ModelAndView("nbjson531");
     }
 
 

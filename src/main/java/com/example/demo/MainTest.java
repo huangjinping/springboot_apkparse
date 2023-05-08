@@ -1,11 +1,12 @@
 package com.example.demo;
 
-import com.example.demo.utils.*;
-import com.google.gson.Gson;
+import com.example.demo.utils.LogUtils;
+import com.example.demo.utils.RegexUtils;
 
 public class MainTest {
     public static void main(String[] args) {
-//        System.out.println("vvvv");
+        System.out.println(RegexUtils.isTel1("123416789"));
+
 
         try {
 //            Map<String, Object> map = ManiParse.parseAndroidManifest("/Users/huhuijie/Documents/GitHub/springboot_apkparse/src/main/resources/static/AndroidManifest.xml");
@@ -17,8 +18,8 @@ public class MainTest {
 //            JsonParser.parseRoot(textByPath);
 
 //            LogUtils.log(CheckUtils.percentage(2,10,2));
-            InxSpider inxSpider = new InxSpider();
-            inxSpider.start();
+//            InxSpider inxSpider = new InxSpider();
+//            inxSpider.start();
 
 //            SearchTask searchTask = new SearchTask();
 //
@@ -43,20 +44,20 @@ public class MainTest {
 //            LogUtils.logJson(result.size());
 
 //            Map<String, String> stringObjectMap = PackageParse.parseStringXML("/Users/huhuijie/Documents/git/inx-sdk/app/release/app-v3.5-141120221444-release/res/values/strings.xml", "0");
-            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Downloads/online11.json");
-
-            Gson gson = new Gson();
-            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
-
-            String compress = GzipUtil.compress(textByPath);
-            compress = AESUtil.encrypt(compress, key);
-            LogUtils.logJson("----------------1-");
-
-            LogUtils.logJson(compress);
-
-            LogUtils.logJson("----------------2-");
-            compress = AESUtil.decrypt(compress, key);
-            LogUtils.logJson(GzipUtil.unCompress(compress));
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Downloads/online11.json");
+//
+//            Gson gson = new Gson();
+//            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
+//
+//            String compress = GzipUtil.compress(textByPath);
+//            compress = AESUtil.encrypt(compress, key);
+//            LogUtils.logJson("----------------1-");
+//
+//            LogUtils.logJson(compress);
+//
+//            LogUtils.logJson("----------------2-");
+//            compress = AESUtil.decrypt(compress, key);
+//            LogUtils.logJson(GzipUtil.unCompress(compress));
 
 
 //            searchTask.getUrlList("/Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719/smali");

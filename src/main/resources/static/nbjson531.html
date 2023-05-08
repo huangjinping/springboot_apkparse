@@ -7,7 +7,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>GooglePlay大json</title>
+    <title>GooglePlay531大json</title>
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="utils.js"></script>
 
@@ -211,7 +211,7 @@
 
         <div class="requestView">
             <div>
-                <span>点击上传:数据json</span>
+                <span>点击上传:数据531json</span>
             </div>
             <img class="imgClickIt" src="dianji.png">
             <form id="uploadForm" action="/uploadBigJson" method="POST" enctype="multipart/form-data">
@@ -222,7 +222,7 @@
 
                 <div class="iffsubmitContainer">
             <span class="iffsubmit">
-                提交json文件
+                531提交json文件
             </span>
                 </div>
             </form>
@@ -307,14 +307,14 @@
                 </ul>
             </div>
 
-            <div class="reportItem">
-                <div class="resultTitle contactTitle">
-                    <span class="pName">contact</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                         src="arrow_right.png">
-                </div>
-                <ul class="resultUl contact">
-                </ul>
-            </div>
+<!--            <div class="reportItem">-->
+<!--                <div class="resultTitle contactTitle">-->
+<!--                    <span class="pName">contact</span><span class="pMessage"></span><img class="imgExtendFlag"-->
+<!--                                                                                         src="arrow_right.png">-->
+<!--                </div>-->
+<!--                <ul class="resultUl contact">-->
+<!--                </ul>-->
+<!--            </div>-->
 
             <div class="reportItem">
                 <div class="resultTitle networkTitle">
@@ -408,14 +408,14 @@
                 <ul class="resultUl call">
                 </ul>
             </div>
-            <div class="reportItem">
-                <div class="resultTitle accountTitle">
-                    <span class="pName">account</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                         src="arrow_right.png">
-                </div>
-                <ul class="resultUl account">
-                </ul>
-            </div>
+<!--            <div class="reportItem">-->
+<!--                <div class="resultTitle accountTitle">-->
+<!--                    <span class="pName">account</span><span class="pMessage"></span><img class="imgExtendFlag"-->
+<!--                                                                                         src="arrow_right.png">-->
+<!--                </div>-->
+<!--                <ul class="resultUl account">-->
+<!--                </ul>-->
+<!--            </div>-->
 
 
             <div class="rootComm">
@@ -530,7 +530,6 @@
             return result;
         }
 
-
         function createItem(e) {
 
             var state = "";
@@ -566,8 +565,6 @@
             // 校验字段省略
             // 使用 ajax 上传文件，需要用 FormData 对象
             var value = $file[0].files[0];
-
-
             if (value) {
             } else {
                 showToast("请选择文件")
@@ -575,7 +572,8 @@
             }
             var formData = new FormData();
             formData.append("file", $file[0].files[0]); // 要上传的文件
-            formData.append("appType", "0");
+            formData.append("appType", "2");
+
             showLoading();
             hideResult();
             $.ajax({

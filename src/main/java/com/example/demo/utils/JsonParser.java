@@ -3,7 +3,9 @@ package com.example.demo.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.bean.AppConfig;
 import com.example.demo.bean.PropSolrGroup;
+import com.example.demo.bean.UserParam;
 import com.example.demo.jsonBean.Jentity;
 
 import java.util.*;
@@ -11,7 +13,13 @@ import java.util.*;
 public class JsonParser {
 
 
-    public static Map<String, Object> parseRoot(String source) {
+    private UserParam userParam;
+
+    public JsonParser(UserParam userParam) {
+        this.userParam = userParam;
+    }
+
+    public Map<String, Object> parseRoot(String source) {
 
         Map<String, Object> root = new HashMap<>();
         Map<String, Object> stringObjectMap = parseHardware(source);
@@ -36,15 +44,6 @@ public class JsonParser {
         root.put("application", parseApplication);
 
 
-        Map<String, Object> parseContractMap = parseContract(source);
-        Jentity parsecontact = new Jentity("contact", parseContractMap, parseContractMap.isEmpty() ? 0 : 1);
-        root.put("contact", parsecontact);
-
-
-        Map<String, Object> parseNetworkMap = parseNetWork(source);
-        Jentity parseNetWork = new Jentity("network", parseNetworkMap, parseNetworkMap.isEmpty() ? 0 : 1);
-        root.put("network", parseNetWork);
-
         Map<String, Object> parseSMSMap = parseSMS(source);
         Jentity parseSMS = new Jentity("sms", parseSMSMap, parseSMSMap.isEmpty() ? 0 : 1);
         root.put("sms", parseSMS);
@@ -68,18 +67,33 @@ public class JsonParser {
         Jentity public_ip_status = new Jentity("public_ip", parsepublic_ip, parsepublic_ip.isEmpty() ? 0 : 1);
         root.put("public_ip", public_ip_status);
 
+        Map<String, Object> parseNetworkMap = parseNetWork(source);
+        Jentity parseNetWork = new Jentity("network", parseNetworkMap, parseNetworkMap.isEmpty() ? 0 : 1);
+        root.put("network", parseNetWork);
 
-        Map<String, Object> parsedataListMap = parsedataList(source);
-        Jentity dataList = new Jentity("dataList", parsedataListMap, parsedataListMap.isEmpty() ? 0 : 1);
-        root.put("dataList", dataList);
 
         Map<String, Object> parseCalendarMap = parseCalendar(source);
         Jentity parsecalendar = new Jentity("calendar", parseCalendarMap, parseCalendarMap.isEmpty() ? 0 : 1);
         root.put("calendar", parsecalendar);
 
-        Map<String, Object> parseAccountMap = parseAccount(source);
-        Jentity parseAccount = new Jentity("account", parseAccountMap, parseAccountMap.isEmpty() ? 0 : 1);
-        root.put("account", parseAccount);
+
+        if (AppConfig.AppType.TYPE_RELEASE531 != userParam.getAppType()) {
+            Map<String, Object> parseAccountMap = parseAccount(source);
+            Jentity parseAccount = new Jentity("account", parseAccountMap, parseAccountMap.isEmpty() ? 0 : 1);
+            root.put("account", parseAccount);
+
+            Map<String, Object> parseContractMap = parseContract(source);
+            Jentity parsecontact = new Jentity("contact", parseContractMap, parseContractMap.isEmpty() ? 0 : 1);
+            root.put("contact", parsecontact);
+
+
+
+            Map<String, Object> parsedataListMap = parsedataList(source);
+            Jentity dataList = new Jentity("dataList", parsedataListMap, parsedataListMap.isEmpty() ? 0 : 1);
+            root.put("dataList", dataList);
+
+        }
+
 
         Map<String, Object> parseCallMap = parseCall(source);
         Jentity parseCall = new Jentity("call", parseCallMap, parseCallMap.isEmpty() ? 0 : 1);
@@ -94,7 +108,7 @@ public class JsonParser {
         return root;
     }
 
-    public static Map<String, Object> parseComm(String source) {
+    public Map<String, Object> parseComm(String source) {
         JSONObject item = JSON.parseObject(source);
         Map<String, Object> result = new HashMap<>();
         String key = "audio_external";
@@ -181,7 +195,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parsepublic_ip(String source) {
+    public Map<String, Object> parsepublic_ip(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> locationResult = new HashMap<>();
         if (jsonObject.containsKey("public_ip")) {
@@ -222,7 +236,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parsebattery_status(String source) {
+    public Map<String, Object> parsebattery_status(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> locationResult = new HashMap<>();
         if (jsonObject.containsKey("battery_status")) {
@@ -279,7 +293,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parseLocation(String source) {
+    public Map<String, Object> parseLocation(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> locationResult = new HashMap<>();
         if (jsonObject.containsKey("location")) {
@@ -349,7 +363,7 @@ public class JsonParser {
         return locationResult;
     }
 
-    public static Map<String, Object> parsegeneral_data(String source) {
+    public Map<String, Object> parsegeneral_data(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> generalResult = new HashMap<>();
         if (jsonObject.containsKey("general_data")) {
@@ -677,7 +691,7 @@ public class JsonParser {
         return generalResult;
     }
 
-    public static Map<String, Object> parseStorage(String source) {
+    public Map<String, Object> parseStorage(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> storageResult = new HashMap<>();
 
@@ -834,7 +848,7 @@ public class JsonParser {
 
     //1,2,3,4,5,6
     //1,2,3,4,5,6
-    private static Jentity onCompareList(List<Jentity> compareList) {
+    private Jentity onCompareList(List<Jentity> compareList) {
         int stats = 1;
         StringBuilder builder = new StringBuilder();
         try {
@@ -860,7 +874,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parseHardware(String source) {
+    public Map<String, Object> parseHardware(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> hardwareResult = new HashMap<>();
 
@@ -1008,7 +1022,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> hopedataList(JSONArray dataList) {
+    public Map<String, Object> hopedataList(JSONArray dataList) {
 
 
         Map<String, Object> other_dataResult = new HashMap<>();
@@ -1137,7 +1151,7 @@ public class JsonParser {
 
     }
 
-    public static Map<String, Object> parsedataList(String source) {
+    public Map<String, Object> parsedataList(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> other_dataResult = new HashMap<>();
         other_dataResult.put("value", jsonObject.containsKey("albs"));
@@ -1181,7 +1195,7 @@ public class JsonParser {
         return other_dataResult;
     }
 
-    public static Map<String, Object> parseContract(String source) {
+    public Map<String, Object> parseContract(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> other_dataResult = new HashMap<>();
 
@@ -1300,7 +1314,7 @@ public class JsonParser {
         return other_dataResult;
     }
 
-    public static Map<String, Object> parseApplication(String source) {
+    public Map<String, Object> parseApplication(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
 
 
@@ -1506,7 +1520,7 @@ public class JsonParser {
         return other_dataResult;
     }
 
-    public static Map<String, Object> parseCalendar(String source) {
+    public Map<String, Object> parseCalendar(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> smsResult = new HashMap<>();
 
@@ -1596,7 +1610,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parseAccount(String source) {
+    public Map<String, Object> parseAccount(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> smsResult = new HashMap<>();
 
@@ -1674,7 +1688,7 @@ public class JsonParser {
         return smsResult;
     }
 
-    public static Map<String, Object> parseCall(String source) {
+    public Map<String, Object> parseCall(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> smsResult = new HashMap<>();
 
@@ -1787,7 +1801,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parseSMS(String source) {
+    public Map<String, Object> parseSMS(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> smsResult = new HashMap<>();
 
@@ -1966,7 +1980,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parseother_data(String source) {
+    public Map<String, Object> parseother_data(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> other_dataResult = new HashMap<>();
 
@@ -2051,7 +2065,7 @@ public class JsonParser {
     }
 
 
-    public static Map<String, Object> parseNetWork(String source) {
+    public Map<String, Object> parseNetWork(String source) {
         JSONObject jsonObject = JSON.parseObject(source);
         Map<String, Object> netWorkResult = new HashMap<>();
         if (jsonObject.containsKey("network")) {
@@ -2147,7 +2161,7 @@ public class JsonParser {
     }
 
 
-    public static Jentity getWifiItemWithSolr(JSONObject current_wifi, PropSolrGroup solrGroup) {
+    public Jentity getWifiItemWithSolr(JSONObject current_wifi, PropSolrGroup solrGroup) {
         int current_wifi_stats = 1;
 
         Map<String, Object> current_wifiResult = new HashMap<>();
@@ -2206,7 +2220,7 @@ public class JsonParser {
         return new Jentity(name + "", current_wifiResult, current_wifi_stats);
     }
 
-    public static Jentity getWifiItem(JSONObject current_wifi) {
+    public Jentity getWifiItem(JSONObject current_wifi) {
         int current_wifi_stats = 1;
 
         Map<String, Object> current_wifiResult = new HashMap<>();

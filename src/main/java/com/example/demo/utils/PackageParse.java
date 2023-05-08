@@ -10,7 +10,10 @@ import org.dom4j.xpath.DefaultXPath;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PackageParse {
 
@@ -414,10 +417,17 @@ public class PackageParse {
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<AppPermissions> resultList = null;
 
-        if (AppConfig.AppType.TYPE_DEBUG1.equals(userParam.getAppType())) {
-            resultList = createDebug(list);
+        System.out.println("=========TYPE_DEBUG1============"+userParam.getAppType());
 
-        } else {
+        if (AppConfig.AppType.TYPE_DEBUG1.equals(userParam.getAppType())) {
+
+            System.out.println("=========TYPE_DEBUG1============");
+//            resultList = createDebug(list);
+            OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissionsAll, PermissionUtils.permissionsDebugMast, userParam);
+            resultList = factory.create();
+
+
+        } else if (AppConfig.AppType.TYPE_RELEASE.equals(userParam.getAppType())) {
             /**
              * targetSDK是不是33
              */
@@ -429,10 +439,23 @@ public class PackageParse {
                 e.printStackTrace();
             }
             if (targetSdkInt >= 33) {
-                resultList = createRelease33(list);
+//                resultList = createRelease33(list);
+                OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissionsAll, PermissionUtils.permissionsReleaseMast33, userParam);
+                resultList = factory.create();
+
             } else {
-                resultList = createRelease(list);
+//                resultList = createRelease(list);
+                OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissionsAll, PermissionUtils.permissionsReleaseMast, userParam);
+                resultList = factory.create();
             }
+        } else if (AppConfig.AppType.TYPE_RELEASE531.equals(userParam.getAppType())) {
+//            resultList = createRelease(list);
+            OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissions531All, PermissionUtils.permissionsReleaseMast531, userParam);
+            resultList = factory.create();
+        } else if (AppConfig.AppType.TYPE_DEBUG531.equals(userParam.getAppType())) {
+//            resultList = createRelease(list);
+            OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissions531All, PermissionUtils.permissionsDebugMast531, userParam);
+            resultList = factory.create();
         }
 
 
@@ -440,146 +463,146 @@ public class PackageParse {
     }
 
 
-    private static List<AppPermissions> createDebug(List<Element> list) {
-        List<AppPermissions> resultList = new ArrayList<>();
-
-        for (Element element : list) {
-            String name = element.attributeValue("name");
-            AppPermissions appPermisstions = new AppPermissions();
-            appPermisstions.setPermission(name);
-            appPermisstions.setState(2);
-            if (insideDebugAllPermission(appPermisstions.getPermission())) {
-                appPermisstions.setState(1);
-            } else {
-                appPermisstions.setState(3);
-            }
-            resultList.add(appPermisstions);
-        }
-        Collections.sort(resultList);
-        return resultList;
-    }
-
-
-    private static List<AppPermissions> createRelease(List<Element> list) {
-        List<AppPermissions> resultList = new ArrayList<>();
-
-        List<AppPermissions> dataList = new ArrayList<>();
-        for (int j = 0; j < PermissionUtils.permissionsReleaseMast.length; j++) {
-            AppPermissions appPermisstions = new AppPermissions();
-            appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast[j]);
-            dataList.add(appPermisstions);
-        }
-
-        for (Element element : list) {
-            String name = element.attributeValue("name");
-            AppPermissions appPermisstions = new AppPermissions();
-            appPermisstions.setPermission(name);
-            appPermisstions.setState(2);
-            boolean isOutside = true;
-
-            for (int j = 0; j < dataList.size(); j++) {
-                AppPermissions tempPer = dataList.get(j);
-                if (tempPer.getPermission().equals(appPermisstions.getPermission())) {
-                    tempPer.setState(1);
-                    isOutside = false;
-                    break;
-                }
-            }
-            if (isOutside) {
-                /**
-                 * 判断
-                 */
-//                for (String permkill : PermissionUtils.permissionKillList) {
-//                    if (permkill.equals(appPermisstions.getPermission())) {
-//                        appPermisstions.setState(3);
-//                        break;
-//                    }
+//    private static List<AppPermissions> createDebug(List<Element> list) {
+//        List<AppPermissions> resultList = new ArrayList<>();
+//
+//        for (Element element : list) {
+//            String name = element.attributeValue("name");
+//            AppPermissions appPermisstions = new AppPermissions();
+//            appPermisstions.setPermission(name);
+//            appPermisstions.setState(2);
+//            if (insideDebugAllPermission(appPermisstions.getPermission())) {
+//                appPermisstions.setState(1);
+//            } else {
+//                appPermisstions.setState(3);
+//            }
+//            resultList.add(appPermisstions);
+//        }
+//        Collections.sort(resultList);
+//        return resultList;
+//    }
+//
+//
+//    private static List<AppPermissions> createRelease(List<Element> list) {
+//        List<AppPermissions> resultList = new ArrayList<>();
+//
+//        List<AppPermissions> dataList = new ArrayList<>();
+//        for (int j = 0; j < PermissionUtils.permissionsReleaseMast.length; j++) {
+//            AppPermissions appPermisstions = new AppPermissions();
+//            appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast[j]);
+//            dataList.add(appPermisstions);
+//        }
+//
+//        for (Element element : list) {
+//            String name = element.attributeValue("name");
+//            AppPermissions appPermisstions = new AppPermissions();
+//            appPermisstions.setPermission(name);
+//            appPermisstions.setState(2);
+//            boolean isOutside = true;
+//
+//            for (int j = 0; j < dataList.size(); j++) {
+//                AppPermissions tempPer = dataList.get(j);
+//                if (tempPer.getPermission().equals(appPermisstions.getPermission())) {
+//                    tempPer.setState(1);
+//                    isOutside = false;
+//                    break;
 //                }
-                if (!insideAllPermission(appPermisstions.getPermission())) {
-                    LogUtils.log("========1========" + appPermisstions.getPermission());
-                    appPermisstions.setState(3);
-                }
-                resultList.add(appPermisstions);
-            }
-        }
-        resultList.addAll(dataList);
-        Collections.sort(resultList);
-        return resultList;
-    }
-
-    private static List<AppPermissions> createRelease33(List<Element> list) {
-        List<AppPermissions> resultList = new ArrayList<>();
-
-        List<AppPermissions> dataList = new ArrayList<>();
-        for (int j = 0; j < PermissionUtils.permissionsReleaseMast33.length; j++) {
-            AppPermissions appPermisstions = new AppPermissions();
-            appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast33[j]);
-            dataList.add(appPermisstions);
-        }
-
-        for (Element element : list) {
-            String name = element.attributeValue("name");
-            AppPermissions appPermisstions = new AppPermissions();
-            appPermisstions.setPermission(name);
-            appPermisstions.setState(2);
-            boolean isOutside = true;
-
-            for (int j = 0; j < dataList.size(); j++) {
-                AppPermissions tempPer = dataList.get(j);
-                if (tempPer.getPermission().equals(appPermisstions.getPermission())) {
-                    tempPer.setState(1);
-                    isOutside = false;
-                    break;
-                }
-            }
-            if (isOutside) {
-                /**
-                 * 判断
-                 */
-//                for (String permkill : PermissionUtils.permissionKillList) {
-//                    if (permkill.equals(appPermisstions.getPermission())) {
-//                        appPermisstions.setState(3);
-//                        break;
-//                    }
+//            }
+//            if (isOutside) {
+//                /**
+//                 * 判断
+//                 */
+////                for (String permkill : PermissionUtils.permissionKillList) {
+////                    if (permkill.equals(appPermisstions.getPermission())) {
+////                        appPermisstions.setState(3);
+////                        break;
+////                    }
+////                }
+//                if (!insideAllPermission(appPermisstions.getPermission())) {
+//                    LogUtils.log("========1========" + appPermisstions.getPermission());
+//                    appPermisstions.setState(3);
 //                }
-                if (!insideAllPermission(appPermisstions.getPermission())) {
-                    LogUtils.log("========1========" + appPermisstions.getPermission());
-                    appPermisstions.setState(3);
-                }
-                resultList.add(appPermisstions);
-            }
-        }
-        resultList.addAll(dataList);
-        Collections.sort(resultList);
-        return resultList;
-    }
-
-
-    private static boolean insideDebugAllPermission(String currentPermission) {
-        if (!currentPermission.startsWith("android.permission.")) {
-            return true;
-        }
-
-        for (String item : PermissionUtils.permissionsDebugMast) {
-            if (item.equals(currentPermission)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean insideAllPermission(String currentPermission) {
-        if (!currentPermission.startsWith("android.permission.")) {
-            return true;
-        }
-
-        for (String item : PermissionUtils.permissionsAll) {
-            if (item.equals(currentPermission)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+//                resultList.add(appPermisstions);
+//            }
+//        }
+//        resultList.addAll(dataList);
+//        Collections.sort(resultList);
+//        return resultList;
+//    }
+//
+//    private static List<AppPermissions> createRelease33(List<Element> list) {
+//        List<AppPermissions> resultList = new ArrayList<>();
+//
+//        List<AppPermissions> dataList = new ArrayList<>();
+//        for (int j = 0; j < PermissionUtils.permissionsReleaseMast33.length; j++) {
+//            AppPermissions appPermisstions = new AppPermissions();
+//            appPermisstions.setPermission(PermissionUtils.permissionsReleaseMast33[j]);
+//            dataList.add(appPermisstions);
+//        }
+//
+//        for (Element element : list) {
+//            String name = element.attributeValue("name");
+//            AppPermissions appPermisstions = new AppPermissions();
+//            appPermisstions.setPermission(name);
+//            appPermisstions.setState(2);
+//            boolean isOutside = true;
+//
+//            for (int j = 0; j < dataList.size(); j++) {
+//                AppPermissions tempPer = dataList.get(j);
+//                if (tempPer.getPermission().equals(appPermisstions.getPermission())) {
+//                    tempPer.setState(1);
+//                    isOutside = false;
+//                    break;
+//                }
+//            }
+//            if (isOutside) {
+//                /**
+//                 * 判断
+//                 */
+////                for (String permkill : PermissionUtils.permissionKillList) {
+////                    if (permkill.equals(appPermisstions.getPermission())) {
+////                        appPermisstions.setState(3);
+////                        break;
+////                    }
+////                }
+//                if (!insideAllPermission(appPermisstions.getPermission())) {
+//                    LogUtils.log("========1========" + appPermisstions.getPermission());
+//                    appPermisstions.setState(3);
+//                }
+//                resultList.add(appPermisstions);
+//            }
+//        }
+//        resultList.addAll(dataList);
+//        Collections.sort(resultList);
+//        return resultList;
+//    }
+//
+//
+//    private static boolean insideDebugAllPermission(String currentPermission) {
+//        if (!currentPermission.startsWith("android.permission.")) {
+//            return true;
+//        }
+//
+//        for (String item : PermissionUtils.permissionsDebugMast) {
+//            if (item.equals(currentPermission)) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    private static boolean insideAllPermission(String currentPermission) {
+//        if (!currentPermission.startsWith("android.permission.")) {
+//            return true;
+//        }
+//
+//        for (String item : PermissionUtils.permissionsAll) {
+//            if (item.equals(currentPermission)) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 }

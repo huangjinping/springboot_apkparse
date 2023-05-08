@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
+import com.example.demo.bean.UserParam;
 import com.example.demo.utils.AESUtil;
 import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.GzipUtil;
@@ -53,7 +54,7 @@ public class JsonController {
 
 
     @RequestMapping(value = "/uploadBigJson", method = RequestMethod.POST)
-    public RestResponse uploadImage(@RequestParam("file") MultipartFile file) {
+    public RestResponse uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("appType") String appType) {
         Map<String, Object> resultMap = new HashMap<>();
 
         if (file.isEmpty()) {
@@ -96,11 +97,12 @@ public class JsonController {
 //
 //            String uncompress = GzipUtil.unCompress(compress);
 //            System.out.println("解压大小：" + uncompress.getBytes().length + " \n解压缩：");
-
-
-            Map<String, Object> stringObjectMap = JsonParser.parseRoot(jsontext);
+            UserParam userParam = new UserParam();
+            userParam.setAppType(appType);
+            JsonParser jsonParser = new JsonParser(userParam);
+            Map<String, Object> stringObjectMap = jsonParser.parseRoot(jsontext);
             resultMap.putAll(stringObjectMap);
-
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
