@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.utils.InxServerSpider;
 import com.example.demo.utils.LogUtils;
 import com.example.demo.utils.RegexUtils;
 
@@ -8,12 +9,19 @@ public class MainTest {
         System.out.println(RegexUtils.isTel1("123416789"));
 
 
+//        Map<String, MultiValueMap<String, Object>> movcolombiapro = filter.readJsonTobean("movcolombiapro", "/quickConcert/actLoudTrial");
+//        LogUtils.log(movcolombiapro);
+//        filter.readJsonBean("");
+
         try {
+
+//            InxServerSpider inxSpider = new InxServerSpider();
+//            inxSpider.start();
 //            Map<String, Object> map = ManiParse.parseAndroidManifest("/Users/huhuijie/Documents/GitHub/springboot_apkparse/src/main/resources/static/AndroidManifest.xml");
 //            Gson gson = new Gson();
 //            String result = gson.toJson(map);
 //            System.out.println(result);
-//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/282483.json");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/movcolombiapro.json");
 //            LogUtils.log(5/20);
 //            JsonParser.parseRoot(textByPath);
 

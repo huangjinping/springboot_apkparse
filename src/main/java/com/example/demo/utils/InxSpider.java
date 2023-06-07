@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InxSpider {
+    //    public static final String reiterateheaderticketexplanation = "http://52.40.151.34/eastbay";
+//    public static final String host = "http://192.8.20.201:5700";
+    public static final String host = "https://glby.ultracreditosmx.com/api/app/";
     LoginUser loginUser;
     String currentPhoneNo = "1829999881";
 
@@ -24,13 +27,7 @@ public class InxSpider {
         return comm;
     }
 
-    //    public static final String reiterateheaderticketexplanation = "http://52.40.151.34/eastbay";
-//    public static final String host = "http://192.8.20.201:5700";
-//    public static final String host = "http://18.228.39.120/api/app/";
-    public static final String host = "http://172.31.53.230:80/api/app/";
-
 //    public static final String host = "https://www.glbyeastbay.com/eastbay";
-
 
     public void start() {
         getVerifCode();
@@ -131,4 +128,7 @@ public class InxSpider {
 
         }
     }
+
+
+
 }

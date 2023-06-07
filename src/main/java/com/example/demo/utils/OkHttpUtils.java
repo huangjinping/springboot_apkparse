@@ -281,6 +281,7 @@ public class OkHttpUtils {
 
     public static String postForm(String url, Map<String, String> header, Map<String, String> paramMap) {
 
+        LogUtils.log(url);
         FormBody.Builder body = new FormBody.Builder();
 
         if (paramMap != null) {

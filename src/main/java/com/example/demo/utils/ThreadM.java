@@ -35,15 +35,16 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
+                    PackageParse packageParse=new PackageParse();
                     File file = new File(apktoolPath);
-                    Map<String, Object> aapt = PackageParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+                    Map<String, Object> aapt = packageParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
                     result.putAll(aapt);
 
 
                     UserParam userParam = new UserParam();
                     userParam.setAppType(appType);
                     userParam.setTargetSdk(aapt.get("targetSdkVersion").toString());
-                    Map<String, Object> map = PackageParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", userParam);
+                    Map<String, Object> map = packageParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", userParam);
                     result.putAll(map);
 
 

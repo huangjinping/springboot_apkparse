@@ -1,20 +1,76 @@
 package com.example.demo.controller;
 
+import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
+import com.example.demo.utils.FileUtils;
+import com.example.demo.utils.InxServerSpider;
+import com.example.demo.utils.LogUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class SpiderController {
 
+
+    @RequestMapping(value = "/serverTest", method = RequestMethod.POST)
+    public RestResponse uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("appssid") String appssid, @RequestParam("domainname") String domainname, @RequestParam("phoneNo") String phoneNo) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if (file.isEmpty()) {
+            return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file cannot be empty");
+        }
+        String fileName = file.getOriginalFilename();
+        String firstName = fileName;
+
+        String oldName = fileName;
+        fileName = System.currentTimeMillis() + "";
+        oldName = "" + System.currentTimeMillis();
+
+        File savePos = new File("./.tempJson" + System.currentTimeMillis());
+        if (!savePos.exists()) {  // 不存在，则创建该文件夹
+            savePos.mkdir();
+        }
+
+        try {
+            // 获取存放位置的规范路径
+            String realPath = savePos.getCanonicalPath();
+            // 上传该文件/图像至该文件夹下
+            File resultFile = new File(realPath + "/" + fileName);
+            if (resultFile.exists()) {
+                resultFile.delete();
+            }
+            file.transferTo(resultFile);
+            String unzipPath = realPath + "/" + oldName;
+            String jsontext = FileUtils.getTextByPath(unzipPath);
+
+            String appurlname = firstName.replace(".json", "");
+            InxServerSpider serverSpider = new InxServerSpider(jsontext, appurlname, appssid, domainname, phoneNo);
+            Map<String, Object> start = serverSpider.start();
+            resultMap.putAll(start);
+
+        } catch (Exception e) {
+            LogUtils.logJson(e.getMessage());
+
+            LogUtils.logJson("==========error==========");
+            e.printStackTrace();
+        }
+        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
+        return RestResponse.success(resultMap);
+    }
 //    http://
 
     @RequestMapping(value = "/onTestSpider", method = RequestMethod.POST)
     public RestResponse onTestSpider() {
+        InputStream is = null;
+
         Map<String, Object> resultMap = new HashMap<>();
 
 

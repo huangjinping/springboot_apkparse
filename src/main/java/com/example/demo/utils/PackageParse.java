@@ -18,30 +18,6 @@ import java.util.Map;
 public class PackageParse {
 
 
-    public static Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
-
-//        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
-
-        String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
-//        System.out.println(cmd);
-        Process process = Runtime.getRuntime().exec(cmd);
-        int value = process.waitFor();
-
-        ThreadM threadM = new ThreadM();
-        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType);
-
-//        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
-//        File file = new File(apktoolPath);
-//        Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
-//        map.putAll(aapt);
-//        Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
-//        map.putAll(parsePackage);
-//        Map<String, Object> domainName = ManiParse.parseDomainName(outFilePath);
-//        map.putAll(domainName);
-        return map;
-    }
-
-
     public static Map<String, Object> parseMethod(String filePath) {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
         try {
@@ -60,7 +36,6 @@ public class PackageParse {
         return parseDomainNameResult;
     }
 
-
     public static Map<String, Object> parseDomainName(String filePath) {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
         try {
@@ -74,7 +49,6 @@ public class PackageParse {
         return parseDomainNameResult;
     }
 
-
     public static Map<String, Object> parsePackage(String filePath) {
         Map<String, Object> parsePackageResult = new HashMap<>();
         try {
@@ -86,7 +60,6 @@ public class PackageParse {
         }
         return parsePackageResult;
     }
-
 
     private static List<KeepPackage> getKeepList(ArrayList<Object> fileList) {
         Map<String, String> catchMap = new HashMap<>();
@@ -135,8 +108,30 @@ public class PackageParse {
 
         packageList.addAll(shouldList);
 
-
         return packageList;
+    }
+
+    public static Map<String, String> parseStringXML(String path, String appType) {
+        SAXReader reader = new SAXReader();
+        Map<String, String> colMap = new HashMap<>();
+        for (String key : FolderFileScanner.STRING_SHOULD_LIST) {
+            colMap.put(key, "");
+        }
+        try {
+            Document document = reader.read(path);
+            XPath xPath = new DefaultXPath("/resources/string");
+            List<Element> list = xPath.selectNodes(document.getRootElement());
+            for (Element e : list) {
+                String name = e.attributeValue("name");
+                String value = e.getStringValue();
+                if (colMap.containsKey(name)) {
+                    colMap.put(name, value);
+                }
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return colMap;
     }
 
 
@@ -148,8 +143,30 @@ public class PackageParse {
 //        return map;
 //    }
 
+    public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
 
-    public static Map<String, Object> parseAndroidApk(String aaptPath, String apkPath) {
+//        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
+
+        String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
+//        System.out.println(cmd);
+        Process process = Runtime.getRuntime().exec(cmd);
+        int value = process.waitFor();
+
+        ThreadM threadM = new ThreadM();
+        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType);
+
+//        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
+//        File file = new File(apktoolPath);
+//        Map<String, Object> aapt = parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+//        map.putAll(aapt);
+//        Map<String, Object> parsePackage = ManiParse.parsePackage(outFilePath);
+//        map.putAll(parsePackage);
+//        Map<String, Object> domainName = ManiParse.parseDomainName(outFilePath);
+//        map.putAll(domainName);
+        return map;
+    }
+
+    public Map<String, Object> parseAndroidApk(String aaptPath, String apkPath) {
 
         Map<String, Object> result = new HashMap<>();
 
@@ -210,31 +227,7 @@ public class PackageParse {
         return result;
     }
 
-
-    public static Map<String, String> parseStringXML(String path, String appType) {
-        SAXReader reader = new SAXReader();
-        Map<String, String> colMap = new HashMap<>();
-        for (String key : FolderFileScanner.STRING_SHOULD_LIST) {
-            colMap.put(key, "");
-        }
-        try {
-            Document document = reader.read(path);
-            XPath xPath = new DefaultXPath("/resources/string");
-            List<Element> list = xPath.selectNodes(document.getRootElement());
-            for (Element e : list) {
-                String name = e.attributeValue("name");
-                String value = e.getStringValue();
-                if (colMap.containsKey(name)) {
-                    colMap.put(name, value);
-                }
-            }
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
-        return colMap;
-    }
-
-    public static Map<String, Object> parseAndroidManifest(String path, UserParam userParam) throws DocumentException {
+    public Map<String, Object> parseAndroidManifest(String path, UserParam userParam) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(path);
         List<AppPermissions> appPermissions = parsePermissions(document, userParam);
@@ -253,7 +246,7 @@ public class PackageParse {
         return map;
     }
 
-    private static List<Provider> parseProviders(Document document) {
+    private List<Provider> parseProviders(Document document) {
         XPath xPath = new DefaultXPath("/manifest/application/provider");
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<Provider> dataList = new ArrayList<>();
@@ -281,7 +274,7 @@ public class PackageParse {
         return dataList;
     }
 
-    private static List<Query> parseQueries(Document document) {
+    private List<Query> parseQueries(Document document) {
         XPath xPath = new DefaultXPath("/manifest/queries/intent/action");
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<Query> dataList = new ArrayList<>();
@@ -293,9 +286,15 @@ public class PackageParse {
             String name = element.attributeValue("name");
             query.setActionName(name);
             query.setState(1);
-            dataList.add(query);
             if (name != null && name.contains(mainFlag)) {
-                hashMain = true;
+                Element parent = element.getParent();
+                List<Element> elements = parent.elements();
+                if (elements.size() == 1) {
+                    hashMain = true;
+                    dataList.add(query);
+                }
+            } else {
+                dataList.add(query);
             }
         }
         if (!hashMain) {
@@ -309,7 +308,7 @@ public class PackageParse {
     }
 
 
-    private static List<MetaData> parseMetadata(Document document) {
+    private List<MetaData> parseMetadata(Document document) {
         XPath xPath = new DefaultXPath("/manifest/application/meta-data");
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<MetaData> dataList = new ArrayList<>();
@@ -326,7 +325,7 @@ public class PackageParse {
         return dataList;
     }
 
-    private static Activity parseLauncherActivity(Document document) {
+    private Activity parseLauncherActivity(Document document) {
         Activity activity = new Activity();
         XPath xPath = new DefaultXPath("/manifest/application/activity/intent-filter/category");
         List<Element> list = xPath.selectNodes(document.getRootElement());
@@ -387,7 +386,7 @@ public class PackageParse {
     }
 
 
-    private static Application parseApplication(Document document) {
+    private Application parseApplication(Document document) {
         Application application = new Application();
 
         Element root = document.getRootElement();
@@ -412,12 +411,12 @@ public class PackageParse {
         return application;
     }
 
-    private static List<AppPermissions> parsePermissions(Document document, UserParam userParam) {
+    private List<AppPermissions> parsePermissions(Document document, UserParam userParam) {
         XPath xPath = new DefaultXPath("/manifest/uses-permission");
         List<Element> list = xPath.selectNodes(document.getRootElement());
         List<AppPermissions> resultList = null;
 
-        System.out.println("=========TYPE_DEBUG1============"+userParam.getAppType());
+        System.out.println("=========TYPE_DEBUG1============" + userParam.getAppType());
 
         if (AppConfig.AppType.TYPE_DEBUG1.equals(userParam.getAppType())) {
 
@@ -457,7 +456,6 @@ public class PackageParse {
             OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissions531All, PermissionUtils.permissionsDebugMast531, userParam);
             resultList = factory.create();
         }
-
 
         return resultList;
     }

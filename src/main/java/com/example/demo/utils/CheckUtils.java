@@ -71,6 +71,8 @@ public class CheckUtils {
 
             try {
                 String value = doc.getString(key);
+                value = value.toUpperCase().replace("E", "");
+
                 if (Integer.parseInt(value) >= limit) {
                     return 1;
                 }
@@ -97,6 +99,8 @@ public class CheckUtils {
 //            }
             try {
                 String value = doc.getString(key);
+                value = value.toUpperCase().replace("E", "");
+
                 int val = Integer.parseInt(value);
                 if (val >= min && val <= max) {
                     return 1;
@@ -114,6 +118,7 @@ public class CheckUtils {
         if (doc.containsKey(key)) {
             try {
                 String value = doc.getString(key);
+                value = value.toUpperCase().replace("E", "");
                 if (Double.parseDouble(value) >= limit) {
                     return 1;
                 }
@@ -398,5 +403,6 @@ public class CheckUtils {
 
         return 0;
     }
+
 
 }

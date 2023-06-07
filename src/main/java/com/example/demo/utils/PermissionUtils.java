@@ -110,6 +110,8 @@ public class PermissionUtils {
             "android.permission.READ_MEDIA_IMAGES",
             "android.permission.READ_MEDIA_VIDEO",
             "android.permission.POST_NOTIFICATIONS",
+            "android.permission.BLUETOOTH",
+            "android.permission.GET_TASKS",
             "android.permission.FOREGROUND_SERVICE"
 
 
@@ -141,6 +143,10 @@ public class PermissionUtils {
             "android.permission.VIBRATE",
             "android.permission.WAKE_LOCK",
             "android.permission.WRITE_SETTINGS",
+            "android.permission.WRITE_SETTINGS",
+            "android.permission.BLUETOOTH",
+            "android.permission.GET_TASKS",
+
             "android.permission.RECEIVE_USER_PRESENT",
             "android.permission.WAKE_LOCK",
 //            "android.permission.ACCESS_FINE_LOCATION",
@@ -186,7 +192,7 @@ public class PermissionUtils {
             "android.permission.READ_PHONE_STATE",
             "android.permission.CAMERA",
 //            "android.permission.READ_CONTACTS",
-//            "android.permission.READ_SMS",
+            "android.permission.READ_SMS",
             "android.permission.READ_CALENDAR",
             "android.permission.WRITE_CALENDAR",
             "android.permission.ACCESS_COARSE_LOCATION",

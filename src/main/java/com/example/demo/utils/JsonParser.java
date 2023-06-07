@@ -87,7 +87,6 @@ public class JsonParser {
             root.put("contact", parsecontact);
 
 
-
             Map<String, Object> parsedataListMap = parsedataList(source);
             Jentity dataList = new Jentity("dataList", parsedataListMap, parsedataListMap.isEmpty() ? 0 : 1);
             root.put("dataList", dataList);
@@ -665,6 +664,7 @@ public class JsonParser {
                         sensorStats = 0;
                         sensorMsg = "传感器个数异常";
                     }
+
                     Jentity jentity = new Jentity(key, sensorResultList, sensorStats);
                     jentity.setMsg(sensorMsg);
                     generalResult.put(key, jentity);
@@ -675,6 +675,7 @@ public class JsonParser {
             } else {
                 sensorStats = 0;
                 generalResult.put(key, new Jentity(key, "", CheckUtils.getSaferLimitDouble(general_data, key, 0)));
+
             }
 
             if (sensorStats != 1) {

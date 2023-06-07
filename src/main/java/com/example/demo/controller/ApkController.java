@@ -56,8 +56,8 @@ public class ApkController {
 
             System.out.println("=======suffix=====" + suffix);
             if (".apk".equals(suffix)) {
-
-                Map<String, Object> map = PackageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
+                PackageParse packageParse = new PackageParse();
+                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
 
@@ -68,8 +68,8 @@ public class ApkController {
 //                String cmdaabToApks = "bundletool build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
                 String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
 
-                System.out.println(cmdaabToApks);
-                System.out.println("====cmdaabToApks=========");
+//                System.out.println(cmdaabToApks);
+//                System.out.println("====cmdaabToApks=========");
 
                 Process process = Runtime.getRuntime().exec(cmdaabToApks);
                 int value = process.waitFor();
@@ -77,9 +77,12 @@ public class ApkController {
                 String deviceApkPath = unzipPath;
 //                String cmd = "bundletool extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
                 String cmd = bundletooPath + " extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
+//                System.out.println(cmd);
 
+//                System.out.println("============waitFor=======0=====");
                 process = Runtime.getRuntime().exec(cmd);
                 value = process.waitFor();
+//                System.out.println("============waitFor=======1=====");
 
                 File deviceApkFile = new File(deviceApkPath);
 
@@ -92,7 +95,8 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
-                Map<String, Object> map = PackageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
+                PackageParse packageParse = new PackageParse();
+                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);
