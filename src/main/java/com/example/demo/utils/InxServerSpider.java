@@ -188,7 +188,16 @@ public class InxServerSpider {
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/login/getVerifCode"), header, mapParam);
         JSONObject jsonObject = JSON.parseObject(respStr);
         JSONObject data = jsonObject.getJSONObject(mFieldMap.get("data"));
-        String smsCode = data.getString(mFieldMap.get("smsCode"));
+        LogUtils.logJson(respStr);
+        String smsCode = "1234";
+
+        try {
+            if (data != null && !TextUtils.isEmpty(data.getString(mFieldMap.get("smsCode")))) {
+                smsCode = data.getString(mFieldMap.get("smsCode"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         loginForSms(currentPhoneNo, smsCode);
 
     }

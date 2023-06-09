@@ -1,7 +1,5 @@
 package com.example.demo.utils;
 
-import okhttp3.OkHttpClient;
-
 import okhttp3.*;
 
 import javax.net.ssl.*;
@@ -281,8 +279,12 @@ public class OkHttpUtils {
 
     public static String postForm(String url, Map<String, String> header, Map<String, String> paramMap) {
 
-        LogUtils.log(url);
+        LogUtils.log("=====url==="+url);
+        LogUtils.logJson(header);
+        LogUtils.logJson(paramMap);
+
         FormBody.Builder body = new FormBody.Builder();
+
 
         if (paramMap != null) {
             Iterator<Map.Entry<String, String>> itStr = paramMap.entrySet().iterator();

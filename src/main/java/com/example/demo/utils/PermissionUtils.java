@@ -179,7 +179,7 @@ public class PermissionUtils {
             "android.permission.WRITE_CALENDAR",
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.INTERNET",
-            "android.permission.GET_ACCOUNTS",
+//            "android.permission.GET_ACCOUNTS",
             "android.permission.READ_CALL_LOG",
             "com.google.android.gms.permission.AD_ID"
     };
@@ -197,7 +197,7 @@ public class PermissionUtils {
             "android.permission.WRITE_CALENDAR",
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.INTERNET",
-            "android.permission.GET_ACCOUNTS",
+//            "android.permission.GET_ACCOUNTS",
 //            "android.permission.READ_CALL_LOG",
             "com.google.android.gms.permission.AD_ID"
     };

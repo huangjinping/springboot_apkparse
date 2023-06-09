@@ -24,6 +24,9 @@
         }, {
             name: "大json检测",
             url: "nbjson"
+        }, {
+            name: "serverTest",
+            url: "serverTest"
         }
 
         // , {
