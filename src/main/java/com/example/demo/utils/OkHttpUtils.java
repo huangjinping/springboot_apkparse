@@ -185,6 +185,9 @@ public class OkHttpUtils {
     }
 
     public static String postJson(String url, String requestData, Map<String, String> header) {
+        LogUtils.log("=====url= start==" + url);
+        LogUtils.logJson(header);
+        LogUtils.log("=====url= end==" + url);
         RequestBody requestBody = RequestBody.create(JSON, requestData);
 
         Request.Builder builer = new Request.Builder()
@@ -206,7 +209,7 @@ public class OkHttpUtils {
 //                    .connectionPool(new ConnectionPool(5, 1, TimeUnit.SECONDS))
 //                    .build();
 
-            Response response = clientZip.newCall(request).execute();
+            Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -217,10 +220,14 @@ public class OkHttpUtils {
     public static String postJson(String url, String requestData) {
 
         return postJson(url, requestData, new HashMap<>());
-
     }
 
     public static String postFormWithImge(String url, Map<String, File> fileMap, Map<String, String> paramMap, Map<String, String> header) {
+        LogUtils.log("=====url= start==" + url);
+        LogUtils.logJson(header);
+        LogUtils.logJson(paramMap);
+        LogUtils.log("=====url= end==" + url);
+
 
         MultipartBody.Builder body = new MultipartBody.Builder();
         body.setType(FORM);
@@ -279,7 +286,7 @@ public class OkHttpUtils {
 
     public static String postForm(String url, Map<String, String> header, Map<String, String> paramMap) {
 
-        LogUtils.log("=====url==="+url);
+        LogUtils.log("=====url===" + url);
         LogUtils.logJson(header);
         LogUtils.logJson(paramMap);
 

@@ -596,7 +596,7 @@ public class JsonParser {
 
                         skey = "name";
                         String name = sensor.getString(skey);
-                        if (!TextUtils.isEmpty(time_zone_id)) {
+                        if (!TextUtils.isEmpty(name)) {
                             sensor_0.put(skey, new Jentity(skey, name, 1));
                         } else {
                             sensorCCStats = 0;

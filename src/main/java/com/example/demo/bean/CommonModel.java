@@ -1,6 +1,6 @@
 package com.example.demo.bean;
 
-public class DomainName {
+public class CommonModel {
     /**
      * -1 有嫌疑
      */

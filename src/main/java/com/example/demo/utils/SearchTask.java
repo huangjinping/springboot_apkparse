@@ -1,7 +1,7 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.AppConfig;
-import com.example.demo.bean.DomainName;
+import com.example.demo.bean.CommonModel;
 import com.example.demo.bean.GrepModel;
 import com.example.demo.bean.MethodSolr;
 
@@ -131,25 +131,25 @@ public class SearchTask {
     }
 
 
-    public List<DomainName> getHttpsList(String dir) {
+    public List<CommonModel> getHttpsList(String dir) {
         List<String> commands = new ArrayList<>();
 //        commands.add("ls");
 //        commands.add("pwd");
 //            commands.add("cd /Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719");
         commands.add("grep -rnR 'https://' " + dir + "/*");
         System.out.println("===================before=====》》》》》");
-        List<String> strings = executeNewFlow(commands);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
         return getDomainNameByCmd(strings, "https://");
     }
 
-    public List<DomainName> getHttpList(String dir) {
+    public List<CommonModel> getHttpList(String dir) {
         List<String> commands = new ArrayList<>();
 //        commands.add("ls");
 //        commands.add("pwd");
 //            commands.add("cd /Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719");
         commands.add("grep -rnR 'http://' " + dir + "/*");
         System.out.println("===================before=====》》》》》");
-        List<String> strings = executeNewFlow(commands);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
         return getDomainNameByCmd(strings, "http://");
     }
 
@@ -199,45 +199,9 @@ public class SearchTask {
         return list;
     }
 
-    //    https://www.cnblogs.com/aeimio/p/16453633.html
-    //参考文献
 
-    //服务器执行命令行方法
-    public List<String> executeNewFlow(List<String> commands) {
-        List<String> rspList = new ArrayList<String>();
-        Runtime run = Runtime.getRuntime();
-        try {
-            Process proc = run.exec("/bin/bash", null, null);
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(proc.getOutputStream())), true);
-            for (String line : commands) {
-                out.println(line);
-            }
-            // out.println("cd /home/test");
-            // out.println("pwd");
-            // out.println("rm -fr /home/proxy.log");
-            out.println("exit");// 这个命令必须执行，否则in流不结束。
-            System.out.println("===============================++>>>>>>0>>>");
-
-            String rspLine = "";
-            while ((rspLine = in.readLine()) != null) {
-//                System.out.println(rspLine);
-                rspList.add(rspLine);
-            }
-            proc.waitFor();
-            in.close();
-            out.close();
-            proc.destroy();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return rspList;
-    }
-
-    public List<DomainName> getDomainNameByCmd(List<String> source, String target) {
-        List<DomainName> domainNames = new ArrayList<>();
+    public List<CommonModel> getDomainNameByCmd(List<String> source, String target) {
+        List<CommonModel> domainNames = new ArrayList<>();
         Map<String, String> tempMap = new HashMap<>();
 
         for (String item : source) {
@@ -246,7 +210,7 @@ public class SearchTask {
                     String[] targetList = item.split(target);
                     String targetRe1 = targetList[1];
                     String[] result = targetRe1.split("\"");
-                    DomainName domainName = new DomainName();
+                    CommonModel domainName = new CommonModel();
                     int state = 0;
                     if (result.length > 0) {
                         String path = result[0];
@@ -298,7 +262,7 @@ public class SearchTask {
         LogUtils.logJson(command);
         commands.add(command);
 
-        List<String> strings = executeNewFlow(commands);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
 
         return getMethodSolrByCmdList(dir, strings);
     }
@@ -344,7 +308,7 @@ public class SearchTask {
         commands.add("grep -rnR '.proceed(' " + dir + "/*");
 
         System.out.println("===================before=====》》》》》");
-        List<String> strings = executeNewFlow(commands);
+        List<String> strings =CommandLineTool.executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
     }
@@ -355,7 +319,7 @@ public class SearchTask {
 //        commands.add("grep -rnR 'getLine1Number()\\|TrustManager\\|ObtainUserData' " + dir + "/*");
         commands.add("grep -rnR 'getLine1Number()' " + dir + "/*");
 
-        List<String> strings = executeNewFlow(commands);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.getLine1Number);
 
@@ -365,7 +329,7 @@ public class SearchTask {
     public List<MethodSolr> getMethodWebViewWebSettings(String dir) {
         List<String> commands = new ArrayList<>();
         commands.add("grep -rnR 'WebSettings' " + dir + "/*");
-        List<String> strings = executeNewFlow(commands);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
 

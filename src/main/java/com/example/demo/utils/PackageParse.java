@@ -40,7 +40,7 @@ public class PackageParse {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
         try {
             SearchTask searchTask = new SearchTask();
-            List<DomainName> httpsList = searchTask.getHttpsList(filePath);
+            List<CommonModel> httpsList = searchTask.getHttpsList(filePath);
             httpsList.addAll(searchTask.getHttpList(filePath));
             parseDomainNameResult.put("domainName", httpsList);
         } catch (Exception e) {

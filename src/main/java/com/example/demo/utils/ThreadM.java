@@ -1,10 +1,12 @@
 package com.example.demo.utils;
 
+import com.example.demo.bean.CommonModel;
 import com.example.demo.bean.UserParam;
 import org.dom4j.DocumentException;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -26,7 +28,7 @@ public class ThreadM {
                 new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
 
 
-        int poolLength = 5;//需要用的线程个数
+        int poolLength = 7;//需要用的线程个数
 
         CountDownLatch countDownLatch = new CountDownLatch(poolLength);
 
@@ -35,7 +37,7 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
-                    PackageParse packageParse=new PackageParse();
+                    PackageParse packageParse = new PackageParse();
                     File file = new File(apktoolPath);
                     Map<String, Object> aapt = packageParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
                     result.putAll(aapt);
@@ -98,6 +100,7 @@ public class ThreadM {
                     Map<String, Object> domainName = PackageParse.parseDomainName(outFilePath);
                     result.putAll(domainName);
 
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -115,6 +118,47 @@ public class ThreadM {
                     res.put("Strings", stringObjectMap);
                     result.putAll(res);
 
+                    StringTask stringTask = new StringTask();
+                    Map<String, Object> searchLogsResult = new HashMap<>();
+                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.searchLogs);
+                    searchLogsResult.put("searchLogs", strings);
+                    result.putAll(searchLogsResult);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // 任务个数 - 1, 直至为0时唤醒await()
+                countDownLatch.countDown();
+            }
+        }));
+
+        threadPoolExecutor.execute(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    StringTask stringTask = new StringTask();
+                    Map<String, Object> searchLogsResult = new HashMap<>();
+                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.searchLogs1);
+                    searchLogsResult.put("searchLogs1", strings);
+                    result.putAll(searchLogsResult);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // 任务个数 - 1, 直至为0时唤醒await()
+                countDownLatch.countDown();
+            }
+        }));
+
+        threadPoolExecutor.execute(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    StringTask stringTask = new StringTask();
+                    Map<String, Object> searchLogsResult = new HashMap<>();
+                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.searchLogs2);
+                    searchLogsResult.put("searchLogs2", strings);
+                    result.putAll(searchLogsResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,6 +173,21 @@ public class ThreadM {
         } catch (InterruptedException e) {
             throw new NullPointerException(e.getMessage());
         }
+
+
+        try {
+            List<CommonModel> searchLogs = (List<CommonModel>) result.get("searchLogs");
+            searchLogs.addAll((List<CommonModel>) result.get("searchLogs1"));
+            searchLogs.addAll((List<CommonModel>) result.get("searchLogs2"));
+            result.remove("searchLogs1");
+            result.remove("searchLogs2");
+            Map<String, Object> searchLogsResult = new HashMap<>();
+            searchLogsResult.put("searchLogs", searchLogs);
+            result.putAll(searchLogsResult);
+        } catch (Exception e) {
+
+        }
+
 
         return result;
     }

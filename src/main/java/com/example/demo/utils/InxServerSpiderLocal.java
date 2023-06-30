@@ -11,12 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
-public class InxServerSpider {
+public class InxServerSpiderLocal {
     //    public static final String reiterateheaderticketexplanation = "http://52.40.151.34/eastbay";
 //    public static final String host = "http://192.8.20.201:5700";
 //    public static final String host = "https://glby.ultracreditosmx.com/movcolombiapro";
@@ -29,8 +25,7 @@ public class InxServerSpider {
     Map<String, String> mFieldMap;
     private JsonFilter mJsonFilter;
 
-
-    public InxServerSpider(String json, String fileName, String appssid, String domainname, String phoneNo) {
+    public InxServerSpiderLocal(String json, String fileName, String appssid, String domainname, String phoneNo) {
         this.appssid = appssid;
         this.host_URL = domainname;
         this.currentPhoneNo = phoneNo;
@@ -47,8 +42,6 @@ public class InxServerSpider {
         mJsonFilter.readJsonBean(json);
         mPathMap = mJsonFilter.getPathMap();
         mFieldMap = mJsonFilter.getFieldMap();
-
-
     }
 
     public int checkRealPath(String srcUrl) {
@@ -86,91 +79,36 @@ public class InxServerSpider {
 
     public Map<String, Object> start() {
         LogUtils.logJson("=============start=================");
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(20, 50, 4, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
-        int poolLength = 4;//需要用的线程个数
-        CountDownLatch countDownLatch = new CountDownLatch(poolLength);
-
 
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
         if (loginUser != null) {
 //            uploadImage();
+//            saveBasicCustInfo();
+//            custInfoBasicQuery();
+//            saveCustInfo();
+//            custInfoQuery();
+//            msgFeatureV3();
+//            getAppConfig();
+//            getPayChannelList();
+//            Map<String, Object> stringStorage = getImageList();
+//            Jentity getAppImageList = new Jentity("getAppImageList", stringStorage, stringStorage.isEmpty() ? 0 : 1);
+//            root.put("getAppImageList", getAppImageList);
+//
+//            Map<String, Object> vip = getVip();
+//            Jentity vipProducts = new Jentity("vipProducts", vip, vip.isEmpty() ? 0 : 1);
+//            root.put("vipProducts", vipProducts);
+//
+//
+//            getAppSetting();
+            Map<String, Object> identificationResult = getIdentificationResult();
+//            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
+//            root.put("getIdentificationResult", getIdentificationResult);
+//
+            Map<String, Object> queryProduct = queryProduct();
+            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
+            root.put("preSubmitOrder", queryProductResult);
 
-            threadPoolExecutor.execute(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        getPayChannelList();
-                        Map<String, Object> stringStorage = getImageList();
-                        Jentity getAppImageList = new Jentity("getAppImageList", stringStorage, stringStorage.isEmpty() ? 0 : 1);
-                        root.put("getAppImageList", getAppImageList);
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // 任务个数 - 1, 直至为0时唤醒await()
-                    countDownLatch.countDown();
-                }
-            }));
-
-
-            threadPoolExecutor.execute(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Map<String, Object> vip = getVip();
-                        Jentity vipProducts = new Jentity("vipProducts", vip, vip.isEmpty() ? 0 : 1);
-                        root.put("vipProducts", vipProducts);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // 任务个数 - 1, 直至为0时唤醒await()
-                    countDownLatch.countDown();
-                }
-            }));
-
-
-            threadPoolExecutor.execute(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Map<String, Object> identificationResult = getIdentificationResult();
-                        Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
-                        root.put("getIdentificationResult", getIdentificationResult);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // 任务个数 - 1, 直至为0时唤醒await()
-                    countDownLatch.countDown();
-                }
-            }));
-
-
-            threadPoolExecutor.execute(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Map<String, Object> queryProduct = queryProduct();
-                        Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
-                        root.put("preSubmitOrder", queryProductResult);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // 任务个数 - 1, 直至为0时唤醒await()
-                    countDownLatch.countDown();
-                }
-            }));
-            LogUtils.logJson("=============end=================");
-            try {
-                // 让当前线程处于阻塞状态，直到锁存器计数为零
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                throw new NullPointerException(e.getMessage());
-            }
         }
 
 
@@ -350,14 +288,146 @@ public class InxServerSpider {
         return result;
     }
 
+
+    public void saveBasicCustInfo() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
+        mapParam.put(mFieldMap.get("surnames"), "akusge");
+        mapParam.put(mFieldMap.get("names"), "asss");
+        mapParam.put(mFieldMap.get("birthDay"), "11-11-2000");
+        mapParam.put(mFieldMap.get("sex"), "1");
+        mapParam.put(mFieldMap.get("maritalStatus"), "1");
+        mapParam.put(mFieldMap.get("familySize"), "1");
+        mapParam.put(mFieldMap.get("incomeLevel"), "1");
+        mapParam.put(mFieldMap.get("workType"), "1");
+        mapParam.put(mFieldMap.get("relationship"), "1");
+        mapParam.put(mFieldMap.get("name"), "shhiwi");
+        mapParam.put(mFieldMap.get("curp"), "182909872");
+
+        mapParam.put(mFieldMap.get("phoneNumber"), "1821829112");
+        mapParam.put(mFieldMap.get("relationshipSec"), "2");
+        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
+        mapParam.put(mFieldMap.get("phoneNumberSec"), "1822189922");
+
+        LogUtils.logJson(mapParam);
+//        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/identification"), fileMap, mapParam, header);
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/saveBasicCustInfo"), fileMap, mapParam, header);
+
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+
+        }
+    }
+
+    public void saveCustInfo() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+//        mapParam.put(mFieldMap.get("email"), "ahis222111a@gmail.com");
+
+//        mapParam.put(mFieldMap.get("surnames"), "akusge");
+//        mapParam.put(mFieldMap.get("names"), "asss");
+
+        mapParam.put(mFieldMap.get("surname"), "surname");
+        mapParam.put(mFieldMap.get("surnameSec"), "surnameSec");
+
+        mapParam.put(mFieldMap.get("representThird"), "representThird");
+
+        mapParam.put(mFieldMap.get("birthDay"), "11-10-2001");
+        mapParam.put(mFieldMap.get("birthday"), "11-10-2000");
+        mapParam.put(mFieldMap.get("sex"), "2");
+//        mapParam.put(mFieldMap.get("maritalStatus"), "1");
+//        mapParam.put(mFieldMap.get("familySize"), "1");
+//        mapParam.put(mFieldMap.get("incomeLevel"), "1");
+//        mapParam.put(mFieldMap.get("workType"), "1");
+//        mapParam.put(mFieldMap.get("curp"), "182909872");
+        mapParam.put(mFieldMap.get("idcardNum"), "35789087");
+
+//        mapParam.put(mFieldMap.get("name"), "shhiwi");
+//        mapParam.put(mFieldMap.get("relationship"), "1");
+//        mapParam.put(mFieldMap.get("phoneNumber"), "1821829112");
+//        mapParam.put(mFieldMap.get("relationshipSec"), "2");
+//        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
+//        mapParam.put(mFieldMap.get("phoneNumberSec"), "1822189922");
+
+        LogUtils.logJson(mapParam);
+//        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/identification"), fileMap, mapParam, header);
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/saveCustInfo"), fileMap, mapParam, header);
+
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+
+        }
+    }
+
+
+    public void custInfoBasicQuery() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/custInfoBasicQuery"), fileMap, mapParam, header);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+    public void custInfoQuery() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/custInfoQuery"), fileMap, mapParam, header);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+    public void getAppConfig() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("type"), "sex");
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+    public void getAppSetting() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("type"), "blankDiagram");
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
     public void uploadImage() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         Map<String, File> fileMap = new HashMap<>();
-        fileMap.put(mFieldMap.get("frontImage"), new File("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/face.jpg"));
+        fileMap.put(mFieldMap.get("frontImage"), new File("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/test.jpg"));
         mapParam.put(mFieldMap.get("type"), "02");
-//        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/identification"), fileMap, mapParam, header);
         String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/saveImage"), fileMap, mapParam, header);
 
         LogUtils.logJson(respStr);
@@ -481,15 +551,11 @@ public class InxServerSpider {
                     appList.add(new Jentity(key, app, appListState));
 
                 }
-                LogUtils.logJson("=====================3");
-
             } else {
                 appAllState = 0;
             }
         } catch (Exception e) {
             appAllState = 0;
-            LogUtils.logJson("=====================5");
-
             e.printStackTrace();
         }
         Map<String, Object> result = new HashMap<>();
@@ -522,5 +588,35 @@ public class InxServerSpider {
 
     }
 
+
+    public void msgFeatureV3() {
+        try {
+            Map<String, String> mapParam = new HashMap<>();
+            mapParam.putAll(commMap());
+            Map<String, String> header = commMap();
+            Map<String, File> fileMap = new HashMap<>();
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/新建文本sss文档.txt");
+            LogUtils.logJson(textByPath);
+            String compress = GzipUtil.compress(textByPath);
+//             compress = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/after.txt");
+
+            LogUtils.logJson(compress);
+            String encrypt = AESUtil.encrypt(compress, "7f43434a595cf2487c29c563217955f1");
+//          String encrypt = AESUtil.encrypt(compress, "833145a1c66db7519277de45de749097");
+            LogUtils.logJson(encrypt);
+
+            String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV3"), encrypt, header);
+
+            LogUtils.logJson(respStr);
+            JSONObject jsonObject = JSON.parseObject(respStr);
+            String code = jsonObject.getString(mFieldMap.get("code"));
+
+            if ("1000".equals(code)) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

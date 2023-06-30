@@ -72,6 +72,7 @@ public class PermissionUtils {
 
 
     public static final String[] permissionsAll = new String[]{
+            "android.permission.REORDER_TASKS",
             "android.permission.READ_CALL_LOG",
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -119,6 +120,7 @@ public class PermissionUtils {
 
 
     public static final String[] permissions531All = new String[]{
+            "android.permission.REORDER_TASKS",
             "android.permission.READ_CALL_LOG",
 //            "android.permission.READ_EXTERNAL_STORAGE",
 //            "android.permission.WRITE_EXTERNAL_STORAGE",

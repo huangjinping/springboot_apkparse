@@ -24,6 +24,27 @@ import java.util.Map;
 @RestController
 public class JsonController {
 
+//
+//    @RequestMapping(value = "/msgFeatureTest", method = RequestMethod.POST)
+//    public RestResponse _msgFeature(HttpServletRequest request) {
+//        InputStream is = null;
+//        try {
+//            is = request.getInputStream();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+//            StringBuffer sbf = new StringBuffer();
+//            String lines;
+//            while ((lines = reader.readLine()) != null) {
+//                lines = new String(lines.getBytes(), "utf-8");
+//                sbf.append(lines);
+//            }
+//            Map<String, Object> resultMap = new HashMap<>();
+//
+//            return RestResponse.success(resultMap);
+//        } catch (Exception ex) {
+//        }
+//        return RestResponse.response(ResponseCode.SYS_EXCEPTION.getCode(), "system exception");
+//    }
+
 
     @RequestMapping(value = "/msgFeature", method = RequestMethod.POST)
     public RestResponse uploadImageForJson(HttpServletRequest request) {
@@ -42,8 +63,8 @@ public class JsonController {
             System.out.println("解压大小：" + sbf.toString());
             String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
             String jsontext = sbf.toString();
-            jsontext = AESUtil.decrypt(jsontext, key);
-            jsontext = GzipUtil.unCompress(jsontext);
+//            jsontext = AESUtil.decrypt(jsontext, key);
+//            jsontext = GzipUtil.unCompress(jsontext);
             System.out.println("解压大小==uploadImageForJson====：" + jsontext);
             resultMap.put("result", jsontext);
 
@@ -60,12 +81,8 @@ public class JsonController {
         if (file.isEmpty()) {
             return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file cannot be empty");
         }
-
-
         String fileName = file.getOriginalFilename();
-
         String oldName = fileName;
-
         fileName = System.currentTimeMillis() + "";
         oldName = "" + System.currentTimeMillis();
         File savePos = new File("./.tempJson" + System.currentTimeMillis());
@@ -102,7 +119,7 @@ public class JsonController {
             JsonParser jsonParser = new JsonParser(userParam);
             Map<String, Object> stringObjectMap = jsonParser.parseRoot(jsontext);
             resultMap.putAll(stringObjectMap);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
