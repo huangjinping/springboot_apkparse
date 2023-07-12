@@ -299,7 +299,7 @@
 
 
         <div class="resultTitle">
-            <div>字符串关联检测  <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
+            <div>字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
         <ul class="searchResultUl">
             <!--            <li class="resultli">-->
@@ -435,14 +435,13 @@
 
 
                 var sdkVersion = data.sdkVersion;
-                if (sdkVersion > 23) {
+                if (sdkVersion > 21) {
                     $(".sdkVersion").addClass("redText");
-                    $(".sdkVersion").html("当前" + sdkVersion + ",minSdkVersion 兼容6.0及以上所有版本");
+                    $(".sdkVersion").html("当前" + sdkVersion + ",minSdkVersion 兼容5.0及以上所有版本");
                 } else {
                     $(".sdkVersion").html(sdkVersion);
                     $(".sdkVersion").removeClass("redText");
                 }
-
 
                 var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 33) {

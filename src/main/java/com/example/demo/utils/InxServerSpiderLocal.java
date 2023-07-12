@@ -66,13 +66,18 @@ public class InxServerSpiderLocal {
     public Map<String, String> commMap() {
         Map<String, String> comm = new HashMap<>();
         comm.put(mFieldMap.get("appssid"), appssid);
+        comm.put(mFieldMap.get("appSsid"), appssid);
+
         comm.put(mFieldMap.get("client-id1"), appssid);
         comm.put(mFieldMap.get("client-id2"), appssid);
+        comm.put(mFieldMap.get("gaid"),"eb505a1a-14a0-4771-8450-9d686731987e");
 
         if (loginUser != null) {
             comm.put(mFieldMap.get("token"), loginUser.getToken());
             comm.put(mFieldMap.get("currentUserId"), loginUser.getUserId());
             comm.put(mFieldMap.get("userId"), loginUser.getUserId());
+            comm.put(mFieldMap.get("custInfoId"), loginUser.getUserId());
+
         }
         return comm;
     }
@@ -89,7 +94,7 @@ public class InxServerSpiderLocal {
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV3();
-//            getAppConfig();
+//              getAppConfig();
 //            getPayChannelList();
 //            Map<String, Object> stringStorage = getImageList();
 //            Jentity getAppImageList = new Jentity("getAppImageList", stringStorage, stringStorage.isEmpty() ? 0 : 1);
@@ -101,16 +106,16 @@ public class InxServerSpiderLocal {
 //
 //
 //            getAppSetting();
-            Map<String, Object> identificationResult = getIdentificationResult();
+//            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //
-            Map<String, Object> queryProduct = queryProduct();
-            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
-            root.put("preSubmitOrder", queryProductResult);
+//            Map<String, Object> queryProduct = queryProduct();
+//            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
+//            root.put("preSubmitOrder", queryProductResult);
 
+            uploadRiskPoint();
         }
-
 
         return root;
     }
@@ -374,6 +379,8 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         Map<String, File> fileMap = new HashMap<>();
+        mapParam.put(mFieldMap.get("pageType"), "1");
+
         String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/custInfoBasicQuery"), fileMap, mapParam, header);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -401,6 +408,19 @@ public class InxServerSpiderLocal {
         Map<String, String> header = commMap();
         mapParam.put(mFieldMap.get("type"), "sex");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+    public void uploadRiskPoint() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("optType"), "FRIGHTEN_UNFIT_SUBJECT");
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/uploadRiskPoint"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
@@ -442,7 +462,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-
+        mapParam.put(mFieldMap.get("pageType"), "4");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/cust/getIdentificationResult"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -595,24 +615,19 @@ public class InxServerSpiderLocal {
             mapParam.putAll(commMap());
             Map<String, String> header = commMap();
             Map<String, File> fileMap = new HashMap<>();
-            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/新建文本sss文档.txt");
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/gzip.txt");
             LogUtils.logJson(textByPath);
-            String compress = GzipUtil.compress(textByPath);
-//             compress = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/after.txt");
+            textByPath = GzipUtil.compress(textByPath);
+            LogUtils.logJson(textByPath);
 
-            LogUtils.logJson(compress);
-            String encrypt = AESUtil.encrypt(compress, "7f43434a595cf2487c29c563217955f1");
-//          String encrypt = AESUtil.encrypt(compress, "833145a1c66db7519277de45de749097");
-            LogUtils.logJson(encrypt);
+            textByPath = AESUtil.encrypt(textByPath, "f202bf59be45b7eb262ac07851351468");
+            LogUtils.logJson(textByPath);
 
-            String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV3"), encrypt, header);
-
+            String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV3"), textByPath, header);
             LogUtils.logJson(respStr);
             JSONObject jsonObject = JSON.parseObject(respStr);
             String code = jsonObject.getString(mFieldMap.get("code"));
-
             if ("1000".equals(code)) {
-
             }
         } catch (Exception e) {
             e.printStackTrace();

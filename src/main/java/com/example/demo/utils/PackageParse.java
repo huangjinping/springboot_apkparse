@@ -18,6 +18,13 @@ import java.util.Map;
 public class PackageParse {
 
 
+    String mRealFilePath;
+
+    String mApkFastPath;
+    String mOutFilePath;
+    String mAppType;
+    String mApktoolPath;
+
     public static Map<String, Object> parseMethod(String filePath) {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
         try {

@@ -159,6 +159,7 @@ public class PermissionUtils {
             "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE",
             "com.google.android.c2dm.permission.RECEIVE",
             "android.permission.NEARBY_WIFI_DEVICES",
+            "android.permission.SYSTEM_ALERT_WINDOW",
 //            "android.permission.READ_MEDIA_AUDIO",
 //            "android.permission.READ_MEDIA_IMAGES",
 //            "android.permission.READ_MEDIA_VIDEO",
