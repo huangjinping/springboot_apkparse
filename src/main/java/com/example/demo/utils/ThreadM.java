@@ -17,10 +17,13 @@ import java.util.concurrent.TimeUnit;
 public class ThreadM {
 
 
+    private PackageParse packageParse;
 
-
-    public ThreadM() {
+    public ThreadM(PackageParse packageParse) {
+        this.packageParse = packageParse;
     }
+//    public ThreadM() {
+//    }
 
 
     public Map<String, Object> parseApkData(String apktoolPath, String apkFastPath, String outFilePath, String appType) {
@@ -84,6 +87,8 @@ public class ThreadM {
 
                     Map<String, Object> parsePackage = PackageParse.parsePackage(outFilePath);
                     result.putAll(parsePackage);
+                    Map<String, Object> objectMap = PackageParse.parseFileCert(packageParse.getmRealFilePath());
+                    result.putAll(objectMap);
 
 
                 } catch (Exception e) {

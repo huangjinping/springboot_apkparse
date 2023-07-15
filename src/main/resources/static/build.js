@@ -27,6 +27,9 @@
         }, {
             name: "serverTest",
             url: "serverTest"
+        }, {
+            name: "更新文档文件",
+            url: "./resetDocUpdate"
         }
 
         // , {
@@ -41,7 +44,6 @@
             autoHtml += "<li><a href=\"/" + value.url + "\">" + value.name + "</a></li>";
         });
         $(".menuList").html(autoHtml);
-
     }
 
     buildList();

@@ -122,12 +122,9 @@
         .appAlert {
             border: orange dashed 5px;
             border-radius: 10px;
-            margin: 0.3rem auto;
             background-color: white;
-            text-align: center;
-            color: red;
-            font-weight: bold;
-            font-size: 12px;
+            color: grey;
+            font-size: 22px;
         }
 
         .methodLine {
@@ -255,6 +252,24 @@
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
             <!--            </li>-->
         </ul>
+        <div class="resultTitle">
+            签名信息
+        </div>
+        <ul class="fileCertUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
+        <div class="resultTitle">
+            <div>字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
+        </div>
+        <ul class="searchResultUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
+
+
     </div>
 
 </div>
@@ -620,6 +635,50 @@
                         "            </li>";
                 });
                 $(".methodLibUl").html(autoHtml);
+
+            }
+            if (data.searchLogs) {
+                var autoHtml = "";
+                data.searchLogs.forEach(function (v, i) {
+
+                    var state = "";
+                    var stateText = "";
+                    if (1 == v.state) {
+                        state = "";
+                    } else if (-1 == v.state) {
+                        stateText = "redText";
+                        state = "问题字符";
+                    }
+                    stateText = "redText";
+                    state = "问题字符";
+                    // stateText = "redText";
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                        "            </li>";
+                });
+                $(".searchResultUl").html(autoHtml);
+
+            }
+
+
+            if (data.fileCert) {
+                var autoHtml = "";
+                var v = data.fileCert;
+                var state = "";
+                var stateText = "";
+                if (1 == v.state) {
+                    state = "已签名";
+                    v.name = "";
+                } else if (-1 == v.state) {
+                    stateText = "redText";
+                    state = "未签名";
+                }
+                // stateText = "redText";
+                autoHtml += "  <li class=\"resultli\">\n" +
+                    "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                    "            </li>";
+
+                $(".fileCertUl").html(autoHtml);
 
             }
 

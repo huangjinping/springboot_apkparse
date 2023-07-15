@@ -18,12 +18,7 @@ import java.util.Map;
 public class PackageParse {
 
 
-    String mRealFilePath;
-
-    String mApkFastPath;
-    String mOutFilePath;
-    String mAppType;
-    String mApktoolPath;
+    private String mRealFilePath;
 
     public static Map<String, Object> parseMethod(String filePath) {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
@@ -67,6 +62,43 @@ public class PackageParse {
         }
         return parsePackageResult;
     }
+
+
+    public static Map<String, Object> parseFileCert(String filePath) {
+        Map<String, Object> parseFileCert = new HashMap<>();
+        try {
+            LogUtils.log("parseFileCert====:" + filePath);
+            List<String> commands = new ArrayList<>();
+            commands.add("keytool -printcert -jarfile " + filePath);
+            List<String> result = CommandLineTool.executeNewFlow(commands);
+            LogUtils.log("parseFileCert====:" + result);
+
+            boolean isCert = false;
+            StringBuilder builder = new StringBuilder();
+
+            try {
+                for (String item : result) {
+                    if (!TextUtils.isEmpty(item)) {
+                        if (item.toUpperCase().contains("SHA1")) {
+                            isCert = true;
+                        }
+                        builder.append(item).append("\n");
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+            CommonModel commonModel = new CommonModel();
+            commonModel.setName(builder.toString());
+            commonModel.setState(isCert ? 1 : -1);
+
+            parseFileCert.put("fileCert", commonModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return parseFileCert;
+    }
+
 
     private static List<KeepPackage> getKeepList(ArrayList<Object> fileList) {
         Map<String, String> catchMap = new HashMap<>();
@@ -141,6 +173,14 @@ public class PackageParse {
         return colMap;
     }
 
+    public String getmRealFilePath() {
+        return mRealFilePath;
+    }
+
+    public void setmRealFilePath(String mRealFilePath) {
+        this.mRealFilePath = mRealFilePath;
+    }
+
 
 //    public static Map<String, Object> parseAndroidManifestByCmd(String miniFastPath, String outFilePath) throws Exception {
 //        String cmd = "apktool d " + miniFastPath + " -o " + outFilePath;
@@ -152,6 +192,7 @@ public class PackageParse {
 
     public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
 
+
 //        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
 
         String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
@@ -159,7 +200,7 @@ public class PackageParse {
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
 
-        ThreadM threadM = new ThreadM();
+        ThreadM threadM = new ThreadM(this);
         Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType);
 
 //        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);

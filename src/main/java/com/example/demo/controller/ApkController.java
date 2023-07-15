@@ -18,6 +18,10 @@ import java.util.Map;
 public class ApkController {
 
 
+
+
+
+
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public RestResponse uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("appType") String appType) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -53,14 +57,14 @@ public class ApkController {
             file.transferTo(resultFile);
             String unzipPath = realPath + "/" + oldName;
             String apktoolPath = savePos.getParentFile().getAbsolutePath() + "/jks/apktool.jar";
-
+            PackageParse packageParse = new PackageParse();
+            packageParse.setmRealFilePath(resultFile.getAbsolutePath());
             System.out.println("=======suffix=====" + suffix);
+
             if (".apk".equals(suffix)) {
-                PackageParse packageParse = new PackageParse();
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
-
                 String apksPath = unzipPath + ".apks";
                 String aabPath = resultFile.getAbsolutePath();
 
@@ -95,7 +99,6 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
-                PackageParse packageParse = new PackageParse();
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
                 resultMap.putAll(map);
             }

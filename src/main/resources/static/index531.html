@@ -297,15 +297,24 @@
             <!--            </li>-->
         </ul>
 
-
         <div class="resultTitle">
-            <div>字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
+            签名信息
+        </div>
+        <ul class="fileCertUl">
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
+            <!--            </li>-->
+        </ul>
+        <div class="resultTitle">
+            <div>字符串关联检测  <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
         <ul class="searchResultUl">
             <!--            <li class="resultli">-->
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
             <!--            </li>-->
         </ul>
+
+
     </div>
 
 </div>
@@ -442,6 +451,7 @@
                     $(".sdkVersion").html(sdkVersion);
                     $(".sdkVersion").removeClass("redText");
                 }
+
 
                 var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 33) {
@@ -677,6 +687,8 @@
             }
 
 
+
+
             if (data.methodSolr) {
                 var autoHtml = "";
                 data.methodSolr.forEach(function (v, i) {
@@ -698,6 +710,27 @@
 
             }
 
+            if (data.fileCert) {
+                var autoHtml = "";
+                var v = data.fileCert;
+                var state = "";
+                var stateText = "";
+                if (1 == v.state) {
+                    state = "已签名";
+                    v.name="";
+                } else if (-1 == v.state) {
+                    stateText = "redText";
+                    state = "未签名";
+                }
+                // stateText = "redText";
+                autoHtml += "  <li class=\"resultli\">\n" +
+                    "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                    "            </li>";
+
+                $(".fileCertUl").html(autoHtml);
+
+            }
+
         }
 
         function restResultAllView() {
@@ -707,8 +740,6 @@
             setRest(".AutoLogAppEventsEnabled");
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
-
-
         }
 
         function setRest(e) {

@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.bean.UserParam;
-import com.example.demo.utils.AESUtil;
+import com.example.demo.utils.CommandLineTool;
 import com.example.demo.utils.FileUtils;
-import com.example.demo.utils.GzipUtil;
 import com.example.demo.utils.JsonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +18,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -45,6 +47,15 @@ public class JsonController {
 //        return RestResponse.response(ResponseCode.SYS_EXCEPTION.getCode(), "system exception");
 //    }
 
+    @RequestMapping(value = "/resetDocUpdate")
+    public RestResponse resetDocUpdate(HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+        List<String> commands = new ArrayList<>();
+        commands.add("./json/docUpdate.sh");
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
+        resultMap.put("result", strings);
+        return RestResponse.success(resultMap);
+    }
 
     @RequestMapping(value = "/msgFeature", method = RequestMethod.POST)
     public RestResponse uploadImageForJson(HttpServletRequest request) {
