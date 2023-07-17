@@ -76,7 +76,6 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "peru/carteraprestamo.json");
 //                String fileName = "carteraprestamo";

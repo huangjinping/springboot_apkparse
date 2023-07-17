@@ -53,7 +53,6 @@ public class JsonController {
         List<String> commands = new ArrayList<>();
         commands.add("./json/docUpdate.sh");
         List<String> strings = CommandLineTool.executeNewFlow(commands);
-        resultMap.put("result", strings);
         return RestResponse.success(resultMap);
     }
 

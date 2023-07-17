@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ScheduleService {
 
-    @Scheduled(cron = "0 0/2 * * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void updateDoc() {
         System.out.println("=======updateDoc===start==" + System.currentTimeMillis());
         List<String> commands = new ArrayList<>();
