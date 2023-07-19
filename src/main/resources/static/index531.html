@@ -306,14 +306,17 @@
             <!--            </li>-->
         </ul>
         <div class="resultTitle">
-            <div>字符串关联检测  <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
+            <div>字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
         <ul class="searchResultUl">
             <!--            <li class="resultli">-->
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
             <!--            </li>-->
         </ul>
-
+        <ul class="searchResultFiled">
+        </ul>
+        <ul class="searchResultPath">
+        </ul>
 
     </div>
 
@@ -391,10 +394,107 @@
                     dismissLoading();
                     var res = eval('(' + data + ')');
                     parseResult(res);
+                    searchTaskPath(res);
+                    searchTaskFiled(res);
                 },
                 error: function (err) {
                     $(".appFileNameView").css("display", 'none');
                     dismissLoading();
+                    console.error(err);
+                }
+            });
+        }
+
+        function searchTaskPath(e) {
+            var savePos = e.data.savePos;
+
+            if (isEmpty(savePos)) {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            $.ajax({
+                url: "/searchTaskPath",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    console.log(data);
+                    var res = eval('(' + data + ')');
+
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    dataRes.searchPath.forEach(function (v, i) {
+
+                        var state = "";
+                        var stateText = "";
+                        if (1 == v.state) {
+                            state = "";
+                        } else if (-1 == v.state) {
+                            stateText = "redText";
+                            state = "问题字符";
+                        }
+                        stateText = "redText";
+                        state = "问题字符";
+                        autoHtml += "  <li class=\"resultli\">\n" +
+                            "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                            "            </li>";
+                    });
+                    $(".searchResultPath").html(autoHtml);
+                },
+                error: function (err) {
+
+                    console.error(err);
+                }
+            });
+        }
+
+        function searchTaskFiled(e) {
+            var savePos = e.data.savePos;
+
+            if (isEmpty(savePos)) {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            $.ajax({
+                url: "/searchTaskFiled",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    var res = eval('(' + data + ')');
+
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    dataRes.searchField.forEach(function (v, i) {
+
+                        var state = "";
+                        var stateText = "";
+                        if (1 == v.state) {
+                            state = "";
+                        } else if (-1 == v.state) {
+                            stateText = "redText";
+                            state = "问题字符";
+                        }
+                        stateText = "redText";
+                        state = "问题字符";
+                        // stateText = "redText";
+                        autoHtml += "  <li class=\"resultli\">\n" +
+                            "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                            "            </li>";
+                    });
+                    $(".searchResultFiled").html(autoHtml);
+
+                },
+                error: function (err) {
+
                     console.error(err);
                 }
             });
@@ -687,8 +787,6 @@
             }
 
 
-
-
             if (data.methodSolr) {
                 var autoHtml = "";
                 data.methodSolr.forEach(function (v, i) {
@@ -717,7 +815,7 @@
                 var stateText = "";
                 if (1 == v.state) {
                     state = "已签名";
-                    v.name="";
+                    v.name = "";
                 } else if (-1 == v.state) {
                     stateText = "redText";
                     state = "未签名";

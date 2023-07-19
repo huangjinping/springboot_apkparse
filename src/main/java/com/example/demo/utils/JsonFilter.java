@@ -2,7 +2,9 @@ package com.example.demo.utils;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JsonFilter {
@@ -36,8 +38,12 @@ public class JsonFilter {
                 i++;
                 value = value + i;
             }
+
             fieldMap.put(value, entry.getKey());
         }
+
+        List<String> tempList = new ArrayList<>();
+
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof String) {
@@ -45,9 +51,11 @@ public class JsonFilter {
             } else if (value instanceof Object) {
                 Map<String, Object> objectMap = (Map<String, Object>) entry.getValue();
                 String url = (String) objectMap.get("url");
+                tempList.add(url);
                 pathMap.put(url, entry.getKey());
             }
         }
+        LogUtils.logJson(tempList);
     }
 
 

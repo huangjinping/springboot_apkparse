@@ -307,6 +307,7 @@ public class JsonParser {
                 longitude = gps.getString("longitude");
             }
 
+
             String gps_address_city = Location.getString("gps_address_city");
             String gps_address_province = Location.getString("gps_address_province");
             String gps_address_street = Location.getString("gps_address_street");
@@ -328,12 +329,15 @@ public class JsonParser {
 
 
             try {
-                if (latitude != null && longitude != null) {
-                    if (Double.parseDouble(latitude) > Double.parseDouble(longitude)) {
-                        stats = 0;
-                    }
+                double d_latitude = Double.parseDouble(latitude);
+                double d_longitude = Double.parseDouble(longitude);
+                if (d_latitude > d_longitude) {
+                    stats = 0;
                 }
-
+                if ((Math.abs(d_latitude) <= 90) && (Math.abs(d_longitude) <= 180)) {
+                } else {
+                    stats = 0;
+                }
             } catch (Exception e) {
                 stats = 0;
 
@@ -345,11 +349,8 @@ public class JsonParser {
             if (stats == 0) {
                 builder.append("请确实经纬度是否正常\n");
                 builder.append("(纬度,经度)\n");
-
             }
             Map<String, Object> result = new HashMap<>();
-
-
             locationResult.put("value", new Jentity("location", smsg, stats));
             result.put("value", locationResult);
             result.put("state", stats);
@@ -396,7 +397,6 @@ public class JsonParser {
                 generalResult.put(key, new Jentity(key, phone_type, 0));
             }
             LogUtils.logJson("=======5====================" + stats);
-
             key = "mac";
             String mac = general_data.getString(key);
             if (CheckUtils.isMac(mac)) {

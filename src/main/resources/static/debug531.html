@@ -269,6 +269,11 @@
             <!--            </li>-->
         </ul>
 
+        <ul class="searchResultFiled">
+        </ul>
+        <ul class="searchResultPath">
+        </ul>
+
 
     </div>
 
@@ -346,10 +351,108 @@
                     dismissLoading();
                     var res = eval('(' + data + ')');
                     parseResult(res);
+                    searchTaskPath(res);
+                    searchTaskFiled(res);
                 },
                 error: function (err) {
                     $(".appFileNameView").css("display", 'none');
                     dismissLoading();
+                    console.error(err);
+                }
+            });
+        }
+
+
+        function searchTaskPath(e) {
+            var savePos = e.data.savePos;
+
+            if (isEmpty(savePos)) {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            $.ajax({
+                url: "/searchTaskPath",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    console.log(data);
+                    var res = eval('(' + data + ')');
+
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    dataRes.searchPath.forEach(function (v, i) {
+
+                        var state = "";
+                        var stateText = "";
+                        if (1 == v.state) {
+                            state = "";
+                        } else if (-1 == v.state) {
+                            stateText = "redText";
+                            state = "问题字符";
+                        }
+                        stateText = "redText";
+                        state = "问题字符";
+                        autoHtml += "  <li class=\"resultli\">\n" +
+                            "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                            "            </li>";
+                    });
+                    $(".searchResultPath").html(autoHtml);
+                },
+                error: function (err) {
+
+                    console.error(err);
+                }
+            });
+        }
+
+        function searchTaskFiled(e) {
+            var savePos = e.data.savePos;
+
+            if (isEmpty(savePos)) {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            $.ajax({
+                url: "/searchTaskFiled",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    var res = eval('(' + data + ')');
+
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    dataRes.searchField.forEach(function (v, i) {
+
+                        var state = "";
+                        var stateText = "";
+                        if (1 == v.state) {
+                            state = "";
+                        } else if (-1 == v.state) {
+                            stateText = "redText";
+                            state = "问题字符";
+                        }
+                        stateText = "redText";
+                        state = "问题字符";
+                        // stateText = "redText";
+                        autoHtml += "  <li class=\"resultli\">\n" +
+                            "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                            "            </li>";
+                    });
+                    $(".searchResultFiled").html(autoHtml);
+
+                },
+                error: function (err) {
+
                     console.error(err);
                 }
             });

@@ -32,7 +32,6 @@ public class ThreadM {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(20, 50, 4, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
 
-
         int poolLength = 7;//需要用的线程个数
 
         CountDownLatch countDownLatch = new CountDownLatch(poolLength);

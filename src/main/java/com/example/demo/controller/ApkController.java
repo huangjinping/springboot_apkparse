@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
-import com.example.demo.utils.FileUtils;
 import com.example.demo.utils.PackageParse;
+import com.example.demo.utils.TextUtils;
+import com.example.demo.utils.ThreadSearchM;
+import com.example.demo.utils.ThreadSearchP;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +20,23 @@ import java.util.Map;
 public class ApkController {
 
 
+    @RequestMapping(value = "/searchTaskPath", method = RequestMethod.POST)
+    public RestResponse searchTaskPath(@RequestParam("savePos") String savePos) {
+        Map<String, Object> resultMap = new HashMap<>();
+        ThreadSearchP threadp = new ThreadSearchP();
+        Map<String, Object> map = threadp.parseData(savePos);
+        resultMap.putAll(map);
+        return RestResponse.success(resultMap);
+    }
 
-
+    @RequestMapping(value = "/searchTaskFiled", method = RequestMethod.POST)
+    public RestResponse searchTaskFiled(@RequestParam("savePos") String savePos) {
+        Map<String, Object> resultMap = new HashMap<>();
+        ThreadSearchM threadM = new ThreadSearchM();
+        Map<String, Object> map = threadM.parseData(savePos);
+        resultMap.putAll(map);
+        return RestResponse.success(resultMap);
+    }
 
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
@@ -38,10 +55,11 @@ public class ApkController {
         if (oldName.contains(".")) {
             oldName = oldName.substring(0, oldName.lastIndexOf("."));
         }
-        fileName = System.currentTimeMillis() + suffix;
-        oldName = "" + System.currentTimeMillis();
+        String t_name = TextUtils.createName();
+        fileName = t_name + suffix;
+        oldName = t_name;
 
-        File savePos = new File("./.tempApp" + System.currentTimeMillis());
+        File savePos = new File("./tempApp/" + t_name);
         if (!savePos.exists()) {  // 不存在，则创建该文件夹
             savePos.mkdir();
         }
@@ -56,21 +74,23 @@ public class ApkController {
             }
             file.transferTo(resultFile);
             String unzipPath = realPath + "/" + oldName;
-            String apktoolPath = savePos.getParentFile().getAbsolutePath() + "/jks/apktool.jar";
+            File projectFile = savePos.getParentFile().getParentFile();
+            String apktoolPath = projectFile.getAbsolutePath() + "/jks/apktool.jar";
             PackageParse packageParse = new PackageParse();
             packageParse.setmRealFilePath(resultFile.getAbsolutePath());
             System.out.println("=======suffix=====" + suffix);
 
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
+                map.put("savePos", savePos.getAbsolutePath()+"/"+t_name);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
                 String apksPath = unzipPath + ".apks";
                 String aabPath = resultFile.getAbsolutePath();
 
-                String bundletooPath = "java -jar " + savePos.getParentFile().getAbsolutePath() + "/jks/bundletool.jar";
+                String bundletooPath = "java -jar " + projectFile.getAbsolutePath() + "/jks/bundletool.jar";
 //                String cmdaabToApks = "bundletool build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
-                String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
+                String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
 
 //                System.out.println(cmdaabToApks);
 //                System.out.println("====cmdaabToApks=========");
@@ -80,7 +100,7 @@ public class ApkController {
 
                 String deviceApkPath = unzipPath;
 //                String cmd = "bundletool extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
-                String cmd = bundletooPath + " extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
+                String cmd = bundletooPath + " extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
 //                System.out.println(cmd);
 
 //                System.out.println("============waitFor=======0=====");
@@ -100,13 +120,14 @@ public class ApkController {
 
                 String masterApkBPath = deviceApkPath + "/base-master";
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
+                map.put("savePos", savePos.getAbsolutePath()+"/"+t_name);
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
+//        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
         return RestResponse.success(resultMap);
     }
 }

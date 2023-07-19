@@ -70,7 +70,8 @@ public class InxServerSpiderLocal {
 
         comm.put(mFieldMap.get("client-id1"), appssid);
         comm.put(mFieldMap.get("client-id2"), appssid);
-        comm.put(mFieldMap.get("gaid"),"eb505a1a-14a0-4771-8450-9d686731987e");
+//        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
+        comm.put(mFieldMap.get("gaid"), "0000");
 
         if (loginUser != null) {
             comm.put(mFieldMap.get("token"), loginUser.getToken());
@@ -106,7 +107,7 @@ public class InxServerSpiderLocal {
 //
 //
 //            getAppSetting();
-//            Map<String, Object> identificationResult = getIdentificationResult();
+            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //
@@ -114,7 +115,8 @@ public class InxServerSpiderLocal {
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
 
-            uploadRiskPoint();
+//            uploadRiskPoint();
+            uploadOperation();
         }
 
         return root;
@@ -427,6 +429,20 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
+
+    public void uploadOperation() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("optType"), "test" + System.currentTimeMillis());
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/uploadOperation"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
 
     public void getAppSetting() {
         Map<String, String> mapParam = new HashMap<>();
