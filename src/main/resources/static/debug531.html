@@ -269,11 +269,16 @@
             <!--            </li>-->
         </ul>
 
+        <div class="resultTitle">
+            <div>接口字段字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
+        </div>
         <ul class="searchResultFiled">
         </ul>
+        <div class="resultTitle">
+            <div>接口名称字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
+        </div>
         <ul class="searchResultPath">
         </ul>
-
 
     </div>
 
@@ -794,6 +799,9 @@
             setRest(".AutoLogAppEventsEnabled");
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
+
+            $(".searchResultFiled").html("");
+            $(".searchResultPath").html("");
 
         }
 
