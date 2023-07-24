@@ -160,11 +160,11 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
-                    StringTask stringTask = new StringTask();
-                    Map<String, Object> searchLogsResult = new HashMap<>();
-                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.searchLogs2);
-                    searchLogsResult.put("searchLogs2", strings);
-                    result.putAll(searchLogsResult);
+//                    StringTask stringTask = new StringTask();
+//                    Map<String, Object> searchLogsResult = new HashMap<>();
+//                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.searchLogs2);
+//                    searchLogsResult.put("searchLogs2", strings);
+//                    result.putAll(searchLogsResult);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -184,9 +184,9 @@ public class ThreadM {
         try {
             List<CommonModel> searchLogs = (List<CommonModel>) result.get("searchLogs");
             searchLogs.addAll((List<CommonModel>) result.get("searchLogs1"));
-            searchLogs.addAll((List<CommonModel>) result.get("searchLogs2"));
+//            searchLogs.addAll((List<CommonModel>) result.get("searchLogs2"));
             result.remove("searchLogs1");
-            result.remove("searchLogs2");
+//            result.remove("searchLogs2");
             Map<String, Object> searchLogsResult = new HashMap<>();
             searchLogsResult.put("searchLogs", searchLogs);
             result.putAll(searchLogsResult);

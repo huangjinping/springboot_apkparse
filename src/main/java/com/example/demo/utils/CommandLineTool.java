@@ -24,7 +24,7 @@ public class CommandLineTool {
             // out.println("pwd");
             // out.println("rm -fr /home/proxy.log");
             out.println("exit");// 这个命令必须执行，否则in流不结束。
-            System.out.println("===============================++>>>>>>0>>>");
+//            System.out.println("===============================++>>>>>>0>>>");
 
             String rspLine = "";
             while ((rspLine = in.readLine()) != null) {

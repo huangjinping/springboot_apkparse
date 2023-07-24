@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class ScheduleService {
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     public void updateDeleteTemp() {
         File savePos = new File("tempApp");
         try {

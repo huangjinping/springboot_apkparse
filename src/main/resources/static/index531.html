@@ -313,6 +313,8 @@
             <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
             <!--            </li>-->
         </ul>
+        <ul class="searchResultJson">
+        </ul>
         <div class="resultTitle">
             <div>接口字段字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
@@ -398,10 +400,12 @@
                 dataType: "text",
                 success: function (data) {
                     dismissLoading();
+
                     var res = eval('(' + data + ')');
                     parseResult(res);
-                    searchTaskPath(res);
                     searchTaskFiled(res);
+                    searchTaskPath(res);
+                    searchTaskJson(res);
                 },
                 error: function (err) {
                     $(".appFileNameView").css("display", 'none');
@@ -417,6 +421,8 @@
             if (isEmpty(savePos)) {
                 return;
             }
+            console.log("---------searchTaskPath---start----");
+
             var formData = new FormData();
             formData.append("savePos", e.data.savePos);
             $.ajax({
@@ -428,6 +434,7 @@
                 processData: false,
                 dataType: "text",
                 success: function (data) {
+                    console.log("---------searchTaskPath---result----");
                     console.log(data);
                     var res = eval('(' + data + ')');
 
@@ -458,12 +465,60 @@
             });
         }
 
+
+        function searchTaskJson(e) {
+            var savePos = e.data.savePos;
+            if (isEmpty(savePos)) {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            $.ajax({
+                url: "/searchTaskJson",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    console.log("---------searchTaskJson-------");
+                    var res = eval('(' + data + ')');
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    dataRes.searchJson.forEach(function (v, i) {
+                        var state = "";
+                        var stateText = "";
+                        if (1 == v.state) {
+                            state = "";
+                        } else if (-1 == v.state) {
+                            stateText = "redText";
+                            state = "问题字符";
+                        }
+                        stateText = "redText";
+                        state = "问题字符";
+                        // stateText = "redText";
+                        autoHtml += "  <li class=\"resultli\">\n" +
+                            "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                            "            </li>";
+                    });
+                    $(".searchResultJson").html(autoHtml);
+
+                },
+                error: function (err) {
+
+                    console.error(err);
+                }
+            });
+        }
+
         function searchTaskFiled(e) {
             var savePos = e.data.savePos;
 
             if (isEmpty(savePos)) {
                 return;
             }
+            console.log("====searchTaskFiled== start======");
             var formData = new FormData();
             formData.append("savePos", e.data.savePos);
             $.ajax({
@@ -475,7 +530,10 @@
                 processData: false,
                 dataType: "text",
                 success: function (data) {
+                    console.log("---------searchTaskFiled---result----");
+
                     var res = eval('(' + data + ')');
+
 
                     var dataRes = res.data;
                     var autoHtml = "";
@@ -846,6 +904,7 @@
             setRest(".ClientToken");
             $(".searchResultFiled").html("");
             $(".searchResultPath").html("");
+            $(".searchResultJson").html("");
         }
 
         function setRest(e) {

@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
-import com.example.demo.utils.PackageParse;
-import com.example.demo.utils.TextUtils;
-import com.example.demo.utils.ThreadSearchM;
-import com.example.demo.utils.ThreadSearchP;
+import com.example.demo.utils.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +23,7 @@ public class ApkController {
         ThreadSearchP threadp = new ThreadSearchP();
         Map<String, Object> map = threadp.parseData(savePos);
         resultMap.putAll(map);
+
         return RestResponse.success(resultMap);
     }
 
@@ -34,6 +32,15 @@ public class ApkController {
         Map<String, Object> resultMap = new HashMap<>();
         ThreadSearchM threadM = new ThreadSearchM();
         Map<String, Object> map = threadM.parseData(savePos);
+        resultMap.putAll(map);
+        return RestResponse.success(resultMap);
+    }
+
+    @RequestMapping(value = "/searchTaskJson", method = RequestMethod.POST)
+    public RestResponse searchTaskJson(@RequestParam("savePos") String savePos) {
+        Map<String, Object> resultMap = new HashMap<>();
+        ThreadSearchJ threadJ = new ThreadSearchJ();
+        Map<String, Object> map = threadJ.parseData(savePos);
         resultMap.putAll(map);
         return RestResponse.success(resultMap);
     }
@@ -82,7 +89,7 @@ public class ApkController {
 
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
-                map.put("savePos", savePos.getAbsolutePath()+"/"+t_name);
+                map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
                 String apksPath = unzipPath + ".apks";
@@ -120,7 +127,7 @@ public class ApkController {
 
                 String masterApkBPath = deviceApkPath + "/base-master";
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
-                map.put("savePos", savePos.getAbsolutePath()+"/"+t_name);
+                map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);
