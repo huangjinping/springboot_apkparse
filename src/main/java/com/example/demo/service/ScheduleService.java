@@ -43,7 +43,7 @@ public class ScheduleService {
 
     @Scheduled(cron = "0 0/30 * * * ?")
     public void updateDoc() {
-        System.out.println("=======updateDoc===start==" + System.currentTimeMillis());
+        System.out.println("=====11==updateDoc===start==" + System.currentTimeMillis());
         List<String> commands = new ArrayList<>();
         commands.add("./json/docUpdate.sh");
         List<String> strings = CommandLineTool.executeNewFlow(commands);
