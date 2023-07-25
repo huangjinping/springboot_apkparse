@@ -44,6 +44,15 @@ public class MainTest {
 //        System.out.println(s);
 //        msgFeatureV3();
         try {
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/estrellacredito.json");
+                String fileName = "estrellacredito";
+                String appssid = "182";
+                String domainname = "https://glby.ultracreditosmx.com";
+                String phoneNo = "1825396142";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "chile/holaprestamo.json");
 //                String fileName = "holaprestamo";
@@ -54,15 +63,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "chile/holaprestamo.json");
-                String fileName = "holaprestamo";
-                String appssid = "185";
-                String domainname = "https://chile.ultracreditosmx.com";
-                String phoneNo = "183353637";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/holaprestamo.json");
+//                String fileName = "holaprestamo";
+//                String appssid = "185";
+//                String domainname = "https://chile.ultracreditosmx.com";
+//                String phoneNo = "183353637";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/guatemalacash.json");

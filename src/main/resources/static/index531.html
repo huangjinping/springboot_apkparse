@@ -133,6 +133,11 @@
             margin-top: 10px;
 
         }
+
+        .inxloading {
+            width: 100px;
+            height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -161,12 +166,15 @@
                 <span>文件名称:</span><span class="appFileName"></span>
             </div>
 
+
             <div class="iffsubmitContainer">
             <span class="iffsubmit">
                 0531业务包上传
             </span>
             </div>
         </form>
+
+
     </div>
 
 
@@ -324,6 +332,7 @@
             <div>接口名称字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
         <ul class="searchResultPath">
+
         </ul>
 
     </div>
@@ -902,10 +911,18 @@
             setRest(".AutoLogAppEventsEnabled");
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
-            $(".searchResultFiled").html("");
-            $(".searchResultPath").html("");
-            $(".searchResultJson").html("");
+            $(".searchResultUl").html(getLoadingViews());
+            $(".searchResultFiled").html(getLoadingViews());
+            $(".searchResultPath").html(getLoadingViews());
+            $(".searchResultJson").html(getLoadingViews());
         }
+
+        function getLoadingViews() {
+            return " <div class=\"inxloading_p\">\n" +
+                "                <img class=\"inxloading\" src=\"loading.gif\">\n" +
+                "            </div>";
+        }
+
 
         function setRest(e) {
             $(e).addClass("redText");

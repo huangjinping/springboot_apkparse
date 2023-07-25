@@ -131,6 +131,11 @@
             border: #808080 solid 1px;
             margin-top: 10px;
         }
+
+        .inxloading {
+            width: 100px;
+            height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -847,11 +852,19 @@
             setRest(".AutoLogAppEventsEnabled");
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
-
-            $(".searchResultFiled").html("");
-            $(".searchResultPath").html("");
-            $(".searchResultJson").html("");
+            $(".searchResultUl").html(getLoadingViews());
+            $(".searchResultFiled").html(getLoadingViews());
+            $(".searchResultPath").html(getLoadingViews());
+            $(".searchResultJson").html(getLoadingViews());
         }
+
+
+        function getLoadingViews() {
+            return " <div class=\"inxloading_p\">\n" +
+                "                <img class=\"inxloading\" src=\"loading.gif\">\n" +
+                "            </div>";
+        }
+
 
         function setRest(e) {
             $(e).addClass("redText");
