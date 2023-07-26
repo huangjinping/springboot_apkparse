@@ -555,6 +555,10 @@ public class InxServerSpiderLocal {
             mapParam.put(mFieldMap.get("productId"), productId);
 
 
+            respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/preAmount"), header, mapParam);
+            LogUtils.logJson(respStr);
+
+
             respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/preSubmitOrder"), header, mapParam);
             jsonObject = JSON.parseObject(respStr);
             jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));

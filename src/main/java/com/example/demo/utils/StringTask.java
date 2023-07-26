@@ -301,6 +301,9 @@ public class StringTask {
         if (content.contains(".hamcrest.core.")) {
             return false;
         }
+        if (content.contains(".androidx.camera")) {
+            return false;
+        }
         return true;
     }
 
