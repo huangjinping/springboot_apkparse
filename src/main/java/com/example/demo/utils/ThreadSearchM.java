@@ -33,7 +33,7 @@ public class ThreadSearchM {
                     try {
                         StringTask stringTask = new StringTask();
                         List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.getLenIndex(StringTask.searchLogs3, poolLength, index));
-                        LogUtils.logJson(strings);
+//                        LogUtils.logJson(strings);
                         searchField.addAll(strings);
                     } catch (Exception e) {
                         e.printStackTrace();

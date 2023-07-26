@@ -316,32 +316,32 @@
 <!--                </ul>-->
 <!--            </div>-->
 
-            <div class="reportItem">
-                <div class="resultTitle networkTitle">
-                    <span class="pName">network</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                         src="arrow_right.png">
-                </div>
-                <ul class="resultUl network">
-                </ul>
-                <div>
-                    <div class="resultTitle current_wifiTitle">
-                        <span class="resultlivalue">&nbsp;&nbsp;&nbsp;&nbsp;current_wifi</span><span
-                            class="pMessage"></span><img
-                            class="imgExtendFlag" src="arrow_right.png">
-                    </div>
-                    <ul class="resultUl current_wifi">
-                    </ul>
-                </div>
-                <div>
-                    <div class="resultTitle configured_wifiTitle">
-                        <span class="resultlivalue">&nbsp;&nbsp;&nbsp;&nbsp;configured_wifi</span><span
-                            class="pMessage"></span><img
-                            class="imgExtendFlag" src="arrow_right.png">
-                    </div>
-                    <ul class="resultUl configured_wifi">
-                    </ul>
-                </div>
-            </div>
+<!--            <div class="reportItem">-->
+<!--                <div class="resultTitle networkTitle">-->
+<!--                    <span class="pName">network</span><span class="pMessage"></span><img class="imgExtendFlag"-->
+<!--                                                                                         src="arrow_right.png">-->
+<!--                </div>-->
+<!--                <ul class="resultUl network">-->
+<!--                </ul>-->
+<!--                <div>-->
+<!--                    <div class="resultTitle current_wifiTitle">-->
+<!--                        <span class="resultlivalue">&nbsp;&nbsp;&nbsp;&nbsp;current_wifi</span><span-->
+<!--                            class="pMessage"></span><img-->
+<!--                            class="imgExtendFlag" src="arrow_right.png">-->
+<!--                    </div>-->
+<!--                    <ul class="resultUl current_wifi">-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <div class="resultTitle configured_wifiTitle">-->
+<!--                        <span class="resultlivalue">&nbsp;&nbsp;&nbsp;&nbsp;configured_wifi</span><span-->
+<!--                            class="pMessage"></span><img-->
+<!--                            class="imgExtendFlag" src="arrow_right.png">-->
+<!--                    </div>-->
+<!--                    <ul class="resultUl configured_wifi">-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="reportItem">
                 <div class="resultTitle smsTitle">
@@ -381,14 +381,14 @@
                 </ul>
             </div>
 
-            <div class="reportItem">
-                <div class="resultTitle dataListTitle">
-                    <span class="pName">dataList</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                          src="arrow_right.png">
-                </div>
-                <ul class="resultUl dataList">
-                </ul>
-            </div>
+<!--            <div class="reportItem">-->
+<!--                <div class="resultTitle dataListTitle">-->
+<!--                    <span class="pName">dataList</span><span class="pMessage"></span><img class="imgExtendFlag"-->
+<!--                                                                                          src="arrow_right.png">-->
+<!--                </div>-->
+<!--                <ul class="resultUl dataList">-->
+<!--                </ul>-->
+<!--            </div>-->
 
             <div class="reportItem">
                 <div class="resultTitle calendarTitle">
@@ -418,14 +418,14 @@
 <!--            </div>-->
 
 
-            <div class="rootComm">
-                <div class="reportItem">
-                    <div class="resultTitle accountTitle">
-                        <span class="pName">account</span><span class="pMessage"></span><span
-                            class="resultlistate">ok</span>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="rootComm">-->
+<!--                <div class="reportItem">-->
+<!--                    <div class="resultTitle accountTitle">-->
+<!--                        <span class="pName">account</span><span class="pMessage"></span><span-->
+<!--                            class="resultlistate">ok</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
     </div>
@@ -749,118 +749,118 @@
             }
 
 
-            if (data.network) {
-
-                var network = data.network;
-                var value = network.value.value;
-                var htmlString = "";
-                for (const key in value) {
-                    if ("current_wifi" == key) {
-                    } else if ("configured_wifi" == key) {
-
-                    } else {
-                        htmlString += createItem(value[key]);
-                    }
-                }
-                $(".network").html(htmlString);
-
-                if (value) {
-                    var configured_wifi = value.configured_wifi.value;
-
-                    var htmlString = "";
-                    var isSuccess = 1;
-                    console.log("===========configured_wifi===========");
-                    console.log(configured_wifi);
-
-                    try {
-                        if (configured_wifi) {
-                            for (let i = 0; i < configured_wifi.length; i++) {
-                                htmlString += createLUItem(configured_wifi[i]);
-                            }
-                        }
-                        $(".configured_wifi").html(htmlString);
-                        $(".itemChildDiv").hide();
-                        $(".configured_wifi .titleItemDiv").click(function () {
-                            $(this).siblings(".itemChildDiv").toggle();
-                        });
-                    } catch (e) {
-                        isSuccess = 0;
-                        console.log(e);
-                    }
-
-                    var configured_wifi = value.configured_wifi;
-
-                    var message = "";
-                    if (configured_wifi.state == 0) {
-                        message = "没有configured_wifiStats数据";
-                        isSuccess = 0;
-                    } else {
-                        if (configured_wifi.value.state == 0) {
-                            message += configured_wifi.value.msg
-                            isSuccess = 0;
-                        }
-                    }
-                    if (isSuccess == 0) {
-                        message = "数据异常";
-                        addRed(".configured_wifiTitle .pMessage");
-                    } else {
-                        message = "数据正常";
-                        addGreen(".configured_wifiTitle .pMessage");
-                    }
-                    $(".configured_wifiTitle .pMessage").html(message)
-
-
-                }
-
-                if (value) {
-                    var current_wifi = value.current_wifi;
-                    var current_wifiValue = current_wifi.value;
-                    var htmlString = "";
-                    for (const key in current_wifiValue) {
-                        console.log("-----------00000----------");
-                        console.log(current_wifiValue[key]);
-                        htmlString += createItem(current_wifiValue[key]);
-                    }
-                    $(".current_wifi").html(htmlString);
-                    var isSuccess = 1;
-                    var message = "";
-                    if (current_wifi.state == 0) {
-                        message = "没有current_wifi数据";
-                        isSuccess = 0;
-                    }
-
-                    if (isSuccess == 0) {
-                        message = "数据异常";
-                        addRed(".current_wifiTitle .pMessage");
-                    } else {
-                        message = "数据正常";
-                        addGreen(".current_wifiTitle .pMessage");
-                    }
-                    $(".current_wifiTitle .pMessage").html(message)
-                }
-
-
-                var isSuccess = 1;
-                var message = "";
-                if (network.state == 0) {
-                    message = "没有network_data数据";
-                    isSuccess = 0;
-                } else {
-                    if (network.value.state == 0) {
-                        message += network.value.msg
-                        isSuccess = 0;
-                    }
-                }
-
-                if (isSuccess == 0) {
-                    message += "数据异常";
-                    addRed(".networkTitle .pMessage");
-                } else {
-                    message += "数据正常";
-                    addGreen(".networkTitle .pMessage");
-                }
-                $(".networkTitle .pMessage").html(message)
-            }
+            // if (data.network) {
+            //
+            //     var network = data.network;
+            //     var value = network.value.value;
+            //     var htmlString = "";
+            //     for (const key in value) {
+            //         if ("current_wifi" == key) {
+            //         } else if ("configured_wifi" == key) {
+            //
+            //         } else {
+            //             htmlString += createItem(value[key]);
+            //         }
+            //     }
+            //     $(".network").html(htmlString);
+            //
+            //     if (value) {
+            //         var configured_wifi = value.configured_wifi.value;
+            //
+            //         var htmlString = "";
+            //         var isSuccess = 1;
+            //         console.log("===========configured_wifi===========");
+            //         console.log(configured_wifi);
+            //
+            //         try {
+            //             if (configured_wifi) {
+            //                 for (let i = 0; i < configured_wifi.length; i++) {
+            //                     htmlString += createLUItem(configured_wifi[i]);
+            //                 }
+            //             }
+            //             $(".configured_wifi").html(htmlString);
+            //             $(".itemChildDiv").hide();
+            //             $(".configured_wifi .titleItemDiv").click(function () {
+            //                 $(this).siblings(".itemChildDiv").toggle();
+            //             });
+            //         } catch (e) {
+            //             isSuccess = 0;
+            //             console.log(e);
+            //         }
+            //
+            //         var configured_wifi = value.configured_wifi;
+            //
+            //         var message = "";
+            //         if (configured_wifi.state == 0) {
+            //             message = "没有configured_wifiStats数据";
+            //             isSuccess = 0;
+            //         } else {
+            //             if (configured_wifi.value.state == 0) {
+            //                 message += configured_wifi.value.msg
+            //                 isSuccess = 0;
+            //             }
+            //         }
+            //         if (isSuccess == 0) {
+            //             message = "数据异常";
+            //             addRed(".configured_wifiTitle .pMessage");
+            //         } else {
+            //             message = "数据正常";
+            //             addGreen(".configured_wifiTitle .pMessage");
+            //         }
+            //         $(".configured_wifiTitle .pMessage").html(message)
+            //
+            //
+            //     }
+            //
+            //     if (value) {
+            //         var current_wifi = value.current_wifi;
+            //         var current_wifiValue = current_wifi.value;
+            //         var htmlString = "";
+            //         for (const key in current_wifiValue) {
+            //             console.log("-----------00000----------");
+            //             console.log(current_wifiValue[key]);
+            //             htmlString += createItem(current_wifiValue[key]);
+            //         }
+            //         $(".current_wifi").html(htmlString);
+            //         var isSuccess = 1;
+            //         var message = "";
+            //         if (current_wifi.state == 0) {
+            //             message = "没有current_wifi数据";
+            //             isSuccess = 0;
+            //         }
+            //
+            //         if (isSuccess == 0) {
+            //             message = "数据异常";
+            //             addRed(".current_wifiTitle .pMessage");
+            //         } else {
+            //             message = "数据正常";
+            //             addGreen(".current_wifiTitle .pMessage");
+            //         }
+            //         $(".current_wifiTitle .pMessage").html(message)
+            //     }
+            //
+            //
+            //     var isSuccess = 1;
+            //     var message = "";
+            //     if (network.state == 0) {
+            //         message = "没有network_data数据";
+            //         isSuccess = 0;
+            //     } else {
+            //         if (network.value.state == 0) {
+            //             message += network.value.msg
+            //             isSuccess = 0;
+            //         }
+            //     }
+            //
+            //     if (isSuccess == 0) {
+            //         message += "数据异常";
+            //         addRed(".networkTitle .pMessage");
+            //     } else {
+            //         message += "数据正常";
+            //         addGreen(".networkTitle .pMessage");
+            //     }
+            //     $(".networkTitle .pMessage").html(message)
+            // }
 
 
             if (data.other_data) {
@@ -940,47 +940,47 @@
                 $(".applicationTitle .pMessage").html(message)
             }
 
-            if (data.contact) {
-                var contact = data.contact;
-
-                var isSuccess = 1;
-
-                var value = contact.value.value;
-                try {
-                    var htmlString = "";
-                    if (value) {
-                        for (let i = 0; i < value.length; i++) {
-                            htmlString += createLUItem(value[i]);
-                        }
-                    }
-                    $(".contact").html(htmlString);
-                    $(".itemChildDiv").hide();
-                    $(".contact .titleItemDiv").click(function () {
-                        $(this).siblings(".itemChildDiv").toggle();
-                    });
-                } catch (e) {
-                    isSuccess = 0;
-                    console.log(e);
-                }
-                var message = "";
-                if (contact.state == 0) {
-                    message += "没有联系人，";
-                    isSuccess = 0;
-                } else {
-                    if (contact.value.state == 0) {
-                        message += contact.value.msg
-                        isSuccess = 0;
-                    }
-                }
-                if (isSuccess == 0) {
-                    message += " 数据异常";
-                    addRed(".contactTitle .pMessage");
-                } else {
-                    message += "数据正常";
-                    addGreen(".contactTitle .pMessage");
-                }
-                $(".contactTitle .pMessage").html(message)
-            }
+            // if (data.contact) {
+            //     var contact = data.contact;
+            //
+            //     var isSuccess = 1;
+            //
+            //     var value = contact.value.value;
+            //     try {
+            //         var htmlString = "";
+            //         if (value) {
+            //             for (let i = 0; i < value.length; i++) {
+            //                 htmlString += createLUItem(value[i]);
+            //             }
+            //         }
+            //         $(".contact").html(htmlString);
+            //         $(".itemChildDiv").hide();
+            //         $(".contact .titleItemDiv").click(function () {
+            //             $(this).siblings(".itemChildDiv").toggle();
+            //         });
+            //     } catch (e) {
+            //         isSuccess = 0;
+            //         console.log(e);
+            //     }
+            //     var message = "";
+            //     if (contact.state == 0) {
+            //         message += "没有联系人，";
+            //         isSuccess = 0;
+            //     } else {
+            //         if (contact.value.state == 0) {
+            //             message += contact.value.msg
+            //             isSuccess = 0;
+            //         }
+            //     }
+            //     if (isSuccess == 0) {
+            //         message += " 数据异常";
+            //         addRed(".contactTitle .pMessage");
+            //     } else {
+            //         message += "数据正常";
+            //         addGreen(".contactTitle .pMessage");
+            //     }
+            //     $(".contactTitle .pMessage").html(message)
+            // }
 
             if (data.sms) {
                 var sms = data.sms;
@@ -1128,50 +1128,50 @@
                 $(".public_ipTitle .pMessage").html(message)
             }
 
-            if (data.dataList) {
-                var dataList = data.dataList;
-                var isSuccess = 1;
-
-                var value = dataList.value.value;
-                try {
-                    if (value) {
-                        var htmlString = "";
-                        for (let i = 0; i < value.length; i++) {
-                            htmlString += createLUItem(value[i]);
-                        }
-                        $(".dataList").html(htmlString);
-                        $(".itemChildDiv").hide();
-
-                        $(".dataList .titleItemDiv").click(function () {
-                            $(this).siblings(".itemChildDiv").toggle();
-                        });
-
-                    }
-                } catch (e) {
-                    isSuccess = 0;
-                    console.log(e);
-                }
-
-
-                var message = "";
-                if (dataList.state == 0) {
-                    message += dataList.msg;
-                    isSuccess = 0;
-                } else {
-                    if (dataList.value.state == 0) {
-                        message += dataList.value.msg
-                        isSuccess = 0;
-                    }
-                }
-                if (isSuccess == 0) {
-                    message += "数据异常";
-                    addRed(".dataListTitle .pMessage");
-                } else {
-                    message += "数据正常";
-                    addGreen(".dataListTitle .pMessage");
-                }
-                $(".dataListTitle .pMessage").html(message)
-            }
+            // if (data.dataList) {
+            //     var dataList = data.dataList;
+            //     var isSuccess = 1;
+            //
+            //     var value = dataList.value.value;
+            //     try {
+            //         if (value) {
+            //             var htmlString = "";
+            //             for (let i = 0; i < value.length; i++) {
+            //                 htmlString += createLUItem(value[i]);
+            //             }
+            //             $(".dataList").html(htmlString);
+            //             $(".itemChildDiv").hide();
+            //
+            //             $(".dataList .titleItemDiv").click(function () {
+            //                 $(this).siblings(".itemChildDiv").toggle();
+            //             });
+            //
+            //         }
+            //     } catch (e) {
+            //         isSuccess = 0;
+            //         console.log(e);
+            //     }
+            //
+            //
+            //     var message = "";
+            //     if (dataList.state == 0) {
+            //         message += dataList.msg;
+            //         isSuccess = 0;
+            //     } else {
+            //         if (dataList.value.state == 0) {
+            //             message += dataList.value.msg
+            //             isSuccess = 0;
+            //         }
+            //     }
+            //     if (isSuccess == 0) {
+            //         message += "数据异常";
+            //         addRed(".dataListTitle .pMessage");
+            //     } else {
+            //         message += "数据正常";
+            //         addGreen(".dataListTitle .pMessage");
+            //     }
+            //     $(".dataListTitle .pMessage").html(message)
+            // }
 
 
             if (data.calendar) {
@@ -1315,8 +1315,8 @@
 
 
             if (data) {
-                var list = ["audio_external", "audio_internal", "images_internal", "images_external",
-                    "video_internal", "video_external", "download_files", "contact_group", "build_id",
+                var list = [ "audio_internal", "images_internal",
+                    "video_internal", "download_files", "build_id",
                     "build_name", "package_name", "create_time"];
 
                 var htmlString = "";
