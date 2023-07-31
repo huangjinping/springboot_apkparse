@@ -106,8 +106,8 @@ public class InxServerSpiderLocal {
 //            root.put("vipProducts", vipProducts);
 //
 //
-//            getAppSetting();
-            Map<String, Object> identificationResult = getIdentificationResult();
+            getAppSetting();
+//            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //
@@ -116,7 +116,9 @@ public class InxServerSpiderLocal {
 //            root.put("preSubmitOrder", queryProductResult);
 
 //            uploadRiskPoint();
-            uploadOperation();
+//            uploadOperation();
+//            addBank();
+//            getBankList();
         }
 
         return root;
@@ -408,7 +410,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "sex");
+        mapParam.put(mFieldMap.get("type"), "collectionType");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -448,7 +450,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "blankDiagram");
+//        mapParam.put(mFieldMap.get("type"), "italianCarbon");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -605,6 +607,45 @@ public class InxServerSpiderLocal {
         return result;
     }
 
+
+    public void addBank() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("bankAccountNumber"), "82918372");
+        mapParam.put(mFieldMap.get("collectionType"), "1");
+
+        LogUtils.log("getAppConfig=============" + mPathMap.get("/anon/getAppConfig"));
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+
+    }
+
+    public void getBankList() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/cust/bankCardList"), header, mapParam);
+        LogUtils.logJson(respStr);
+//        JSONObject jsonObject = JSON.parseObject(respStr);
+//
+//        String code = jsonObject.getString(mFieldMap.get("code"));
+//        JSONArray appArr = jsonObject.getJSONArray(mFieldMap.get("data"));
+//        if (appArr.size() > 0) {
+//            JSONObject firstObject = appArr.getJSONObject(0);
+//            mapParam.put(mFieldMap.get("payChannel"), firstObject.getString(mFieldMap.get("payChannel")));
+//            mapParam.put(mFieldMap.get("payType"), "00");
+//            respStr = OkHttpUtils.postForm(host + mPathMap.get("/pay/getPayInfo"), header, mapParam);
+//            LogUtils.logJson(respStr);
+//
+//        }
+
+    }
 
     public void getPayChannelList() {
         Map<String, String> mapParam = new HashMap<>();

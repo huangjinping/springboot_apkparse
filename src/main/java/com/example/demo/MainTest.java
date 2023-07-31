@@ -39,20 +39,28 @@ public class MainTest {
     public static void main(String[] args) {
 //        System.out.println(RegexUtils.isTel1("123416789"));
 
+//        Calendar instance = Calendar.getInstance();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        String format = simpleDateFormat.format(instance.getTime());
+//        LogUtils.log("-----" + format);
+//        instance.add(Calendar.DAY_OF_MONTH,21);
+//         format = simpleDateFormat.format(instance.getTime());
+//        LogUtils.log("-----" + format);
+
         String HOME_PATH = "/Users/huhuijie/Documents/git/dart-cli-tools/project/";
 //        String s = buildCMD("/Users/huhuijie/Downloads/BelArgent");
 //        System.out.println(s);
 //        msgFeatureV3();
         try {
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/estrellacredito.json");
-//                String fileName = "estrellacredito";
-//                String appssid = "182";
-//                String domainname = "https://glby.ultracreditosmx.com";
-//                String phoneNo = "1825396142";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/estrellacredito.json");
+                String fileName = "estrellacredito";
+                String appssid = "182";
+                String domainname = "https://glby.ultracreditosmx.com";
+                String phoneNo = "1825396142";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "chile/holaprestamo.json");
 //                String fileName = "holaprestamo";
@@ -116,8 +124,8 @@ public class MainTest {
 
 
 //            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/felizcredit.json");
-//                String fileName = "felizcredit";
+//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/dinercolplus.json");
+//                String fileName = "dinercolplus";
 //                String appssid = "180";
 //                String domainname = "https://glby.ultracreditosmx.com";
 //                String phoneNo = "1825396142";
@@ -125,15 +133,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 //
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/jamboloan.json");
-                String fileName = "jamboloan";
-                String appssid = "197";
-                String domainname = "https://tz.ultracreditosmx.com";
-                String phoneNo = "183333333";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/jamboloan.json");
+//                String fileName = "jamboloan";
+//                String appssid = "197";
+//                String domainname = "https://tz.ultracreditosmx.com";
+//                String phoneNo = "183333333";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "guatemala/chburocredito.json");
@@ -151,7 +159,7 @@ public class MainTest {
 //                String fileName = "mkopofasta";
 //                String appssid = "154";
 //                String domainname = "https://tz.ultracreditosmx.com";
-//                String phoneNo = "18310611";
+//                String phoneNo = "183100381";
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
@@ -173,7 +181,7 @@ public class MainTest {
 //                String fileName = "mkopofasta";
 //                String appssid = "154";
 //                String domainname = "https://tz.ultracreditosmx.com";
-//                String phoneNo = "18255551";
+//                String phoneNo = "183123456";
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
@@ -237,16 +245,13 @@ public class MainTest {
 //            compress = AESUtil.decrypt(compress, key);
 //            LogUtils.logJson(GzipUtil.unCompress(compress));
 
-
 //            searchTask.getUrlList("/Users/huhuijie/Documents/bundletool/__UNI__C5B5A12_0921120719/smali");
-
 //            String encrypt = AESUtil.encrypt("/login/getVerifCode", "0121170eedf910c65bf10b2cf5820202");
 //
 //            LogUtils.log(encrypt);
 
 //            ThreadM threadM=new ThreadM();
 //            threadM.threadMethod();
-
 
         } catch (Exception e) {
             LogUtils.logJson("---------222-------1-");
