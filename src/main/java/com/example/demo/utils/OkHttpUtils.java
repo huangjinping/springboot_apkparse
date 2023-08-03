@@ -4,7 +4,9 @@ import okhttp3.*;
 
 import javax.net.ssl.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -95,6 +97,7 @@ public class OkHttpUtils {
         }
         return null;
     }
+
 
     public static String putJson(String url, String requestData, Map<String, String> header) {
         RequestBody requestBody = RequestBody.create(JSON, requestData);
@@ -488,5 +491,27 @@ public class OkHttpUtils {
         }
         return null;
     }
+
+    public static String downLoad(String url, String savePath) {
+        Request.Builder builder = new Request.Builder().url(url).get();
+        Request request = builder.build();
+        try {
+            Response response = client.newCall(request).execute();
+            InputStream is = response.body().byteStream();
+            FileOutputStream fos = new FileOutputStream(savePath);
+            byte[] buf = new byte[100 * 1024];
+            int sum = 0, len = 0;
+            while ((len = is.read(buf)) != -1) {
+                fos.write(buf, 0, len);
+                sum += len;
+            }
+            return savePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
 
 }

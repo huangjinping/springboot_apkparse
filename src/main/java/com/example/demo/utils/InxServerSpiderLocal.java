@@ -89,6 +89,7 @@ public class InxServerSpiderLocal {
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
         if (loginUser != null) {
+            index();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -104,23 +105,21 @@ public class InxServerSpiderLocal {
 //            Map<String, Object> vip = getVip();
 //            Jentity vipProducts = new Jentity("vipProducts", vip, vip.isEmpty() ? 0 : 1);
 //            root.put("vipProducts", vipProducts);
-//
-//
-            getAppSetting();
-//            Map<String, Object> identificationResult = getIdentificationResult();
+
+
+//            getAppSetting();
+            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //
 //            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
-
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
 //            getBankList();
         }
-
         return root;
     }
 
@@ -450,7 +449,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-//        mapParam.put(mFieldMap.get("type"), "italianCarbon");
+        mapParam.put(mFieldMap.get("key"), "italianCarbon");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -458,6 +457,39 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
+
+    public void index() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/index"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+            JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+            String orderId = jsonData.getString(mFieldMap.get("orderId"));
+            if (!TextUtils.isEmpty(orderId)) {
+                mpRepayUrl(orderId, "00");
+            }
+        }
+    }
+
+    public void mpRepayUrl(String orderId, String payType) {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        LogUtils.log("======app==11==");
+        mapParam.put(mFieldMap.get("orderId"), orderId);
+        mapParam.put(mFieldMap.get("payType"), payType);
+        mapParam.put(mFieldMap.get("payMethod"), "1");
+        LogUtils.log(mapParam);
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/mpRepayUrl"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+    }
+
 
     public void uploadImage() {
         Map<String, String> mapParam = new HashMap<>();
@@ -472,9 +504,12 @@ public class InxServerSpiderLocal {
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
         if ("1000".equals(code)) {
+            JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+
 
         }
     }
+
 
     public Map<String, Object> getIdentificationResult() {
         Map<String, String> mapParam = new HashMap<>();
@@ -500,6 +535,7 @@ public class InxServerSpiderLocal {
                 if (i == 0) {
                     stats = 0;
                 }
+                loadFile(afaceUrl);
                 indentificationResult.put("afaceUrl", new Jentity("afaceUrl", afaceUrl, i));
             } else {
                 stats = 0;
@@ -509,6 +545,8 @@ public class InxServerSpiderLocal {
                 if (i == 0) {
                     stats = 0;
                 }
+                loadFile(cardFrontUrl);
+
                 indentificationResult.put("cardFrontUrl", new Jentity("cardFrontUrl", cardFrontUrl, i));
             }
             if (!TextUtils.isEmpty(cardBackUrl)) {
@@ -516,6 +554,8 @@ public class InxServerSpiderLocal {
                 if (i == 0) {
                     stats = 0;
                 }
+                loadFile(cardBackUrl);
+
                 indentificationResult.put("cardBackUrl", new Jentity("cardBackUrl", cardBackUrl, i));
             }
             if (!TextUtils.isEmpty(bankCardImagUrl)) {
@@ -523,6 +563,7 @@ public class InxServerSpiderLocal {
                 if (i == 0) {
                     stats = 0;
                 }
+                loadFile(bankCardImagUrl);
                 indentificationResult.put("bankCardImagUrl", new Jentity("bankCardImagUrl", bankCardImagUrl, i));
             }
         }
@@ -695,4 +736,11 @@ public class InxServerSpiderLocal {
         }
     }
 
+
+    public void loadFile(String url) {
+        String t_name = TextUtils.createName();
+        File file = new File("./tempApp/" + appssid + "_" + t_name + ".jpg");
+        OkHttpUtils.downLoad(url, file.getAbsolutePath());
+
+    }
 }

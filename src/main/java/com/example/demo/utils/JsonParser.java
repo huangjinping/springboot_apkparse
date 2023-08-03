@@ -891,11 +891,10 @@ public class JsonParser {
                 hardwareResult.put("device_name", new Jentity("device_name", device_name, 0));
             }
             int sdk_version = hardware.getIntValue("sdk_version");
-            if (sdk_version > 21) {
+            if (sdk_version >= 21) {
                 hardwareResult.put("sdk_version", new Jentity("sdk_version", sdk_version, 1));
             } else {
                 stats = 0;
-
                 hardwareResult.put("sdk_version", new Jentity("sdk_version", sdk_version, 0));
             }
 
@@ -989,7 +988,7 @@ public class JsonParser {
 
             key = "cpu_num";
             String cpu_num = hardware.getString(key);
-            int cpu_numState = CheckUtils.getSaferLimitDouble(hardware, key, 1);
+            int cpu_numState = CheckUtils.getSaferLimitInt(hardware, key, 1);
             hardwareResult.put(key, new Jentity(key, cpu_num, cpu_numState));
             if (cpu_numState != 1) {
                 stats = 0;
@@ -997,6 +996,8 @@ public class JsonParser {
 
             key = "device_height";
             String device_height = hardware.getString(key);
+
+
             int heightState = CheckUtils.getSaferLimitDouble(hardware, key, 1);
             hardwareResult.put(key, new Jentity(key, device_height, heightState));
             if (heightState != 1) {
