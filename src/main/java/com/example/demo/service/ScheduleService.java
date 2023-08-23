@@ -40,7 +40,7 @@ public class ScheduleService {
         }
     }
 
-
+    
     @Scheduled(cron = "0 0/30 * * * ?")
     public void updateDoc() {
         System.out.println("=====11==updateDoc===start==" + System.currentTimeMillis());

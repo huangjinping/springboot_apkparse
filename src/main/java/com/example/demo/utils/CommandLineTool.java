@@ -57,4 +57,12 @@ public class CommandLineTool {
         builder.append("' " + dir);
         return builder.toString();
     }
+
+
+    public static void unZipCMD(String zipPath) {
+        List<String> commands = new ArrayList<>();
+        LogUtils.log("unzip " + zipPath);
+        commands.add("unzip " + zipPath);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
+    }
 }

@@ -78,7 +78,6 @@ public class InxServerSpiderLocal {
             comm.put(mFieldMap.get("currentUserId"), loginUser.getUserId());
             comm.put(mFieldMap.get("userId"), loginUser.getUserId());
             comm.put(mFieldMap.get("custInfoId"), loginUser.getUserId());
-
         }
         return comm;
     }
@@ -89,32 +88,31 @@ public class InxServerSpiderLocal {
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
         if (loginUser != null) {
-            index();
+//            index();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV3();
-//              getAppConfig();
+            getAppConfig();
 //            getPayChannelList();
-//            Map<String, Object> stringStorage = getImageList();
+            Map<String, Object> stringStorage = getImageList();
 //            Jentity getAppImageList = new Jentity("getAppImageList", stringStorage, stringStorage.isEmpty() ? 0 : 1);
 //            root.put("getAppImageList", getAppImageList);
 //
-//            Map<String, Object> vip = getVip();
+            Map<String, Object> vip = getVip();
 //            Jentity vipProducts = new Jentity("vipProducts", vip, vip.isEmpty() ? 0 : 1);
 //            root.put("vipProducts", vipProducts);
 
-
 //            getAppSetting();
             Map<String, Object> identificationResult = getIdentificationResult();
-//            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
-//            root.put("getIdentificationResult", getIdentificationResult);
-//
-//            Map<String, Object> queryProduct = queryProduct();
-//            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
-//            root.put("preSubmitOrder", queryProductResult);
+            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
+            root.put("getIdentificationResult", getIdentificationResult);
+
+            Map<String, Object> queryProduct = queryProduct();
+            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
+            root.put("preSubmitOrder", queryProductResult);
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
@@ -409,7 +407,9 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "collectionType");
+        mapParam.put(mFieldMap.get("type"), "sex");
+        mapParam.put("spanishShortsMicrocomputerLoudspeaker", "es");
+
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -610,7 +610,7 @@ public class InxServerSpiderLocal {
 
             LogUtils.logJson(jsonData);
 
-            if (jsonData.containsKey(mFieldMap.get("contractList"))) {
+            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
 
                 LogUtils.logJson("=====================1");
 

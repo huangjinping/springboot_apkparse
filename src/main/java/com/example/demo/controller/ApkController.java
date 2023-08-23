@@ -94,7 +94,6 @@ public class ApkController {
             } else if (".aab".equals(suffix)) {
                 String apksPath = unzipPath + ".apks";
                 String aabPath = resultFile.getAbsolutePath();
-
                 String bundletooPath = "java -jar " + projectFile.getAbsolutePath() + "/jks/bundletool.jar";
 //                String cmdaabToApks = "bundletool build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
                 String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
@@ -127,7 +126,15 @@ public class ApkController {
 
                 String masterApkBPath = deviceApkPath + "/base-master";
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
-                map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
+                try {
+                    ZIPUtils.unzip(aabPath, resultFile.getParentFile() + "/unzip");
+                    FileUtils.moveFile(resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map", masterApkBPath + "/proguard.map");
+                    map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);
@@ -137,4 +144,6 @@ public class ApkController {
 //        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
         return RestResponse.success(resultMap);
     }
+
+
 }
