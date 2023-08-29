@@ -407,11 +407,13 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "sex");
+        mapParam.put(mFieldMap.get("type"), "collectionType");
         mapParam.put("spanishShortsMicrocomputerLoudspeaker", "es");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
+        LogUtils.logJson("/anon/getAppConfig");
         LogUtils.logJson(respStr);
+
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
         if ("1000".equals(code)) {

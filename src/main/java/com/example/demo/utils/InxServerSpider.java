@@ -459,10 +459,8 @@ public class InxServerSpider {
 
             if (jsonData.containsKey(mFieldMap.get("contractList"))) {
 
-                LogUtils.logJson("=====================1");
 
                 JSONArray contractList = jsonData.getJSONArray(mFieldMap.get("contractList"));
-                LogUtils.logJson("=====================2");
 
                 for (int i = 0; i < contractList.size(); i++) {
                     int appListState = 1;

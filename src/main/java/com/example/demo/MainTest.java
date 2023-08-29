@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.bean.CommonModel;
 import com.example.demo.utils.*;
 
 import java.io.File;
@@ -47,11 +48,23 @@ public class MainTest {
 //         format = simpleDateFormat.format(instance.getTime());
 //        LogUtils.log("-----" + format);
 
+
         String HOME_PATH = "/Users/huhuijie/Documents/git/dart-cli-tools/project/";
 //        String s = buildCMD("/Users/huhuijie/Downloads/BelArgent");
 //        System.out.println(s);
 //        msgFeatureV3();
+
+//        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/rapicredito.json");
+//                String fileName = "rapicredito";
+//                String appssid = "204";
+//                String domainname = "https://glby.ultracreditosmx.com";
+//                String phoneNo = "18232145698";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //                        {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "mexico/guayabacash.json");
@@ -59,6 +72,15 @@ public class MainTest {
 //                String appssid = "28";
 //                String domainname = "https://mx.ultracreditosmx.com";
 //                String phoneNo = "183465458";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/elefante.json");
+//                String fileName = "elefante";
+//                String appssid = "186";
+//                String domainname = "https://www.elefantecl.com";
+//                String phoneNo = "183100611";
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
@@ -91,15 +113,15 @@ public class MainTest {
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/platalibre.json");
-//                String fileName = "platalibre";
-//                String appssid = "216";
-//                String domainname = "https://glby.ultracreditosmx.com";
-//                String phoneNo = "1825396142";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/platalibre.json");
+                String fileName = "platalibre";
+                String appssid = "216";
+                String domainname = "https://glby.ultracreditosmx.com";
+                String phoneNo = "1825396142";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "senegal/senepret.json");
 //                String fileName = "senepret";
@@ -128,15 +150,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "chile/holaprestamo.json");
-                String fileName = "holaprestamo";
-                String appssid = "185";
-                String domainname = "https://test.holaprestamocl.com";
-                String phoneNo = "183353637";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/holaprestamo.json");
+//                String fileName = "holaprestamo";
+//                String appssid = "185";
+//                String domainname = "https://test.holaprestamocl.com";
+//                String phoneNo = "183353637";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/guatemalacash.json");
@@ -328,7 +350,6 @@ public class MainTest {
         }
     }
 
-
     public static String buildCMD(String dir) {
         List<String> grepModelList = new ArrayList<>();
         grepModelList.add("\"samsung\"");
@@ -346,6 +367,38 @@ public class MainTest {
         }
         builder.append("' " + dir);
         return builder.toString();
+    }
+
+    public static void onScanFile(String path) {
+
+        int poolLength = 10;//需要用的线程个数
+
+        for (int i = 0; i < poolLength; i++) {
+            final int index = i;
+            StringTask stringTask = new StringTask();
+            List<CommonModel> strings = stringTask.searchLogs(path, StringTask.getLenIndex(StringTask.searchLogs2, poolLength, index));
+            onPrintLog(strings);
+        }
+        for (int i = 0; i < poolLength; i++) {
+            final int index = i;
+            StringTask stringTask = new StringTask();
+            List<CommonModel> strings = stringTask.searchLogs(path, StringTask.getLenIndex(StringTask.searchLogs2, poolLength, index));
+            onPrintLog(strings);
+        }
+        for (int i = 0; i < poolLength; i++) {
+            final int index = i;
+            StringTask stringTask = new StringTask();
+            List<CommonModel> strings = stringTask.searchLogs(path, StringTask.getLenIndex(StringTask.searchLogs3, poolLength, index));
+            onPrintLog(strings);
+        }
+
+    }
+
+    private static void onPrintLog(List<CommonModel> commonModelList) {
+        for (CommonModel commonModel : commonModelList
+        ) {
+            LogUtils.logJson(commonModel.getName());
+        }
     }
 
 

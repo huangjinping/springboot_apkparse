@@ -249,7 +249,7 @@ public class StringTask {
     public List<CommonModel> searchLogs(String dir, List<String> strs) {
         List<String> commands = new ArrayList<>();
         String command = CommandLineTool.buildCMDbyList(dir, strs);
-        LogUtils.log(command);
+//        LogUtils.log(command);
         commands.add(command);
         List<String> result = CommandLineTool.executeNewFlow(commands);
         List<CommonModel> resultData = new ArrayList<>();

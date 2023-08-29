@@ -18,9 +18,12 @@ public class FolderFileScanner {
             "/com/umeng/",//友盟
             "/com/tencent/",//腾讯库
             "/com/alibaba/sdk/android/",//阿里云
-            "/com/baidu/location",//百度定位
-            "/com/baidu/mapapi",//百度定位
-            "/com/amap/api"//高德定位
+            "/com/baidu/",//百度定位
+            "/com/amap/api",//高德定位
+            "/me/jessyan/autosize",//头条适配
+            "/com/alibaba/android/arouter",//router
+            "/com/meituan/",//美团
+            "/com/didi/",//滴滴
 
     };
 
@@ -49,6 +52,7 @@ public class FolderFileScanner {
         packageLine = packageLine.replace(".smali", "");
         String[] packageList = packageLine.split("/smal");
         String resName = packageList[1];
+
         int i = resName.indexOf("/");
         resName = resName.substring(i);
         String[] split = resName.split("/");

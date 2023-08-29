@@ -254,9 +254,11 @@ public class JsonParser {
 
             key = "battery_pct";
             String battery_pct = item.getString(key);
-            int battery_pctstate = CheckUtils.getSaferLimitDouble(item, key, 0);
+            LogUtils.logJson("==========battery_pct===========2" + battery_pct);
+
+            int battery_pctstate = CheckUtils.getSaferLimitDouble(item, key, 20);
             result.put(key, new Jentity(key, battery_pct, battery_pctstate));
-            if (is_chargingstate != 1) {
+            if (battery_pctstate != 1) {
                 stats = 0;
             }
 
@@ -574,13 +576,15 @@ public class JsonParser {
             key = "sensor_list";
 
             int sensorStats = 1;
-            String sensorMsg = "";
+            StringBuilder sensorMsg = new StringBuilder();
 
             if (general_data.containsKey("sensor_list")) {
                 JSONArray sensor_list = general_data.getJSONArray("sensor_list");
 
                 List<Jentity> sensorResultList = new ArrayList<>();
                 if (sensor_list.size() > 0) {
+                    PropSolrGroup solrGroup = new PropSolrGroup();
+
                     for (int i = 0; i < sensor_list.size(); i++) {
                         int sensorCCStats = 1;
                         Map<String, Object> sensor_0 = new HashMap<>();
@@ -588,6 +592,8 @@ public class JsonParser {
                         String skey = "";
                         skey = "type";
                         String type = sensor.getString(skey);
+                        solrGroup.addPropSolr(skey, type);
+
                         int typeStats = CheckUtils.getSaferLimitInt(sensor, skey, 0);
                         sensor_0.put(skey, new Jentity(skey, type, typeStats));
                         if (typeStats != 1) {
@@ -596,6 +602,8 @@ public class JsonParser {
 
                         skey = "name";
                         String name = sensor.getString(skey);
+                        solrGroup.addPropSolr(skey, name);
+
                         if (!TextUtils.isEmpty(name)) {
                             sensor_0.put(skey, new Jentity(skey, name, 1));
                         } else {
@@ -605,6 +613,8 @@ public class JsonParser {
 
                         skey = "version";
                         String version = sensor.getString(skey);
+//                        solrGroup.addPropSolr(skey, version);
+
                         int versionStats = CheckUtils.getSaferLimitInt(sensor, skey, 1);
                         sensor_0.put(skey, new Jentity(skey, version, versionStats));
                         if (versionStats != 1) {
@@ -613,6 +623,8 @@ public class JsonParser {
 
                         skey = "vendor";
                         String vendor = sensor.getString(skey);
+//                        solrGroup.addPropSolr(skey, vendor);
+
                         if (!TextUtils.isEmpty(vendor)) {
                             sensor_0.put(skey, new Jentity(skey, vendor, 1));
                         } else {
@@ -622,6 +634,8 @@ public class JsonParser {
 
                         skey = "maxRange";
                         String maxRange = sensor.getString(skey);
+//                        solrGroup.addPropSolr(skey, maxRange);
+
                         int maxRangeStats = CheckUtils.getSaferLimitDouble(sensor, skey, 1);
                         sensor_0.put(skey, new Jentity(skey, maxRange, CheckUtils.getSaferLimitDouble(sensor, skey, 1)));
                         if (maxRangeStats != 1) {
@@ -630,6 +644,7 @@ public class JsonParser {
 
                         skey = "minDelay";
                         String minDelay = sensor.getString(skey);
+
                         int minDelayStats = CheckUtils.getSaferLimitInt(sensor, skey, -2);
                         sensor_0.put(skey, new Jentity(skey, minDelay, minDelayStats));
                         if (minDelayStats != 1) {
@@ -639,6 +654,8 @@ public class JsonParser {
 
                         skey = "power";
                         String power = sensor.getString(skey);
+//                        solrGroup.addPropSolr(skey, power);
+
                         int powerStats = CheckUtils.getSaferLimitDouble(sensor, skey, 0);
                         sensor_0.put(skey, new Jentity(skey, power, powerStats));
                         if (powerStats != 1) {
@@ -647,6 +664,8 @@ public class JsonParser {
 
                         skey = "resolution";
                         String resolution = sensor.getString(skey);
+//                        solrGroup.addPropSolr(skey, resolution);
+
                         if (!TextUtils.isEmpty(resolution)) {
                             sensor_0.put(skey, new Jentity(skey, resolution, 1));
                         } else {
@@ -662,11 +681,18 @@ public class JsonParser {
 
                     if (sensorResultList.size() > 0 && sensorResultList.size() < 6) {
                         sensorStats = 0;
-                        sensorMsg = "传感器个数异常";
+                        sensorMsg.append("传感器个数异常");
                     }
 
+                    Jentity solrResult = solrGroup.getResult();
+                    if (solrResult.getState() < 1) {
+                        sensorStats = 0;
+                        sensorMsg.append(solrResult.getMsg());
+                    }
+
+
                     Jentity jentity = new Jentity(key, sensorResultList, sensorStats);
-                    jentity.setMsg(sensorMsg);
+                    jentity.setMsg(sensorMsg.toString());
                     generalResult.put(key, jentity);
                 } else {
                     generalResult.put(key, new Jentity(key, "", CheckUtils.getSaferLimitDouble(general_data, key, 0)));
