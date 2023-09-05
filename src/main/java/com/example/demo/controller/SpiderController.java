@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,9 +81,16 @@ public class SpiderController {
     }
 
     @RequestMapping(value = "/onMishie")
-    public String onMishie() {
+    public String onMishie(HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
 
+        String strDateFormat = "yyyyMMddHHmmssSSS";//设置日期格式
+
+        Date date = new Date();
+        date.setTime(System.currentTimeMillis());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(strDateFormat);
+        LogUtils.log(simpleDateFormat.format(date)+"      "+request.getRemoteAddr());
 
         return "\n" +
                 "<!DOCTYPE html>\n" +

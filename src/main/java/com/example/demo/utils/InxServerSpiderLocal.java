@@ -95,13 +95,13 @@ public class InxServerSpiderLocal {
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV3();
-            getAppConfig();
+//            getAppConfig();
 //            getPayChannelList();
-            Map<String, Object> stringStorage = getImageList();
+//            Map<String, Object> stringStorage = getImageList();
 //            Jentity getAppImageList = new Jentity("getAppImageList", stringStorage, stringStorage.isEmpty() ? 0 : 1);
 //            root.put("getAppImageList", getAppImageList);
 //
-            Map<String, Object> vip = getVip();
+//            Map<String, Object> vip = getVip();
 //            Jentity vipProducts = new Jentity("vipProducts", vip, vip.isEmpty() ? 0 : 1);
 //            root.put("vipProducts", vipProducts);
 
@@ -110,9 +110,9 @@ public class InxServerSpiderLocal {
             Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
             root.put("getIdentificationResult", getIdentificationResult);
 
-            Map<String, Object> queryProduct = queryProduct();
-            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
-            root.put("preSubmitOrder", queryProductResult);
+//            Map<String, Object> queryProduct = queryProduct();
+//            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
+//            root.put("preSubmitOrder", queryProductResult);
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
@@ -499,7 +499,7 @@ public class InxServerSpiderLocal {
         Map<String, String> header = commMap();
         Map<String, File> fileMap = new HashMap<>();
         fileMap.put(mFieldMap.get("frontImage"), new File("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/test.jpg"));
-        mapParam.put(mFieldMap.get("type"), "02");
+        mapParam.put(mFieldMap.get("type"), "00");
         String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/saveImage"), fileMap, mapParam, header);
 
         LogUtils.logJson(respStr);
@@ -507,8 +507,6 @@ public class InxServerSpiderLocal {
         String code = jsonObject.getString(mFieldMap.get("code"));
         if ("1000".equals(code)) {
             JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
-
-
         }
     }
 

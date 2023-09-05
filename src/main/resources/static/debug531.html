@@ -560,6 +560,15 @@
                 $(".versionCode").html(data.versionCode);
 
 
+                if (!isEmpty(packageName) && packageName.length > 50) {
+                    $(".packageName").addClass("redText");
+                    $(".packageName").html(packageName + "　　　包名大于50位");
+                } else {
+                    $(".packageName").html(packageName);
+                    $(".packageName").removeClass("redText");
+                }
+
+
                 var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 33) {
                     $(".targetSdkVersion").addClass("redText");

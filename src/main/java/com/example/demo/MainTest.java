@@ -48,7 +48,11 @@ public class MainTest {
 //         format = simpleDateFormat.format(instance.getTime());
 //        LogUtils.log("-----" + format);
 
+//        LogUtils.log("com.prestamo.profin.loan.super.dinero.efectivo.credito.credit.cash".length());
 
+//        LogUtils.log("com.eastb.com.eastb.com.eastb.com.eastb.com.eastb.c".length());
+//
+//        LogUtils.log("com.bolivia.paypal.iqoption.pacifico.bolivariano".length());
         String HOME_PATH = "/Users/huhuijie/Documents/git/dart-cli-tools/project/";
 //        String s = buildCMD("/Users/huhuijie/Downloads/BelArgent");
 //        System.out.println(s);
@@ -56,6 +60,25 @@ public class MainTest {
 
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
+
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/onlinecredito.json");
+                String fileName = "onlinecredito";
+                String appssid = "177";
+                String domainname = "https://glby.ultracreditosmx.com";
+                String phoneNo = "183660047";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/credibus.json");
+//                String fileName = "credibus";
+//                String appssid = "26";
+//                String domainname = "https://www.credibusco.com";
+//                String phoneNo = "18324111";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/rapicredito.json");
 //                String fileName = "rapicredito";
@@ -113,15 +136,15 @@ public class MainTest {
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/platalibre.json");
-                String fileName = "platalibre";
-                String appssid = "216";
-                String domainname = "https://glby.ultracreditosmx.com";
-                String phoneNo = "1825396142";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/platalibre.json");
+//                String fileName = "platalibre";
+//                String appssid = "216";
+//                String domainname = "https://glby.ultracreditosmx.com";
+//                String phoneNo = "1825396142";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "senegal/senepret.json");
 //                String fileName = "senepret";
@@ -212,6 +235,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/amorcredito.json");
+//                String fileName = "amorcredito";
+//                String appssid = "211";
+//                String domainname = "https://glby.ultracreditosmx.com";
+//                String phoneNo = "183377411";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/dinercolplus.json");
 //                String fileName = "dinercolplus";

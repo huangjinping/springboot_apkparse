@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,13 +26,49 @@ public class OkHttpUtils {
     private static OkHttpClient client;
     private static OkHttpClient clientZip;
     private static OkHttpClient clientNoSSL;
+    private static class TrustAllCerts implements X509TrustManager {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+    }
 
+    private static class TrustAllHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+    }
+
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory ssfFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+        }
+        return ssfFactory;
+    }
     static {
         client = new OkHttpClient.Builder()
                 .connectTimeout(40L, TimeUnit.SECONDS)
                 .readTimeout(40L, TimeUnit.SECONDS)
                 .writeTimeout(40L, TimeUnit.SECONDS)
+                .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts( ))
+                .hostnameVerifier(new TrustAllHostnameVerifier())
                 .build();
+
+
+
+
         clientZip = new OkHttpClient.Builder()
                 .connectTimeout(40L, TimeUnit.SECONDS)
                 .readTimeout(40L, TimeUnit.SECONDS)
