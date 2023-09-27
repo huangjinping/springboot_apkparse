@@ -32,7 +32,7 @@ public class SpiderController {
         }
         String fileName = file.getOriginalFilename();
         String firstName = fileName;
-
+        
         String oldName = fileName;
         fileName = System.currentTimeMillis() + "";
         oldName = "" + System.currentTimeMillis();
@@ -41,6 +41,7 @@ public class SpiderController {
         if (!savePos.exists()) {  // 不存在，则创建该文件夹
             savePos.mkdir();
         }
+
 
         try {
             // 获取存放位置的规范路径
@@ -90,7 +91,7 @@ public class SpiderController {
         date.setTime(System.currentTimeMillis());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(strDateFormat);
-        LogUtils.log(simpleDateFormat.format(date)+"      "+request.getRemoteAddr());
+        LogUtils.log(simpleDateFormat.format(date) + "      " + request.getRemoteAddr());
 
         return "\n" +
                 "<!DOCTYPE html>\n" +

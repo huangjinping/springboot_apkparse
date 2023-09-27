@@ -4,7 +4,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 1024MB
-      max-request-size: 1024MB
+      max-request-size: 2048MB
   application:
     name: "appldev"
   devtools:

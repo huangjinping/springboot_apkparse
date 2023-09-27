@@ -7,13 +7,14 @@ import java.util.Comparator;
 public class AppComparator implements Comparator<Jentity> {
     @Override
     public int compare(Jentity o1, Jentity o2) {
+        char c = 'a';
+        char c1 = 'a';
         try {
-            char c = o1.getName().toLowerCase().toCharArray()[0];
-            char c1 = o2.getName().toLowerCase().toCharArray()[0];
-            return c - c1;
+            c = o1.getName().toLowerCase().toCharArray()[0];
+            c1 = o2.getName().toLowerCase().toCharArray()[0];
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return -1;
+        return c - c1;
     }
 }

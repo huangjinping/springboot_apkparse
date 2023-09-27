@@ -31,6 +31,7 @@ public class FolderFileScanner {
     public static final String[] PACKAGE_SHOULD_LIST = new String[]{
             "com/google/firebase/crashlytics",
             "com/google/android/gms/location",
+//            "com/google/android/play/core/review"
     };
 
     public static final String[] STRING_SHOULD_LIST = new String[]{

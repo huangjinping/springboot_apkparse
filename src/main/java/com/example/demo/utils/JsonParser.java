@@ -1534,7 +1534,11 @@ public class JsonParser {
                     appAllState = 0;
                 }
 
-                Collections.sort(appList, new AppComparator());
+                try {
+                    Collections.sort(appList, new AppComparator());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 other_dataResult.put("value", appList);
                 other_dataResult.put("state", appAllState);
                 other_dataResult.put("msg", builder);
