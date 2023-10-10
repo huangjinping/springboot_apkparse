@@ -160,11 +160,11 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
-//                    StringTask stringTask = new StringTask();
-//                    Map<String, Object> searchLogsResult = new HashMap<>();
-//                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.searchLogs2);
-//                    searchLogsResult.put("searchLogs2", strings);
-//                    result.putAll(searchLogsResult);
+                    PackageParse packageParse = new PackageParse();
+                    File file = new File(apktoolPath);
+                    Map<String, Object> aapt = packageParse.parseDebugRelease(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
+                    result.putAll(aapt);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

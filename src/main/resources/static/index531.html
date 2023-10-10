@@ -173,8 +173,6 @@
             </span>
             </div>
         </form>
-
-
     </div>
 
 
@@ -188,6 +186,14 @@
             </ul>
         </div>
         <ul class="resultUl permissionUl">
+        </ul>
+
+        <div class="resultTitle">
+            签名信息
+        </div>
+        <ul class="fileCertUl">
+        </ul>
+        <ul class="isDebugUl">
         </ul>
 
         <div class="resultTitle">
@@ -276,6 +282,7 @@
 
         <ul class="resultUl queriesUl">
         </ul>
+
         <div class="resultTitle">
             域名检测
         </div>
@@ -305,14 +312,8 @@
             <!--            </li>-->
         </ul>
 
-        <div class="resultTitle">
-            签名信息
-        </div>
-        <ul class="fileCertUl">
-            <!--            <li class="resultli">-->
-            <!--                <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>-->
-            <!--            </li>-->
-        </ul>
+
+
         <div class="resultTitle">
             <div>字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
@@ -902,6 +903,27 @@
 
             }
 
+            if (data.isDebug) {
+                var autoHtml = "";
+                var v = data.isDebug;
+                var state = "";
+                var stateText = "";
+                if (0 == v.state) {
+                    state = "Release包";
+                    v.name = "";
+                } else if (1 == v.state) {
+                    stateText = "redText";
+                    state = "Debug包 无法提交审核";
+                }
+                // stateText = "redText";
+                autoHtml += "  <li class=\"resultli\">\n" +
+                    "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                    "            </li>";
+
+                $(".isDebugUl").html(autoHtml);
+
+            }
+
         }
 
         function restResultAllView() {
@@ -911,6 +933,9 @@
             setRest(".AutoLogAppEventsEnabled");
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
+
+            $(".isDebugUl").html("");
+
             $(".searchResultUl").html(getLoadingViews());
             $(".searchResultFiled").html(getLoadingViews());
             $(".searchResultPath").html(getLoadingViews());

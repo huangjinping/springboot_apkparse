@@ -63,7 +63,6 @@ public class PackageParse {
         return parsePackageResult;
     }
 
-
     public static Map<String, Object> parseFileCert(String filePath) {
         Map<String, Object> parseFileCert = new HashMap<>();
         try {
@@ -98,7 +97,6 @@ public class PackageParse {
         }
         return parseFileCert;
     }
-
 
     private static List<KeepPackage> getKeepList(ArrayList<Object> fileList) {
         Map<String, String> catchMap = new HashMap<>();
@@ -171,6 +169,36 @@ public class PackageParse {
             e.printStackTrace();
         }
         return colMap;
+    }
+
+    public Map<String, Object> parseDebugRelease(String aaptPath, String apkPath) {
+        Map<String, Object> parseDebugRelease = new HashMap<>();
+        try {
+            LogUtils.log("parseDebugRelease====:" + apkPath);
+            List<String> commands = new ArrayList<>();
+            commands.add(aaptPath + " dump badging " + apkPath + " | grep -c application-debuggable");
+            List<String> result = CommandLineTool.executeNewFlow(commands);
+            LogUtils.log("parseDebugRelease====:" + result);
+
+            StringBuilder builder = new StringBuilder();
+
+            boolean isDebug = false;
+
+            if (result.size() > 0) {
+                if ("1".equals(result.get(0).trim())) {
+                    isDebug = true;
+                }
+            }
+
+            CommonModel commonModel = new CommonModel();
+            commonModel.setName(builder.toString());
+            commonModel.setState(isDebug ? 1 : 0);
+
+            parseDebugRelease.put("isDebug", commonModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return parseDebugRelease;
     }
 
     public String getmRealFilePath() {

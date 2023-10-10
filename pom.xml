@@ -83,11 +83,11 @@
             <version>5.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.getkeepsafe.relinker</groupId>
-            <artifactId>relinker</artifactId>
-            <version>1.4.5</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.getkeepsafe.relinker</groupId>-->
+<!--            <artifactId>relinker</artifactId>-->
+<!--            <version>1.4.5</version>-->
+<!--        </dependency>-->
         
     </dependencies>
 
