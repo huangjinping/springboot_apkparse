@@ -88,6 +88,8 @@ public class InxServerSpiderLocal {
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
         if (loginUser != null) {
+//            checkFavorableComment();
+//            getAppConfig();
 //            index();
 //            uploadImage();
 //            saveBasicCustInfo();
@@ -120,7 +122,7 @@ public class InxServerSpiderLocal {
 //            uploadOperation();
 //            addBank();
 
-            counponList();
+//            counponList();
         }
         return root;
     }
@@ -455,6 +457,19 @@ public class InxServerSpiderLocal {
         }
     }
 
+
+    public void checkFavorableComment() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/checkFavorableComment"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+    
     public void uploadOperation() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -473,7 +488,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("key"), "freezingInstitutionPotEye");
+        mapParam.put(mFieldMap.get("key"), "italianCarbon");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);

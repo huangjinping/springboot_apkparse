@@ -8,7 +8,7 @@ public interface AppConfig {
         String TYPE_DEBUG1 = "1";
         String TYPE_RELEASE531 = "2";
         String TYPE_DEBUG531 = "3";
-        
+
     }
 
 
@@ -17,6 +17,11 @@ public interface AppConfig {
         String getLine1Number = "getLine1Number";
         String WebSettings = "WebSettings";
 
+    }
+
+    interface APK_INFO {
+        String VERSION_NAME = "versionName";
+        String VERSION_CODE = "versionCode";
     }
 
 }

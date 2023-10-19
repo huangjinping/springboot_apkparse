@@ -30,6 +30,56 @@ public class CheckUtils {
         return num;
     }
 
+
+    public static boolean checkVersionCode(String versionCode) {
+        /**
+         * https://developer.android.com/studio/publish/versioning?hl=zh-cn
+         */
+        boolean result = true;
+        try {
+            if (versionCode.startsWith("0")) {
+                return false;
+            }
+
+            int code = Integer.parseInt(versionCode);
+            if (code > 2000000000) {
+                return false;
+            }
+            if (code < 1) {
+                return false;
+            }
+        } catch (Exception e) {
+            result = false;
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static boolean checkVersionName(String versionName) {
+        boolean result = false;
+        try {
+            String[] arr = versionName.split("[.]");
+            if (arr != null && arr.length == 3) {
+                boolean itemResult = true;
+                for (String item : arr) {
+                    if (item.length() != 1) {
+                        itemResult = false;
+                        break;
+                    }
+                    int intItem = Integer.parseInt(item);
+                    if (intItem >= 0 && intItem < 10) {
+                    } else {
+                        itemResult = false;
+                    }
+                }
+                result = itemResult;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     /**
      * @param d1：分子；
      * @param zs：分母；

@@ -304,6 +304,9 @@ public class StringTask {
         if (content.contains(".androidx.camera")) {
             return false;
         }
+        if (content.contains(".json.JSONObject")) {
+            return false;
+        }
         return true;
     }
 

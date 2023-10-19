@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.*;
+import com.example.demo.jsonBean.Jentity;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -276,16 +277,19 @@ public class PackageParse {
                         }
                     }
                     if (line.contains("versionName")) {
-//                        if (line.contains("compileSdkVersion") && line.contains("versionName")) {
                         line = line.replace("package: name", "packageName");
                         String[] verline = line.split(" ");
                         for (String item : verline) {
-//                            System.out.println(item);
-
                             String[] split = item.split("=");
-//                            System.out.println(split[0]);
-
-                            result.put(split[0], split[1].replace("'", "").replace("'", ""));
+                            String name = split[0];
+                            String value = split[1].replace("'", "").replace("'", "");
+                            if (AppConfig.APK_INFO.VERSION_NAME.equals(name)) {
+                                result.put(name, new Jentity(name, value, CheckUtils.checkVersionName(value) ? 1 : 0));
+                            } else if (AppConfig.APK_INFO.VERSION_CODE.equals(name)) {
+                                result.put(name, new Jentity(name, value, CheckUtils.checkVersionCode(value) ? 1 : 0));
+                            } else {
+                                result.put(name, value);
+                            }
                         }
                     }
                 } catch (Exception e) {

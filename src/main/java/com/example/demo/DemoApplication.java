@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class DemoApplication {
 
-
     //sudo -i           管理员登录
     //netstat    -tnlp   查找当前已使用端口
     //http://123.127.93.180:8092

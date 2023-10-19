@@ -148,21 +148,24 @@ public class JsonParser {
 
         key = "build_id";
         String build_id = item.getString(key);
-//        result.put(key, new Jentity(key, build_id, CheckUtils.getSaferLimitInt(item, key, 0)));
-        if (!TextUtils.isEmpty(build_id)) {
-            result.put(key, new Jentity(key, build_id, 1));
-        } else {
-            result.put(key, new Jentity(key, build_id, 0));
-        }
+        result.put(key, new Jentity(key, build_id, CheckUtils.checkVersionCode(build_id) ? 1 : 0));
+//        if (!TextUtils.isEmpty(build_id)) {
+//            result.put(key, new Jentity(key, build_id, 1));
+//        } else {
+//            result.put(key, new Jentity(key, build_id, 0));
+//        }
 
 
         key = "build_name";
         String build_name = item.getString(key);
-        if (!TextUtils.isEmpty(build_name)) {
-            result.put(key, new Jentity(key, build_name, 1));
-        } else {
-            result.put(key, new Jentity(key, build_name, 0));
-        }
+
+        result.put(key, new Jentity(key, build_name, CheckUtils.checkVersionName(build_name) ? 1 : 0));
+
+//        if (!TextUtils.isEmpty(build_name)) {
+//            result.put(key, new Jentity(key, build_name, 1));
+//        } else {
+//            result.put(key, new Jentity(key, build_name, 0));
+//        }
 
         key = "package_name";
         String package_name = item.getString(key);

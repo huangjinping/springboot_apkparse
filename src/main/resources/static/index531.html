@@ -313,7 +313,6 @@
         </ul>
 
 
-
         <div class="resultTitle">
             <div>字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交google单产品业务包的不必考虑此项）</span></div>
         </div>
@@ -613,14 +612,36 @@
                 var packageName = data.application.packageName;
                 $(".packageName").html(packageName);
                 $(".sdkVersion").html(data.sdkVersion);
-                $(".versionName").html(data.versionName);
-                $(".versionCode").html(data.versionCode);
+                // $(".versionName").html(data.versionName);
+                // $(".versionCode").html(data.versionCode);
+
+                if (data.versionName) {
+                    var it = data.versionName;
+                    if (1 == it.state) {
+                        $(".versionName").html(it.value);
+                        $(".versionName").removeClass("redText");
+                    } else {
+                        $(".versionName").addClass("redText");
+                        $(".versionName").html(it.value + " 命名规则: 三位数字两个英文点(例如 1.0.0)");
+                    }
+                }
+
+                if (data.versionCode) {
+                    var it = data.versionCode;
+                    if (1 == it.state) {
+                        $(".versionCode").html(it.value);
+                        $(".versionCode").removeClass("redText");
+                    } else {
+                        $(".versionCode").addClass("redText");
+                        $(".versionCode").html(it.value + "大于0，小于2000000000");
+                    }
+                }
 
 
                 var sdkVersion = data.sdkVersion;
-                if (sdkVersion > 21) {
+                if (sdkVersion > 23) {
                     $(".sdkVersion").addClass("redText");
-                    $(".sdkVersion").html("当前" + sdkVersion + ",minSdkVersion 兼容5.0及以上所有版本");
+                    $(".sdkVersion").html("当前" + sdkVersion + ",minSdkVersion 兼容6.0及以上所有版本");
                 } else {
                     $(".sdkVersion").html(sdkVersion);
                     $(".sdkVersion").removeClass("redText");
