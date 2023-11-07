@@ -217,6 +217,10 @@
                 <span class="resultliname">versionName</span><span class="resultlistate versionName"></span>
             </li>
 
+            <li class="resultli fullBackupContentContainer">
+                <span class="resultliname">fullBackupContent</span><span class="resultlistate fullBackupContent"></span>
+            </li>
+
             <li class="resultli">
                 <span class="resultliname">networkSecurityConfig</span><span
                     class="resultlistate networkSecurityConfig"></span>
@@ -250,13 +254,13 @@
         </div>
 
         <ul class="resultUl metaDataUl">
-            <li class="resultli">
+            <!--            <li class="resultli">-->
 
-                <span class="resultliname">io.branch.sdk.BranchKey</span><span class="resultlistate BranchKey"></span>
-            </li>
-            <li class="resultli">
-                <span class="resultliname">io.branch.sdk.TestMode</span><span class="resultlistate TestMode"></span>
-            </li>
+            <!--                <span class="resultliname">io.branch.sdk.BranchKey</span><span class="resultlistate BranchKey"></span>-->
+            <!--            </li>-->
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">io.branch.sdk.TestMode</span><span class="resultlistate TestMode"></span>-->
+            <!--            </li>-->
             <li class="resultli">
                 <span class="resultliname">com.facebook.sdk.ApplicationId</span><span
                     class="resultlistate ApplicationId"></span>
@@ -612,6 +616,8 @@
                 var packageName = data.application.packageName;
                 $(".packageName").html(packageName);
                 $(".sdkVersion").html(data.sdkVersion);
+                $(".fullBackupContentContainer").hide();
+
                 // $(".versionName").html(data.versionName);
                 // $(".versionCode").html(data.versionCode);
 
@@ -625,6 +631,21 @@
                         $(".versionName").html(it.value + " 命名规则: 三位数字两个英文点(例如 1.0.0)");
                     }
                 }
+
+                if (data.backUp) {
+                    var backUp = data.backUp;
+                    if (backUp.allowBackup) {
+                        if (1 == backUp.jentity.state) {
+                            $(".fullBackupContent").removeClass("redText");
+                        } else {
+                            $(".fullBackupContentContainer").show();
+                            $(".fullBackupContent").addClass("redText");
+                            $(".fullBackupContent").html("检查是否兼容appsflyer,关于android:dataExtractionRules=" + backUp.fullBackupContent + "");
+
+                        }
+                    }
+                }
+
 
                 if (data.versionCode) {
                     var it = data.versionCode;

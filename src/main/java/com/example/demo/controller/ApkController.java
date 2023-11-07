@@ -134,7 +134,6 @@ public class ApkController {
                     e.printStackTrace();
                 }
 
-                
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);

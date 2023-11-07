@@ -1,7 +1,5 @@
 package com.example.demo.bean;
 
-import com.example.demo.jsonBean.Jentity;
-
 import java.util.HashMap;
 import java.util.Map;
 

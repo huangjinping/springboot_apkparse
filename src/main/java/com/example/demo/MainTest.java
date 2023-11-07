@@ -1,9 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.bean.CommonModel;
-import com.example.demo.utils.CheckUtils;
-import com.example.demo.utils.LogUtils;
-import com.example.demo.utils.StringTask;
+import com.example.demo.utils.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -86,6 +84,26 @@ public class MainTest {
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
 
+
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "peru/luckyprestamo.json");
+                String fileName = "luckyprestamo";
+                String appssid = "210";
+                String domainname = "https://www.luckyprestamo.com/";
+                String phoneNo = "183223118";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/prestamocredito.json");
+//                String fileName = "prestamocredito";
+//                String appssid = "950";
+//                String domainname = "https://chile.ultracreditosmx.com/";
+//                String phoneNo = "18200000";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/estrellacredito.json");
 //                String fileName = "estrellacredito";

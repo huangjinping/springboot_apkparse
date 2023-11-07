@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.bean.LoginUser;
-import com.example.demo.jsonBean.Jentity;
+import com.example.demo.bean.Jentity;
 
 import java.io.File;
 import java.util.ArrayList;

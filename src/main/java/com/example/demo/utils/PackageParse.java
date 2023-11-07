@@ -1,7 +1,6 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.*;
-import com.example.demo.jsonBean.Jentity;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -10,6 +9,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.xpath.DefaultXPath;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -316,15 +316,18 @@ public class PackageParse {
         List<MetaData> metaData = parseMetadata(document);
         List<Query> queries = parseQueries(document);
         List<Provider> providers = parseProviders(document);
+        BackUp backUp = parseBackUp(path, document);
         Map<String, Object> map = new HashMap<>();
         map.put("activity", activity);
         map.put("metaData", metaData);
         map.put("permission", appPermissions);
         map.put("application", application);
+        map.put("backUp", backUp);
         map.put("queries", queries);
         map.put("providers", providers);
         return map;
     }
+
 
     private List<Provider> parseProviders(Document document) {
         XPath xPath = new DefaultXPath("/manifest/application/provider");
@@ -387,6 +390,67 @@ public class PackageParse {
         return dataList;
     }
 
+
+    private BackUp parseBackUp(String path, Document document) {
+        Element root = document.getRootElement();
+        BackUp backUp = new BackUp();
+        int state = 1;
+        try {
+            Element applicationElement = root.element("application");
+            backUp.setAllowBackup(false);
+            if ("true".equals(applicationElement.attributeValue("allowBackup"))) {
+                backUp.setAllowBackup(true);
+                String fullBackupContent = applicationElement.attributeValue("fullBackupContent");
+                backUp.setFullBackupContent(fullBackupContent);
+                File file = new File(path);
+
+                if (!TextUtils.isEmpty(fullBackupContent)) {
+                    String fileName = fullBackupContent.replace("@xml/", "");
+                    String fullBackupContentPath = file.getParentFile().getAbsolutePath() + "/res/xml/" + fileName + ".xml";
+                    File file1 = new File(fullBackupContentPath);
+                    if (!file1.exists()) {
+
+                    } else {
+                        SAXReader reader = new SAXReader();
+                        Document doc = reader.read(fullBackupContentPath);
+                        XPath includeXPath = new DefaultXPath("/full-backup-content/include");
+                        List<Element> includeList = includeXPath.selectNodes(doc.getRootElement());
+                        int sharedprefFlag = 0;
+
+                        for (Element element : includeList) {
+                            if ("sharedpref".equals(element.attributeValue("domain")) && ".".equals(element.attributeValue("path"))) {
+                                sharedprefFlag = 1;
+                                continue;
+                            }
+                            if ("sharedpref".equals(element.attributeValue("domain")) && ".".equals(element.attributeValue("appsflyer-data"))) {
+                                sharedprefFlag = 1;
+                                continue;
+                            }
+                        }
+                        if (sharedprefFlag == 1) {
+                            XPath xPathExclude = new DefaultXPath("/full-backup-content/exclude");
+                            List<Element> excludeList = xPathExclude.selectNodes(doc.getRootElement());
+                            int appsflyer = 0;
+                            for (Element element : excludeList) {
+                                if ("sharedpref".equals(element.attributeValue("domain")) && "appsflyer-data".equals(element.attributeValue("path"))) {
+                                    appsflyer = 1;
+                                    break;
+                                }
+                            }
+                            state = appsflyer;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Jentity jentity = new Jentity("BackUp", "", state);
+        backUp.setJentity(jentity);
+
+        return backUp;
+
+    }
 
     private List<MetaData> parseMetadata(Document document) {
         XPath xPath = new DefaultXPath("/manifest/application/meta-data");

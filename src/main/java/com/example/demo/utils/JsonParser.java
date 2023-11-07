@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.bean.AppConfig;
 import com.example.demo.bean.PropSolrGroup;
 import com.example.demo.bean.UserParam;
-import com.example.demo.jsonBean.Jentity;
+import com.example.demo.bean.Jentity;
 
 import java.util.*;
 

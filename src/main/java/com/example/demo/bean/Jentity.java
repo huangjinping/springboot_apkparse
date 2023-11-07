@@ -1,4 +1,4 @@
-package com.example.demo.jsonBean;
+package com.example.demo.bean;
 
 public class Jentity {
     String name;

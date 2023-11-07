@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.bean.LoginUser;
-import com.example.demo.jsonBean.Jentity;
+import com.example.demo.bean.Jentity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -108,7 +108,7 @@ public class InxServerSpiderLocal {
 //            root.put("vipProducts", vipProducts);
 
 //            getAppSetting();
-//            Map<String, Object> identificationResult = getIdentificationResult();
+            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //            getBankList();
@@ -469,7 +469,7 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
-    
+
     public void uploadOperation() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -794,13 +794,13 @@ public class InxServerSpiderLocal {
             Map<String, String> header = commMap();
             Map<String, File> fileMap = new HashMap<>();
             String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/182before.txt");
+
             LogUtils.logJson(textByPath);
             textByPath = GzipUtil.compress(textByPath);
             LogUtils.logJson(textByPath);
-
-            textByPath = AESUtil.encrypt(textByPath, "7491b2fc43b2b48a9b99850c0428f2b4");
+            textByPath = AESUtil.encrypt(textByPath, "292911541810b8589d89d10d1f4f77e8");
             LogUtils.logJson(textByPath);
-
             String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV3"), textByPath, header);
             LogUtils.logJson(respStr);
             JSONObject jsonObject = JSON.parseObject(respStr);

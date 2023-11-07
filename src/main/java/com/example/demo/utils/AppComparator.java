@@ -1,6 +1,6 @@
 package com.example.demo.utils;
 
-import com.example.demo.jsonBean.Jentity;
+import com.example.demo.bean.Jentity;
 
 import java.util.Comparator;
 
