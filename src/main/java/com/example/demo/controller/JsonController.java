@@ -115,10 +115,7 @@ public class JsonController {
 //            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
 //            jsontext = AESUtil.decrypt(jsontext, key);
 //            jsontext = GzipUtil.unCompress(jsontext);
-
-
 //            System.out.println("原文大小：" + jsontext.getBytes().length + " \n压缩前：");
-//
 //            String compress = GzipUtil.compress(jsontext);
 //            System.out.println("解压大小：" + compress.getBytes().length + " \n压缩后：");
 //

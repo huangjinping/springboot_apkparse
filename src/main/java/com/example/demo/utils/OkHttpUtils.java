@@ -358,9 +358,9 @@ public class OkHttpUtils {
 
             Response response = client.newCall(builer.build()).execute();
 
-
             return response.body().string();
         } catch (Exception ex) {
+
             ex.printStackTrace();
         }
         return null;

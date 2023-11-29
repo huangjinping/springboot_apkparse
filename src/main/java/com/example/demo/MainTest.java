@@ -4,7 +4,9 @@ import com.example.demo.bean.CommonModel;
 import com.example.demo.utils.*;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainTest {
@@ -39,16 +41,16 @@ public class MainTest {
 //        System.out.println(RegexUtils.isTel1("123416789"));
 //
         try {
-//            String time1 = "2023-09-08 09:53:40";
-//            String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
-//            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(strDateFormat);
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//            Calendar instance = Calendar.getInstance();
-//            instance.setTime(simpleDateFormat2.parse(time1));
-//            instance.add(Calendar.DAY_OF_MONTH, 13);
-//            String format = simpleDateFormat.format(instance.getTime());
-//            LogUtils.log("-----" + format);
+            String time1 = "2023-11-14 02:22:51";
+            String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(strDateFormat);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(simpleDateFormat2.parse(time1));
+            instance.add(Calendar.DAY_OF_MONTH, 13);
+            String format = simpleDateFormat.format(instance.getTime());
+            LogUtils.log("-----" + format);
 
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //            String format = simpleDateFormat.format(instance.getTime());
@@ -365,15 +367,15 @@ public class MainTest {
 
 
 //
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/mkopofasta.json");
-//                String fileName = "mkopofasta";
-//                String appssid = "154";
-//                String domainname = "https://www.mkopofasta.com";
-//                String phoneNo = "183123456";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/mkopofasta.json");
+                String fileName = "mkopofasta";
+                String appssid = "154";
+                String domainname = "https://tz.ultracreditosmx.com";
+                String phoneNo = "183109876";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 
 
             //

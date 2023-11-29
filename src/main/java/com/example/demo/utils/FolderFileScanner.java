@@ -24,7 +24,7 @@ public class FolderFileScanner {
             "/com/alibaba/android/arouter",//router
             "/com/meituan/",//美团
             "/com/didi/",//滴滴
-            "/io/branch/"
+//            "/io/branch/"
     };
 
 
@@ -32,6 +32,7 @@ public class FolderFileScanner {
             "com/google/firebase/crashlytics",
             "com/google/android/gms/location",
             "com/android/installreferrer",
+//            "io/branch/referral"
 //            "com/google/android/play/core/review"
     };
 

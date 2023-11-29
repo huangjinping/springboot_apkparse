@@ -274,17 +274,11 @@ public class StringTask {
         if (TextUtils.isEmpty(content)) {
             return false;
         }
-
         if (content.contains(".facebook.")) {
             return false;
         }
         if (content.contains(".google.")) {
             return false;
-
-        }
-        if (content.contains(".branch.")) {
-            return false;
-
         }
         if (content.contains(".branch.")) {
             return false;
@@ -305,6 +299,9 @@ public class StringTask {
             return false;
         }
         if (content.contains(".json.JSONObject")) {
+            return false;
+        }
+        if (content.contains(".com.appsflyer.internal")) {
             return false;
         }
         return true;

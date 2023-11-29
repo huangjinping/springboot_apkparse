@@ -108,10 +108,10 @@ public class InxServerSpiderLocal {
 //            root.put("vipProducts", vipProducts);
 
 //            getAppSetting();
-            Map<String, Object> identificationResult = getIdentificationResult();
+//            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
-//            getBankList();
+            getBankList();
 //            getAppValueList();
 //
 //            getNewRealTerm();
