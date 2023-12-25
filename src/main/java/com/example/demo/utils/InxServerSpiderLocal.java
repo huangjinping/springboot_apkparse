@@ -3,8 +3,8 @@ package com.example.demo.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.bean.LoginUser;
 import com.example.demo.bean.Jentity;
+import com.example.demo.bean.LoginUser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -85,6 +85,10 @@ public class InxServerSpiderLocal {
     public Map<String, Object> start() {
         LogUtils.logJson("=============start=================");
 
+        getTableShardingValue("c01fdd4b-0731-44d9-9965-87c17076a7d2");
+
+
+        
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
         if (loginUser != null) {
@@ -111,16 +115,19 @@ public class InxServerSpiderLocal {
 //            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
-            getBankList();
+//            getBankList();
 //            getAppValueList();
 //
 //            getNewRealTerm();
-//            Map<String, Object> queryProduct = queryProduct();
+            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
+
+
+            getAppInfo();
 
 //            counponList();
         }
@@ -150,6 +157,18 @@ public class InxServerSpiderLocal {
             e.printStackTrace();
         }
         loginForSms(currentPhoneNo, smsCode);
+
+    }
+
+
+
+    private void getTableShardingValue(String gaid) {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.put("tableShardingValue",gaid);
+        Map<String, String> header = new HashMap<>();
+
+        String respStr = OkHttpUtils.postForm("https://www.mxholacash.com/api/web/test/getTableShardingValue", header, mapParam);
+        LogUtils.logJson(respStr);
 
     }
 
@@ -724,6 +743,16 @@ public class InxServerSpiderLocal {
 //
 //        }
 
+    }
+
+    public void getAppInfo() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.put("versionName", "1.2.0");
+        mapParam.put("versionCode", "12");
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppInfo"), header, mapParam);
+        LogUtils.logJson(respStr);
     }
 
     public void getBankList() {

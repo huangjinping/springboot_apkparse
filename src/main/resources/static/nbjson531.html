@@ -187,6 +187,11 @@
             font-size: 10px;
             text-decoration: underline;
         }
+
+        .listSize {
+            color: orange;
+            padding: 0 20px;
+        }
     </style>
 
 </head>
@@ -263,8 +268,11 @@
                 <div>
                     <div class="resultTitle sensorTitle">
                         <span class="resultlivalue">&nbsp;&nbsp;&nbsp;&nbsp;sensor</span><span
-                            class="pMessage"></span><img
-                            class="imgExtendFlag" src="arrow_right.png">
+                            class="listSize"></span><span
+                            class="pMessage"></span>
+
+                        <img
+                                class="imgExtendFlag" src="arrow_right.png">
                     </div>
                     <ul class="resultUl sensor_list">
                     </ul>
@@ -282,8 +290,9 @@
 
             <div class="reportItem">
                 <div class="resultTitle applicationTitle">
-                    <span class="pName">application</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                             src="arrow_right.png">
+                    <span class="pName">application</span> <span class="listSize"></span> <span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
                 </div>
                 <ul class="resultUl application">
 
@@ -307,14 +316,15 @@
                 </ul>
             </div>
 
-            <!--            <div class="reportItem">-->
-            <!--                <div class="resultTitle contactTitle">-->
-            <!--                    <span class="pName">contact</span><span class="pMessage"></span><img class="imgExtendFlag"-->
-            <!--                                                                                         src="arrow_right.png">-->
-            <!--                </div>-->
-            <!--                <ul class="resultUl contact">-->
-            <!--                </ul>-->
-            <!--            </div>-->
+            <div class="reportItem">
+                <div class="resultTitle contactTitle">
+                    <span class="pName">contact</span><span class="listSize"></span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
+                </div>
+                <ul class="resultUl contact">
+                </ul>
+            </div>
 
             <!--            <div class="reportItem">-->
             <!--                <div class="resultTitle networkTitle">-->
@@ -345,8 +355,9 @@
 
             <div class="reportItem">
                 <div class="resultTitle smsTitle">
-                    <span class="pName">sms</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                     src="arrow_right.png">
+                    <span class="pName">sms</span><span class="listSize"></span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
                 </div>
                 <ul class="resultUl sms">
                 </ul>
@@ -392,8 +403,9 @@
 
             <div class="reportItem">
                 <div class="resultTitle calendarTitle">
-                    <span class="pName">calendar</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                          src="arrow_right.png">
+                    <span class="pName">calendar</span><span class="listSize"></span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
                 </div>
                 <ul class="resultUl calendar">
                 </ul>
@@ -402,30 +414,32 @@
 
             <div class="reportItem">
                 <div class="resultTitle callTitle">
-                    <span class="pName">call</span><span class="pMessage"></span><img class="imgExtendFlag"
-                                                                                      src="arrow_right.png">
+                    <span class="pName">call</span><span class="listSize"></span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
                 </div>
                 <ul class="resultUl call">
                 </ul>
             </div>
-            <!--            <div class="reportItem">-->
-            <!--                <div class="resultTitle accountTitle">-->
-            <!--                    <span class="pName">account</span><span class="pMessage"></span><img class="imgExtendFlag"-->
-            <!--                                                                                         src="arrow_right.png">-->
-            <!--                </div>-->
-            <!--                <ul class="resultUl account">-->
-            <!--                </ul>-->
-            <!--            </div>-->
+            <div class="reportItem">
+                <div class="resultTitle accountTitle">
+                    <span class="pName">account</span><span class="listSize"></span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
+                </div>
+                <ul class="resultUl account">
+                </ul>
+            </div>
 
 
-                        <div class="rootComm">
-                            <div class="reportItem">
-                                <div class="resultTitle accountTitle">
-                                    <span class="pName">account</span><span class="pMessage"></span><span
-                                        class="resultlistate">ok</span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="rootComm">
+                <div class="reportItem">
+                    <div class="resultTitle accountTitle">
+                        <span class="pName">account</span><span class="pMessage"></span><span
+                            class="resultlistate">ok</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -686,6 +700,8 @@
 
                     try {
                         if (sensor_list) {
+                            $(".sensorTitle .listSize").html("(" + sensor_list.length + ")")
+
                             for (let i = 0; i < sensor_list.length; i++) {
                                 htmlString += createLUItem(sensor_list[i]);
                             }
@@ -903,6 +919,7 @@
 
                 try {
                     if (value) {
+                        $(".applicationTitle .listSize").html("(" + value.length + ")")
                         for (let i = 0; i < value.length; i++) {
                             htmlString += createLUItem(value[i]);
                         }
@@ -940,47 +957,48 @@
                 $(".applicationTitle .pMessage").html(message)
             }
 
-            // if (data.contact) {
-            //     var contact = data.contact;
-            //
-            //     var isSuccess = 1;
-            //
-            //     var value = contact.value.value;
-            //     try {
-            //         var htmlString = "";
-            //         if (value) {
-            //             for (let i = 0; i < value.length; i++) {
-            //                 htmlString += createLUItem(value[i]);
-            //             }
-            //         }
-            //         $(".contact").html(htmlString);
-            //         $(".itemChildDiv").hide();
-            //         $(".contact .titleItemDiv").click(function () {
-            //             $(this).siblings(".itemChildDiv").toggle();
-            //         });
-            //     } catch (e) {
-            //         isSuccess = 0;
-            //         console.log(e);
-            //     }
-            //     var message = "";
-            //     if (contact.state == 0) {
-            //         message += "没有联系人，";
-            //         isSuccess = 0;
-            //     } else {
-            //         if (contact.value.state == 0) {
-            //             message += contact.value.msg
-            //             isSuccess = 0;
-            //         }
-            //     }
-            //     if (isSuccess == 0) {
-            //         message += " 数据异常";
-            //         addRed(".contactTitle .pMessage");
-            //     } else {
-            //         message += "数据正常";
-            //         addGreen(".contactTitle .pMessage");
-            //     }
-            //     $(".contactTitle .pMessage").html(message)
-            // }
+            if (data.contact) {
+                var contact = data.contact;
+
+                var isSuccess = 1;
+
+                var value = contact.value.value;
+                try {
+                    var htmlString = "";
+                    if (value) {
+                        $(".contactTitle .listSize").html("(" + value.length + ")")
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                    }
+                    $(".contact").html(htmlString);
+                    $(".itemChildDiv").hide();
+                    $(".contact .titleItemDiv").click(function () {
+                        $(this).siblings(".itemChildDiv").toggle();
+                    });
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e);
+                }
+                var message = "";
+                if (contact.state == 0) {
+                    message += "没有联系人，";
+                    isSuccess = 0;
+                } else {
+                    if (contact.value.state == 0) {
+                        message += contact.value.msg
+                        isSuccess = 0;
+                    }
+                }
+                if (isSuccess == 0) {
+                    message += " 数据异常";
+                    addRed(".contactTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".contactTitle .pMessage");
+                }
+                $(".contactTitle .pMessage").html(message)
+            }
 
             if (data.sms) {
                 var sms = data.sms;
@@ -990,6 +1008,7 @@
                 try {
                     var htmlString = "";
                     if (value) {
+                        $(".smsTitle .listSize").html("(" + value.length + ")")
                         for (let i = 0; i < value.length; i++) {
                             htmlString += createLUItem(value[i]);
                         }
@@ -1182,6 +1201,8 @@
                 try {
                     var htmlString = "";
                     if (value) {
+                        $(".calendarTitle .listSize").html("(" + value.length + ")")
+
                         for (let i = 0; i < value.length; i++) {
                             htmlString += createLUItem(value[i]);
                         }
@@ -1228,6 +1249,8 @@
                 var value = account.value.value;
                 try {
                     if (value) {
+                        $(".accountTitle .listSize").html("(" + value.length + ")")
+
                         var htmlString = "";
                         for (let i = 0; i < value.length; i++) {
                             htmlString += createLUItem(value[i]);
@@ -1272,6 +1295,7 @@
 
                 try {
                     if (value) {
+                        $(".callTitle .listSize").html("(" + value.length + ")")
                         var htmlString = "";
                         for (let i = 0; i < value.length; i++) {
                             htmlString += createLUItem(value[i]);
@@ -1368,6 +1392,14 @@
             $(".resultUl").html("");
             $(".pMessage").html("");
             $(".locationUrl").hide();
+            $(".sensorTitle .listSize").html("(0)")
+            $(".applicationTitle .listSize").html("(0)")
+            $(".contactTitle .listSize").html("(0)")
+            $(".smsTitle .listSize").html("(0)")
+            $(".calendarTitle .listSize").html("(0)")
+            $(".callTitle .listSize").html("(0)")
+            $(".accountTitle .listSize").html("(0)")
+
             // setRest(".BranchKey");
             // setRest(".TestMode");
             // setRest(".ApplicationId");
