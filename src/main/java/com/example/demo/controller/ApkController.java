@@ -3,6 +3,12 @@ package com.example.demo.controller;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.utils.*;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -90,6 +98,10 @@ public class ApkController {
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
+                map.putAll(PackageParse.getApkLengthByList(resultFile.getAbsolutePath()));
+
+                map.putAll(PackageParse.parseApkLibs(unzipPath));
+
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
                 String apksPath = unzipPath + ".apks";
@@ -107,12 +119,9 @@ public class ApkController {
                 String deviceApkPath = unzipPath;
 //                String cmd = "bundletool extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
                 String cmd = bundletooPath + " extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
-//                System.out.println(cmd);
-
-//                System.out.println("============waitFor=======0=====");
                 process = Runtime.getRuntime().exec(cmd);
                 value = process.waitFor();
-//                System.out.println("============waitFor=======1=====");
+
 
                 File deviceApkFile = new File(deviceApkPath);
 
@@ -126,13 +135,27 @@ public class ApkController {
 
                 String masterApkBPath = deviceApkPath + "/base-master";
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
+
+                LogUtils.log("---------------get-size total---------------------->");
+                cmd = bundletooPath + " get-size total --apks " + apksPath ;
+
+
+//                cmd = bundletooPath + " get-size total --apks " + apksPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
+                List<String> commands = new ArrayList<>();
+                commands.add(cmd);
+                List<String> result = CommandLineTool.executeNewFlow(commands);
+                map.putAll(PackageParse.getAbbLengthByList(aabPath,result));
                 try {
                     ZIPUtils.unzip(aabPath, resultFile.getParentFile() + "/unzip");
                     FileUtils.moveFile(resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map", masterApkBPath + "/proguard.map");
                     map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
+
+                    map.putAll(PackageParse.parseLibs(resultFile.getParentFile() + "/unzip/base/lib"));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
 
                 resultMap.putAll(map);
             }
@@ -144,5 +167,78 @@ public class ApkController {
         return RestResponse.success(resultMap);
     }
 
+
+//    @RequestMapping(value = "/getChannelPackage", method = RequestMethod.GET)
+//    public void getChannelPackage(HttpServletResponse response, @RequestParam("gclid") String gclid) {
+//        String file = "/Users/huhuijie/Documents/soft/walle/out1.apk";
+//        try {
+//            FileInputStream inputStream = new FileInputStream(file);
+//            byte[] data = new byte[inputStream.available()];
+//            inputStream.read(data);
+//            String diskfilename = "final.avi";
+//            response.setContentType("video/avi");
+//
+//            response.setHeader("Content-Disposition", "attachment; filename=\"" + diskfilename + "\"");
+//            System.out.println("data.length " + data.length);
+//            response.setContentLength(data.length);
+//            response.setHeader("Content-Range", "" + Integer.valueOf(data.length - 1));
+//            response.setHeader("Accept-Ranges", "bytes");
+//            response.setHeader("Etag", "W/\"9767057-1323779115364\"");
+//            OutputStream os = response.getOutputStream();
+//
+//            os.write(data);
+//            //先声明的流后关掉！
+//            os.flush();
+//            os.close();
+//            inputStream.close();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//
+//        }
+//
+//    }
+
+
+    /**
+     *
+     * @param gclid
+     * @return
+     *
+     * http://127.0.0.1:8092/getChannelPackage?gclid=19828388283
+     */
+    @RequestMapping(value = "/getChannelPackage", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getChannelPackage(@RequestParam("gclid") String gclid) {
+        LogUtils.log("gclid:" + gclid);
+        String t_name = TextUtils.createName();
+        File savePos = new File("./tempApp/" + t_name);
+        if (!savePos.exists()) {  // 不存在，则创建该文件夹
+            savePos.mkdir();
+        }
+
+        File projectFile = savePos.getParentFile().getParentFile();
+        String outFilePath = savePos.getAbsolutePath() + "/" + gclid + "_" + TextUtils.createName() + ".apk";
+        String wallePath = projectFile.getAbsolutePath() + "/jks/walle-cli-all.jar";
+        String command = "java -jar " + wallePath + " put -c " + gclid + " /Users/huhuijie/Documents/soft/walle/android2023demo20231228074618.apk " + outFilePath;
+
+         command = "java -jar " + wallePath + " put -c " + gclid +" -e buildtime="+System.currentTimeMillis()+",hash=xxxxxxx "+ " /Users/huhuijie/Documents/soft/walle/android2023demo20240104114924.apk " + outFilePath;
+
+//        java -jar walle-cli-all.jar put -c meituan -e buildtime=20161212,hash=xxxxxxx /Users/xxx/Downloads/app.apk
+
+        LogUtils.log(command);
+        List<String> commands = new ArrayList<>();
+        commands.add(command);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
+
+        String contentDisposition = ContentDisposition
+                .builder("attachment")
+                .filename(outFilePath)
+                .build().toString();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new FileSystemResource(outFilePath));
+
+    }
 
 }

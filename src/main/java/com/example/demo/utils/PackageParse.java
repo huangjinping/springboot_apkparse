@@ -18,8 +18,138 @@ import java.util.Map;
 
 public class PackageParse {
 
+    static final String V8A = "arm64-v8a";
+    static final String V71 = "armeabi-v7a";
 
+    //    public static Map<String, Object> parseAABLibs(String aabPath) {
+//        List<String> commands = new ArrayList<>();
+//        String fileNamePath = aabPath.substring(0, aabPath.length() - 5);
+//        String unipp = fileNamePath + ".zip";
+//        commands.add("mv " + aabPath + " " + unipp + ";");
+//        commands.add("unzip " + unipp + " -d " + fileNamePath);
+//        List<String> result = CommandLineTool.executeNewFlow(commands);
+//        String libPath = fileNamePath + "/base/lib";
+////        FileUtils.deleteDirWithPath(fileNamePath);
+//        return parseLibs(libPath);
+//    }
+    static final String X86 = "x86";
+    static final String X8664 = "x86_64";
     private String mRealFilePath;
+
+    public static Map<String, Object> parseApkLibs(String apkPath) {
+//        List<String> commands = new ArrayList<>();
+//        String fileNamePath = apkPath.substring(0, apkPath.length() - 5);
+//        String unipp = fileNamePath + ".zip";
+//        commands.add("mv " + apkPath + " " + unipp + ";");
+//        commands.add("unzip " + unipp + " -d " + fileNamePath);
+//        List<String> result = CommandLineTool.executeNewFlow(commands);
+        String libPath = apkPath + "/lib";
+        LogUtils.logJson("----------------------22-------->>>>>>");
+        Map<String, Object> objectMap = parseLibs(libPath);
+//        FileUtils.deleteDirWithPath(fileNamePath);
+        return objectMap;
+    }
+
+    public static Map<String, Object> parseLibs(String libPath) {
+
+
+        LogUtils.logJson("============parseLibs==============" + libPath);
+
+        Map<String, Object> rootResult = new HashMap<>();
+        File root = new File(libPath);
+
+        if (root == null || !root.exists() || !root.isDirectory()) {
+            return rootResult;
+        }
+        List result = new ArrayList();
+        if (root.listFiles().length > 0) {
+            Map<String, String> allMap = new HashMap<>();
+            for (File dir : root.listFiles()) {
+                if (dir == null || !dir.exists() || !dir.isDirectory()) {
+                } else {
+                    for (File file : dir.listFiles()) {
+                        allMap.put(file.getName(), FileSizeUtil.getFileSize(file) + "");
+                    }
+                }
+            }
+            File v8a = new File(libPath + File.separator + V8A);
+            File v7a = new File(libPath + File.separator + V71);
+            File x86 = new File(libPath + File.separator + X86);
+            File x8664 = new File(libPath + File.separator + X8664);
+            LogUtils.logJson(allMap);
+            result.add(checkFileLib(V8A, v8a, allMap));
+            result.add(checkFileLib(V71, v7a, allMap));
+            result.add(checkFileLib(X86, x86, allMap));
+            result.add(checkFileLib(X8664, x8664, allMap));
+
+        }
+
+        rootResult.put("cpu", result);
+
+        return rootResult;
+    }
+
+    public static Jentity checkFileLib(String name, File cpu, Map<String, String> allMap) {
+        if (cpu == null || !cpu.exists() || !cpu.isDirectory()) {
+            return new Jentity(name, "", 0);
+        }
+        if (name.equals(X86)) {
+            return new Jentity(name, "", 1);
+        }
+        for (String key : allMap.keySet()
+        ) {
+            boolean dir_flag = false;
+            for (File dir : cpu.listFiles()) {
+                if (key.equals(dir.getName())) {
+                    dir_flag = true;
+                }
+            }
+            if (dir_flag) {
+            } else {
+                return new Jentity(name, "", 0);
+            }
+        }
+        return new Jentity(name, "", 1);
+    }
+
+
+    public static Map<String, Object> getApkLengthByList(String apkpath) {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<Jentity> data = new ArrayList<>();
+            data.add(new Jentity("totalSize", FileSizeUtil.getAutoFileOrFilesSize(apkpath), 1));
+            result.put("packageSize", data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static Map<String, Object> getAbbLengthByList(String aabPath, List<String> request) {
+
+
+        LogUtils.logJson("============getAbbLengthByList=================" + aabPath);
+        Map<String, Object> result = new HashMap<>();
+        LogUtils.logJson(request);
+        try {
+//            Map<String, String> data = new HashMap<>();
+
+            List<Jentity> data = new ArrayList<>();
+            if (request.size() > 1) {
+                String[] split = request.get(1).split(",");
+                data.add(new Jentity("totalSize", FileSizeUtil.getAutoFileOrFilesSize(aabPath), 1));
+                data.add(new Jentity("MIN", FileSizeUtil.FormetFileSize(Long.parseLong(split[0])), 1));
+                data.add(new Jentity("MAX", FileSizeUtil.FormetFileSize(Long.parseLong(split[1])), 1));
+            }
+            result.put("packageSize", data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
     public static Map<String, Object> parseMethod(String filePath) {
         Map<String, Object> parseDomainNameResult = new HashMap<>();
@@ -171,6 +301,7 @@ public class PackageParse {
         }
         return colMap;
     }
+
 
     public Map<String, Object> parseDebugRelease(String aaptPath, String apkPath) {
         Map<String, Object> parseDebugRelease = new HashMap<>();

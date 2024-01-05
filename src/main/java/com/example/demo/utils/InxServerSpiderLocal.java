@@ -88,7 +88,6 @@ public class InxServerSpiderLocal {
         getTableShardingValue("c01fdd4b-0731-44d9-9965-87c17076a7d2");
 
 
-        
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
         if (loginUser != null) {
@@ -116,10 +115,10 @@ public class InxServerSpiderLocal {
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //            getBankList();
-//            getAppValueList();
+            getAppValueList();
 //
 //            getNewRealTerm();
-            Map<String, Object> queryProduct = queryProduct();
+//            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
 //            uploadRiskPoint();
@@ -127,7 +126,8 @@ public class InxServerSpiderLocal {
 //            addBank();
 
 
-            getAppInfo();
+//            getAppInfo();
+//            getSysSetting();
 
 //            counponList();
         }
@@ -161,10 +161,9 @@ public class InxServerSpiderLocal {
     }
 
 
-
     private void getTableShardingValue(String gaid) {
         Map<String, String> mapParam = new HashMap<>();
-        mapParam.put("tableShardingValue",gaid);
+        mapParam.put("tableShardingValue", gaid);
         Map<String, String> header = new HashMap<>();
 
         String respStr = OkHttpUtils.postForm("https://www.mxholacash.com/api/web/test/getTableShardingValue", header, mapParam);
@@ -729,6 +728,7 @@ public class InxServerSpiderLocal {
         Map<String, String> header = commMap();
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppValueList"), header, mapParam);
+
         LogUtils.logJson(respStr);
 //        JSONObject jsonObject = JSON.parseObject(respStr);
 //
@@ -743,6 +743,16 @@ public class InxServerSpiderLocal {
 //
 //        }
 
+    }
+
+
+    public void getSysSetting() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.put("key", "crispKey");
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getSysSetting"), header, mapParam);
+        LogUtils.logJson(respStr);
     }
 
     public void getAppInfo() {

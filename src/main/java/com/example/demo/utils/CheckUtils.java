@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CheckUtils {
@@ -168,6 +169,29 @@ public class CheckUtils {
         if (doc.containsKey(key)) {
             try {
                 String value = doc.getString(key);
+                value = value.toUpperCase().replace("E", "");
+                if (Double.parseDouble(value) >= limit) {
+                    return 1;
+                }
+            } catch (Exception e) {
+//                e.printStackTrace();
+            }
+            doc.getString(key);
+
+        }
+        return 0;
+    }
+
+
+    public static int getSaferLimitDoubleRule1(JSONObject doc, String key, double limit) {
+        if (doc.containsKey(key)) {
+            try {
+                String value = doc.getString(key);
+
+                if (checkRepeat(value)) {
+                    return 0;
+                }
+
                 value = value.toUpperCase().replace("E", "");
                 if (Double.parseDouble(value) >= limit) {
                     return 1;
@@ -452,6 +476,30 @@ public class CheckUtils {
         }
 
         return 0;
+    }
+
+    /**
+     * true  hand repeat .false  no hanse repeat
+     *
+     * @param input
+     * @return
+     */
+    public static boolean checkRepeat(String input) {
+//        String input = "abcdddeffgh";
+        // 定义正则表达式
+        String regex = "(.)\\1\\1";
+        // 创建Pattern对象
+        Pattern pattern = Pattern.compile(regex);
+        // 创建Matcher对象
+        Matcher matcher = pattern.matcher(input);
+
+        // 进行匹配
+        if (matcher.find()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 

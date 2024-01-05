@@ -18,3 +18,4 @@ spring:
       suffix: .html
     static-path-pattern: /**
 
+

@@ -59,26 +59,24 @@ public class OkHttpUtils {
     }
     static {
         client = new OkHttpClient.Builder()
-                .connectTimeout(40L, TimeUnit.SECONDS)
-                .readTimeout(40L, TimeUnit.SECONDS)
-                .writeTimeout(40L, TimeUnit.SECONDS)
+                .connectTimeout(120L, TimeUnit.SECONDS)
+                .readTimeout(120L, TimeUnit.SECONDS)
+                .writeTimeout(120L, TimeUnit.SECONDS)
                 .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts( ))
                 .hostnameVerifier(new TrustAllHostnameVerifier())
                 .build();
 
 
-
-
         clientZip = new OkHttpClient.Builder()
-                .connectTimeout(40L, TimeUnit.SECONDS)
-                .readTimeout(40L, TimeUnit.SECONDS)
-                .writeTimeout(40L, TimeUnit.SECONDS)
+                .connectTimeout(120L, TimeUnit.SECONDS)
+                .readTimeout(120L, TimeUnit.SECONDS)
+                .writeTimeout(120L, TimeUnit.SECONDS)
                 .addInterceptor(new GzipInterceptor())
                 .build();
         clientNoSSL = new OkHttpClient.Builder()
-                .connectTimeout(40L, TimeUnit.SECONDS)
-                .readTimeout(40L, TimeUnit.SECONDS)
-                .writeTimeout(40L, TimeUnit.SECONDS)
+                .connectTimeout(120L, TimeUnit.SECONDS)
+                .readTimeout(120L, TimeUnit.SECONDS)
+                .writeTimeout(120L, TimeUnit.SECONDS)
                 .sslSocketFactory(SSLSocketClient.getSSLSocketFactory(), SSLSocketClient.getX509TrustManager())
                 .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
                 .build();

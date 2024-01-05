@@ -195,6 +195,22 @@
         </ul>
         <ul class="isDebugUl">
         </ul>
+        <div class="packageSize">
+            <div class="resultTitle">
+                包大小
+            </div>
+            <ul class="resultUl packageSizeUl">
+            </ul>
+        </div>
+
+        <div class="CPU">
+            <div class="resultTitle">
+                <span>CPU</span><span class="appAlert" style="padding: 10px">（注意：至少支持armeabi-v7a,arm64-v8a,x86,x86_64）;armeabi 官方没说。也可加上</span>
+            </div>
+            <ul class="resultUl cpuResultUl">
+            </ul>
+        </div>
+
 
         <div class="resultTitle">
             Application 配置
@@ -608,6 +624,64 @@
                 });
 
                 $(".permissionUl").html(autoHtml);
+            }
+
+
+            if (data.packageSize) {
+                var autoHtml = "";
+                data.packageSize.forEach(function (v, i) {
+
+                    var state = "";
+                    var stateText = "greenText";
+                    if (0 == v.state) {
+                        state = "";
+                        stateText = "redText";
+                    } else if (1 == v.state) {
+                        stateText = "garyText";
+
+                        state = "";
+                    } else if (2 == v.state) {
+                        stateText = "garyText";
+                        state = "";
+                    } else if (3 == v.state) {
+                        stateText = "redText";
+                        state = "";
+                    }
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + v.value + state + "</span>\n" +
+                        "            </li>";
+                });
+
+                $(".packageSizeUl").html(autoHtml);
+            }
+
+            $(".CPU").hide()
+            if (data.cpu) {
+                $(".CPU").show()
+
+                var autoHtml = "";
+                data.cpu.forEach(function (v, i) {
+                    var state = "";
+                    var stateText = "greenText";
+                    if (0 == v.state) {
+                        state = "请检查配置";
+                        stateText = "redText";
+                    } else if (1 == v.state) {
+                        stateText = "greenText";
+                        state = "合理";
+                    } else if (2 == v.state) {
+                        stateText = "garyText";
+                        state = "";
+                    } else if (3 == v.state) {
+                        stateText = "redText";
+                        state = "";
+                    }
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + v.value + state + "</span>\n" +
+                        "            </li>";
+                });
+
+                $(".cpuResultUl").html(autoHtml);
             }
 
 
