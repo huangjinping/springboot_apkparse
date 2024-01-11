@@ -115,6 +115,7 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
+
             {
                 String json = FileUtils.getTextByPath(HOME_PATH + "chile/creditopeso.json");
                 String fileName = "creditopeso";
