@@ -115,17 +115,17 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/creditopeso.json");
-//                String fileName = "creditopeso";
-//                String appssid = "118";
-////                String domainname = "https://www.creditopesocl.com/";
-//                String domainname = "https://chile.ultracreditosmx.com/";
-//
-//                String phoneNo = "183100802";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "chile/creditopeso.json");
+                String fileName = "creditopeso";
+                String appssid = "118";
+//                String domainname = "https://www.creditopesocl.com/";
+                String domainname = "https://chile.ultracreditosmx.com/";
+
+                String phoneNo = "183100802";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/lesoutien.json");

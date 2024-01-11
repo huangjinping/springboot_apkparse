@@ -53,6 +53,47 @@ public class ApkController {
         return RestResponse.success(resultMap);
     }
 
+    @RequestMapping(value = "/uploadAppImage", method = RequestMethod.POST)
+    public RestResponse uploadAppImage(@RequestParam("file") MultipartFile file) {
+        Map<String, Object> resultMap = new HashMap<>();
+        StringBuilder frontUrl = new StringBuilder();
+        String fileName = file.getOriginalFilename();
+        LogUtils.log(fileName);
+
+        String suffix = fileName.substring(fileName.lastIndexOf("."));
+        String oldName = fileName;
+        if (oldName.contains(".")) {
+            oldName = oldName.substring(0, oldName.lastIndexOf("."));
+        }
+        String t_name = TextUtils.createName();
+        fileName = t_name + suffix;
+        oldName = t_name;
+
+        File savePos = new File("./tempApp/" + t_name);
+        if (!savePos.exists()) {  // 不存在，则创建该文件夹
+            savePos.mkdir();
+        }
+
+        try {
+            String realPath = savePos.getCanonicalPath();
+            // 上传该文件/图像至该文件夹下
+            File resultFile = new File(realPath + "/" + fileName);
+
+
+            LogUtils.log(resultFile.getAbsolutePath());
+            if (resultFile.exists()) {
+                resultFile.delete();
+            }
+            file.transferTo(resultFile);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return RestResponse.success(resultMap);
+
+    }
+
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public RestResponse uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("appType") String appType) {
@@ -137,14 +178,14 @@ public class ApkController {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
 
                 LogUtils.log("---------------get-size total---------------------->");
-                cmd = bundletooPath + " get-size total --apks " + apksPath ;
+                cmd = bundletooPath + " get-size total --apks " + apksPath;
 
 
 //                cmd = bundletooPath + " get-size total --apks " + apksPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
                 List<String> commands = new ArrayList<>();
                 commands.add(cmd);
                 List<String> result = CommandLineTool.executeNewFlow(commands);
-                map.putAll(PackageParse.getAbbLengthByList(aabPath,result));
+                map.putAll(PackageParse.getAbbLengthByList(aabPath, result));
                 try {
                     ZIPUtils.unzip(aabPath, resultFile.getParentFile() + "/unzip");
                     FileUtils.moveFile(resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map", masterApkBPath + "/proguard.map");
@@ -201,11 +242,24 @@ public class ApkController {
 
 
     /**
-     *
+     * @param
+     * @return http://127.0.0.1:8092/onTest
+     */
+    @RequestMapping(value = "/onTest", method = RequestMethod.GET)
+    public RestResponse onTest() {
+
+        Map<String, Object> resultMap = new HashMap<>();
+        LogUtils.log("================================");
+
+        return RestResponse.success(resultMap);
+
+
+    }
+
+
+    /**
      * @param gclid
-     * @return
-     *
-     * http://127.0.0.1:8092/getChannelPackage?gclid=19828388283
+     * @return http://127.0.0.1:8092/getChannelPackage?gclid=19828388283
      */
     @RequestMapping(value = "/getChannelPackage", method = RequestMethod.GET)
     public ResponseEntity<Resource> getChannelPackage(@RequestParam("gclid") String gclid) {
@@ -221,7 +275,7 @@ public class ApkController {
         String wallePath = projectFile.getAbsolutePath() + "/jks/walle-cli-all.jar";
         String command = "java -jar " + wallePath + " put -c " + gclid + " /Users/huhuijie/Documents/soft/walle/android2023demo20231228074618.apk " + outFilePath;
 
-         command = "java -jar " + wallePath + " put -c " + gclid +" -e buildtime="+System.currentTimeMillis()+",hash=xxxxxxx "+ " /Users/huhuijie/Documents/soft/walle/android2023demo20240104114924.apk " + outFilePath;
+        command = "java -jar " + wallePath + " put -c " + gclid + " -e buildtime=" + System.currentTimeMillis() + ",hash=xxxxxxx " + " /Users/huhuijie/Documents/soft/walle/android2023demo20240104114924.apk " + outFilePath;
 
 //        java -jar walle-cli-all.jar put -c meituan -e buildtime=20161212,hash=xxxxxxx /Users/xxx/Downloads/app.apk
 

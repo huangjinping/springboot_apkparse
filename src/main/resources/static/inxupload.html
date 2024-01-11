@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title>上传图片demo</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+
+</head>
+<style>
+
+    .openImage {
+        width: 200px;
+        height: 200px;
+        background-color: cadetblue;
+    }
+
+    .imageResult {
+        width: 200px;
+        height: 200px;
+        background-color: coral;
+    }
+</style>
+<body>
+
+<input type="file" accept="image/*" id="imgcamera" name="imgcamera"
+       accept/>
+
+
+<div class="openImage">
+
+</div>
+
+
+<img class="imageResult" alt="">
+
+
+</body>
+
+
+<script>
+
+    function onVSLogEvent(message) {
+        showToast("" + message)
+    }
+
+    (function () {
+        const $file = $('#imgcamera');
+
+        function uploadImage() {
+            // 校验字段省略
+            // 使用 ajax 上传文件，需要用 FormData 对象
+            console.log($file[0].files[0]);
+            var value = $file[0].files[0];
+            if (value) {
+
+            } else {
+                showToast("请选择文件")
+                return;
+            }
+            var formData = new FormData();
+            formData.append("file", $file[0].files[0]); // 要上传的文件
+            formData.append("appType", "2");
+            showLoading();
+            $.ajax({
+                url: "/uploadAppImage",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    dismissLoading();
+
+                },
+                error: function (err) {
+                    dismissLoading();
+
+                }
+            });
+        }
+
+        $file.on("change", function () { // 文件选择事件
+            try {
+                const filename = $file.val();
+                console.log(filename);
+                const imageUrl = URL.createObjectURL($file[0].files[0]); // 生成图像URL
+
+                $(".imageResult").attr("src", imageUrl)
+                uploadImage()
+            } catch (E) {
+
+            }
+        });
+        $(".openImage").click(function () {
+            $("#imgcamera").click();
+        });
+
+
+    })();
+
+
+</script>
+
+</html>

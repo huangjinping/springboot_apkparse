@@ -24,6 +24,7 @@ public class FolderFileScanner {
             "/com/alibaba/android/arouter",//router
             "/com/meituan/",//美团
             "/com/didi/",//滴滴
+            "/com/lzy/okgo/" //okgo
 //            "/io/branch/"
     };
 
