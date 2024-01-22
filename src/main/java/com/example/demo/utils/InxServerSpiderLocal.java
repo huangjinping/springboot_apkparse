@@ -102,6 +102,7 @@ public class InxServerSpiderLocal {
 //            custInfoQuery();
 //            msgFeatureV3();
 //            getAppConfig();
+            geth5Page();
 
 //            getPayChannelList();
 //            Map<String, Object> stringStorage = getImageList();
@@ -118,7 +119,7 @@ public class InxServerSpiderLocal {
 //            getBankList();
 //            getAppValueList();
 //
-            getNewRealTerm();
+//            getNewRealTerm();
 //            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
@@ -439,6 +440,22 @@ public class InxServerSpiderLocal {
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
         LogUtils.logJson("/anon/getAppConfig");
+        LogUtils.logJson(respStr);
+
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+    public void geth5Page() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("frontSource"), "5");
+
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/csH5Page"), header, mapParam);
+        LogUtils.logJson("/anon/csH5Page");
         LogUtils.logJson(respStr);
 
         JSONObject jsonObject = JSON.parseObject(respStr);
