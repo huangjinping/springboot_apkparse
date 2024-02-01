@@ -440,6 +440,16 @@
                     </div>
                 </div>
             </div>
+
+            <div class="reportItem">
+                <div class="resultTitle peopleTitle">
+                    <span class="pName">people</span><span class="listSize"></span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
+                </div>
+                <ul class="resultUl people">
+                </ul>
+            </div>
         </div>
 
     </div>
@@ -504,6 +514,10 @@
                 "                </div>";
             return result;
         }
+
+
+
+
 
         function createLUItem(e) {
 
@@ -1286,6 +1300,58 @@
                     addGreen(".accountTitle .pMessage");
                 }
                 $(".accountTitle .pMessage").html(message)
+            }
+
+
+
+
+            if (data.people) {
+
+                console.log("=========data.people=====");
+                console.log(data.people);
+
+                var people = data.people;
+                var isSuccess = 1;
+                var value = people.value.value;
+                try {
+                    if (value) {
+                        $(".peopleTitle .listSize").html("(" + value.length + ")")
+
+                        var htmlString = "";
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                        $(".people").html(htmlString);
+                        $(".itemChildDiv").hide();
+
+                        $(".people .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
+                    }
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e)
+                }
+
+
+                var message = "";
+                if (people.state == 0) {
+                    message += "没有people数据、";
+                    isSuccess = 0;
+                } else {
+                    if (people.value.state == 0) {
+                        message += people.value.msg
+                        isSuccess = 0;
+                    }
+                }
+                if (isSuccess == 0) {
+                    message += "数据异常、";
+                    addRed(".peopleTitle .pMessage");
+                } else {
+                    message += "数据正常、";
+                    addGreen(".peopleTitle .pMessage");
+                }
+                $(".peopleTitle .pMessage").html(message)
             }
 
             if (data.call) {

@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.bean.AppConfig;
+import com.example.demo.bean.Jentity;
 import com.example.demo.bean.PropSolrGroup;
 import com.example.demo.bean.UserParam;
-import com.example.demo.bean.Jentity;
 
 import java.util.*;
 
@@ -92,6 +92,11 @@ public class JsonParser {
             root.put("dataList", dataList);
 
         }
+
+
+        Map<String, Object> parsePeopleMap = parsePeople(source);
+        Jentity parsecontact = new Jentity("people", parsePeopleMap, parsePeopleMap.isEmpty() ? 0 : 1);
+        root.put("people", parsecontact);
 
 
         Map<String, Object> parseCallMap = parseCall(source);
@@ -1221,6 +1226,91 @@ public class JsonParser {
         }
 
 
+        return other_dataResult;
+    }
+
+    public Map<String, Object> parsePeople(String source) {
+        JSONObject jsonObject = JSON.parseObject(source);
+        Map<String, Object> other_dataResult = new HashMap<>();
+
+        if (jsonObject.containsKey("people")) {
+
+            try {
+                JSONArray appArr = jsonObject.getJSONArray("people");
+                PropSolrGroup solrGroup = new PropSolrGroup();
+
+                List<Jentity> appList = new ArrayList<>();
+                int appAllState = 1;
+                int count = 0;
+                for (int i = 0; i < appArr.size(); i++) {
+                    int appListState = 1;
+                    count++;
+                    JSONObject item = appArr.getJSONObject(i);
+                    Map<String, Object> app = new HashMap<>();
+                    String key = "";
+                    key = "number";
+                    String number = item.getString(key);
+                    int numberStats = CheckUtils.getSaferStringContractPhoneNumber(item, key);
+                    solrGroup.addPropSolr(key, number + "", 4);
+                    app.put(key, new Jentity(key, number, numberStats));
+                    if (numberStats != 1) {
+                        appListState = 0;
+                    }
+
+                    key = "contact_display_name";
+                    String contact_display_name = item.getString(key).trim();
+                    solrGroup.addPropSolr(key, contact_display_name + "", 4);
+
+                    if (!TextUtils.isEmpty(contact_display_name)) {
+                        app.put(key, new Jentity(key, contact_display_name, 1));
+                    } else {
+                        appListState = 0;
+                        app.put(key, new Jentity(key, contact_display_name, 0));
+                    }
+
+//                    key = "up_time";
+//                    String up_time = item.getString(key);
+////                    solrGroup.addPropSolr(key, up_time);
+//
+//                    int up_timeState = CheckUtils.getSaferStringWithTimeTemp01(item, key);
+//
+//
+//                    app.put(key, new Jentity(key, up_time, up_timeState));
+//                    if (up_timeState != 1) {
+//                        appListState = 0;
+//                    }
+
+                    if (appListState == 0) {
+                        appAllState = appListState;
+                    }
+                    appList.add(new Jentity(item.getString("number"), app, appListState));
+
+                }
+
+
+                StringBuilder builder = new StringBuilder();
+                if (count < 3) {
+                    builder.append("数据有问题\n");
+                    appAllState = 0;
+                }
+                Jentity result = solrGroup.getResult();
+
+                if (result.getState() != 1) {
+                    appAllState = 0;
+                    builder.append(result.getMsg());
+                }
+                if (appAllState == 0) {
+                }
+                other_dataResult.put("value", appList);
+                other_dataResult.put("state", appAllState);
+                other_dataResult.put("msg", builder);
+            } catch (Exception e) {
+//                e.printStackTrace();
+            }
+
+        } else {
+
+        }
         return other_dataResult;
     }
 

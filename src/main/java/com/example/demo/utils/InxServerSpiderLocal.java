@@ -67,11 +67,13 @@ public class InxServerSpiderLocal {
         Map<String, String> comm = new HashMap<>();
         comm.put(mFieldMap.get("appssid"), appssid);
         comm.put(mFieldMap.get("appSsid"), appssid);
-
+        comm.put(mFieldMap.get("versionName"), "1.5.8");
+        comm.put(mFieldMap.get("versionCode"), "158");
         comm.put(mFieldMap.get("client-id1"), appssid);
         comm.put(mFieldMap.get("client-id2"), appssid);
 //        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
-        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
+//        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
+        comm.put(mFieldMap.get("imei"), "eb505a1a-14a0-4771-8450-9d686731987e");
 
         if (loginUser != null) {
             comm.put(mFieldMap.get("token"), loginUser.getToken());
@@ -102,7 +104,7 @@ public class InxServerSpiderLocal {
 //            custInfoQuery();
 //            msgFeatureV3();
 //            getAppConfig();
-            geth5Page();
+//            geth5Page();
 
 //            getPayChannelList();
 //            Map<String, Object> stringStorage = getImageList();
@@ -126,7 +128,7 @@ public class InxServerSpiderLocal {
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
-
+            v3indexForMulApp();
 
 //            getAppInfo();
 //            getSysSetting();
@@ -400,6 +402,21 @@ public class InxServerSpiderLocal {
         }
     }
 
+    public void v3indexForMulApp() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+        mapParam.put(mFieldMap.get("pageType"), "1");
+
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/mul/v3/indexForMulApp"), fileMap, mapParam, header);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
 
     public void custInfoBasicQuery() {
         Map<String, String> mapParam = new HashMap<>();
@@ -525,7 +542,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("key"), "italianCarbon");
+        mapParam.put(mFieldMap.get("key"), "illJourneySlightNeighbourCompany");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -777,8 +794,7 @@ public class InxServerSpiderLocal {
 
     public void getAppInfo() {
         Map<String, String> mapParam = new HashMap<>();
-        mapParam.put("versionName", "1.2.0");
-        mapParam.put("versionCode", "12");
+
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppInfo"), header, mapParam);
