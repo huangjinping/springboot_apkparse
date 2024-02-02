@@ -39,18 +39,27 @@
 
 
 </body>
-
-
 <ul>
     <li><a href="mailto:your_email@example.com">邮箱</a></li>
     <li><a rel="nofollow" href="tel:13611290917">打电话</a></li>
-    <li><a href="whatsapp://send?text=hi&amp;phone=57300446">whatApp</a></li>
-    <!--    <li><a href="whatsapp:57300446">whatApp</a></li>-->
+    <!--    <li><a href="whatsapp://send?text=hi&amp;phone=57300446">whatApp</a></li>-->
+    <li><a href="whatsapp:57300446">whatApp</a></li>
+
+    <li><a href="./router.html">router</a></li>
+    <li><a href="https://www.jianshu.com/p/36c2f1d24c8c">简书测试</a></li>
+    <li><a href="./inxuploadBack.html">inxuploadBack</a></li>
+
 
 </ul>
 
 
 <script>
+
+
+    function onBackPressed() {
+        showToast("onBackPressed");
+    }
+
 
     function onVSLogEvent(message) {
         showToast("" + message)

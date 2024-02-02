@@ -7,14 +7,14 @@
 (function () {
 
     var menuList = [
-        {
-            name: "正式包检测531",
-            url: "index531"
-        },
-        {
-            name: "占坑包检测531",
-            url: "debug531"
-        },
+        // {
+        //     name: "正式包检测531",
+        //     url: "index531"
+        // },
+        // {
+        //     name: "占坑包检测531",
+        //     url: "debug531"
+        // },
         {
             name: "正式包检测",
             url: "index"
@@ -47,8 +47,6 @@
     }
 
     buildList();
-
-
 
 
 })();
