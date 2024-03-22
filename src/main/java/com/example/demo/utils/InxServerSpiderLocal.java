@@ -71,6 +71,9 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("versionCode"), "158");
         comm.put(mFieldMap.get("client-id1"), appssid);
         comm.put(mFieldMap.get("client-id2"), appssid);
+        comm.put(mFieldMap.get("client-id2"), appssid);
+
+
 //        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
 //        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
         comm.put(mFieldMap.get("imei"), "eb505a1a-14a0-4771-8450-9d686731987e");
@@ -88,7 +91,7 @@ public class InxServerSpiderLocal {
     public Map<String, Object> start() {
         LogUtils.logJson("=============start=================");
 
-        getTableShardingValue("c01fdd4b-0731-44d9-9965-87c17076a7d2");
+//        getTableShardingValue("c01fdd4b-0731-44d9-9965-87c17076a7d2");
 
 
         Map<String, Object> root = new HashMap<>();
@@ -119,7 +122,7 @@ public class InxServerSpiderLocal {
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
 //            root.put("getIdentificationResult", getIdentificationResult);
 //            getBankList();
-//            getAppValueList();
+            getAppValueList();
 //
 //            getNewRealTerm();
 //            Map<String, Object> queryProduct = queryProduct();
@@ -128,7 +131,7 @@ public class InxServerSpiderLocal {
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
-            v3indexForMulApp();
+//            v3indexForMulApp();
 
 //            getAppInfo();
 //            getSysSetting();
@@ -485,8 +488,8 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "collectionType");
-        mapParam.put("spanishShortsMicrocomputerLoudspeaker", "es");
+        mapParam.put(mFieldMap.get("type"), "incomeLevel");
+        mapParam.put("ripeBasketNearbyToothacheFollowingPasser", "es");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
         LogUtils.logJson("/anon/getAppConfig");
@@ -857,10 +860,7 @@ public class InxServerSpiderLocal {
 
         String code = jsonObject.getString(mFieldMap.get("code"));
         JSONArray appArr = jsonObject.getJSONArray(mFieldMap.get("data"));
-
-
     }
-
 
     public void msgFeatureV3() {
         try {

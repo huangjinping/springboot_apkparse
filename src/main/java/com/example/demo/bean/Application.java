@@ -5,6 +5,15 @@ public class Application {
     private String networkSecurityConfig;
     private int compileSdkVersion;
     private String packageName;
+    private String largeHeap;
+
+    public String getLargeHeap() {
+        return largeHeap;
+    }
+
+    public void setLargeHeap(String largeHeap) {
+        this.largeHeap = largeHeap;
+    }
 
     public String getPackageName() {
         return packageName;

@@ -240,14 +240,6 @@ public class OkHttpUtils {
 //        builer.addHeader("Connection", "close");
         Request request = builer.build();
         try {
-//            OkHttpClient client = new OkHttpClient.Builder()
-//                    .connectTimeout(30L, TimeUnit.SECONDS)
-//                    .readTimeout(30L, TimeUnit.SECONDS)
-//                    .writeTimeout(30L, TimeUnit.SECONDS)
-//                    .addInterceptor(new GzipInterceptor())
-//                    .connectionPool(new ConnectionPool(5, 1, TimeUnit.SECONDS))
-//                    .build();
-
             Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (Exception ex) {

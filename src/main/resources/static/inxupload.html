@@ -21,22 +21,45 @@
         height: 200px;
         background-color: coral;
     }
+
+    .imageResult2 {
+        width: 200px;
+        padding: 10px;
+        border: 10px solid blue;
+        height: 200px;
+        background-color: red;
+    }
 </style>
 <body>
+<div style="height: 105px"></div>
+
+
+<form id="form">
+    <input type="file" name="file" id="file"><br/>
+    <input type="submit" />
+</form>
 
 <input type="file" accept="image/*" id="imgcamera" name="imgcamera"
        accept/>
 
-<input type="file" multiple="true" accept="image/*" id="imgcameraMul" name="imgcameraMul"
-       accept/>
+
+<div style="height: 55px"></div>
+<button class="openJava">调用本地代码</button>
+
+<!--<input type="file" multiple="true" accept="image/*" id="imgcameraMul" name="imgcameraMul"-->
+<!--       accept/>-->
 
 <div class="openImage">
 
 </div>
 
-
 <img class="imageResult" alt="">
 
+<div>
+    <img id="imageResult2" class="imageResult2"
+         alt="">
+
+</div>
 
 </body>
 <ul>
@@ -55,15 +78,61 @@
 
 <script>
 
+    $(function(){
+        form.reset(); //清除浏览器记录的上次记录
+        var file;
+        $(form).on("change","#file",function(e){
+            //输出选中结果
+
+            showToast("===="+this.value);
+            console.log(this.value);
+            //每次选中都保存旧元素，并使用新的控件替换
+            $(this).clone().replaceAll(file=this);
+
+        }).submit(function(){
+            //提交时把之前保存的旧元素替换回去
+            $("#file").replaceWith(file);
+        });
+    });
+
 
     function onBackPressed() {
         showToast("onBackPressed");
     }
 
-
     function onVSLogEvent(message) {
         showToast("" + message)
     }
+
+    function openAlbum(flag) {
+        if (window.nativeWkObc) {
+            window.nativeWkObc.setNativeBacKFlag('1');
+        }
+    }
+
+    function dataFromNative(data) {
+        showToast("dataFromNative" + data)
+
+        // const url = getObjectURL(File(data));
+        document.getElementById("imageResult2").src = data;
+        // $(".imageResult").attr("src",data);
+        //
+        // showToast("after")
+
+    }
+
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjcectURL != undefined) {
+            url = window.createOjcectURL(file);
+        } else if (window.URL != undefined) {
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) {
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+
 
     (function () {
         const $file = $('#imgcamera');
@@ -79,6 +148,8 @@
                 showToast("请选择文件")
                 return;
             }
+
+
             var formData = new FormData();
             formData.append("file", $file[0].files[0]); // 要上传的文件
             formData.append("appType", "2");
@@ -105,9 +176,9 @@
         $file.on("change", function () { // 文件选择事件
             try {
                 const filename = $file.val();
+                showToast("====" + filename)
                 console.log(filename);
                 const imageUrl = URL.createObjectURL($file[0].files[0]); // 生成图像URL
-
                 $(".imageResult").attr("src", imageUrl)
                 uploadImage()
             } catch (E) {
@@ -116,6 +187,11 @@
         });
         $(".openImage").click(function () {
             $("#imgcamera").click();
+        });
+
+
+        $(".openJava").click(function () {
+            openAlbum();
         });
 
 

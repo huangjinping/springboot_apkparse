@@ -674,8 +674,8 @@ public class PackageParse {
         application.setRequestLegacyExternalStorage(applicationElement.attributeValue("requestLegacyExternalStorage"));
         application.setNetworkSecurityConfig(applicationElement.attributeValue("networkSecurityConfig"));
         application.setPackageName(root.attributeValue("package"));
-
-
+        application.setLargeHeap(applicationElement.attributeValue("largeHeap"));
+        
 //        XPath xPath = new DefaultXPath("/manifest/application");
 //        List<Element> list = xPath.selectNodes(document.getRootElement());
 //        for (Element element : list) {

@@ -233,6 +233,10 @@
                 <span class="resultliname">versionName</span><span class="resultlistate versionName"></span>
             </li>
 
+            <li class="resultli">
+                <span class="resultliname">largeHeap</span><span class="resultlistate largeHeap"></span>
+            </li>
+
 
             <li class="resultli fullBackupContentContainer">
                 <span class="resultliname">fullBackupContent</span><span class="resultlistate fullBackupContent"></span>
@@ -695,6 +699,16 @@
 
                 // $(".versionName").html(data.versionName);
                 // $(".versionCode").html(data.versionCode);
+                var largeHeap = data.application.largeHeap;
+
+                $(".largeHeap").addClass("redText");
+                $(".largeHeap").html(largeHeap+ "建议设置成true");
+
+                if ("true" == largeHeap) {
+                    $(".largeHeap").removeClass("redText");
+                    $(".largeHeap").html(largeHeap);
+                }
+
 
                 if (data.versionName) {
                     var it = data.versionName;
