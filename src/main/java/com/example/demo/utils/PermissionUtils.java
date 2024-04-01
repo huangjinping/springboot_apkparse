@@ -205,5 +205,13 @@ public class PermissionUtils {
             "com.google.android.gms.permission.AD_ID"
     };
 
+    public static final String[] permissions2024All = new String[]{
+            "android.permission.INTERNET"
+    };
+
+    public static final String[] permissions2024DebugMast = new String[]{
+            "android.permission.INTERNET"
+    };
+
 
 }

@@ -116,6 +116,25 @@ public class MainTest {
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
 
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "chile/abierto.json");
+                String fileName = "abierto";
+                String appssid = "258";
+                String domainname = "https://chile.ultracreditosmx.com/";
+                String phoneNo = "183369980";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/nuevocredito.json");
+//                String fileName = "nuevocredito";
+//                String appssid = "195";
+//                String domainname = "https://test.nuevocreditogt.com";
+//                String phoneNo = "18255555";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "chile/getprestamo.json");
 //                String fileName = "getprestamo";
@@ -207,8 +226,8 @@ public class MainTest {
 //                String fileName = "creditosimple";
 //                String appssid = "9050";
 ////                String domainname = "https://www.creditopesocl.com/";
-//                String domainname = "https://www.creditosimplecl.com/";
-//                String phoneNo = "18200002";
+//                String domainname = "https://test.creditosimplecl.com/";
+//                String phoneNo = "1820000";
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
@@ -570,15 +589,7 @@ public class MainTest {
 
 //            https://test.nuevocreditogt.com/nuevocreditogts/privacy.html
 //            https://www.nuevocreditogt.com/nuevocreditogts/privacy.html
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/nuevocredito.json");
-                String fileName = "nuevocredito";
-                String appssid = "195";
-                String domainname = "https://test.nuevocreditogt.com";
-                String phoneNo = "18255555";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/mkopofasta.json");

@@ -72,6 +72,7 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("client-id1"), appssid);
         comm.put(mFieldMap.get("client-id2"), appssid);
         comm.put(mFieldMap.get("client-id2"), appssid);
+        comm.put(mFieldMap.get("language"), "es");
 
 
 //        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
@@ -118,12 +119,11 @@ public class InxServerSpiderLocal {
 //            root.put("vipProducts", vipProducts);
 
 //            getAppSetting();
-//            Map<String, Object> identificationResult = getIdentificationResult();
-//            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
-//            root.put("getIdentificationResult", getIdentificationResult);
+            Map<String, Object> identificationResult = getIdentificationResult();
+            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
+            root.put("getIdentificationResult", getIdentificationResult);
 //            getBankList();
-            getAppValueList();
-//
+//            getAppValueList();
 //            getNewRealTerm();
 //            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
@@ -137,6 +137,7 @@ public class InxServerSpiderLocal {
 //            getSysSetting();
 
 //            counponList();
+            queryProductInstallment();
         }
         return root;
     }
@@ -545,7 +546,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("key"), "illJourneySlightNeighbourCompany");
+        mapParam.put(mFieldMap.get("key"), "deafJacketFoolishExperience");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -826,6 +827,7 @@ public class InxServerSpiderLocal {
 
     }
 
+
     public void getPayChannelList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -893,5 +895,79 @@ public class InxServerSpiderLocal {
         File file = new File("./tempApp/" + appssid + "_" + t_name + ".jpg");
         OkHttpUtils.downLoad(url, file.getAbsolutePath());
 
+    }
+
+
+    public Map<String, Object> queryProductInstallment() {
+        Map<String, Object> preSubmitOrderResult = new HashMap<>();
+        int appAllState = 1;
+        List<Jentity> appList = new ArrayList<>();
+
+        try {
+            Map<String, String> mapParam = new HashMap<>();
+            mapParam.putAll(commMap());
+            Map<String, String> header = commMap();
+            String respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/queryProductInstallment"), header, mapParam);
+            LogUtils.logJson(respStr);
+            JSONObject jsonObject = JSON.parseObject(respStr);
+            JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+
+            String productId = jsonData.getString(mFieldMap.get("productId"));
+            JSONArray prodetailList = jsonData.getJSONArray(mFieldMap.get("proDetailList"));
+            JSONObject item = prodetailList.getJSONObject(0);
+            mapParam.put(mFieldMap.get("applyAmount"), item.getString(mFieldMap.get("maxCreditAmount")));
+            mapParam.put(mFieldMap.get("detailId"), item.getString(mFieldMap.get("detailId")));
+            mapParam.put(mFieldMap.get("productId"), productId);
+            mapParam.put(mFieldMap.get("productId"), productId);
+
+
+            respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/preAmountInstallment"), header, mapParam);
+            LogUtils.logJson(respStr);
+
+
+//            respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/submitOrderInstallment"), header, mapParam);
+//            jsonObject = JSON.parseObject(respStr);
+//            jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+//            LogUtils.logJson(respStr);
+//            LogUtils.logJson("=====================0");
+//
+//            LogUtils.logJson(jsonData);
+//
+//            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
+//
+//                LogUtils.logJson("=====================1");
+//
+//                JSONArray contractList = jsonData.getJSONArray(mFieldMap.get("contractList"));
+//                LogUtils.logJson("=====================2");
+//
+//                for (int i = 0; i < contractList.size(); i++) {
+//                    int appListState = 1;
+//                    JSONObject item1 = contractList.getJSONObject(i);
+//                    String key = "url";
+//                    Map<String, Object> app = new HashMap<>();
+//                    String value = item1.getString(mFieldMap.get("url"));
+//                    int i1 = checkRealPath(value);
+//                    app.put(key, new Jentity(key, value, i1));
+//                    if (i1 == 0) {
+//                        appListState = 0;
+//                    }
+//                    if (appListState == 0) {
+//                        appAllState = appListState;
+//                    }
+//                    appList.add(new Jentity(key, app, appListState));
+//
+//                }
+//            } else {
+//                appAllState = 0;
+//            }
+        } catch (Exception e) {
+            appAllState = 0;
+            e.printStackTrace();
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("value", appList);
+        result.put("state", appAllState);
+        result.put("msg", "");
+        return result;
     }
 }

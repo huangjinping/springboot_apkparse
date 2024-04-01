@@ -22,6 +22,7 @@ public class OkPermissionsFactory {
         this.userParam = userParam;
     }
 
+
     public List<AppPermissions> create() {
         List<AppPermissions> resultList = new ArrayList<>();
 
@@ -52,8 +53,8 @@ public class OkPermissionsFactory {
                  * 判断
                  */
                 if (!insideAllPermission(appPermisstions.getPermission())) {
-                    LogUtils.log("========1========" + appPermisstions.getPermission());
                     appPermisstions.setState(3);
+                } else {
                 }
                 resultList.add(appPermisstions);
             }
@@ -65,13 +66,24 @@ public class OkPermissionsFactory {
 
 
     private boolean insideAllPermission(String currentPermission) {
-        if (!currentPermission.startsWith("android.permission.")) {
+        if (!isSystemPermission(currentPermission)) {
             return true;
         }
         for (String item : permissionsAll) {
             if (item.equals(currentPermission)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean isSystemPermission(String currentPermission) {
+
+        if (currentPermission.startsWith("android.permission.")) {
+            return true;
+        }
+        if (currentPermission.startsWith("com.google.android.")) {
+            return true;
         }
         return false;
     }

@@ -675,7 +675,7 @@ public class PackageParse {
         application.setNetworkSecurityConfig(applicationElement.attributeValue("networkSecurityConfig"));
         application.setPackageName(root.attributeValue("package"));
         application.setLargeHeap(applicationElement.attributeValue("largeHeap"));
-        
+
 //        XPath xPath = new DefaultXPath("/manifest/application");
 //        List<Element> list = xPath.selectNodes(document.getRootElement());
 //        for (Element element : list) {
@@ -728,7 +728,8 @@ public class PackageParse {
             resultList = factory.create();
         } else if (AppConfig.AppType.TYPE_DEBUG531.equals(userParam.getAppType())) {
 //            resultList = createRelease(list);
-            OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissions531All, PermissionUtils.permissionsDebugMast531, userParam);
+            OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissions2024All, PermissionUtils.permissions2024DebugMast, userParam);
+//            OkPermissionsFactory factory = new OkPermissionsFactory(list, PermissionUtils.permissions531All, PermissionUtils.permissionsDebugMast531, userParam);
             resultList = factory.create();
         }
 
