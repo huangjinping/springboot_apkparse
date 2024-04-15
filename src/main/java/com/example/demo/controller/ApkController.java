@@ -135,7 +135,7 @@ public class ApkController {
             PackageParse packageParse = new PackageParse();
             packageParse.setmRealFilePath(resultFile.getAbsolutePath());
             System.out.println("=======suffix=====" + suffix);
-
+                
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);

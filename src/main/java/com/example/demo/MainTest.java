@@ -22,8 +22,7 @@ public class MainTest {
             LogUtils.logJson(textByPath);
             textByPath = AESUtil.encrypt(textByPath, "833145a1c66db7519277de45de749097");
             LogUtils.logJson(textByPath);
-
-
+            
 //            Map<String, String> mapParam = new HashMap<>();
 //            Map<String, String> header = new HashMap<>();
 //            Map<String, File> fileMap = new HashMap<>();

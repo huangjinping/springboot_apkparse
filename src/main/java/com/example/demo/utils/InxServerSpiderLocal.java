@@ -69,9 +69,7 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("appSsid"), appssid);
         comm.put(mFieldMap.get("versionName"), "1.5.8");
         comm.put(mFieldMap.get("versionCode"), "158");
-        comm.put(mFieldMap.get("client-id1"), appssid);
-        comm.put(mFieldMap.get("client-id2"), appssid);
-        comm.put(mFieldMap.get("client-id2"), appssid);
+        comm.put(mFieldMap.get("client-id"), appssid);
         comm.put(mFieldMap.get("language"), "es");
 
 
@@ -84,7 +82,6 @@ public class InxServerSpiderLocal {
             comm.put(mFieldMap.get("currentUserId"), loginUser.getUserId());
             comm.put(mFieldMap.get("userId"), loginUser.getUserId());
             comm.put(mFieldMap.get("custInfoId"), loginUser.getUserId());
-
         }
         return comm;
     }

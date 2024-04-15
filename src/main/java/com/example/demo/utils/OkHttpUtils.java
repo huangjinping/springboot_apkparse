@@ -253,6 +253,20 @@ public class OkHttpUtils {
         return postJson(url, requestData, new HashMap<>());
     }
 
+    public  static void postFormWithImage(){
+        Request.Builder builer = new Request.Builder();
+        MultipartBody.Builder body = new MultipartBody.Builder();
+        body.setType(FORM);
+        File uploadFile=new File("正面照片绝对地址");
+        RequestBody requestBody = RequestBody.create(OCTETFORM, uploadFile);
+        body.addFormDataPart("frontImage", "fontImage", requestBody);
+        body.addFormDataPart("type", "00");
+        Request request = builer.post(body.build())
+                .url("saveImage  地址").build();
+
+    }
+
+
     public static String postFormWithImge(String url, Map<String, File> fileMap, Map<String, String> paramMap, Map<String, String> header) {
         LogUtils.log("=====url= start==" + url);
         LogUtils.logJson(header);

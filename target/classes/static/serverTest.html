@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>域名测试</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+
+    <script>
+        (function () {
+            document.addEventListener('DOMContentLoaded', function () {
+                var html = document.documentElement;
+                var windowWidth = html.clientWidth;
+                html.style.fontSize = windowWidth / 7.5 + 'px';
+                // 等价于html.style.fontSize = windowWidth / 640 * 100 + 'px';
+            }, false);
+        })();
+    </script>
+    <style>
+
+        ul li {
+            list-style: none;
+        }
+
+
+        .greenText {
+            color: green;
+        }
+
+        .garyText {
+            color: gray;
+        }
+
+        .redText {
+            color: red;
+        }
+
+        .pageCenter {
+            background: white;
+            font-size: 0.2rem;
+        }
+
+        .fileInput {
+            display: none;
+        }
+
+        .appFileNameView {
+            display: none;
+        }
+
+        .iffsubmitContainer {
+            margin-top: 0.2rem;
+        }
+
+        .requestView {
+            text-align: center;
+        }
+
+        .requestView .imgClickIt {
+            width: 100px;
+            height: 100px;
+        }
+
+        .iffsubmit {
+            background: #f40;
+            border-radius: 0.3rem;
+            padding: 0.1rem 1rem;
+            color: white;
+        }
+
+        .resultContainer {
+            padding: 0.1rem;
+            font-size: 0.1rem;
+
+        }
+
+        .resultTitle {
+            font-weight: bold;
+            color: black;
+            display: flex;
+            align-items: center;
+        }
+
+        .resultTitle .pName {
+            font-size: 20px;
+
+        }
+
+        .pValue {
+            font-size: 20px;
+            margin-left: 10px;
+            color: #808080;
+            font-family: "Al Nile";
+            font-style: italic;
+
+        }
+
+        .resultTitle .pMessage {
+            font-size: 20px;
+            display: inline-block;
+            margin-left: 10px;
+            max-width: 5rem;
+        }
+
+        .resultlistate {
+            margin-left: 0.1rem;
+            font-weight: bold;
+
+        }
+
+        .resultUl {
+
+        }
+
+        .resultli {
+            margin: 0;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .resultliname {
+            margin-right: 0.1rem;
+            color: #808080;
+        }
+
+        .resultlivalue {
+            font-weight: bold;
+            font-style: italic;
+            max-width: 60%;
+            overflow-y: scroll;
+
+        }
+
+        .resultlistate {
+            font-weight: bold;
+            font-size: 10px;
+            margin-left: 10px;
+        }
+
+        .reportItem {
+            border: #ccc solid 3px;
+            border-radius: 10px;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        .imgExtendFlag {
+            width: 20px;
+            height: 20px;
+        }
+
+        .spiritContainer {
+            width: 200px;
+            height: 40px;
+            border: deepskyblue solid 1px;
+            border-radius: 10px;
+            background-color: deepskyblue;
+            color: white;
+            position: absolute;
+            top: 20px;
+            overflow: hidden;
+            right: 10px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .spiritContainer:hover {
+            background-color: #f40;
+            border: #f40 solid 1px;
+            height: auto;
+            overflow: hidden;
+
+
+        }
+
+        .spiritContainer a {
+            color: white;
+        }
+
+        .locationUrl {
+            color: blue;
+            font-size: 10px;
+            text-decoration: underline;
+        }
+
+        .itemContainer {
+        }
+
+        .itemContainer .itemTitle {
+            font-size: 0.1rem;
+
+        }
+
+        .itemContainer input {
+            padding: 10px;
+            width: 40%;
+        }
+    </style>
+
+</head>
+<body>
+
+<div>
+    <div class="pageCenter">
+
+        <div class="spiritContainer">
+            <span class="spirit">菜单</span>
+            <ul class="menuList">
+                <!--                <li><a href="/index">Apk aab</a></li>-->
+                <!--                <li><a href="/nbjson">检测大json</a></li>-->
+                <!--                <li><a href="">意见反馈</a></li>-->
+            </ul>
+        </div>
+
+
+        <div class="requestView">
+
+            <form id="uploadForm" action="/uploadBigJson" method="POST" enctype="multipart/form-data">
+
+                <div class="itemContainer">
+                    <div class="itemTitle">点击上传:接口json文件</div>
+                    <img class="imgClickIt" src="dianji.png">
+                    <input class="fileInput" id="inputFile" type="file" NAME="file">
+                    <div class="appFileNameView">
+                        <span>文件名称:</span><span class="appFileName"></span>
+                    </div>
+                </div>
+
+                <div class="itemContainer">
+                    <span class="itemTitle">待测包的盘号:</span>
+                    <input id="appssid" placeholder="请输入盘号" value="" type="text" type="number">
+                </div>
+
+                <div class="itemContainer">
+                    <span class="itemTitle">待测包的域名:</span>
+                    <input id="domainname" placeholder="请输入本包域名" value="" type="url"
+                           type="number">
+                </div>
+
+                <div class="itemContainer">
+                    <span class="itemTitle">待测包手机号:</span>
+                    <input id="phoneNo" placeholder="请输入测试手机号" value="" type="tel"
+                           type="number">
+                </div>
+
+                <div class="iffsubmitContainer">
+                    <span class="iffsubmit">
+                提交
+            </span>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="resultContainer">
+            <div class="reportItem">
+                <div class="resultTitle getIdentificationResultTitle">
+                    <span class="pName">getIdentificationResult</span><span class="pMessage"></span><img
+                        class="imgExtendFlag"
+                        src="arrow_right.png">
+
+                </div>
+                <ul class="resultUl getIdentificationResult">
+
+                </ul>
+            </div>
+
+
+            <div class="reportItem">
+                <div class="resultTitle vipProductsTitle">
+                    <span class="pName">vipProducts</span><span class="pMessage"></span><img class="imgExtendFlag"
+                                                                                             src="arrow_right.png">
+                </div>
+                <ul class="resultUl vipProducts">
+                </ul>
+                <div>
+                    <div class="resultTitle vipProductListTitle">
+                        <span class="resultlivalue">&nbsp;&nbsp;&nbsp;&nbsp;vipProductList</span><span
+                            class="pMessage"></span><img
+                            class="imgExtendFlag" src="arrow_right.png">
+                    </div>
+                    <ul class="resultUl vipProductList">
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="reportItem">
+                <div class="resultTitle getAppImageListTitle">
+                    <span class="pName">getAppImageList</span><span class="pMessage"></span><img class="imgExtendFlag"
+                                                                                                 src="arrow_right.png">
+                </div>
+                <ul class="resultUl getAppImageList">
+
+                </ul>
+            </div>
+
+            <div class="reportItem">
+                <div class="resultTitle preSubmitOrderTitle">
+                    <span class="pName">preSubmitOrder</span><span class="pMessage"></span><img class="imgExtendFlag"
+                                                                                                src="arrow_right.png">
+                </div>
+                <ul class="resultUl preSubmitOrder">
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+<script>
+    (function () {
+        console.log($);
+
+
+        init();
+
+        function init() {
+
+            $(".titleItemDiv").click(function (e) {
+                $(this).siblings(".itemChildDiv").toggle();
+                $(this).find(".imgExtendFlag").toggle();
+            });
+            // $(".applicationTitle").click(function (e) {
+            //     $(".application").toggle();
+            // });
+
+
+            // $(".resultTitle").click(function (e) {
+            //     console.log("-------");
+            //     $(this).siblings(".resultUl").toggle();
+            // });
+
+
+        }
+
+
+        function hideResult() {
+            $(".resultContainer").css("display", 'none');
+        }
+
+        function showResult() {
+            restResultAllView();
+            $(".resultContainer").css("display", 'block');
+        }
+
+
+        function createRootItem(e) {
+            console.log(e);
+
+            var state = "";
+            var stateText = "greenText";
+
+            if (0 == e.state) {
+                state = "error";
+                stateText = "redText";
+            } else if (1 == e.state) {
+                stateText = "greenText";
+                state = "ok";
+            }
+            var pname = e.name;
+            var pvalue = e.value;
+            var result = " <div class=\"reportItem\">\n" +
+                "                    <div class=\"resultTitle accountTitle\">\n" +
+                "                        <span class=\"pName\">" + pname + "</span><span class=\"pValue\">" + pvalue + "</span><span\n" +
+                "                            class=\"pMessage " + stateText + "\">" + state + "</span>\n" +
+                "                    </div>\n" +
+                "                </div>";
+            return result;
+        }
+
+        function createLUItem(e) {
+
+
+            console.log("0000000000000000000000");
+            console.log(e);
+            // console.log(e);
+
+            var htmlString = "";
+            var value = e.value;
+            for (const key in value) {
+                htmlString += createItem(value[key]);
+            }
+
+            var state = "";
+            var stateText = "greenText";
+
+            if (0 == e.state) {
+                state = "error";
+                stateText = "redText";
+            } else if (1 == e.state) {
+                stateText = "greenText";
+                state = "ok";
+            }
+
+            var pname = e.name;
+            var result = "  <div class=\"itemConLeng\">\n" +
+                "                        <div class=\"titleItemDiv\">\n" +
+                "                            <li class=\"resultli\">\n" +
+                "                                <span class=\"resultliname\">" + pname + "</span><span\n" +
+                "                                    class=\"resultlivalue\">--</span><span\n" +
+                "                                    class=\"resultlistate " + stateText + "\">" + state + "</span><img class=\"imgExtendFlag\" src=\"arrow_right.png\">\n" +
+                "                            </li>\n" +
+                "                        </div>\n" +
+                "                        <ul class=\"itemChildDiv\">\n" +
+                htmlString +
+                "                        </ul>\n" +
+                "                    </div>";
+
+
+            return result;
+        }
+
+
+        function createItem(e) {
+
+            var state = "";
+            var stateText = "greenText";
+
+            if (0 == e.state) {
+                state = "error";
+                stateText = "redText";
+            } else if (1 == e.state) {
+                stateText = "greenText";
+                state = "ok";
+            }
+
+            var value = e.value;
+
+            var result = " <li class=\"resultli\">\n" +
+                "                    <span class=\"resultliname\">" + e.name + "</span><span class=\"resultlivalue\">" + value + "</span><span class=\"resultlistate  " + stateText + "\">" + state + "</span>\n" +
+                "                </li>";
+            return result;
+        }
+
+        hideResult();
+        const $file = $('#inputFile');
+        $file.on("change", function () { // 文件选择事件
+            const filename = $file.val();
+            $(".appFileNameView").css("display", 'block');
+            hideResult();
+            $(".appFileName").html(filename);
+        });
+        restResultAllView();
+
+        function uploadImage() {
+            // 校验字段省略
+            // 使用 ajax 上传文件，需要用 FormData 对象
+            var value = $file[0].files[0];
+
+
+            if (value) {
+            } else {
+                showToast("请选择文件")
+                return;
+            }
+            var appssid = $("#appssid").val();
+            var domainname = $("#domainname").val();
+            var phoneNo = $("#phoneNo").val().trim();
+            if (phoneNo.startWith("182") || phoneNo.startWith("183")) {
+            } else {
+                showToast("只能输入182或者183的账号");
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append("file", $file[0].files[0]); // 要上传的文件
+            formData.append("appssid", appssid);
+            formData.append("domainname", domainname);
+            formData.append("phoneNo", phoneNo);
+
+            showLoading();
+            hideResult();
+            $.ajax({
+                url: "/serverTest",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    dismissLoading();
+                    var res = eval('(' + data + ')');
+                    parseResult(res);
+                },
+                error: function (err) {
+                    $(".appFileNameView").css("display", 'none');
+                    dismissLoading();
+                    console.error(err);
+                }
+            });
+        }
+
+        function parseResult(res) {
+            showResult();
+            console.log(res);
+            var data = res.data;
+            console.log(data);
+            if (data.getIdentificationResult) {
+                var getIdentificationResult = data.getIdentificationResult;
+                var value = getIdentificationResult.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    htmlString += createItem(value[key]);
+                }
+                $(".getIdentificationResult").html(htmlString);
+
+                var isSuccess = 1;
+                var message = "";
+                if (getIdentificationResult.state == 0) {
+                    message = "没有 getIdentificationResult数据";
+                    isSuccess = 0;
+                } else {
+                    if (getIdentificationResult.value.state == 0) {
+                        message += getIdentificationResult.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message = "数据异常";
+                    addRed(".getIdentificationResultTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".getIdentificationResultTitle .pMessage");
+                }
+                $(".getIdentificationResultTitle .pMessage").html(message)
+
+            }
+
+            if (data.storage) {
+                var storage = data.storage;
+                var value = storage.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    htmlString += createItem(value[key]);
+                }
+                $(".storage").html(htmlString);
+
+
+                var isSuccess = 1;
+                var message = "";
+                if (storage.state == 0) {
+                    message = "没有 storage数据";
+                    isSuccess = 0;
+                } else {
+                    if (storage.value.state == 0) {
+                        message += storage.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".storageTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".storageTitle .pMessage");
+                }
+                $(".storageTitle .pMessage").html(message)
+            }
+
+            if (data.vipProducts) {
+                var storage = data.vipProducts;
+                var value = storage.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    if ("vipProductList" == key) {
+                    } else {
+                        htmlString += createItem(value[key]);
+                    }
+                }
+                $(".vipProducts").html(htmlString);
+
+                if (value) {
+                    var vipProductList = value.vipProductList.value;
+
+                    var htmlString = "";
+                    var isSuccess = 1;
+
+                    try {
+                        if (vipProductList) {
+                            for (let i = 0; i < vipProductList.length; i++) {
+                                htmlString += createLUItem(vipProductList[i]);
+                            }
+                        }
+                        $(".vipProductList").html(htmlString);
+                        $(".itemChildDiv").hide();
+                        $(".vipProductList .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
+                    } catch (e) {
+                        isSuccess = 0;
+                        console.log(e);
+                    }
+                    console.log(value);
+                    var vipProductListStats = value.vipProductList;
+
+                    console.log(vipProductListStats);
+                    var message = "";
+                    if (vipProductListStats.state == 0) {
+                        message += vipProductListStats.msg;
+                        isSuccess = 0;
+                    } else {
+                        if (vipProductListStats.value.state == 0) {
+                            message += vipProductListStats.value.msg
+                            isSuccess = 0;
+                        }
+                    }
+
+                    if (isSuccess == 0) {
+                        message += "数据异常";
+                        addRed(".sensorTitle .pMessage");
+                    } else {
+                        message += "数据正常";
+                        addGreen(".sensorTitle .pMessage");
+                    }
+                    $(".sensorTitle .pMessage").html(message)
+
+
+                }
+
+
+                var isSuccess = 1;
+                var message = "";
+                if (storage.state == 0) {
+                    message = "没有general_data数据";
+                    isSuccess = 0;
+                } else {
+                    if (storage.value.state == 0) {
+                        message += storage.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message = "数据异常";
+                    addRed(".vipProductsTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".vipProductsTitle .pMessage");
+                }
+                $(".vipProductsTitle .pMessage").html(message)
+            }
+
+
+            if (data.network) {
+
+                var network = data.network;
+                var value = network.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    if ("current_wifi" == key) {
+                    } else if ("configured_wifi" == key) {
+
+                    } else {
+                        htmlString += createItem(value[key]);
+                    }
+                }
+                $(".network").html(htmlString);
+
+                if (value) {
+                    var configured_wifi = value.configured_wifi.value;
+
+                    var htmlString = "";
+                    var isSuccess = 1;
+                    console.log("===========configured_wifi===========");
+                    console.log(configured_wifi);
+
+                    try {
+                        if (configured_wifi) {
+                            for (let i = 0; i < configured_wifi.length; i++) {
+                                htmlString += createLUItem(configured_wifi[i]);
+                            }
+                        }
+                        $(".configured_wifi").html(htmlString);
+                        $(".itemChildDiv").hide();
+                        $(".configured_wifi .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
+                    } catch (e) {
+                        isSuccess = 0;
+                        console.log(e);
+                    }
+
+                    var configured_wifi = value.configured_wifi;
+
+                    var message = "";
+                    if (configured_wifi.state == 0) {
+                        message = "没有configured_wifiStats数据";
+                        isSuccess = 0;
+                    } else {
+                        if (configured_wifi.value.state == 0) {
+                            message += configured_wifi.value.msg
+                            isSuccess = 0;
+                        }
+                    }
+                    if (isSuccess == 0) {
+                        message = "数据异常";
+                        addRed(".configured_wifiTitle .pMessage");
+                    } else {
+                        message = "数据正常";
+                        addGreen(".configured_wifiTitle .pMessage");
+                    }
+                    $(".configured_wifiTitle .pMessage").html(message)
+
+
+                }
+
+                if (value) {
+                    var current_wifi = value.current_wifi;
+                    var current_wifiValue = current_wifi.value;
+                    var htmlString = "";
+                    for (const key in current_wifiValue) {
+                        console.log("-----------00000----------");
+                        console.log(current_wifiValue[key]);
+                        htmlString += createItem(current_wifiValue[key]);
+                    }
+                    $(".current_wifi").html(htmlString);
+                    var isSuccess = 1;
+                    var message = "";
+                    if (current_wifi.state == 0) {
+                        message = "没有current_wifi数据";
+                        isSuccess = 0;
+                    }
+
+                    if (isSuccess == 0) {
+                        message = "数据异常";
+                        addRed(".current_wifiTitle .pMessage");
+                    } else {
+                        message = "数据正常";
+                        addGreen(".current_wifiTitle .pMessage");
+                    }
+                    $(".current_wifiTitle .pMessage").html(message)
+                }
+
+
+                var isSuccess = 1;
+                var message = "";
+                if (network.state == 0) {
+                    message = "没有network_data数据";
+                    isSuccess = 0;
+                } else {
+                    if (network.value.state == 0) {
+                        message += network.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".networkTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".networkTitle .pMessage");
+                }
+                $(".networkTitle .pMessage").html(message)
+            }
+
+
+            if (data.other_data) {
+                var storage = data.other_data;
+                var value = storage.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    htmlString += createItem(value[key]);
+                }
+                $(".other_data").html(htmlString);
+
+                var isSuccess = 1;
+                var message = "";
+                if (storage.state == 0) {
+                    message = "没有 other_data数据";
+                    isSuccess = 0;
+                } else {
+                    if (storage.value.state == 0) {
+                        message += storage.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message = "数据异常";
+                    addRed(".other_dataTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".other_dataTitle .pMessage");
+                }
+                $(".other_dataTitle .pMessage").html(message)
+
+            }
+
+            if (data.getAppImageList) {
+                var getAppImageList = data.getAppImageList;
+                var value = getAppImageList.value.value;
+                var htmlString = "";
+                var isSuccess = 1;
+
+                try {
+                    if (value) {
+
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                    }
+                    $(".getAppImageList").html(htmlString);
+                    $(".itemChildDiv").hide();
+
+                    $(".getAppImageList .titleItemDiv").click(function () {
+                        $(this).siblings(".itemChildDiv").toggle();
+                    });
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e);
+                }
+
+
+                var message = "";
+                if (getAppImageList.state == 0) {
+                    message = "没有getAppImageList数据";
+                    isSuccess = 0;
+                } else {
+                    if (getAppImageList.value.state == 0) {
+                        message += getAppImageList.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".getAppImageListTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".getAppImageListTitle .pMessage");
+                }
+                $(".getAppImageListTitle .pMessage").html(message)
+            }
+
+            if (data.preSubmitOrder) {
+                var preSubmitOrder = data.preSubmitOrder;
+                var value = preSubmitOrder.value.value;
+                var htmlString = "";
+                var isSuccess = 1;
+
+                try {
+                    if (value) {
+                        console.log("====================9999");
+                        console.log(value);
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                    }
+                    $(".preSubmitOrder").html(htmlString);
+                    $(".itemChildDiv").hide();
+                    $(".preSubmitOrder .titleItemDiv").click(function () {
+                        $(this).siblings(".itemChildDiv").toggle();
+                    });
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e);
+                }
+
+
+                var message = "";
+                if (preSubmitOrder.state == 0) {
+                    message = "没有getAppImageList数据";
+                    isSuccess = 0;
+                } else {
+                    if (preSubmitOrder.value.state == 0) {
+                        message += preSubmitOrder.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".preSubmitOrderTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".preSubmitOrderTitle .pMessage");
+                }
+                $(".preSubmitOrderTitle .pMessage").html(message)
+            }
+
+
+            // <div className="reportItem">
+            //     <div className="resultTitle preSubmitOrderTitle">
+            //         <span className="pName">preSubmitOrder</span><span className="pMessage"></span><img
+            //         className="imgExtendFlag"
+            //         src="arrow_right.png">
+            //     </div>
+            //     <ul className="resultUl preSubmitOrder">
+            //     </ul>
+            // </div>
+
+
+            if (data.contact) {
+                var contact = data.contact;
+
+                var isSuccess = 1;
+
+                var value = contact.value.value;
+                try {
+                    var htmlString = "";
+                    if (value) {
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                    }
+                    $(".contact").html(htmlString);
+                    $(".itemChildDiv").hide();
+                    $(".contact .titleItemDiv").click(function () {
+                        $(this).siblings(".itemChildDiv").toggle();
+                    });
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e);
+                }
+                var message = "";
+                if (contact.state == 0) {
+                    message += "没有联系人，";
+                    isSuccess = 0;
+                } else {
+                    if (contact.value.state == 0) {
+                        message += contact.value.msg
+                        isSuccess = 0;
+                    }
+                }
+                if (isSuccess == 0) {
+                    message += " 数据异常";
+                    addRed(".contactTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".contactTitle .pMessage");
+                }
+                $(".contactTitle .pMessage").html(message)
+            }
+
+            if (data.sms) {
+                var sms = data.sms;
+                var value = sms.value.value;
+                var isSuccess = 1;
+
+                try {
+                    var htmlString = "";
+                    if (value) {
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                    }
+                    $(".sms").html(htmlString);
+                    $(".itemChildDiv").hide();
+
+                    $(".sms .titleItemDiv").click(function () {
+                        $(this).siblings(".itemChildDiv").toggle();
+                    });
+                } catch (e) {
+                    console.log(e);
+                    isSuccess = 0;
+                }
+                var message = "";
+                if (sms.state == 0) {
+                    message += "没有SMS数据";
+                    isSuccess = 0;
+                } else {
+                    if (sms.value.state == 0) {
+                        message += sms.value.msg
+                        isSuccess = 0;
+                    }
+                }
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".smsTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".smsTitle .pMessage");
+                }
+                $(".smsTitle .pMessage").html(message)
+            }
+
+            if (data.location) {
+                var location = data.location;
+                var value = location.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    htmlString += createItem(value[key]);
+                }
+                $(".location").html(htmlString);
+
+
+                var isSuccess = 1;
+                var message = "";
+                if (location.state == 0) {
+                    message = "没有 location数据";
+                    isSuccess = 0;
+                } else {
+                    if (location.value.state == 0) {
+                        message += location.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+
+                if (!isEmpty(location.value.url)) {
+                    $(".locationUrl").show();
+                    $(".locationUrl").click(function () {
+                        window.open(location.value.url);
+                    });
+                }
+
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".locationTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".locationTitle .pMessage");
+                }
+                $(".locationTitle .pMessage").html(message)
+            }
+
+            if (data.battery_status) {
+                var battery_status = data.battery_status;
+                var value = battery_status.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    htmlString += createItem(value[key]);
+                }
+                $(".battery_status").html(htmlString);
+
+
+                var isSuccess = 1;
+                var message = "";
+                if (battery_status.state == 0) {
+                    message = "没有 battery_status数据";
+                    isSuccess = 0;
+                } else {
+                    if (battery_status.value.state == 0) {
+                        message += battery_status.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+
+                if (isSuccess == 0) {
+                    message = "数据异常";
+                    addRed(".battery_statusTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".battery_statusTitle .pMessage");
+                }
+                $(".battery_statusTitle .pMessage").html(message)
+            }
+            if (data.public_ip) {
+                var public_ip = data.public_ip;
+                var value = public_ip.value.value;
+                var htmlString = "";
+                for (const key in value) {
+                    htmlString += createItem(value[key]);
+                }
+                $(".public_ip").html(htmlString);
+
+                var isSuccess = 1;
+                var message = "";
+                if (public_ip.state == 0) {
+                    message = "没有public_ip数据";
+                    isSuccess = 0;
+                } else {
+                    if (public_ip.value.state == 0) {
+                        message += public_ip.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+
+                if (isSuccess == 0) {
+                    message = "数据异常";
+                    addRed(".public_ipTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".public_ipTitle .pMessage");
+                }
+                $(".public_ipTitle .pMessage").html(message)
+            }
+
+            if (data.dataList) {
+                var dataList = data.dataList;
+                var isSuccess = 1;
+
+                var value = dataList.value.value;
+                try {
+                    if (value) {
+                        var htmlString = "";
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                        $(".dataList").html(htmlString);
+                        $(".itemChildDiv").hide();
+
+                        $(".dataList .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
+
+                    }
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e);
+                }
+
+
+                var message = "";
+                if (dataList.state == 0) {
+                    message += dataList.msg;
+                    isSuccess = 0;
+                } else {
+                    if (dataList.value.state == 0) {
+                        message += dataList.value.msg
+                        isSuccess = 0;
+                    }
+                }
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".dataListTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".dataListTitle .pMessage");
+                }
+                $(".dataListTitle .pMessage").html(message)
+            }
+
+
+            if (data.calendar) {
+                var calendar = data.calendar;
+                var value = calendar.value.value;
+                var isSuccess = 1;
+
+                try {
+                    var htmlString = "";
+                    if (value) {
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                    }
+                    $(".calendar").html(htmlString);
+                    $(".itemChildDiv").hide();
+                    $(".calendar .titleItemDiv").click(function () {
+                        $(this).siblings(".itemChildDiv").toggle();
+                    });
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e);
+                }
+
+                var message = "";
+                if (calendar.state == 0) {
+                    message = "没有日历数据数据";
+                    isSuccess = 0;
+                } else {
+                    if (calendar.value.state == 0) {
+                        message += calendar.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message = "数据异常";
+                    addRed(".calendarTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".calendarTitle .pMessage");
+                }
+                $(".calendarTitle .pMessage").html(message)
+            }
+
+            if (data.account) {
+
+                console.log("=========data.account=====");
+                console.log(data.account);
+
+                var account = data.account;
+                var isSuccess = 1;
+                var value = account.value.value;
+                try {
+                    if (value) {
+                        var htmlString = "";
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+                        $(".account").html(htmlString);
+                        $(".itemChildDiv").hide();
+
+                        $(".account .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
+                    }
+                } catch (e) {
+                    isSuccess = 0;
+                    console.log(e)
+                }
+
+
+                var message = "";
+                if (account.state == 0) {
+                    message += "没有acount数据";
+                    isSuccess = 0;
+                } else {
+                    if (account.value.state == 0) {
+                        message += account.value.msg
+                        isSuccess = 0;
+                    }
+                }
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".accountTitle .pMessage");
+                } else {
+                    message += "数据正常";
+                    addGreen(".accountTitle .pMessage");
+                }
+                $(".accountTitle .pMessage").html(message)
+            }
+
+            if (data.call) {
+                var call = data.call;
+                var value = call.value.value;
+                var isSuccess = 1;
+
+                try {
+                    if (value) {
+                        var htmlString = "";
+                        for (let i = 0; i < value.length; i++) {
+                            htmlString += createLUItem(value[i]);
+                        }
+
+                        $(".call").html(htmlString);
+                        $(".itemChildDiv").hide();
+
+                        $(".call .titleItemDiv").click(function () {
+                            $(this).siblings(".itemChildDiv").toggle();
+                        });
+                    }
+
+                } catch (e) {
+                    isSuccess = 0;
+
+                }
+
+
+                var message = "";
+                if (call.state == 0) {
+                    message += "没有call数据";
+                    isSuccess = 0;
+                } else {
+                    if (call.value.state == 0) {
+                        message += call.value.msg
+                        isSuccess = 0;
+                    }
+                }
+
+                if (isSuccess == 0) {
+                    message += "数据异常";
+                    addRed(".callTitle .pMessage");
+                } else {
+                    message = "数据正常";
+                    addGreen(".callTitle .pMessage");
+                }
+                $(".callTitle .pMessage").html(message)
+            }
+
+
+            if (data) {
+                var list = ["audio_external", "audio_internal", "images_internal", "images_external",
+                    "video_internal", "video_external", "download_files", "contact_group", "build_id",
+                    "build_name", "package_name", "create_time"];
+
+                var htmlString = "";
+                for (const listKey in data) {
+                    if (list.indexOf(listKey) != -1) {
+                        htmlString += createRootItem(data[listKey]);
+                    }
+                }
+                $(".rootComm").html(htmlString);
+
+
+            }
+            $(".resultTitle").unbind();
+            $(".resultTitle").click(function (e) {
+                console.log(e);
+                console.log("-------");
+                console.log($(this).siblings(".resultUl"))
+                $(this).siblings(".resultUl").toggle();
+            });
+
+
+        }
+
+        function restResultAllView() {
+            $(".resultUl").hide();
+            $(".resultUl").html("");
+            $(".pMessage").html("");
+            $(".locationUrl").hide();
+            // setRest(".BranchKey");
+            // setRest(".TestMode");
+            // setRest(".ApplicationId");
+            // setRest(".AutoLogAppEventsEnabled");
+            // setRest(".AdvertiserIDCollectionEnabled");
+            // setRest(".ClientToken");
+
+        }
+
+        function addRed(e) {
+            $(e).removeClass("greenText");
+            $(e).addClass("redText");
+        }
+
+        function addGreen(e) {
+            $(e).removeClass("redText");
+            $(e).addClass("greenText");
+        }
+
+        function setRest(e) {
+            $(e).addClass("redText");
+            $(e).html("缺失");
+        }
+
+        $(".imgClickIt").click(function () {
+            $(".fileInput").click();
+        });
+
+        $(".iffsubmit").click(function () {
+            uploadImage();
+        });
+
+
+    })();
+
+</script>
+<script type="text/javascript" src="build.js"></script>
+
+</body>
+</html>

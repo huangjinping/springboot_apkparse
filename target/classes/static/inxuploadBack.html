@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title>上传图片demo</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+
+</head>
+<style>
+
+    .openImage {
+        width: 200px;
+        height: 200px;
+        background-color: cadetblue;
+    }
+
+    .imageResult {
+        width: 200px;
+        height: 200px;
+        background-color: coral;
+    }
+</style>
+<body>
+
+<input type="file" accept="image/*" id="imgcamera" name="imgcamera"
+       accept/>
+
+<input type="file" multiple="true" accept="image/*" id="imgcameraMul" name="imgcameraMul"
+       accept/>
+
+<div class="openImage">
+
+</div>
+
+<ul>
+
+    <li class="canBack">点击允许后退</li>
+    <li class="noCanBack">点击不允许后退</li>
+
+</ul>
+
+
+</body>
+
+
+<script>
+
+    var flag = 0
+
+    function onBackPressed() {
+
+        return flag;
+    }
+
+
+    (function () {
+        $(".canBack").click(function () {
+            flag = 1;
+        });
+
+        $(".noCanBack").click(function () {
+
+            flag = 0;
+        });
+
+    })();
+
+
+</script>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Android启发器</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+
+    <script>
+        (function () {
+            document.addEventListener('DOMContentLoaded', function () {
+                var html = document.documentElement;
+                var windowWidth = html.clientWidth;
+                html.style.fontSize = windowWidth / 7.5 + 'px';
+                // 等价于html.style.fontSize = windowWidth / 640 * 100 + 'px';
+            }, false);
+        })();
+    </script>
+    <style>
+
+        .container {
+            padding: 1rem;
+        }
+
+        .txt_scheme {
+            line-height: 0.5rem;
+            border: solid 1px #808080;
+            display: block;
+            width: 90%;
+            font-size: 0.3rem;
+
+        }
+
+        .txt_openapp {
+            text-decoration: underline;
+            font-size: 0.4rem;
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="pageCenter">
+    <div class="container">
+
+        <div>
+            <input class="txt_scheme" type="text">
+        </div>
+        <div>
+            <a class="txt_openapp">点击打开App</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        $(".txt_openapp").click(function () {
+            var value = $(".txt_scheme").val();
+            if (isEmpty(value)) {
+                showToast("请输入scheme！！")
+                return;
+            }
+            window.location.href = value;
+        });
+    })();
+</script>
+</body>
+</html>

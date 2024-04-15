@@ -31,13 +31,13 @@ public class JsonFilter {
         Map<String, Object> header = (Map<String, Object>) map.get("header");
         draftsField.putAll(commonResp);
         draftsField.putAll(header);
-        int i = 0;
+//        int i = 0;
         for (Map.Entry<String, Object> entry : draftsField.entrySet()) {
             String value = entry.getValue() + "";
-            if (entry.getValue().equals("client-id")) {
-                i++;
-                value = value + i;
-            }
+//            if (entry.getValue().equals("client-id")) {
+//                i++;
+//                value = value + i;
+//            }
 
             fieldMap.put(value, entry.getKey());
         }
