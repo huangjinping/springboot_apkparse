@@ -113,9 +113,8 @@ public class PermissionUtils {
             "android.permission.POST_NOTIFICATIONS",
             "android.permission.BLUETOOTH",
             "android.permission.GET_TASKS",
+            "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
             "android.permission.FOREGROUND_SERVICE"
-
-
     };
 
 
@@ -164,8 +163,8 @@ public class PermissionUtils {
 //            "android.permission.READ_MEDIA_IMAGES",
 //            "android.permission.READ_MEDIA_VIDEO",
             "android.permission.POST_NOTIFICATIONS",
-            "android.permission.FOREGROUND_SERVICE"
-
+            "android.permission.FOREGROUND_SERVICE",
+            "android.permission.ACCESS_ADSERVICES_ATTRIBUTION"
 
     };
 

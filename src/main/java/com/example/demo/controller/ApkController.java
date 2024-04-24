@@ -140,7 +140,6 @@ public class ApkController {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 map.putAll(PackageParse.getApkLengthByList(resultFile.getAbsolutePath()));
-
                 map.putAll(PackageParse.parseApkLibs(unzipPath));
 
                 resultMap.putAll(map);
