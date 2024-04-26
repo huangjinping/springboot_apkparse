@@ -22,7 +22,7 @@ public class MainTest {
             LogUtils.logJson(textByPath);
             textByPath = AESUtil.encrypt(textByPath, "833145a1c66db7519277de45de749097");
             LogUtils.logJson(textByPath);
-            
+
 //            Map<String, String> mapParam = new HashMap<>();
 //            Map<String, String> header = new HashMap<>();
 //            Map<String, File> fileMap = new HashMap<>();
@@ -115,15 +115,36 @@ public class MainTest {
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
 
+
             {
-                String json = FileUtils.getTextByPath(HOME_PATH + "chile/abierto.json");
-                String fileName = "abierto";
-                String appssid = "258";
-                String domainname = "https://chile.ultracreditosmx.com/";
-                String phoneNo = "183369980";
+                String json = FileUtils.getTextByPath(HOME_PATH + "mexico/prestamosoleado.json");
+                String fileName = "prestamosoleado";
+                String appssid = "274";
+                String domainname = "https://mx.ultracreditosmx.com/";
+                String phoneNo = "18200000";
                 InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
                 inxServerSpiderLocal.start();
             }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/trustloan.json");
+//                String fileName = "trustloan";
+//                String appssid = "281";
+//                String domainname = "https://my.ultracreditosmx.com/";
+//                String phoneNo = "18200000";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/abierto.json");
+//                String fileName = "abierto";
+//                String appssid = "258";
+//                String domainname = "https://chile.ultracreditosmx.com/";
+//                String phoneNo = "183369980";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/nuevocredito.json");

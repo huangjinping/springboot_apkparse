@@ -116,9 +116,9 @@ public class InxServerSpiderLocal {
 //            root.put("vipProducts", vipProducts);
 
 //            getAppSetting();
-            Map<String, Object> identificationResult = getIdentificationResult();
-            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
-            root.put("getIdentificationResult", getIdentificationResult);
+//            Map<String, Object> identificationResult = getIdentificationResult();
+//            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
+//            root.put("getIdentificationResult", getIdentificationResult);
 //            getBankList();
 //            getAppValueList();
 //            getNewRealTerm();
@@ -134,7 +134,12 @@ public class InxServerSpiderLocal {
 //            getSysSetting();
 
 //            counponList();
-            queryProductInstallment();
+
+//            queryProductInstallment();
+
+//            checkAddressJsonFileExist();
+            getAppInfoUserId();
+            getUrlForApp();
         }
         return root;
     }
@@ -790,6 +795,39 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getSysSetting"), header, mapParam);
+        LogUtils.logJson(respStr);
+    }
+
+
+    public void getAppInfoUserId() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/getAppInfoUserId"), header, mapParam);
+        LogUtils.logJson(respStr);
+    }
+
+    public void getUrlForApp() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/apk/getUrlForApp"), header, mapParam);
+        LogUtils.logJson(respStr);
+    }
+
+    public void txlFeature() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/feature/txlFeature"), header, mapParam);
+        LogUtils.logJson(respStr);
+    }
+
+    public void checkAddressJsonFileExist() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/feature/checkAddressJsonFileExist"), header, mapParam);
         LogUtils.logJson(respStr);
     }
 
