@@ -83,6 +83,13 @@
             <version>5.2</version>
         </dependency>
 
+        <!-- 添加JGit库依赖 -->
+        <dependency>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
+            <version>5.11.0.202103091610-r</version>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>com.getkeepsafe.relinker</groupId>-->
 <!--            <artifactId>relinker</artifactId>-->

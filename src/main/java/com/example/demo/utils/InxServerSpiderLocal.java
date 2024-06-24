@@ -97,7 +97,7 @@ public class InxServerSpiderLocal {
         if (loginUser != null) {
 //            checkFavorableComment();
 //            getAppConfig();
-//            index();
+            index();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -129,17 +129,13 @@ public class InxServerSpiderLocal {
 //            uploadOperation();
 //            addBank();
 //            v3indexForMulApp();
-
 //            getAppInfo();
 //            getSysSetting();
-
 //            counponList();
-
 //            queryProductInstallment();
-
 //            checkAddressJsonFileExist();
-            getAppInfoUserId();
-            getUrlForApp();
+//            getAppInfoUserId();
+//            getUrlForApp();
         }
         return root;
     }
@@ -569,8 +565,27 @@ public class InxServerSpiderLocal {
             JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
             String orderId = jsonData.getString(mFieldMap.get("orderId"));
             if (!TextUtils.isEmpty(orderId)) {
-                mpRepayUrl(orderId, "00");
+//                mpRepayUrl(orderId, "00");
+                getDocuments(orderId);
             }
+        }
+    }
+
+
+    public void getDocuments(String orderId) {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        mapParam.put(mFieldMap.get("orderId"), orderId);
+        mapParam.put(mFieldMap.get("configKey"), "documents_1");
+        mapParam.put(mFieldMap.get("orderType"), "0");
+
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/sysConfig/getDocuments"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+
         }
     }
 

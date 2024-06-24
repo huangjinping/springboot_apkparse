@@ -2,7 +2,9 @@ package com.example.demo;
 
 import com.example.demo.bean.CommonModel;
 import com.example.demo.utils.*;
+import org.eclipse.jgit.api.Git;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -49,12 +51,12 @@ public class MainTest {
     public static void main(String[] args) throws IOException {
 //        System.out.println(RegexUtils.isTel1("123416789"));
 
-        String resultdd = "{\"build_name\":\"1.0.16\",\"images_external\":838,\"video_internal\":0}";
-        System.out.println("--------------------22------------->>>");
-        resultdd = "\u001F\u0000\u0000\u0000\u0000\u0000\u0000\u0000«VJ*ÍÌI\u0089ÏKÌMU²R2Ô3Ð34SÒQÊÌMLO-\u008EO\u00AD(I-ÊKÌQ²²0¶ÐQ*ËLIÍ\u008FÏÌ\u0083\t\u001AÔ\u0002\u00007(¥d@\u0000\u0000\u0000";
-        System.out.println(GzipUtil.compress(resultdd));
-        System.out.println("--------------------23------------->>>");
-
+//        String resultdd = "{\"build_name\":\"1.0.16\",\"images_external\":838,\"video_internal\":0}";
+//        System.out.println("--------------------22------------->>>");
+//        resultdd = "\u001F\u0000\u0000\u0000\u0000\u0000\u0000\u0000«VJ*ÍÌI\u0089ÏKÌMU²R2Ô3Ð34SÒQÊÌMLO-\u008EO\u00AD(I-ÊKÌQ²²0¶ÐQ*ËLIÍ\u008FÏÌ\u0083\t\u001AÔ\u0002\u00007(¥d@\u0000\u0000\u0000";
+//        System.out.println(GzipUtil.compress(resultdd));
+//        System.out.println("--------------------23------------->>>");
+//        gitDir();
 
 //        msgFeatureV3();
 //
@@ -96,10 +98,10 @@ public class MainTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        boolean result = CheckUtils.checkVersionName("0.0.1");
-        System.out.println("checkVersionName:" + result);
-        boolean codeResult = CheckUtils.checkVersionCode("1");
-        System.out.println("checkVersionCode:" + codeResult);
+//        boolean result = CheckUtils.checkVersionName("0.0.1");
+//        System.out.println("checkVersionName:" + result);
+//        boolean codeResult = CheckUtils.checkVersionCode("1");
+//        System.out.println("checkVersionCode:" + codeResult);
 //        LogUtils.log("-----" + format);
 
 //        LogUtils.log("com.prestamo.profin.loan.super.dinero.efectivo.credito.credit.cash".length());
@@ -115,16 +117,35 @@ public class MainTest {
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
 
-
             {
-                String json = FileUtils.getTextByPath(HOME_PATH + "mexico/prestamosoleado.json");
-                String fileName = "prestamosoleado";
-                String appssid = "274";
-                String domainname = "https://mx.ultracreditosmx.com/";
-                String phoneNo = "18200000";
+                String json = FileUtils.getTextByPath(HOME_PATH + "english/financiarahora.json");
+                String fileName = "financiarahora";
+                String appssid = "9001";
+                String domainname = "https://tz.ultracreditosmx.com/";
+                String phoneNo = "183100701";
                 InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
                 inxServerSpiderLocal.start();
             }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/securecredit.json");
+//                String fileName = "securecredit";
+//                String appssid = "157";
+//                String domainname = "https://tz.ultracreditosmx.com/";
+//                String phoneNo = "183100701";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "mexico/prestamosoleado.json");
+//                String fileName = "prestamosoleado";
+//                String appssid = "274";
+//                String domainname = "https://mx.ultracreditosmx.com/";
+//                String phoneNo = "18200000";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/trustloan.json");
@@ -762,6 +783,50 @@ public class MainTest {
         LogUtils.logJson(minCreditAmount_s.compareTo(maxCreditAmount_s));
         LogUtils.logJson("============onPreAmount========end==============");
 
+
+    }
+
+    private static void gitDir() {
+        String repoUrl = "https://gitee.com/weiluTech/jamboloan.git";
+        File rootDir = new File("./gitDir");
+        File currentDir = new File(rootDir.getAbsolutePath() + "/jamboloan");
+        if (!currentDir.exists()) {
+            currentDir.mkdir();
+        }
+//        FileUtils.deleteDirWithPath(currentDir.getAbsolutePath());
+//        String cloneDirectoryPath = currentDir.getAbsolutePath();
+//        try {
+//            // 克隆仓库
+//            Git.cloneRepository()
+//                    .setURI(repoUrl)
+//                    .setDirectory(new File(cloneDirectoryPath))
+//                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider("huangjinping1000@163.com", "wo123456"))
+//                    .call();
+//
+//            // 或者，如果你需要操作已存在的仓库，可以打开一个本地仓库
+//            Repository repo = new FileRepository(cloneDirectoryPath);
+//            Git git = new Git(repo);
+//
+//            // 进行仓库操作，例如拉取最新变更
+////            git.pull().setCredentialsProvider(new UsernamePasswordCredentialsProvider("username", "password")).call();
+//            LogCommand log = git.log();
+//
+//            // 关闭Git实例
+//            git.close();
+//            repo.close();
+//
+//        } catch (GitAPIException | IOException e) {
+//            e.printStackTrace();
+//        }
+
+        try {
+            Git git = Git.open(currentDir);
+//            git.pull().setCredentialsProvider(new UsernamePasswordCredentialsProvider("username", "password")).call();
+            git.log();
+            git.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

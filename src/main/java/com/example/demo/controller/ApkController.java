@@ -159,6 +159,7 @@ public class ApkController {
                 String deviceApkPath = unzipPath;
 //                String cmd = "bundletool extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
                 String cmd = bundletooPath + " extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
+                System.out.println(""+cmd);
                 process = Runtime.getRuntime().exec(cmd);
                 value = process.waitFor();
 
