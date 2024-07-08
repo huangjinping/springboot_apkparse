@@ -117,15 +117,35 @@ public class MainTest {
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
         try {
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "english/financiarahora.json");
-                String fileName = "financiarahora";
-                String appssid = "9001";
-                String domainname = "https://tz.ultracreditosmx.com/";
-                String phoneNo = "183100701";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/prestamia.json");
+//                String fileName = "prestamia";
+//                String appssid = "159";
+//                String domainname = "https://my.ultracreditosmx.com/";
+//                String phoneNo = "183366111";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "english/financiarahora.json");
+//                String fileName = "financiarahora";
+//                String appssid = "9001";
+//                String domainname = "https://tz.ultracreditosmx.com/";
+//                String phoneNo = "183100701";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+//
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "peru/wolaaloan.json");
+//                String fileName = "wolaaloan";
+//                String appssid = "144";
+//                String domainname = "https://peru.ultracreditosmx.com/";
+//                String phoneNo = "183248490";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/securecredit.json");
@@ -209,15 +229,6 @@ public class MainTest {
 //            }
 
 
-//                        {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "peru/wolaaloan.json");
-//                String fileName = "wolaaloan";
-//                String appssid = "144";
-//                String domainname = "https://www.wolaaloan.com/";
-//                String phoneNo = "183248490";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
 //            https://mx.getprestamocl.com/getprestamo/
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "mexico/brillanteprestamo.json");
@@ -355,16 +366,16 @@ public class MainTest {
 //            }
 
 
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/estrellacredito.json");
-//                String fileName = "estrellacredito";
-//                String appssid = "182";
-//                String domainname = "https://glby.ultracreditosmx.com/";
-////                https://test.felizsolpe.com/felizsol/nearbyPiano/recommendInternationalJazz
-//                String phoneNo = "18200000";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "columbia/estrellacredito.json");
+                String fileName = "estrellacredito";
+                String appssid = "182";
+                String domainname = "https://glby.ultracreditosmx.com/";
+//                https://test.felizsolpe.com/felizsol/nearbyPiano/recommendInternationalJazz
+                String phoneNo = "1832643691";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 
 
 //            {

@@ -98,6 +98,7 @@ public class InxServerSpiderLocal {
 //            checkFavorableComment();
 //            getAppConfig();
             index();
+//            appIndex();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -136,6 +137,8 @@ public class InxServerSpiderLocal {
 //            checkAddressJsonFileExist();
 //            getAppInfoUserId();
 //            getUrlForApp();
+//            indexForMulAppV2();
+//            indexForMulAppInstallmentV2();
         }
         return root;
     }
@@ -404,6 +407,34 @@ public class InxServerSpiderLocal {
         }
     }
 
+    public void indexForMulAppV2() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/mul/v3/indexForMulAppV2"), fileMap, mapParam, header);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+    public void indexForMulAppInstallmentV2() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/installment/indexForMulAppInstallmentV2"), fileMap, mapParam, header);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
     public void v3indexForMulApp() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -558,6 +589,24 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/index"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+            JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+            String orderId = jsonData.getString(mFieldMap.get("orderId"));
+            if (!TextUtils.isEmpty(orderId)) {
+//                mpRepayUrl(orderId, "00");
+                getDocuments(orderId);
+            }
+        }
+    }
+
+    public void appIndex() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/appIndex"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
