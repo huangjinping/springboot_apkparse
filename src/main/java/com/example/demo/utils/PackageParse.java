@@ -79,8 +79,9 @@ public class PackageParse {
             LogUtils.logJson(allMap);
             result.add(checkFileLib(V8A, v8a, allMap));
             result.add(checkFileLib(V71, v7a, allMap));
-            result.add(checkFileLib(X86, x86, allMap));
-            result.add(checkFileLib(X8664, x8664, allMap));
+//            result.add(checkFileLib(X86, x86, allMap));
+//            result.add(checkFileLib(X8664, x8664, allMap));
+
 
         }
 

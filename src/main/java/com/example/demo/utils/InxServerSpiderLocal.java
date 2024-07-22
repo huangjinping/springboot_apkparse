@@ -97,8 +97,8 @@ public class InxServerSpiderLocal {
         if (loginUser != null) {
 //            checkFavorableComment();
 //            getAppConfig();
-            index();
-//            appIndex();
+//            index();
+            appIndex();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -333,23 +333,58 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         Map<String, File> fileMap = new HashMap<>();
-        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
-        mapParam.put(mFieldMap.get("surnames"), "akusge");
-        mapParam.put(mFieldMap.get("names"), "asss");
-        mapParam.put(mFieldMap.get("birthDay"), "11-11-2000");
-        mapParam.put(mFieldMap.get("sex"), "1");
-        mapParam.put(mFieldMap.get("maritalStatus"), "1");
-        mapParam.put(mFieldMap.get("familySize"), "1");
-        mapParam.put(mFieldMap.get("incomeLevel"), "1");
-        mapParam.put(mFieldMap.get("workType"), "1");
-        mapParam.put(mFieldMap.get("relationship"), "1");
-        mapParam.put(mFieldMap.get("name"), "shhiwi");
-        mapParam.put(mFieldMap.get("curp"), "182909872");
 
-        mapParam.put(mFieldMap.get("phoneNumber"), "1821829112");
-        mapParam.put(mFieldMap.get("relationshipSec"), "2");
-        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
-        mapParam.put(mFieldMap.get("phoneNumberSec"), "1822189922");
+
+//        mapParam.put(mFieldMap.get("pageType"), "1");
+//        mapParam.put(mFieldMap.get("names"), "ndkkdkd");
+//        mapParam.put(mFieldMap.get("surnames"), "gjjjjs");
+//        mapParam.put(mFieldMap.get("sex"), "0");
+//        mapParam.put(mFieldMap.get("residentialProvince"), "Eastern Cape");
+//        mapParam.put(mFieldMap.get("residentialProvinceCode"), "3");
+//        mapParam.put(mFieldMap.get("residentialCity"), "Buffalo City");
+//        mapParam.put(mFieldMap.get("residentialCityCode"), "301");
+//        mapParam.put(mFieldMap.get("residentialDistrict"), "Alfred Nzo");
+//        mapParam.put(mFieldMap.get("residentialDistrict"), "Alfred Nzo");
+//        mapParam.put(mFieldMap.get("residentialDistrictCode"), "30105");
+//        mapParam.put(mFieldMap.get("thirdName"), "Matatiele LM");
+//        mapParam.put(mFieldMap.get("email"), "222222j@hotmail.com");
+//        mapParam.put(mFieldMap.get("frequencyOfPay"), "1");
+//        mapParam.put(mFieldMap.get("payday"), "26");
+//        mapParam.put(mFieldMap.get("incomeLevel"), "0");
+//        mapParam.put(mFieldMap.get("position"), "0");
+
+
+//        mapParam.put(mFieldMap.get("pageType"), "3");
+//        mapParam.put(mFieldMap.get("relationship"), "1");
+//        mapParam.put(mFieldMap.get("name"), "shhiwi");
+//        mapParam.put(mFieldMap.get("phoneNumber"), "183555888");
+//        mapParam.put(mFieldMap.get("relationshipSec"), "3");
+//        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
+//        mapParam.put(mFieldMap.get("phoneNumberSec"), "183868689");
+
+
+        mapParam.put(mFieldMap.get("pageType"), "4");
+        mapParam.put(mFieldMap.get("birthDay"), "10-10-2000");
+        mapParam.put(mFieldMap.get("curp"), "9212234999198");
+
+
+//        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
+//        mapParam.put(mFieldMap.get("surnames"), "akusge");
+//        mapParam.put(mFieldMap.get("names"), "asss");
+//        mapParam.put(mFieldMap.get("birthDay"), "11-11-2000");
+//        mapParam.put(mFieldMap.get("sex"), "1");
+//        mapParam.put(mFieldMap.get("maritalStatus"), "1");
+//        mapParam.put(mFieldMap.get("familySize"), "1");
+//        mapParam.put(mFieldMap.get("incomeLevel"), "1");
+//        mapParam.put(mFieldMap.get("workType"), "1");
+//        mapParam.put(mFieldMap.get("relationship"), "1");
+//        mapParam.put(mFieldMap.get("name"), "shhiwi");
+//        mapParam.put(mFieldMap.get("curp"), "182909872");
+
+//        mapParam.put(mFieldMap.get("phoneNumber"), "1821829112");
+//        mapParam.put(mFieldMap.get("relationshipSec"), "2");
+//        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
+//        mapParam.put(mFieldMap.get("phoneNumberSec"), "1822189922");
 
         LogUtils.logJson(mapParam);
 //        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/identification"), fileMap, mapParam, header);
