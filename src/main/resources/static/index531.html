@@ -195,6 +195,9 @@
         </ul>
         <ul class="isDebugUl">
         </ul>
+        <ul class="minifyEnabled">
+        </ul>
+
         <div class="packageSize">
             <div class="resultTitle">
                 包大小
@@ -242,10 +245,10 @@
                 <span class="resultliname">fullBackupContent</span><span class="resultlistate fullBackupContent"></span>
             </li>
 
-<!--            <li class="resultli">-->
-<!--                <span class="resultliname">networkSecurityConfig</span><span-->
-<!--                    class="resultlistate networkSecurityConfig"></span>-->
-<!--            </li>-->
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">networkSecurityConfig</span><span-->
+            <!--                    class="resultlistate networkSecurityConfig"></span>-->
+            <!--            </li>-->
             <!--            <li class="resultli pRequestLegacyExternalStorage">-->
             <!--                <span class="resultliname">requestLegacyExternalStorage</span><span-->
             <!--                    class="resultlistate requestLegacyExternalStorage"></span>-->
@@ -265,9 +268,9 @@
             <li class="resultli">
                 <span class="resultliname">scheme</span><span class="resultlistate scheme"></span>
             </li>
-<!--            <li class="resultli">-->
-<!--                <span class="resultliname">appLink</span><span class="resultlistate appLink"></span>-->
-<!--            </li>-->
+            <!--            <li class="resultli">-->
+            <!--                <span class="resultliname">appLink</span><span class="resultlistate appLink"></span>-->
+            <!--            </li>-->
         </ul>
 
         <div class="resultTitle">
@@ -702,7 +705,7 @@
                 var largeHeap = data.application.largeHeap;
 
                 $(".largeHeap").addClass("redText");
-                $(".largeHeap").html(largeHeap+ "建议设置成true");
+                $(".largeHeap").html(largeHeap + "建议设置成true");
 
                 if ("true" == largeHeap) {
                     $(".largeHeap").removeClass("redText");
@@ -1054,6 +1057,21 @@
                 $(".isDebugUl").html(autoHtml);
 
             }
+
+            $(".minifyEnabled").html("");
+            if ("0" == data.minifyEnabled) {
+                var autoHtml = "";
+                var v = data.isDebug;
+                var state = "";
+                var stateText = "";
+                stateText = "redText";
+                state = "该包代码未混淆";
+                autoHtml += "  <li class=\"resultli\">\n" +
+                    "                <span class=\"resultliname\">" + "" + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                    "            </li>";
+                $(".minifyEnabled").html(autoHtml);
+            }
+
 
         }
 

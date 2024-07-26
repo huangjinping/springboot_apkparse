@@ -135,7 +135,7 @@ public class ApkController {
             PackageParse packageParse = new PackageParse();
             packageParse.setmRealFilePath(resultFile.getAbsolutePath());
             System.out.println("=======suffix=====" + suffix);
-                
+
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
@@ -159,7 +159,7 @@ public class ApkController {
                 String deviceApkPath = unzipPath;
 //                String cmd = "bundletool extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
                 String cmd = bundletooPath + " extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
-                System.out.println(""+cmd);
+                System.out.println("" + cmd);
                 process = Runtime.getRuntime().exec(cmd);
                 value = process.waitFor();
 
@@ -188,7 +188,17 @@ public class ApkController {
                 map.putAll(PackageParse.getAbbLengthByList(aabPath, result));
                 try {
                     ZIPUtils.unzip(aabPath, resultFile.getParentFile() + "/unzip");
-                    FileUtils.moveFile(resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map", masterApkBPath + "/proguard.map");
+                    String mappingPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map";
+                    try {
+                        File mappingFile = new File(mappingPath);
+                        if (!mappingFile.exists()) {
+                            map.put("minifyEnabled", "0");
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                    FileUtils.moveFile(mappingPath, masterApkBPath + "/proguard.map");
                     map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
 
                     map.putAll(PackageParse.parseLibs(resultFile.getParentFile() + "/unzip/base/lib"));
