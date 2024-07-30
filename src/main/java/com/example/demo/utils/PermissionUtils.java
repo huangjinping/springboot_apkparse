@@ -164,7 +164,9 @@ public class PermissionUtils {
 //            "android.permission.READ_MEDIA_VIDEO",
             "android.permission.POST_NOTIFICATIONS",
             "android.permission.FOREGROUND_SERVICE",
-            "android.permission.ACCESS_ADSERVICES_ATTRIBUTION"
+            "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
+            "com.google.android.providers.gsf.permission.READ_GSERVICES",
+            "android.permission.ACCESS_ADSERVICES_AD_ID"
 
     };
 

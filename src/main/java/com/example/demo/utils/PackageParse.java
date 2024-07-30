@@ -635,18 +635,56 @@ public class PackageParse {
                         /**
                          * App scheme
                          */
-                        System.out.println("===parseLauncherActivity===3=" + scheme);
-
+                        List<Element> categorys = element.elements("category");
+                        Element action = element.element("action");
+                        List<Element> actions = element.elements("action");
+                        int status = 1;
+                        if (actions != null && actions.size() == 1) {
+                            String name = "";
+                            if (action != null) {
+                                name = action.attributeValue("name");
+                            }
+                            if (!"android.intent.action.VIEW".equals(name)) {
+                                status = 0;
+                            }
+                        } else {
+                            status = 0;
+                        }
+                        if (categorys != null && categorys.size() == 2) {
+                            int code = 0;
+                            for (Element e : categorys) {
+                                String name = e.attributeValue("name");
+                                if ("android.intent.category.DEFAULT".equals(name)) {
+                                    code++;
+                                }
+                                if ("android.intent.category.BROWSABLE".equals(name)) {
+                                    code++;
+                                }
+                            }
+                            if (code != 2) {
+                                status = 0;
+                            }
+                        } else {
+                            status = 0;
+                        }
                         Scheme sch = new Scheme();
                         sch.setScheme(scheme);
                         sch.setHost(host);
+                        sch.setStatus(status);
+                        String message = "<intent-filter>\n" +
+                                "                <data\n" +
+                                "                    android:host=\"ffff\"\n" +
+                                "                    android:scheme=\"xxxx\" />\n" +
+                                "                <action android:name=\"android.intent.action.VIEW\" />\n" +
+                                "                <category android:name=\"android.intent.category.DEFAULT\" />\n" +
+                                "                <category android:name=\"android.intent.category.BROWSABLE\" />\n" +
+                                "         </intent-filter>";
+                        sch.setMessage("配置错误");
                         activity.setScheme(sch);
                     }
                 }
             }
 
-            LogUtils.logJson(activity);
-            System.out.println("===parseLauncherActivity===2=");
 
         }
 

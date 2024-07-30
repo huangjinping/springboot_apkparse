@@ -831,6 +831,7 @@
                         $(".scheme").removeClass("redText");
                         scheme = "host:" + host + "　scheme:" + scheme;
                         $(".scheme").html(scheme);
+
                     } else if (!isEmpty(scheme)) {
                         $(".scheme").removeClass("redText");
                         scheme = "　scheme:" + scheme;
@@ -839,6 +840,12 @@
                         $(".scheme").addClass("redText");
                         $(".scheme").html("缺失");
                     }
+
+                    if (0==activityscheme.status){
+                        $(".scheme").addClass("redText");
+                        $(".scheme").html("配置错误");
+                    }
+
                 } else {
                     $(".scheme").addClass("redText");
                     $(".scheme").html("缺失");
@@ -1082,9 +1089,7 @@
             setRest(".AutoLogAppEventsEnabled");
             setRest(".AdvertiserIDCollectionEnabled");
             setRest(".ClientToken");
-
             $(".isDebugUl").html("");
-
             $(".searchResultUl").html(getLoadingViews());
             $(".searchResultFiled").html(getLoadingViews());
             $(".searchResultPath").html(getLoadingViews());
