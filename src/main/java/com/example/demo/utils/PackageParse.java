@@ -128,12 +128,14 @@ public class PackageParse {
         return result;
     }
 
-    public static Map<String, Object> getAbbLengthByList(String aabPath, List<String> request) {
+    public static Map<String, Object> getAbbLengthByList(String aabPath, List<String> request, String masterApkBPath) {
 
 
         LogUtils.logJson("============getAbbLengthByList=================" + aabPath);
         Map<String, Object> result = new HashMap<>();
         LogUtils.logJson(request);
+
+
         try {
 //            Map<String, String> data = new HashMap<>();
 
@@ -142,14 +144,57 @@ public class PackageParse {
                 String[] split = request.get(1).split(",");
                 data.add(new Jentity("totalSize", FileSizeUtil.getAutoFileOrFilesSize(aabPath), 1));
                 data.add(new Jentity("MIN", FileSizeUtil.FormetFileSize(Long.parseLong(split[0])), 1));
-                data.add(new Jentity("MAX", FileSizeUtil.FormetFileSize(Long.parseLong(split[1])), 1));
+//                data.add(new Jentity("MAX", FileSizeUtil.FormetFileSize(Long.parseLong(split[1])), 1));
+                data.add(createPackageMax(Long.parseLong(split[1]), masterApkBPath));
+
             }
+
             result.put("packageSize", data);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return result;
+    }
+
+
+    public static Jentity createPackageMax(Long max, String masterApkBPath) {
+        int state = 1;
+        String msg = "";
+        int i = checkTypeByPath(masterApkBPath);
+
+        LogUtils.logJson("============createPackageMax==============" + i + "===");
+
+        switch (i) {
+            case 0:
+                if (max > AppConfig.PackageLimit.native_limit) {
+                    state = 0;
+                    msg = ":原生包10M内";
+                }
+                break;
+            case 1:
+                if (max > AppConfig.PackageLimit.OTHER_limit) {
+                    state = 0;
+                    msg = ":ReactNative包10M内";
+                }
+                break;
+            case 2:
+                if (max > AppConfig.PackageLimit.OTHER_limit) {
+                    state = 0;
+                    msg = ":Uni包20M内";
+                }
+                break;
+            case 3:
+                if (max > AppConfig.PackageLimit.OTHER_limit) {
+                    state = 0;
+                    msg = ":Flutter包20M内";
+                }
+                break;
+        }
+        Jentity jentity = new Jentity("MAX", FileSizeUtil.FormetFileSize(max) + " " + msg, state);
+        jentity.setMsg(msg);
+
+        return jentity;
     }
 
     public static Map<String, Object> parseMethod(String filePath) {
@@ -303,6 +348,31 @@ public class PackageParse {
         return colMap;
     }
 
+    /**
+     * @param path
+     * @return
+     */
+    public static int checkTypeByPath(String path) {
+        int result = 0;
+        try {
+            String v8a = path + "/base/lib/arm64-v8a/";
+            File react = new File(v8a + "libreactnativejni.so");
+            File uni = new File(v8a + "libweexcore.so");
+            File flutter = new File(v8a + "libflutter.so");
+
+
+            if (react.exists()) {
+                result = 1;
+            } else if (uni.exists()) {
+                result = 2;
+            } else if (flutter.exists()) {
+                result = 3;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public Map<String, Object> parseDebugRelease(String aaptPath, String apkPath) {
         Map<String, Object> parseDebugRelease = new HashMap<>();
@@ -338,10 +408,6 @@ public class PackageParse {
         return mRealFilePath;
     }
 
-    public void setmRealFilePath(String mRealFilePath) {
-        this.mRealFilePath = mRealFilePath;
-    }
-
 
 //    public static Map<String, Object> parseAndroidManifestByCmd(String miniFastPath, String outFilePath) throws Exception {
 //        String cmd = "apktool d " + miniFastPath + " -o " + outFilePath;
@@ -350,6 +416,10 @@ public class PackageParse {
 //        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml");
 //        return map;
 //    }
+
+    public void setmRealFilePath(String mRealFilePath) {
+        this.mRealFilePath = mRealFilePath;
+    }
 
     public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
 
@@ -460,7 +530,6 @@ public class PackageParse {
         return map;
     }
 
-
     private List<Provider> parseProviders(Document document) {
         XPath xPath = new DefaultXPath("/manifest/application/provider");
         List<Element> list = xPath.selectNodes(document.getRootElement());
@@ -521,7 +590,6 @@ public class PackageParse {
 
         return dataList;
     }
-
 
     private BackUp parseBackUp(String path, Document document) {
         Element root = document.getRootElement();
@@ -667,6 +735,16 @@ public class PackageParse {
                         } else {
                             status = 0;
                         }
+
+                        if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
+                            status = 0;
+                        }
+
+                        if (!TextUtils.isEmpty(host) && !RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, host)) {
+                            status = 0;
+                        }
+
+
                         Scheme sch = new Scheme();
                         sch.setScheme(scheme);
                         sch.setHost(host);
@@ -698,7 +776,6 @@ public class PackageParse {
 //        }
         return activity;
     }
-
 
     private Application parseApplication(Document document) {
         Application application = new Application();
@@ -774,7 +851,6 @@ public class PackageParse {
 
         return resultList;
     }
-
 
 //    private static List<AppPermissions> createDebug(List<Element> list) {
 //        List<AppPermissions> resultList = new ArrayList<>();

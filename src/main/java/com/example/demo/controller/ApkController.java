@@ -94,7 +94,6 @@ public class ApkController {
 
     }
 
-
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public RestResponse uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("appType") String appType) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -180,34 +179,45 @@ public class ApkController {
                 LogUtils.log("---------------get-size total---------------------->");
                 cmd = bundletooPath + " get-size total --apks " + apksPath;
 
-
 //                cmd = bundletooPath + " get-size total --apks " + apksPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
                 List<String> commands = new ArrayList<>();
                 commands.add(cmd);
                 List<String> result = CommandLineTool.executeNewFlow(commands);
-                map.putAll(PackageParse.getAbbLengthByList(aabPath, result));
+
                 try {
-                    ZIPUtils.unzip(aabPath, resultFile.getParentFile() + "/unzip");
+                    String unzipAbsolutePath = resultFile.getParentFile() + "/unzip";
+                    ZIPUtils.unzip(aabPath, unzipAbsolutePath);
+
+                    try {
+                        map.putAll(PackageParse.getAbbLengthByList(aabPath, result, unzipAbsolutePath));
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+
                     String mappingPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map";
+
                     try {
                         File mappingFile = new File(mappingPath);
                         if (!mappingFile.exists()) {
                             map.put("minifyEnabled", "0");
+                            System.out.println("----------minifyEnabled0------。");
+
+                        } else {
+                            map.put("minifyEnabled", "1");
+                            System.out.println("----------minifyEnabled1------。");
+
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
+                        System.out.println("----------minifyEnabled2------。");
+
                         e.printStackTrace();
                     }
-
                     FileUtils.moveFile(mappingPath, masterApkBPath + "/proguard.map");
                     map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
-
                     map.putAll(PackageParse.parseLibs(resultFile.getParentFile() + "/unzip/base/lib"));
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
                 resultMap.putAll(map);
             }
 //            resultMap.put("localUrl", localUrl.toString() + fileName);
@@ -217,7 +227,6 @@ public class ApkController {
 //        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
         return RestResponse.success(resultMap);
     }
-
 
 //    @RequestMapping(value = "/getChannelPackage", method = RequestMethod.GET)
 //    public void getChannelPackage(HttpServletResponse response, @RequestParam("gclid") String gclid) {
@@ -249,7 +258,6 @@ public class ApkController {
 //        }
 //
 //    }
-
 
     /**
      * @param

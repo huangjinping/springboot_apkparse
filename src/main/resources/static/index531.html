@@ -841,7 +841,7 @@
                         $(".scheme").html("缺失");
                     }
 
-                    if (0==activityscheme.status){
+                    if (0 == activityscheme.status) {
                         $(".scheme").addClass("redText");
                         $(".scheme").html("配置错误");
                     }
@@ -1066,13 +1066,17 @@
             }
 
             $(".minifyEnabled").html("");
-            if ("0" == data.minifyEnabled) {
+            if (!isEmpty(data.minifyEnabled)) {
                 var autoHtml = "";
                 var v = data.isDebug;
                 var state = "";
                 var stateText = "";
-                stateText = "redText";
-                state = "该包代码未混淆";
+                if ("0" == data.minifyEnabled) {
+                    stateText = "redText";
+                    state = "该包代码未混淆";
+                } else if ("1" == data.minifyEnabled) {
+                    state = "该包代码已混淆";
+                }
                 autoHtml += "  <li class=\"resultli\">\n" +
                     "                <span class=\"resultliname\">" + "" + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
                     "            </li>";
