@@ -117,6 +117,11 @@ public class MainTest {
 //        msgFeatureV3();
 
 //        onScanFile("/Users/huhuijie/Downloads/react_native_jz");
+
+        String autoFileOrFilesSize = FileSizeUtil.getAutoFileOrFilesSize("/Users/huhuijie/Downloads/card_back_7654_094647602.jpeg");
+
+        LogUtils.log("======autoFileOrFilesSize=========" + autoFileOrFilesSize);
+
         try {
 
             {
@@ -128,6 +133,8 @@ public class MainTest {
                 InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
                 inxServerSpiderLocal.start();
             }
+
+
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "southafica/creditlandpro.json");

@@ -96,9 +96,9 @@ public class InxServerSpiderLocal {
         getVerifCode();
         if (loginUser != null) {
 //            checkFavorableComment();
-//            getAppConfig();
+            getAppConfig();
 //            index();
-            appIndex();
+//            appIndex();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -553,7 +553,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "incomeLevel");
+        mapParam.put(mFieldMap.get("type"), "collectionType");
         mapParam.put("ripeBasketNearbyToothacheFollowingPasser", "es");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);

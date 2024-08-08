@@ -514,7 +514,7 @@ public class PackageParse {
         Document document = reader.read(path);
         List<AppPermissions> appPermissions = parsePermissions(document, userParam);
         Application application = parseApplication(document);
-        Activity activity = parseLauncherActivity(document);
+        Activity activity = parseLauncherActivity(path, document);
         List<MetaData> metaData = parseMetadata(document);
         List<Query> queries = parseQueries(document);
         List<Provider> providers = parseProviders(document);
@@ -669,7 +669,7 @@ public class PackageParse {
         return dataList;
     }
 
-    private Activity parseLauncherActivity(Document document) {
+    private Activity parseLauncherActivity(String path, Document document) {
         Activity activity = new Activity();
         XPath xPath = new DefaultXPath("/manifest/application/activity/intent-filter/category");
         List<Element> list = xPath.selectNodes(document.getRootElement());
@@ -736,12 +736,29 @@ public class PackageParse {
                             status = 0;
                         }
 
-                        if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
-                            status = 0;
-                        }
 
-                        if (!TextUtils.isEmpty(host) && !RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, host)) {
-                            status = 0;
+//                        File file = new File(path);
+//                        String stringsPath = file.getParentFile().getAbsolutePath() + "/res/values/strings.xml";
+//                        if (scheme != null && scheme.startsWith("@string/")) {
+//                            String schemeKey = scheme.replace("@string/", "");
+//
+//                        }
+
+
+                        if (scheme != null && scheme.startsWith("@string/")) {
+
+                        } else {
+                            if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
+                                status = 0;
+                            }
+
+                        }
+                        if (host != null && host.startsWith("@string/")) {
+
+                        } else {
+                            if (!TextUtils.isEmpty(host) && !RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, host)) {
+                                status = 0;
+                            }
                         }
 
 
