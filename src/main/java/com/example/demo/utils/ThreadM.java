@@ -26,6 +26,8 @@ public class ThreadM {
 //    }
 
 
+
+
     public Map<String, Object> parseApkData(String apktoolPath, String apkFastPath, String outFilePath, String appType) {
         Map<String, Object> result = new HashMap<>();
 
@@ -41,7 +43,7 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
-                    PackageParse packageParse = new PackageParse();
+//                    PackageParse packageParse = new PackageParse();
                     File file = new File(apktoolPath);
                     Map<String, Object> aapt = packageParse.parseAndroidApk(file.getParentFile().getAbsolutePath() + "/aapt", apkFastPath);
                     result.putAll(aapt);

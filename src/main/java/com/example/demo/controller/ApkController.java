@@ -140,7 +140,6 @@ public class ApkController {
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 map.putAll(PackageParse.getApkLengthByList(resultFile.getAbsolutePath()));
                 map.putAll(PackageParse.parseApkLibs(unzipPath));
-
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
                 String apksPath = unzipPath + ".apks";
@@ -161,7 +160,6 @@ public class ApkController {
                 System.out.println("" + cmd);
                 process = Runtime.getRuntime().exec(cmd);
                 value = process.waitFor();
-
 
                 File deviceApkFile = new File(deviceApkPath);
 

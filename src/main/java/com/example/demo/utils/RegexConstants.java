@@ -114,6 +114,6 @@ public class RegexConstants {
     public static final String REGEX_NEGATIVE_FLOAT = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
 //    scheme
 
-    public  static  final  String REGEX_SCHEME="^[a-z]{4,}$";
+    public  static  final  String REGEX_SCHEME="^[a-z][a-z0-9]{4,}$";
 
 }

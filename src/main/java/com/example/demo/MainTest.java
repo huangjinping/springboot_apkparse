@@ -8,9 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class MainTest {
 
@@ -75,6 +73,21 @@ public class MainTest {
             String format = simpleDateFormat2.format(instance.getTime());
             LogUtils.log("-----" + format);
 
+            Map<String, String> map = new HashMap<>();
+            String dddd = map.get("dddd");
+
+
+            System.out.println("=0=====222=======11====" + dddd);
+
+            String scheme = "led0000";
+            if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
+                System.out.println("=0================");
+
+            } else {
+                System.out.println("=1================");
+
+            }
+
 
 //            LogUtils.log(FileSizeUtil.getAutoFileOrFilesSize("/Users/huhuijie/Documents/bundletool/app-release.aab"));
 
@@ -124,16 +137,15 @@ public class MainTest {
 
         try {
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "benin/zeroinquietude.json");
-                String fileName = "zeroinquietude";
-                String appssid = "296";
-                String domainname = "https://ecowas.ultracreditosmx.com/";
-                String phoneNo = "18390908";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
-
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "benin/zeroinquietude.json");
+//                String fileName = "zeroinquietude";
+//                String appssid = "296";
+//                String domainname = "https://ecowas.ultracreditosmx.com/";
+//                String phoneNo = "18390908";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 
 //            {
@@ -183,6 +195,16 @@ public class MainTest {
 //                String appssid = "144";
 //                String domainname = "https://peru.ultracreditosmx.com/";
 //                String phoneNo = "183248490";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "chile/abierto.json");
+//                String fileName = "abierto";
+//                String appssid = "258";
+//                String domainname = "https://chile.ultracreditosmx.com/";
+//                String phoneNo = "183391111";
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }

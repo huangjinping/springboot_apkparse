@@ -26,43 +26,13 @@ public class OkHttpUtils {
     private static OkHttpClient client;
     private static OkHttpClient clientZip;
     private static OkHttpClient clientNoSSL;
-    private static class TrustAllCerts implements X509TrustManager {
-        @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        }
-        @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        }
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[0];
-        }
-    }
 
-    private static class TrustAllHostnameVerifier implements HostnameVerifier {
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
-        }
-    }
-
-    private static SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
-
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
-        }
-        return ssfFactory;
-    }
     static {
         client = new OkHttpClient.Builder()
                 .connectTimeout(120L, TimeUnit.SECONDS)
                 .readTimeout(120L, TimeUnit.SECONDS)
                 .writeTimeout(120L, TimeUnit.SECONDS)
-                .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts( ))
+                .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts())
                 .hostnameVerifier(new TrustAllHostnameVerifier())
                 .build();
 
@@ -82,11 +52,22 @@ public class OkHttpUtils {
                 .build();
     }
 
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory ssfFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+        }
+        return ssfFactory;
+    }
+
     public static void main(String[] args) {
 
 
     }
-
 
     public static String postSimple(String url, String json) {
         try {
@@ -102,7 +83,6 @@ public class OkHttpUtils {
         }
         return null;
     }
-
 
     public static String putJson(String url, String requestData) {
 
@@ -133,7 +113,6 @@ public class OkHttpUtils {
         }
         return null;
     }
-
 
     public static String putJson(String url, String requestData, Map<String, String> header) {
         RequestBody requestBody = RequestBody.create(JSON, requestData);
@@ -189,7 +168,6 @@ public class OkHttpUtils {
         }
         return null;
     }
-
 
     public static String postJsonWithoutZip(String url, String requestData) {
         return postJsonWithoutZip(url, requestData, new HashMap<>());
@@ -253,11 +231,11 @@ public class OkHttpUtils {
         return postJson(url, requestData, new HashMap<>());
     }
 
-    public  static void postFormWithImage(){
+    public static void postFormWithImage() {
         Request.Builder builer = new Request.Builder();
         MultipartBody.Builder body = new MultipartBody.Builder();
         body.setType(FORM);
-        File uploadFile=new File("正面照片绝对地址");
+        File uploadFile = new File("正面照片绝对地址");
         RequestBody requestBody = RequestBody.create(OCTETFORM, uploadFile);
         body.addFormDataPart("frontImage", "fontImage", requestBody);
         body.addFormDataPart("type", "00");
@@ -265,7 +243,6 @@ public class OkHttpUtils {
                 .url("saveImage  地址").build();
 
     }
-
 
     public static String postFormWithImge(String url, Map<String, File> fileMap, Map<String, String> paramMap, Map<String, String> header) {
         LogUtils.log("=====url= start==" + url);
@@ -347,7 +324,6 @@ public class OkHttpUtils {
         }
 
 
-
         Request.Builder builer = new Request.Builder()
                 .post(body.build())
                 .url(url);
@@ -364,6 +340,7 @@ public class OkHttpUtils {
 
             Response response = client.newCall(builer.build()).execute();
 
+            System.out.println(url + "=================" + response.code());
             return response.body().string();
         } catch (Exception ex) {
 
@@ -447,7 +424,6 @@ public class OkHttpUtils {
         }
         return null;
     }
-
 
     public static String postFormWithBytes(String url, Map<String, byte[]> fileMap, Map<String, String> paramMap) {
 
@@ -555,6 +531,28 @@ public class OkHttpUtils {
         }
 
         return "";
+    }
+
+    private static class TrustAllCerts implements X509TrustManager {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+    }
+
+    private static class TrustAllHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
     }
 
 

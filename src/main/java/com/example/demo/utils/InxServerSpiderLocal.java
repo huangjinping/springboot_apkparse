@@ -94,8 +94,10 @@ public class InxServerSpiderLocal {
 
         Map<String, Object> root = new HashMap<>();
         getVerifCode();
+//        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
+
             getAppConfig();
 //            index();
 //            appIndex();
@@ -557,6 +559,24 @@ public class InxServerSpiderLocal {
         mapParam.put("ripeBasketNearbyToothacheFollowingPasser", "es");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
+        LogUtils.logJson("/anon/getAppConfig");
+        LogUtils.logJson(respStr);
+
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+
+    public void getTimeout() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        mapParam.put(mFieldMap.get("type"), "collectionType");
+        mapParam.put("ripeBasketNearbyToothacheFollowingPasser", "es");
+
+        String respStr = OkHttpUtils.postForm("http://127.0.0.1:8092/onMishie", header, mapParam);
         LogUtils.logJson("/anon/getAppConfig");
         LogUtils.logJson(respStr);
 

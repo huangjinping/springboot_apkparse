@@ -87,6 +87,16 @@ public class SpiderController {
 
         String strDateFormat = "yyyyMMddHHmmssSSS";//设置日期格式
 
+
+
+        System.out.println("===============1============");
+        try {
+            Thread.sleep(55*1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println("===============2============");
+
         Date date = new Date();
         date.setTime(System.currentTimeMillis());
 

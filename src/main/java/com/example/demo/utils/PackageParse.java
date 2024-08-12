@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.*;
+import com.google.gson.Gson;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -34,6 +35,7 @@ public class PackageParse {
 //    }
     static final String X86 = "x86";
     static final String X8664 = "x86_64";
+    public Map<String, String> stringMap = new HashMap<>();
     private String mRealFilePath;
 
     public static Map<String, Object> parseApkLibs(String apkPath) {
@@ -348,6 +350,25 @@ public class PackageParse {
         return colMap;
     }
 
+
+    public static Map<String, String> parseStringXMLToMap(String path) {
+        SAXReader reader = new SAXReader();
+        Map<String, String> colMap = new HashMap<>();
+        try {
+            Document document = reader.read(path);
+            XPath xPath = new DefaultXPath("/resources/string");
+            List<Element> list = xPath.selectNodes(document.getRootElement());
+            for (Element e : list) {
+                String name = e.attributeValue("name");
+                String value = e.getStringValue();
+                colMap.put(name, value);
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return colMap;
+    }
+
     /**
      * @param path
      * @return
@@ -430,8 +451,10 @@ public class PackageParse {
 //        System.out.println(cmd);
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
+        stringMap.putAll(PackageParse.parseStringXMLToMap(outFilePath + "/res/values/strings.xml"));
 
         ThreadM threadM = new ThreadM(this);
+
         Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType);
 
 //        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
@@ -512,10 +535,15 @@ public class PackageParse {
     public Map<String, Object> parseAndroidManifest(String path, UserParam userParam) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(path);
+
+
         List<AppPermissions> appPermissions = parsePermissions(document, userParam);
         Application application = parseApplication(document);
         Activity activity = parseLauncherActivity(path, document);
         List<MetaData> metaData = parseMetadata(document);
+
+
+
         List<Query> queries = parseQueries(document);
         List<Provider> providers = parseProviders(document);
         BackUp backUp = parseBackUp(path, document);
@@ -663,6 +691,16 @@ public class PackageParse {
             String resource = element.attributeValue("resource");
             metaData.setResource(resource);
             metaData.setName(name);
+            if (value != null && value.startsWith("@string/")) {
+                String rep = value.replace("@string/", "");
+                value = stringMap.get(rep);
+                Gson gson=new Gson();
+                System.out.println(gson.toJson(stringMap));
+
+
+                System.out.println(value+"=================rep   19999============" + rep);
+            }
+
             metaData.setValue(value);
             dataList.add(metaData);
         }
@@ -746,19 +784,25 @@ public class PackageParse {
 
 
                         if (scheme != null && scheme.startsWith("@string/")) {
-
-                        } else {
+                            String rep = scheme.replace("@string/", "");
+                            scheme = stringMap.get(rep);
                             if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
                                 status = 0;
                             }
+                        }
+
+                        if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
+                            status = 0;
+                        }
+
+                        if (host != null && host.startsWith("@string/")) {
+                            String rep = host.replace("@string/", "");
+                            host = stringMap.get(rep);
 
                         }
-                        if (host != null && host.startsWith("@string/")) {
 
-                        } else {
-                            if (!TextUtils.isEmpty(host) && !RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, host)) {
-                                status = 0;
-                            }
+                        if (!TextUtils.isEmpty(host) && !RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, host)) {
+                            status = 0;
                         }
 
 
