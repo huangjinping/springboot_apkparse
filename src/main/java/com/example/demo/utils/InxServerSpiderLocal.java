@@ -98,9 +98,10 @@ public class InxServerSpiderLocal {
         if (loginUser != null) {
 //            checkFavorableComment();
 
-            getAppConfig();
+//            getAppConfig();
 //            index();
 //            appIndex();
+            appIndexInstallment();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -644,6 +645,24 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/index"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+            JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+            String orderId = jsonData.getString(mFieldMap.get("orderId"));
+            if (!TextUtils.isEmpty(orderId)) {
+//                mpRepayUrl(orderId, "00");
+                getDocuments(orderId);
+            }
+        }
+    }
+
+    public void appIndexInstallment() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/appIndexInstallment"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
