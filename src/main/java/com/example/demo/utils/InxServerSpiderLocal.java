@@ -99,9 +99,9 @@ public class InxServerSpiderLocal {
 //            checkFavorableComment();
 
 //            getAppConfig();
-//            index();
+            index();
 //            appIndex();
-            appIndexInstallment();
+//            appIndexInstallment();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -997,10 +997,8 @@ public class InxServerSpiderLocal {
 //            LogUtils.logJson(respStr);
 //
 //        }
-
     }
-
-
+    
     public void getPayChannelList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());

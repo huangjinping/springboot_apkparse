@@ -18,6 +18,10 @@ function getParameter(name) {
 }
 
 
+
+
+
+
 //阿拉伯数字转中文数字
 function NoToChinese(num) {
     if (!/^\d*(\.\d*)?$/.test(num)) {

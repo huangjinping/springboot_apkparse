@@ -16,7 +16,19 @@
     <properties>
         <java.version>8</java.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
+        <dependency>
+            <groupId>com.github.core-lib</groupId>
+            <artifactId>xjar</artifactId>
+            <version>4.0.2</version>
+            <!-- <scope>test</scope> -->
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
@@ -90,12 +102,13 @@
             <version>5.11.0.202103091610-r</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.getkeepsafe.relinker</groupId>-->
-<!--            <artifactId>relinker</artifactId>-->
-<!--            <version>1.4.5</version>-->
-<!--        </dependency>-->
-        
+        <!--        <dependency>-->
+        <!--            <groupId>com.getkeepsafe.relinker</groupId>-->
+        <!--            <artifactId>relinker</artifactId>-->
+        <!--            <version>1.4.5</version>-->
+        <!--        </dependency>-->
+
+
     </dependencies>
 
     <build>
@@ -112,10 +125,109 @@
         <!--            </resource>-->
         <!--        </resources>-->
         <plugins>
+
+
+            <!--            <plugin>-->
+            <!--                <groupId>com.github.wvengen</groupId>-->
+            <!--                <artifactId>proguard-maven-plugin</artifactId>-->
+            <!--                <version>2.6.0</version>-->
+            <!--                <executions>-->
+            <!--                    &lt;!&ndash; 以下配置说明执行mvn的package命令时候，会执行proguard&ndash;&gt;-->
+            <!--                    <execution>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>proguard</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <proguardVersion>7.1.0</proguardVersion>-->
+            <!--                    &lt;!&ndash; 输入Jar的名称，输入混淆前的jar。 &ndash;&gt;-->
+            <!--                    <injar>${project.build.finalName}.jar</injar>-->
+            <!--                    &lt;!&ndash; 输出jar名称，输出混淆后的jar &ndash;&gt;-->
+            <!--                    <outjar>${project.build.finalName}.jar</outjar>-->
+            <!--                    &lt;!&ndash; 是否混淆 默认是true &ndash;&gt;-->
+            <!--                    <obfuscate>true</obfuscate>-->
+            <!--                    &lt;!&ndash; 混淆配置文件proguard.cfg &ndash;&gt;-->
+            <!--                    <proguardInclude>${project.basedir}/proguard.cfg</proguardInclude>-->
+            <!--                    &lt;!&ndash; 项目编译所需要的jar &ndash;&gt;-->
+            <!--                    <libs>-->
+            <!--                        <lib>${java.home}/lib/rt.jar</lib>-->
+            <!--                        <lib>${java.home}/lib/jce.jar</lib>-->
+            <!--                        <lib>${java.home}/lib/jsse.jar</lib>-->
+            <!--                    </libs>-->
+            <!--                    &lt;!&ndash; 对输入jar进行过滤比如，如下配置就是对META-INFO文件不处理。 &ndash;&gt;-->
+            <!--                    <inLibsFilter>!META-INF/**,!META-INF/versions/9/**.class</inLibsFilter>-->
+            <!--&lt;!&ndash;                    &lt;!&ndash; 输出路径配置，但是要注意这个路径必须要包括injar标签填写的jar &ndash;&gt;&ndash;&gt;-->
+            <!--                    <outputDirectory>${project.basedir}/target</outputDirectory>-->
+            <!--                    &lt;!&ndash;配置混淆的一些细节选项，可在proguard.cfg中配置&ndash;&gt;-->
+            <!--                    <options>-->
+            <!--                    </options>-->
+            <!--                    &lt;!&ndash; 把jar包放到临时目录以便缩短命令行 &ndash;&gt;-->
+            <!--                    <putLibraryJarsInTempDir>true</putLibraryJarsInTempDir>-->
+            <!--                </configuration>-->
+            <!--                <dependencies>-->
+            <!--                    <dependency>-->
+            <!--                        <groupId>com.guardsquare</groupId>-->
+            <!--                        <artifactId>proguard-base</artifactId>-->
+            <!--                        <version>7.1.0</version>-->
+            <!--                        <scope>runtime</scope>-->
+            <!--                    </dependency>-->
+            <!--                    <dependency>-->
+            <!--                        <groupId>com.guardsquare</groupId>-->
+            <!--                        <artifactId>proguard-core</artifactId>-->
+            <!--                        <version>7.1.0</version>-->
+            <!--                        <scope>runtime</scope>-->
+            <!--                    </dependency>-->
+            <!--                </dependencies>-->
+            <!--            </plugin>-->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--                <executions>-->
+                <!--                    <execution>-->
+                <!--                        <goals>-->
+                <!--                            <goal>repackage</goal>-->
+                <!--                        </goals>-->
+                <!--                        <configuration>-->
+                <!--                            <mainClass>com.example.demo.DemoApplication</mainClass>-->
+                <!--                        </configuration>-->
+                <!--                    </execution>-->
+                <!--                </executions>-->
             </plugin>
+
+
+            <!--            <plugin>-->
+            <!--                <groupId>com.github.wvengen</groupId>-->
+            <!--                <artifactId>proguard-maven-plugin</artifactId>-->
+            <!--                <version>2.6.0</version>-->
+            <!--                <executions>  &lt;!&ndash; 以下配置说明执行mvn的package命令时候，会执行proguard&ndash;&gt;-->
+            <!--                    <execution>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>proguard</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--                <configuration>  &lt;!&ndash; 就是输入Jar的名称，我们要知道，代码混淆其实是将一个原始的jar，生成一个混淆后的jar，那么就会有输入输出。&ndash;&gt;-->
+            <!--                    <injar>${project.build.finalName}.jar</injar>  &lt;!&ndash; 输出jar名称，输入输出jar同名的时候就是覆盖，也是比较常用的配置。&ndash;&gt;-->
+            <!--                    <outjar>${project.build.finalName}.jar</outjar>  &lt;!&ndash; 是否混淆 默认是true &ndash;&gt;-->
+            <!--                    <obfuscate>true-->
+            <!--                    </obfuscate>  &lt;!&ndash; 配置一个文件，通常叫做proguard.cfg,该文件主要是配置options选项，也就是说使用proguard.cfg那么options下的所有内容都可以移到proguard.cfg中 &ndash;&gt;-->
+            <!--                    <proguardInclude>${project.basedir}/proguard.cfg-->
+            <!--                    </proguardInclude>  &lt;!&ndash; 额外的jar包，通常是项目编译所需要的jar jdk11 已经没有了&ndash;&gt;-->
+            <!--                    <libs>-->
+            <!--                        <lib>${java.home}/lib/rt.jar</lib>-->
+            <!--                        <lib>${java.home}/lib/jce.jar</lib>-->
+            <!--                        <lib>${java.home}/lib/jsse.jar</lib>-->
+            <!--                    </libs>  &lt;!&ndash; 对输入jar进行过滤比如，如下配置就是对META-INFO文件不处理。&ndash;&gt;-->
+            <!--                    <inLibsFilter>!META-INF/**,!META-INF/versions/9/**.class-->
+            <!--                    </inLibsFilter>  &lt;!&ndash; 这是输出路径配置，但是要注意这个路径必须要包括injar标签填写的jar &ndash;&gt;-->
+            <!--                    <outputDirectory>${project.basedir}/target-->
+            <!--                    </outputDirectory>  &lt;!&ndash;这里特别重要，此处主要是配置混淆的一些细节选项，比如哪些类不需要混淆，哪些需要混淆&ndash;&gt;  &lt;!&ndash;    <options>          &lt;!&ndash; 可以在此处写option标签配置，不过我上面使用了proguardInclude，故而我更喜欢在proguard.cfg中配置 &ndash;&gt;      </options>&ndash;&gt;-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 
