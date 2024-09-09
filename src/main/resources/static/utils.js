@@ -20,6 +20,11 @@ function getParameter(name) {
 
 
 
+function  getIP(){
+    fetch('https://api.ipify.org/?format=json')
+        .then(response => response.json())
+        .then(data => console.log(data.ip));
+}
 
 
 //阿拉伯数字转中文数字
