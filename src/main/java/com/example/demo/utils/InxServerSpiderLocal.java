@@ -97,9 +97,9 @@ public class InxServerSpiderLocal {
 //        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
+            getAppConfig();
 
-//            getAppConfig();
-            index();
+//            index();
 //            appIndex();
 //            appIndexInstallment();
 //            uploadImage();
@@ -552,12 +552,17 @@ public class InxServerSpiderLocal {
         }
     }
 
+
+
+
+
     public void getAppConfig() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "collectionType");
-        mapParam.put("ripeBasketNearbyToothacheFollowingPasser", "es");
+        mapParam.put(mFieldMap.get("type"), "sourceOfIncome");
+//        mapParam.put("aggressiveBillHandsomeConvenientRiddle", "en");
+        mapParam.put(mFieldMap.get("language"), "en");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
         LogUtils.logJson("/anon/getAppConfig");

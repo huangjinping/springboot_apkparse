@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.bean.Application;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.utils.*;
@@ -133,8 +134,9 @@ public class ApkController {
             String apktoolPath = projectFile.getAbsolutePath() + "/jks/apktool.jar";
             PackageParse packageParse = new PackageParse();
             packageParse.setmRealFilePath(resultFile.getAbsolutePath());
-            System.out.println("=======suffix=====" + suffix);
-            
+//            System.out.println("=======suffix=====" + suffix);
+//            System.out.println(unzipPath + "=======suffix=" + resultFile.getAbsolutePath() + "=2===" + savePos.getAbsolutePath());
+
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
@@ -218,10 +220,36 @@ public class ApkController {
                 }
                 resultMap.putAll(map);
             }
+
+            /**
+             * 拷贝文件
+             * application.packageName
+             */
+
+            Application application = (Application) resultMap.get("application");
+            String packageName = application.getPackageName();
+            File tempApp = new File("./tempApp/" + packageName);
+
+            if (tempApp.exists()) {
+                resultFile.delete();
+            }
+            if (!tempApp.exists()) {  // 不存在，则创建该文件夹
+                tempApp.mkdir();
+            }
+
+
+
+            FileUtils.moveFile(resultFile.getAbsolutePath(), tempApp.getAbsolutePath() + "/"+resultFile.getName());
+
+
+
+
 //            resultMap.put("localUrl", localUrl.toString() + fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
 //        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
         return RestResponse.success(resultMap);
     }
