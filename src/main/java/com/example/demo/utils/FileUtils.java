@@ -1,9 +1,6 @@
 package com.example.demo.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,19 +9,20 @@ import java.util.stream.Stream;
 
 public class FileUtils {
 
-    public static void moveFile(String src, String dest ) {
+    public static void moveFile(String src, String dest) {
         Path result = null;
         try {
             result = Files.move(Paths.get(src), Paths.get(dest));
         } catch (IOException e) {
             System.out.println("Exception while moving file: " + e.getMessage());
         }
-        if(result != null) {
+        if (result != null) {
             System.out.println("文件已成功移动。");
-        }else{
+        } else {
             System.out.println("文件移动失败。");
         }
     }
+
     public static void deleteDirWithPath(String path) {
         File file = new File(path);
         if (file.exists()) {
@@ -45,6 +43,52 @@ public class FileUtils {
         dir.delete();// 删除目录本身
     }
 
+    public static String getTextByPath(String path) {
+        String reader = null;
+        BufferedReader br = null;
+        File f = new File(path);
+        String result = "";
+        if (f.exists()) {
+            try {
+                br = new BufferedReader(new FileReader(f));
+                while ((reader = br.readLine()) != null) {
+                    result += reader;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public static void witermessage(String source, String parent, String fileName) {
+        try {
+//            File drawableFile = new File("./", fileName);
+            File drawableFile = new File(parent, fileName);
+
+            if (!drawableFile.getParentFile().exists()) {
+                drawableFile.getParentFile().mkdirs();
+            }
+            if (!drawableFile.exists()) {
+                drawableFile.createNewFile();
+            }
+            FileWriter writer = null;
+            try {
+                writer = new FileWriter(drawableFile);
+                writer.write(source);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (writer != null) {
+                    writer.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     /**
      * 递归删除目录和下面的文件————java api删除目录的话，目录必须是空的才能删除
@@ -67,24 +111,6 @@ public class FileUtils {
 //            log.error("list path error", e);
             result.set(false);
         }
-    }
-
-    public static String getTextByPath(String path) {
-        String reader = null;
-        BufferedReader br = null;
-        File f = new File(path);
-        String result = "";
-        if (f.exists()) {
-            try {
-                br = new BufferedReader(new FileReader(f));
-                while ((reader = br.readLine()) != null) {
-                    result += reader;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
     }
 
 }

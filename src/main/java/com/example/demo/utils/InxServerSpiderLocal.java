@@ -25,6 +25,7 @@ public class InxServerSpiderLocal {
     Map<String, String> mFieldMap;
     private JsonFilter mJsonFilter;
 
+
     public InxServerSpiderLocal(String json, String fileName, String appssid, String domainname, String phoneNo) {
         this.appssid = appssid;
         this.host_URL = domainname;
@@ -97,20 +98,20 @@ public class InxServerSpiderLocal {
 //        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
-            getAppConfig();
+//            getAppConfig();
 
 //            index();
 //            appIndex();
-//            appIndexInstallment();
+            appIndexInstallment();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV3();
+//            msgFeatureV5();
 //            getAppConfig();
 //            geth5Page();
-
 //            getPayChannelList();
 //            Map<String, Object> stringStorage = getImageList();
 //            Jentity getAppImageList = new Jentity("getAppImageList", stringStorage, stringStorage.isEmpty() ? 0 : 1);
@@ -118,7 +119,6 @@ public class InxServerSpiderLocal {
 //            Map<String, Object> vip = getVip();
 //            Jentity vipProducts = new Jentity("vipProducts", vip, vip.isEmpty() ? 0 : 1);
 //            root.put("vipProducts", vipProducts);
-
 //            getAppSetting();
 //            Map<String, Object> identificationResult = getIdentificationResult();
 //            Jentity getIdentificationResult = new Jentity("getIdentificationResult", identificationResult, identificationResult.isEmpty() ? 0 : 1);
@@ -136,7 +136,7 @@ public class InxServerSpiderLocal {
 //            getAppInfo();
 //            getSysSetting();
 //            counponList();
-//            queryProductInstallment();
+            queryProductInstallment();
 //            checkAddressJsonFileExist();
 //            getAppInfoUserId();
 //            getUrlForApp();
@@ -207,7 +207,11 @@ public class InxServerSpiderLocal {
     public Map<String, Object> getImageList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
-        mapParam.put(mFieldMap.get("type"), "03");
+        mapParam.put(mFieldMap.get("imageType"), "03");
+//        mapParam.put("blueGreyAmerica", "03");
+
+//        mapParam.put("tinyElectricityRace", "03");
+
         Map<String, String> header = commMap();
 //        header.put("v-flag", "true");
 //        header.put("apiName", AESUtil.encrypt("/anon/getAppImageList", "0121170eedf910c65bf10b2cf5820202"));
@@ -225,7 +229,6 @@ public class InxServerSpiderLocal {
                 for (int i = 0; i < appArr.size(); i++) {
                     int appListState = 1;
                     Map<String, Object> app = new HashMap<>();
-
                     JSONObject item = appArr.getJSONObject(i);
                     String key = "url";
                     String value = item.getString(mFieldMap.get("url"));
@@ -553,14 +556,13 @@ public class InxServerSpiderLocal {
     }
 
 
-
-
-
     public void getAppConfig() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "sourceOfIncome");
+//        mapParam.put(mFieldMap.get("type"), "sourceOfIncome");
+        mapParam.put(mFieldMap.get("type"), "sex");
+
 //        mapParam.put("aggressiveBillHandsomeConvenientRiddle", "en");
         mapParam.put(mFieldMap.get("language"), "en");
 
@@ -822,7 +824,10 @@ public class InxServerSpiderLocal {
 
         try {
             Map<String, String> mapParam = new HashMap<>();
+
             mapParam.putAll(commMap());
+
+            mapParam.put(mFieldMap.get("type"), "00");
             Map<String, String> header = commMap();
             String respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/queryProduct"), header, mapParam);
             LogUtils.logJson(respStr);
@@ -1003,7 +1008,7 @@ public class InxServerSpiderLocal {
 //
 //        }
     }
-    
+
     public void getPayChannelList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -1046,13 +1051,31 @@ public class InxServerSpiderLocal {
             mapParam.putAll(commMap());
             Map<String, String> header = commMap();
             Map<String, File> fileMap = new HashMap<>();
-            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
 //            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/182before.txt");
+
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9002.json");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9003.json");
+
 
             LogUtils.logJson(textByPath);
             textByPath = GzipUtil.compress(textByPath);
+            LogUtils.logJson("---------compress-----------------");
+
+            FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_compress.json");
+            LogUtils.logJson("---------compress----1-------------");
+
             LogUtils.logJson(textByPath);
-            textByPath = AESUtil.encrypt(textByPath, "292911541810b8589d89d10d1f4f77e8");
+//            textByPath = AESUtil.encrypt(textByPath, "c8dabcd349f334a269b183837deb43f6");//9002
+            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+
+            LogUtils.logJson("---------encrypt-----------------");
+            FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_AES.json");
+
+//            textByPath = AESUtil.encrypt(textByPath, "c17f62eb9b624c86a777e25998683baa");//151
+//            textByPath = AESUtil.encrypt(textByPath, "cd417c070216a9d3da10f1d03b9446bd");//151
+//            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+
             LogUtils.logJson(textByPath);
             String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV3"), textByPath, header);
             LogUtils.logJson(respStr);
@@ -1065,6 +1088,36 @@ public class InxServerSpiderLocal {
         }
     }
 
+
+    public void msgFeatureV5() {
+        try {
+            Map<String, String> mapParam = new HashMap<>();
+            mapParam.putAll(commMap());
+            Map<String, String> header = commMap();
+            Map<String, File> fileMap = new HashMap<>();
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/182before.txt");
+
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9002.json");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9003.json");
+
+            LogUtils.logJson(textByPath);
+            textByPath = GzipUtil.compress(textByPath);
+            LogUtils.logJson(textByPath);
+            textByPath = AESUtil.encrypt(textByPath, "cd417c070216a9d3da10f1d03b9446bd");
+//            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");
+
+            LogUtils.logJson(textByPath);
+            String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV5"), textByPath, header);
+            LogUtils.logJson(respStr);
+            JSONObject jsonObject = JSON.parseObject(respStr);
+            String code = jsonObject.getString(mFieldMap.get("code"));
+            if ("1000".equals(code)) {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void loadFile(String url) {
         String t_name = TextUtils.createName();
