@@ -5,7 +5,8 @@ import com.example.demo.bean.CommonModel;
 import com.example.demo.bean.GrepModel;
 import com.example.demo.bean.MethodSolr;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -308,7 +309,7 @@ public class SearchTask {
         commands.add("grep -rnR '.proceed(' " + dir + "/*");
 
         System.out.println("===================before=====》》》》》");
-        List<String> strings =CommandLineTool.executeNewFlow(commands);
+        List<String> strings = CommandLineTool.executeNewFlow(commands);
 
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
     }

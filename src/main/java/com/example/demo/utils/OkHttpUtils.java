@@ -23,9 +23,9 @@ public class OkHttpUtils {
     public static final MediaType FORMX = MediaType.parse("application/x-www-form-urlencoded");
     public static final MediaType OCTETFORM = MediaType.parse("application/octet-stream");
 
-    private static OkHttpClient client;
-    private static OkHttpClient clientZip;
-    private static OkHttpClient clientNoSSL;
+    private static final OkHttpClient client;
+    private static final OkHttpClient clientZip;
+    private static final OkHttpClient clientNoSSL;
 
     static {
         client = new OkHttpClient.Builder()

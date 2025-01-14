@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -27,15 +28,11 @@ public class TextUtils {
         try {
 
             hash = MessageDigest.getInstance("MD5").digest(
-                    string.getBytes("UTF-8"));
+                    string.getBytes(StandardCharsets.UTF_8));
 
         } catch (NoSuchAlgorithmException e) {
 
             throw new RuntimeException("Huh, MD5 should be supported?", e);
-
-        } catch (UnsupportedEncodingException e) {
-
-            throw new RuntimeException("Huh, UTF-8 should be supported?", e);
 
         }
 

@@ -28,7 +28,7 @@ public class RegexConstants {
      */
     public static final String REGEX_TEL = "^0\\d{2,3}[- ]?\\d{7,8}";
 
-    public static final String REGEX_All_NUM =".*[0-9]{3,}.*";
+    public static final String REGEX_All_NUM = ".*[0-9]{3,}.*";
 
 
     /**
@@ -114,6 +114,6 @@ public class RegexConstants {
     public static final String REGEX_NEGATIVE_FLOAT = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
 //    scheme
 
-    public  static  final  String REGEX_SCHEME="^[a-z][a-z0-9]{4,}$";
+    public static final String REGEX_SCHEME = "^[a-z][a-z0-9]{4,}$";
 
 }

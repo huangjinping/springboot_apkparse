@@ -301,10 +301,7 @@ public class StringTask {
         if (content.contains(".json.JSONObject")) {
             return false;
         }
-        if (content.contains(".com.appsflyer.internal")) {
-            return false;
-        }
-        return true;
+        return !content.contains(".com.appsflyer.internal");
     }
 
 }

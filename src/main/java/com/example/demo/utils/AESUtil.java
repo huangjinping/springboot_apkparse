@@ -1,11 +1,11 @@
 package com.example.demo.utils;
 
 
-import java.security.Key;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 
 
 public class AESUtil {
@@ -45,7 +45,7 @@ public class AESUtil {
             // 初始化，设置为解密模式
             cipher.init(Cipher.DECRYPT_MODE, k);
             // 执行操作
-            return new String(cipher.doFinal(string2Bytes(data)), "UTF-8");
+            return new String(cipher.doFinal(string2Bytes(data)), StandardCharsets.UTF_8);
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class AESUtil {
         return "";
     }
 
-    public static String bytes2String(byte buf[]) {
+    public static String bytes2String(byte[] buf) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < buf.length; i++) {
             String hex = Integer.toHexString(buf[i] & 0xFF);

@@ -23,7 +23,7 @@ public class InxServerSpiderLocal {
     String appssid = "40";
     Map<String, String> mPathMap;
     Map<String, String> mFieldMap;
-    private JsonFilter mJsonFilter;
+    private final JsonFilter mJsonFilter;
 
 
     public InxServerSpiderLocal(String json, String fileName, String appssid, String domainname, String phoneNo) {
@@ -102,7 +102,7 @@ public class InxServerSpiderLocal {
 
 //            index();
 //            appIndex();
-            appIndexInstallment();
+//            appIndexInstallment();
 //            uploadImage();
 //            saveBasicCustInfo();
 //            custInfoBasicQuery();
@@ -136,7 +136,7 @@ public class InxServerSpiderLocal {
 //            getAppInfo();
 //            getSysSetting();
 //            counponList();
-            queryProductInstallment();
+//            queryProductInstallment();
 //            checkAddressJsonFileExist();
 //            getAppInfoUserId();
 //            getUrlForApp();
@@ -1148,9 +1148,13 @@ public class InxServerSpiderLocal {
             mapParam.put(mFieldMap.get("detailId"), item.getString(mFieldMap.get("detailId")));
             mapParam.put(mFieldMap.get("productId"), productId);
             mapParam.put(mFieldMap.get("productId"), productId);
+            mapParam.put(mFieldMap.get("orderType"), "1");
 
 
             respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/preAmountInstallment"), header, mapParam);
+            LogUtils.logJson(respStr);
+
+            respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/commonContractList"), header, mapParam);
             LogUtils.logJson(respStr);
 
 

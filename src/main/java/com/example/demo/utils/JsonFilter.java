@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class JsonFilter {
 
-    private Map<String, String> fieldMap = new HashMap<>();
-    private Map<String, String> pathMap = new HashMap<>();
+    private final Map<String, String> fieldMap = new HashMap<>();
+    private final Map<String, String> pathMap = new HashMap<>();
 
 
     public Map<String, String> getFieldMap() {

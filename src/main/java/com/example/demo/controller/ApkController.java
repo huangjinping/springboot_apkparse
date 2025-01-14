@@ -238,10 +238,7 @@ public class ApkController {
             }
 
 
-
-            FileUtils.moveFile(resultFile.getAbsolutePath(), tempApp.getAbsolutePath() + "/"+resultFile.getName());
-
-
+            FileUtils.moveFile(resultFile.getAbsolutePath(), tempApp.getAbsolutePath() + "/" + resultFile.getName());
 
 
 //            resultMap.put("localUrl", localUrl.toString() + fileName);

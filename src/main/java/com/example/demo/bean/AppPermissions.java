@@ -28,6 +28,6 @@ public class AppPermissions implements Comparable<AppPermissions> {
 
     @Override
     public int compareTo(AppPermissions o) {
-        return this.state-o.state;
+        return this.state - o.state;
     }
 }

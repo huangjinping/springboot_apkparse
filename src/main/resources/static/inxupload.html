@@ -36,7 +36,7 @@
 
 <form id="form">
     <input type="file" name="file" id="file"><br/>
-    <input type="submit" />
+    <input type="submit"/>
 </form>
 
 <input type="file" accept="image/*" id="imgcamera" name="imgcamera"
@@ -78,18 +78,18 @@
 
 <script>
 
-    $(function(){
+    $(function () {
         form.reset(); //清除浏览器记录的上次记录
         var file;
-        $(form).on("change","#file",function(e){
+        $(form).on("change", "#file", function (e) {
             //输出选中结果
 
-            showToast("===="+this.value);
+            showToast("====" + this.value);
             console.log(this.value);
             //每次选中都保存旧元素，并使用新的控件替换
-            $(this).clone().replaceAll(file=this);
+            $(this).clone().replaceAll(file = this);
 
-        }).submit(function(){
+        }).submit(function () {
             //提交时把之前保存的旧元素替换回去
             $("#file").replaceWith(file);
         });

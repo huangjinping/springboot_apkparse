@@ -91,7 +91,7 @@ public class FileSizeUtil {
      */
     private static long getFileSizes(File f) throws Exception {
         long size = 0;
-        File flist[] = f.listFiles();
+        File[] flist = f.listFiles();
         for (int i = 0; i < flist.length; i++) {
             if (flist[i].isDirectory()) {
                 size = size + getFileSizes(flist[i]);

@@ -543,7 +543,6 @@ public class PackageParse {
         List<MetaData> metaData = parseMetadata(document);
 
 
-
         List<Query> queries = parseQueries(document);
         List<Provider> providers = parseProviders(document);
         BackUp backUp = parseBackUp(path, document);
@@ -694,11 +693,11 @@ public class PackageParse {
             if (value != null && value.startsWith("@string/")) {
                 String rep = value.replace("@string/", "");
                 value = stringMap.get(rep);
-                Gson gson=new Gson();
+                Gson gson = new Gson();
                 System.out.println(gson.toJson(stringMap));
 
 
-                System.out.println(value+"=================rep   19999============" + rep);
+                System.out.println(value + "=================rep   19999============" + rep);
             }
 
             metaData.setValue(value);

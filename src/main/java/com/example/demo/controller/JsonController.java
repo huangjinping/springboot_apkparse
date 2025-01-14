@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.bean.UserParam;
@@ -18,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,14 +63,14 @@ public class JsonController {
 
         try {
             is = request.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             StringBuffer sbf = new StringBuffer();
             String lines;
             while ((lines = reader.readLine()) != null) {
-                lines = new String(lines.getBytes(), "utf-8");
+                lines = new String(lines.getBytes(), StandardCharsets.UTF_8);
                 sbf.append(lines);
             }
-            System.out.println("解压大小：" + sbf.toString());
+            System.out.println("解压大小：" + sbf);
             String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
             String jsontext = sbf.toString();
 //            jsontext = AESUtil.decrypt(jsontext, key);

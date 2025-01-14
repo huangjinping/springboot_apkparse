@@ -32,7 +32,7 @@ public class SpiderController {
         }
         String fileName = file.getOriginalFilename();
         String firstName = fileName;
-        
+
         String oldName = fileName;
         fileName = System.currentTimeMillis() + "";
         oldName = "" + System.currentTimeMillis();
@@ -88,11 +88,10 @@ public class SpiderController {
         String strDateFormat = "yyyyMMddHHmmssSSS";//设置日期格式
 
 
-
         System.out.println("===============1============");
         try {
-            Thread.sleep(55*1000);
-        }catch (Exception e){
+            Thread.sleep(55 * 1000);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("===============2============");

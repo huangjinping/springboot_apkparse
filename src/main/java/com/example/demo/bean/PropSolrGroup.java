@@ -6,7 +6,7 @@ import java.util.Map;
 public class PropSolrGroup {
 
 
-    private HashMap<String, PropSolr> hashMap;
+    private final HashMap<String, PropSolr> hashMap;
 
     public PropSolrGroup() {
         hashMap = new HashMap<>();

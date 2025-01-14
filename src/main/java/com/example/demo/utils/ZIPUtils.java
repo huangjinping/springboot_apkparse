@@ -54,11 +54,12 @@ public class ZIPUtils {
 
     /**
      * 解压zip文件
+     *
      * @param filePath
      * @return
      * @throws Exception
      */
-    public static String extractZip(String target,String filePath) throws Exception{
+    public static String extractZip(String target, String filePath) throws Exception {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         CheckedInputStream checkedInputStream = new CheckedInputStream(fileInputStream, new Adler32());
         ZipInputStream zipInputStream = new ZipInputStream(checkedInputStream);
@@ -86,19 +87,20 @@ public class ZIPUtils {
 
     /**
      * 解压
-     * @param zipPath zip 文件夹路径
+     *
+     * @param zipPath    zip 文件夹路径
      * @param targetPath 解压路径
      */
-    public static void unzip(String zipPath,String targetPath){
+    public static void unzip(String zipPath, String targetPath) {
 
         File pathFile = new File(targetPath);
-        if(!pathFile.exists()){
+        if (!pathFile.exists()) {
             pathFile.mkdirs();
         }
 
-        try{
+        try {
             //指定编码
-            try(ZipFile zipFile = new ZipFile(zipPath, Charset.forName("gbk"))) {
+            try (ZipFile zipFile = new ZipFile(zipPath, Charset.forName("gbk"))) {
                 //遍历里面的文件及文件夹
                 Enumeration entries = zipFile.entries();
                 while (entries.hasMoreElements()) {
@@ -126,7 +128,7 @@ public class ZIPUtils {
                     }
                 }
             }
-        }catch ( Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

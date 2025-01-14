@@ -3,8 +3,8 @@ package com.example.demo.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.bean.LoginUser;
 import com.example.demo.bean.Jentity;
+import com.example.demo.bean.LoginUser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class InxServerSpider {
     String appssid = "40";
     Map<String, String> mPathMap;
     Map<String, String> mFieldMap;
-    private JsonFilter mJsonFilter;
+    private final JsonFilter mJsonFilter;
 
 
     public InxServerSpider(String json, String fileName, String appssid, String domainname, String phoneNo) {

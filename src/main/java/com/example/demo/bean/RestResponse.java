@@ -75,8 +75,8 @@ public class RestResponse<T> implements Serializable {
         return new RestResponse<T>(code, message, result);
     }
 
-    public static <T> RestResponse<T> response(int code, String message,Map<String, String> error,T result) {
-        return new RestResponse<T>(code, message,error,null, result);
+    public static <T> RestResponse<T> response(int code, String message, Map<String, String> error, T result) {
+        return new RestResponse<T>(code, message, error, null, result);
     }
 
     public static <T> RestResponse<T> success() {
@@ -106,6 +106,7 @@ public class RestResponse<T> implements Serializable {
     public static <T> RestResponse<T> caughtException(String message) {
         return response(ResponseCode.SYS_EXCEPTION.getCode(), message, null);
     }
+
     public static <T> RestResponse<T> caughtException(ResponseCode responseCode) {
         return response(responseCode.getCode(), responseCode.getName(), null);
     }
@@ -113,7 +114,6 @@ public class RestResponse<T> implements Serializable {
     public static <T> RestResponse<T> caughtException(String message, Map<String, String> error) {
         return response(ResponseCode.SYS_EXCEPTION.getCode(), message, error, null);
     }
-
 
 
     public static <T> RestResponse<T> fail(String message) {

@@ -11,9 +11,9 @@ import java.util.List;
 public class OkPermissionsFactory {
 
     public List<Element> currentElementList;
-    private String[] permissionsAll;
-    private String[] permissionsNeed;
-    private UserParam userParam;
+    private final String[] permissionsAll;
+    private final String[] permissionsNeed;
+    private final UserParam userParam;
 
     public OkPermissionsFactory(List<Element> currentElementList, String[] permissionsAll, String[] permissionsNeed, UserParam userParam) {
         this.currentElementList = currentElementList;
@@ -82,10 +82,7 @@ public class OkPermissionsFactory {
         if (currentPermission.startsWith("android.permission.")) {
             return true;
         }
-        if (currentPermission.startsWith("com.google.android.")) {
-            return true;
-        }
-        return false;
+        return currentPermission.startsWith("com.google.android.");
     }
 
 

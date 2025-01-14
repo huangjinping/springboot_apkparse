@@ -18,9 +18,7 @@ function getParameter(name) {
 }
 
 
-
-
-function  getIP(){
+function getIP() {
     fetch('https://api.ipify.org/?format=json')
         .then(response => response.json())
         .then(data => console.log(data.ip));
@@ -33,8 +31,8 @@ function NoToChinese(num) {
         alert("Number is wrong!");
         return "Number is wrong!";
     }
-    var AA = new Array("零", "一", "二", "三", "四", "五", "六", "七", "八", "九");
-    var BB = new Array("", "十", "百", "千", "万", "亿", "点", "");
+    var AA = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+    var BB = ["", "十", "百", "千", "万", "亿", "点", ""];
     var a = ("" + num).replace(/(^0*)/g, "").split("."),
         k = 0,
         re = "";
@@ -63,7 +61,7 @@ function NoToChinese(num) {
         for (var i = 0; i < a[1].length; i++) re += AA[a[1].charAt(i)];
     }
     return re;
-};
+}
 
 var digitUppercase = function (n) {
     var fraction = ['角', '分'];

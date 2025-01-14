@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DebtLoop {
     private static DebtLoop debtLoop;
-    private static List<DebtBean> urlList = new ArrayList<>();
+    private static final List<DebtBean> urlList = new ArrayList<>();
 
     private static void getInstance() {
         if (debtLoop == null) {

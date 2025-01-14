@@ -17,15 +17,13 @@ import java.util.concurrent.TimeUnit;
 public class ThreadM {
 
 
-    private PackageParse packageParse;
+    private final PackageParse packageParse;
 
     public ThreadM(PackageParse packageParse) {
         this.packageParse = packageParse;
     }
 //    public ThreadM() {
 //    }
-
-
 
 
     public Map<String, Object> parseApkData(String apktoolPath, String apkFastPath, String outFilePath, String appType) {

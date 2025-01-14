@@ -434,10 +434,7 @@ public class CheckUtils {
 
 
     public static boolean isMac(String mac) {
-        if (!TextUtils.isEmpty(mac) && mac.length() > 10 && mac.contains(":")) {
-            return true;
-        }
-        return false;
+        return !TextUtils.isEmpty(mac) && mac.length() > 10 && mac.contains(":");
     }
 
 
@@ -494,11 +491,7 @@ public class CheckUtils {
         Matcher matcher = pattern.matcher(input);
 
         // 进行匹配
-        if (matcher.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return matcher.find();
 
     }
 

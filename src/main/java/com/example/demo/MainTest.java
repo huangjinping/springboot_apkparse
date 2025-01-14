@@ -85,8 +85,6 @@ public class MainTest {
         System.out.println("======android=========" + android.length());
 
 
-
-
 //
         try {
             String time1 = "2023-11-14 02:22:51";
@@ -169,14 +167,26 @@ public class MainTest {
 
 
             {
-                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashnow.json");
-                String fileName = "cashnow";
-                String appssid = "9009";
-                String domainname = "https://tz.ultracreditosmx.com/";
-                String phoneNo = "183555555";
+                String json = FileUtils.getTextByPath(HOME_PATH + "peru/creditopronto.json");
+                String fileName = "creditopronto";
+                String appssid = "431";
+//                String domainname = "https://temp.sikadua.com/";
+                String domainname = "https://peru.ultracreditosmx.com/";
+//                https://test.felizsolpe.com/felizsol/nearbyPiano/recommendInternationalJazz
+                String phoneNo = "18200000";
                 InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
                 inxServerSpiderLocal.start();
             }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashnow.json");
+//                String fileName = "cashnow";
+//                String appssid = "9009";
+//                String domainname = "https://tz.ultracreditosmx.com/";
+//                String phoneNo = "183555555";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/realdinero.json");

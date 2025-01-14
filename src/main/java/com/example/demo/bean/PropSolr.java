@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class PropSolr {
     private int limit = 3;
-    private String propName;
+    private final String propName;
     private HashMap<String, Integer> hashMap;
 
     private int max = 0;

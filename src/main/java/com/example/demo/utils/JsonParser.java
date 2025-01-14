@@ -13,7 +13,7 @@ import java.util.*;
 public class JsonParser {
 
 
-    private UserParam userParam;
+    private final UserParam userParam;
 
     public JsonParser(UserParam userParam) {
         this.userParam = userParam;
@@ -253,7 +253,7 @@ public class JsonParser {
 
             String key = "is_charging";
             String is_charging = item.getString(key);
-            int is_chargingstate = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+            int is_chargingstate = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
             result.put(key, new Jentity(key, is_charging, is_chargingstate));
             if (is_chargingstate != 1) {
                 stats = 0;
@@ -271,7 +271,7 @@ public class JsonParser {
 
             key = "is_usb_charge";
             String is_usb_charge = item.getString(key);
-            int is_usb_chargestate = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+            int is_usb_chargestate = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
             result.put(key, new Jentity(key, is_usb_charge, is_usb_chargestate));
             if (is_usb_chargestate != 1) {
                 stats = 0;
@@ -279,7 +279,7 @@ public class JsonParser {
 
             key = "is_ac_charge";
             String is_ac_charge = item.getString(key);
-            int is_ac_chargeestate = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+            int is_ac_chargeestate = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
             result.put(key, new Jentity(key, is_ac_charge, is_ac_chargeestate));
             if (is_ac_chargeestate != 1) {
                 stats = 0;
@@ -815,7 +815,7 @@ public class JsonParser {
             key = "contain_sd";
             String contain_sd = storage.getString(key);
 //            int contain_sdStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
-            int contain_sdStats = CheckUtils.getSaferStringWithLimit(storage, key, new String[]{"0", "1"});
+            int contain_sdStats = CheckUtils.getSaferStringWithLimit(storage, key, "0", "1");
             storageResult.put(key, new Jentity(key, contain_sd, contain_sdStats));
 
             if (contain_sdStats != 1) {
@@ -825,7 +825,7 @@ public class JsonParser {
             key = "extra_sd";
             String extra_sd = storage.getString(key);
 //            int extra_sdStats = CheckUtils.getSaferLimitDouble(storage, key, 0);
-            int extra_sdStats = CheckUtils.getSaferStringWithLimit(storage, key, new String[]{"0", "1"});
+            int extra_sdStats = CheckUtils.getSaferStringWithLimit(storage, key, "0", "1");
 
             storageResult.put(key, new Jentity(key, extra_sd, extra_sdStats));
             if (extra_sdStats != 1) {
@@ -1489,7 +1489,7 @@ public class JsonParser {
                         app_type1++;
                     }
 
-                    int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+                    int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
                     app.put(key, new Jentity(key, app_type, app_typeState));
                     if (app_typeState != 1) {
                         appListState = 0;
@@ -1863,7 +1863,7 @@ public class JsonParser {
 
                     key = "type";
                     String type = item.getString(key);
-                    int typeStats = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"1", "2", "3", "4", "5", "6", "7"});
+                    int typeStats = CheckUtils.getSaferStringWithLimit(item, key, "1", "2", "3", "4", "5", "6", "7");
                     app.put(key, new Jentity(key, type, typeStats));
                     if (typeStats != 1) {
                         appListState = 0;
@@ -1982,7 +1982,7 @@ public class JsonParser {
 
                     key = "type";
                     String type = item.getString(key);
-                    int typeState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1", "2", "3", "4", "5", "6"});
+                    int typeState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1", "2", "3", "4", "5", "6");
 
 
                     if (typeState == 1) {
@@ -2027,7 +2027,7 @@ public class JsonParser {
 
                     key = "read";
                     String read = item.getString(key);
-                    int readState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+                    int readState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
                     if (readState == 1) {
                         app.put(key, new Jentity(key, read, 1));
                     } else {
@@ -2038,7 +2038,7 @@ public class JsonParser {
 
                     key = "seen";
                     String seen = item.getString(key);
-                    int seenState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"0", "1"});
+                    int seenState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
                     if (seenState == 1) {
                         app.put(key, new Jentity(key, seen, 1));
                     } else {
@@ -2051,7 +2051,7 @@ public class JsonParser {
                     key = "status";
                     String status = item.getString(key);
                     //"68","32","70"
-                    int statusState = CheckUtils.getSaferStringWithLimit(item, key, new String[]{"-1", "0", "64", "128", "32"});
+                    int statusState = CheckUtils.getSaferStringWithLimit(item, key, "-1", "0", "64", "128", "32");
                     if (statusState == 1) {
                         app.put(key, new Jentity(key, status, 1));
                     } else {
@@ -2115,7 +2115,7 @@ public class JsonParser {
             JSONObject other_data = jsonObject.getJSONObject("other_data");
             String key = "root_jailbreak";
             String root_jailbreak = other_data.getString(key);
-            int root_jailbreakStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"1", "0"});
+            int root_jailbreakStats = CheckUtils.getSaferStringWithLimit(other_data, key, "1", "0");
             other_dataResult.put(key, new Jentity(key, root_jailbreak, root_jailbreakStats));
             if (root_jailbreakStats != 1) {
                 stats = 0;
@@ -2132,7 +2132,7 @@ public class JsonParser {
 
             key = "keyboard";
             String keyboard = other_data.getString(key);
-            int keyboardStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"1", "0", "2", "3", "4", "5"});
+            int keyboardStats = CheckUtils.getSaferStringWithLimit(other_data, key, "1", "0", "2", "3", "4", "5");
             other_dataResult.put(key, new Jentity(key, keyboard, keyboardStats));
             if (keyboardStats != 1) {
                 stats = 0;
@@ -2142,7 +2142,7 @@ public class JsonParser {
             key = "simulator";
             String simulator = other_data.getString(key);
 //            int simulatorStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"1", "0"});
-            int simulatorStats = CheckUtils.getSaferStringWithLimit(other_data, key, new String[]{"0"});
+            int simulatorStats = CheckUtils.getSaferStringWithLimit(other_data, key, "0");
 
             other_dataResult.put(key, new Jentity(key, simulator, simulatorStats));
             if (simulatorStats != 1) {
