@@ -7,65 +7,92 @@ import org.eclipse.jgit.api.Git;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MainTest {
 
 
-    public static void msgFeatureV3() {
-        try {
-//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9002.json");
-            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9003.json");
-
-//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Downloads/online2.json");
-            LogUtils.logJson(textByPath);
-            textByPath = "0123456789";
-            textByPath = GzipUtil.compress(textByPath);
-            LogUtils.logJson(textByPath);
-            textByPath = AESUtil.encrypt(textByPath, "c8dabcd349f334a269b183837deb43f6");//9002
-//            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
-            LogUtils.logJson("=======compress0===============");
-
-            LogUtils.logJson(textByPath);
-
-            LogUtils.logJson("=======compress前===============");
-
-//            textByPath = GzipUtil.compress("0123456789");
-//            System.out.println(textByPath);
+//    public static void msgFeatureV3() {
+//        try {
+////            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9002.json");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9003.json");
+//
+////            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Downloads/online2.json");
 //            LogUtils.logJson(textByPath);
-
-            String filename = UUID.randomUUID().toString();
-
-
-            LogUtils.logJson("=======compress后===============" + filename);
-
-
-//            Map<String, String> mapParam = new HashMap<>();
-//            Map<String, String> header = new HashMap<>();
-//            Map<String, File> fileMap = new HashMap<>();
-//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/新建文本sss文档.txt");
+//            textByPath = "0123456789";
+//            textByPath = GzipUtil.compress(textByPath);
 //            LogUtils.logJson(textByPath);
-//            String compress = GzipUtil.compress(textByPath);
-////             compress = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/after.txt");
+//            textByPath = AESUtil.encrypt(textByPath, "c8dabcd349f334a269b183837deb43f6");//9002
+////            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+//            LogUtils.logJson("=======compress0===============");
 //
-//            LogUtils.logJson(compress);
-//            String encrypt = AESUtil.encrypt(compress, "7f43434a595cf2487c29c563217955f1");
-////          String encrypt = AESUtil.encrypt(compress, "833145a1c66db7519277de45de749097");
-//            LogUtils.logJson(encrypt);
+//            LogUtils.logJson(textByPath);
 //
-//            String respStr = OkHttpUtils.postJson("http://10.1.2.40:8092/msgFeature", encrypt, header);
+//            LogUtils.logJson("=======compress前===============");
 //
-//            LogUtils.logJson(respStr);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+////            textByPath = GzipUtil.compress("0123456789");
+////            System.out.println(textByPath);
+////            LogUtils.logJson(textByPath);
+//
+//            String filename = UUID.randomUUID().toString();
+//
+//
+//            LogUtils.logJson("=======compress后===============" + filename);
+//
+//
+////            Map<String, String> mapParam = new HashMap<>();
+////            Map<String, String> header = new HashMap<>();
+////            Map<String, File> fileMap = new HashMap<>();
+////            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/新建文本sss文档.txt");
+////            LogUtils.logJson(textByPath);
+////            String compress = GzipUtil.compress(textByPath);
+//////             compress = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/after.txt");
+////
+////            LogUtils.logJson(compress);
+////            String encrypt = AESUtil.encrypt(compress, "7f43434a595cf2487c29c563217955f1");
+//////          String encrypt = AESUtil.encrypt(compress, "833145a1c66db7519277de45de749097");
+////            LogUtils.logJson(encrypt);
+////
+////            String respStr = OkHttpUtils.postJson("http://10.1.2.40:8092/msgFeature", encrypt, header);
+////
+////            LogUtils.logJson(respStr);
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void main(String[] args) throws IOException {
 //        System.out.println(RegexUtils.isTel1("123416789"));
+
+
+//        ApaParser.parseInfoPlist("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/Info.plist");
+
+        String filePath = "/Users/huhuijie/Downloads/Localizable1.strings"; // 替换为你的Localizable.strings文件路径
+//        Map<String, String> localizedStrings = ApaParser.parseLocalizableStrings(filePath);
+
+        try {
+            LogUtils.logJson("------000000000--------------");
+
+            Map<String, Object> objectMap = ApaParser.parsePlist(new File("/Users/huhuijie/Downloads/Info.plist.xml").getAbsolutePath());
+            LogUtils.logJson("------111111--------------");
+            LogUtils.logJson(objectMap);
+            LogUtils.logJson("------222222222--------------");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+//        LogUtils.logJson(localizedStrings);
+//        // 打印解析后的键值对
+//        for (Map.Entry<String, String> entry : localizedStrings.entrySet()) {
+//            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+//        }
+
 
 //        String resultdd = "{\"build_name\":\"1.0.16\",\"images_external\":838,\"video_internal\":0}";
 //        System.out.println("--------------------22------------->>>");
@@ -73,48 +100,50 @@ public class MainTest {
 //        System.out.println(GzipUtil.compress(resultdd));
 //        System.out.println("--------------------23------------->>>");
 //        gitDir();
-        LogUtils.logJson("-------1---");
-
-        msgFeatureV3();
-        LogUtils.logJson("-------2---");
-
-        String ios = "A0129254EE9C469BB1B07AA64F459C69";
-        String android = "70c0b65b3a631a6d79864d038d816ce1";
-
-        System.out.println("======ios=========" + ios.length());
-        System.out.println("======android=========" + android.length());
+//        LogUtils.logJson("-------1---");
+//
+//        msgFeatureV3();
+//        LogUtils.logJson("-------2---");
+//
+//        String ios = "A0129254EE9C469BB1B07AA64F459C69";
+//        String android = "70c0b65b3a631a6d79864d038d816ce1";
+//
+//        System.out.println("======ios=========" + ios.length());
+//        System.out.println("======android=========" + android.length());
 
 
 //
         try {
-            String time1 = "2023-11-14 02:22:51";
-            String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
-            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(strDateFormat);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            Calendar instance = Calendar.getInstance();
-            instance.setTime(simpleDateFormat2.parse(time1));
-//            instance.add(Calendar.DAY_OF_MONTH, 13);
-            long time = instance.getTime().getTime();
-            instance.setTimeInMillis(time + 60);
-
-            String format = simpleDateFormat2.format(instance.getTime());
-            LogUtils.log("-----" + format);
-
-            Map<String, String> map = new HashMap<>();
-            String dddd = map.get("dddd");
 
 
-            System.out.println("=0=====222=======11====" + dddd);
-
-            String scheme = "led0000";
-            if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
-                System.out.println("=0================");
-
-            } else {
-                System.out.println("=1================");
-
-            }
+//            String time1 = "2023-11-14 02:22:51";
+//            String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
+//            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat(strDateFormat);
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            Calendar instance = Calendar.getInstance();
+//            instance.setTime(simpleDateFormat2.parse(time1));
+////            instance.add(Calendar.DAY_OF_MONTH, 13);
+//            long time = instance.getTime().getTime();
+//            instance.setTimeInMillis(time + 60);
+//
+//            String format = simpleDateFormat2.format(instance.getTime());
+//            LogUtils.log("-----" + format);
+//
+//            Map<String, String> map = new HashMap<>();
+//            String dddd = map.get("dddd");
+//
+//
+//            System.out.println("=0=====222=======11====" + dddd);
+//
+//            String scheme = "led0000";
+//            if (!RegexUtils.isMatch(RegexConstants.REGEX_SCHEME, scheme)) {
+//                System.out.println("=0================");
+//
+//            } else {
+//                System.out.println("=1================");
+//
+//            }
 
 
 //            LogUtils.log(FileSizeUtil.getAutoFileOrFilesSize("/Users/huhuijie/Documents/bundletool/app-release.aab"));
@@ -166,17 +195,17 @@ public class MainTest {
         try {
 
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "peru/creditopronto.json");
-                String fileName = "creditopronto";
-                String appssid = "431";
-//                String domainname = "https://temp.sikadua.com/";
-                String domainname = "https://peru.ultracreditosmx.com/";
-//                https://test.felizsolpe.com/felizsol/nearbyPiano/recommendInternationalJazz
-                String phoneNo = "18200000";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "peru/creditopronto.json");
+//                String fileName = "creditopronto";
+//                String appssid = "431";
+////                String domainname = "https://temp.sikadua.com/";
+//                String domainname = "https://peru.ultracreditosmx.com/";
+////                https://test.felizsolpe.com/felizsol/nearbyPiano/recommendInternationalJazz
+//                String phoneNo = "18200000";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashnow.json");
@@ -262,16 +291,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashflowloan.json");
-//                String fileName = "cashflowloan";
-//                String appssid = "9003";
-//                String domainname = "https://tz.ultracreditosmx.com/";
-//                String phoneNo = "183555555";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
-
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashflowloan.json");
+                String fileName = "cashflowloan";
+                String appssid = "9003";
+                String domainname = "https://my.ultracreditosmx.com/";
+                String phoneNo = "183555555";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/prestaplata.json");
 //                String fileName = "prestaplata";
