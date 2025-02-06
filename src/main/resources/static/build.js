@@ -16,11 +16,17 @@
         //     url: "debug531"
         // },
         {
-            name: "正式包检测",
+            name: "安卓正式包检测",
             url: "index"
         }, {
-            name: "占坑包检测",
+            name: "安卓占坑包检测",
             url: "debug1"
+        }, {
+            name: "苹果正式包检测",
+            url: "ios"
+        }, {
+            name: "苹果占坑包检测",
+            url: "iosDebug"
         }, {
             name: "大json检测",
             url: "nbjson"

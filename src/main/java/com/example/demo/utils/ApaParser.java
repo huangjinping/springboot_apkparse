@@ -1,194 +1,130 @@
 package com.example.demo.utils;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.XPath;
-import org.dom4j.io.SAXReader;
-import org.dom4j.xpath.DefaultXPath;
+import com.example.demo.bean.Jentity;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 public class ApaParser {
 
+    public static String PERMISSION_END = "UsageDescription";
 
-    /**
-     * Parses a Localizable.strings file and returns a map of key-value pairs.
-     *
-     * @param filePath The path to the Localizable.strings file.
-     * @return A map containing the parsed key-value pairs.
-     * @throws IOException If an I/O error occurs.
-     */
-    public static Map<String, String> parseLocalizableStrings1(String filePath) throws IOException {
-        Map<String, String> localizedStrings = new HashMap<>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), Charset.forName("UTF-16LE")))) {
-            // If the file has a BOM, it will be read as part of the first line,
-            // but this should not affect the parsing logic as long as we trim the lines properly.
-            // If the BOM is a problem, you might need to skip the first few bytes manually.
+    public String appType;
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-
-                // Skip empty lines and comments (lines starting with '#')
-                if (line.isEmpty() || line.startsWith("#")) {
-                    continue;
-                }
-
-                // Split the line into key and value
-                int equalsIndex = line.indexOf('=');
-                if (equalsIndex != -1) {
-                    String key = line.substring(0, equalsIndex).trim();
-                    String value = line.substring(equalsIndex + 1).trim();
-
-                    // Remove surrounding quotes if present
-                    if (key.startsWith("\"") && key.endsWith("\"")) {
-                        key = key.substring(1, key.length() - 1);
-                    }
-                    if (value.startsWith("\"") && value.endsWith("\"")) {
-                        value = value.substring(1, value.length() - 1);
-                    }
-
-                    // Add the key-value pair to the map
-                    localizedStrings.put(key, value);
-                }
-            }
-        }
-        return localizedStrings;
+    public String getAppType() {
+        return appType;
     }
 
-
-    public static Map<String, String> parseLocalizableStrings(String filePath) {
-        Map<String, String> localizedStrings = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-
-                // 忽略空行和以注释符号（#）开头的行
-                if (!line.isEmpty() && !line.startsWith("#")) {
-                    // 解析键值对
-                    int equalsIndex = line.indexOf('=');
-                    if (equalsIndex != -1) {
-                        String key = line.substring(0, equalsIndex).trim();
-                        String value = line.substring(equalsIndex + 1).trim();
-
-                        // 去除键和值两端的双引号（如果存在）
-                        if (key.startsWith("\"") && key.endsWith("\"")) {
-                            key = key.substring(1, key.length() - 1);
-                        }
-                        if (value.startsWith("\"") && value.endsWith("\"")) {
-                            value = value.substring(1, value.length() - 1);
-                        }
-
-                        // 将解析后的键值对添加到映射中
-                        localizedStrings.put(key, value);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return localizedStrings;
+    public void setAppType(String appType) {
+        this.appType = appType;
     }
 
-    public static Map<String, Object> parseInfoPlist(String path) {
-
+    public Map<String, Object> parseIOSipa(String rootPath) {
         Map<String, Object> resultMap = new HashMap<>();
-//        String textByPath = FileUtils.getTextByPath(path);
+        LogUtils.logJson("======resultFile111111111111========" + rootPath);
+        Map<String, Object> objectMap = parseIOSPlistInfo(rootPath);
 
-        try {
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(path);
-            LogUtils.logJson("===============parseInfoPlist===========》");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        resultMap.putAll(objectMap);
+        LogUtils.logJson(objectMap);
 
-//        LogUtils.logJson(textByPath);
-//
-//        Gson gson = new Gson();
-//        Type type = new TypeToken<Map<String, Object>>() {
-//        }.getType();
-//        resultMap = gson.fromJson(textByPath, type);
-//
-//        LogUtils.logJson("===========parseInfoPlist============");
-//        LogUtils.logJson(resultMap);
+        Threadipa threadipa = new Threadipa(this);
+        resultMap.putAll(threadipa.parseIpaData(rootPath, "3"));
+
 
         return resultMap;
     }
 
+    public Map<String, Object> parseIOSPlistInfo(String rootPath) {
+        String plistInfo = rootPath + File.separator + "Info.plist.xml";
+        Map<String, Object> info = InfoPlistParser.parsePlist(plistInfo);
+        LogUtils.logJson(info);
 
-    public static Map<String, Object> parsePlist(String filePath) {
-        SAXReader reader = new SAXReader();
+//        parsePermission(info);
+        Map<String, Object> result = new HashMap<>();
+
+        List<Jentity> permissionList = new ArrayList<>();
+        List<Jentity> configList = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : info.entrySet()) {
+            String key = entry.getKey();
+            if (key.endsWith(PERMISSION_END)) {
+                permissionList.add(new Jentity(key, entry.getValue(), 1));
+                LogUtils.logJson("======resultFile111111111111========" + key);
+            }
+
+            if (key.equals("CFBundleIdentifier")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("MinimumOSVersion")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("CFBundleShortVersionString")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("CFBundleVersion")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("CFBundleDisplayName")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+
+            if (key.equals("BuildMachineOSBuild")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("DTSDKName")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("DTXcode")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+            if (key.equals("DTSDKBuild")) {
+                configList.add(new Jentity(key, entry.getValue(), 1));
+            }
+
+
+
+
+        }
+
+        configList.add(CheckUtils.getJentityByMap("FacebookAppID", info));
+        configList.add(CheckUtils.getJentityByMap("FacebookClientToken", info));
+        configList.add(CheckUtils.getJentityByMap("FacebookDisplayName", info));
+
+//        UISupportedInterfaceOrientations~ipad
+        configList.add(CheckUtils.getJentityByMapForArrayOrientationsIpad("UISupportedInterfaceOrientations~ipad", info));
+
         try {
-            Document document = reader.read(filePath);
-            Element root = document.getRootElement();
-            XPath xPath = new DefaultXPath("/plist/dict");
-            List<Element> list = xPath.selectNodes(root);
-            return parseElement(list.get(0));
-        } catch (DocumentException e) {
+            Collections.sort(permissionList, new AppComparator());
+            Collections.sort(configList, new AppComparator());
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+
+
+        LogUtils.logJson(permissionList);
+
+        if ("3".equals(appType)) {
+            IpaPermissionsFactory factory = new IpaPermissionsFactory(permissionList, PermissionUtils.permissionsIPAAll, PermissionUtils.permissionsIPAReleaseMast);
+            List<Jentity> jentities = factory.create();
+            result.put("permission", new Jentity("permission", new Jentity("permission", jentities, 1), 1));
+        } else if ("4".equals(appType)) {
+            IpaPermissionsFactory factory = new IpaPermissionsFactory(permissionList, PermissionUtils.permissions2024ipaAll, PermissionUtils.permissions2024DebugipaMast);
+            List<Jentity> jentities = factory.create();
+            result.put("permission", new Jentity("permission", new Jentity("permission", jentities, 1), 1));
+        }
+
+        result.put("configInfo", new Jentity("configInfo", new Jentity("configInfo", configList, 1), 1));
+
+        return result;
     }
 
-    private static Map<String, Object> parseElement(Element element) {
-        Map<String, Object> map = new HashMap<>();
-        Iterator<Element> iterator = element.elementIterator();
-        while (iterator.hasNext()) {
-            Element subElement = iterator.next();
-            String tagName = subElement.getName();
-            if ("key".equals(tagName)) {
-                String key = subElement.getText();
-                LogUtils.logJson("==========================key====>>>>");
-                if (iterator.hasNext()) {
-                    Element valueElement = iterator.next();
-                    Object value = getValue(valueElement);
-                    map.put(key, value);
-                }
+
+    public void parsePermission(Map<String, Object> info) {
+        for (Map.Entry<String, Object> entry : info.entrySet()) {
+            String key = entry.getKey();
+            if (key.endsWith(PERMISSION_END)) {
+                LogUtils.logJson("======resultFile111111111111========" + key);
             }
         }
-        return map;
-    }
-
-    private static Object getValue(Element element) {
-        String tagName = element.getName();
-        switch (tagName) {
-            case "string":
-                return element.getText();
-            case "integer":
-                return Integer.parseInt(element.getText());
-            case "real":
-                return Double.parseDouble(element.getText());
-            case "boolean":
-                return "true".equalsIgnoreCase(element.getText());
-            case "date":
-                return element.getText();
-            case "array":
-                return parseArray(element);
-            case "dict":
-                return parseElement(element);
-            default:
-                return element.getText();
-        }
-    }
-
-    private static Object[] parseArray(Element element) {
-        Iterator<Element> iterator = element.elementIterator();
-        Object[] array = new Object[element.elements().size()];
-        int i = 0;
-        while (iterator.hasNext()) {
-            Element subElement = iterator.next();
-            array[i] = getValue(subElement);
-            i++;
-        }
-        return array;
     }
 
 

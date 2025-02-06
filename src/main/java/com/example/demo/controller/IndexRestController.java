@@ -27,6 +27,24 @@ public class IndexRestController {
         return new ModelAndView("debug1");
     }
 
+    @RequestMapping("/ios")
+    public ModelAndView ios() {
+//        Logger logger = LoggerFactory.getLogger("recommend");
+//        System.out.println("log"+logger);
+//        logger.info("ihis");
+
+        return new ModelAndView("ios");
+    }
+
+    @RequestMapping("/iosDebug")
+    public ModelAndView iosDebug() {
+//        Logger logger = LoggerFactory.getLogger("recommend");
+//        System.out.println("log"+logger);
+//        logger.info("ihis");
+
+        return new ModelAndView("iosDebug");
+    }
+
     @RequestMapping("/parsepackage")
     public ModelAndView parsepackage() {
         return new ModelAndView("index");

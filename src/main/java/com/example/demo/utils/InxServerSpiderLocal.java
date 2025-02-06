@@ -74,9 +74,10 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("language"), "es");
 
 
-//        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
-//        comm.put(mFieldMap.get("gaid"), "eb505a1a-14a0-4771-8450-9d686731987e");
-        comm.put(mFieldMap.get("imei"), "eb505a1a-14a0-4771-8450-9d686731987e");
+        String gaid="eb505a1a-14a0-4771-8450-9d6867319872";
+        comm.put(mFieldMap.get("googleGaid"),gaid);
+        comm.put(mFieldMap.get("gaid"),gaid);
+        comm.put(mFieldMap.get("imei"), gaid);
 
         if (loginUser != null) {
             comm.put(mFieldMap.get("token"), loginUser.getToken());
@@ -102,10 +103,10 @@ public class InxServerSpiderLocal {
 
 //            index();
 //            appIndex();
-//            appIndexInstallment();
+            appIndexInstallment();
 //            uploadImage();
 //            saveBasicCustInfo();
-//            custInfoBasicQuery();
+            custInfoBasicQuery();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV3();

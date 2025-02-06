@@ -75,12 +75,12 @@ public class MainTest {
 //        Map<String, String> localizedStrings = ApaParser.parseLocalizableStrings(filePath);
 
         try {
-            LogUtils.logJson("------000000000--------------");
-
-            Map<String, Object> objectMap = ApaParser.parsePlist(new File("/Users/huhuijie/Downloads/Info.plist.xml").getAbsolutePath());
-            LogUtils.logJson("------111111--------------");
-            LogUtils.logJson(objectMap);
-            LogUtils.logJson("------222222222--------------");
+//            LogUtils.logJson("------000000000--------------");
+//
+//            Map<String, Object> objectMap = InfoPlistParser.parsePlist(new File("/Users/huhuijie/Downloads/Info.plist.xml").getAbsolutePath());
+//            LogUtils.logJson("------111111--------------");
+//            LogUtils.logJson(objectMap);
+//            LogUtils.logJson("------222222222--------------");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,6 +195,17 @@ public class MainTest {
         try {
 
 
+                        {
+                String json = FileUtils.getTextByPath(HOME_PATH + "argentina/easycash.json");
+                String fileName = "quickmoneypro";
+                String appssid = "433";
+                String domainname = "https://www.argentinoprestamo.com/";
+//                https://test.felizsolpe.com/felizsol/nearbyPiano/recommendInternationalJazz
+                String phoneNo = " 1839090921";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
+
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "peru/creditopronto.json");
 //                String fileName = "creditopronto";
@@ -291,15 +302,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashflowloan.json");
-                String fileName = "cashflowloan";
-                String appssid = "9003";
-                String domainname = "https://my.ultracreditosmx.com/";
-                String phoneNo = "183555555";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashflowloan.json");
+//                String fileName = "cashflowloan";
+//                String appssid = "9003";
+//                String domainname = "https://my.ultracreditosmx.com/";
+//                String phoneNo = "183555555";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/prestaplata.json");
 //                String fileName = "prestaplata";

@@ -442,6 +442,10 @@ public class PackageParse {
         this.mRealFilePath = mRealFilePath;
     }
 
+
+
+
+
     public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
 
 

@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.bean.Application;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.utils.*;
@@ -135,7 +134,7 @@ public class ApkController {
             PackageParse packageParse = new PackageParse();
             packageParse.setmRealFilePath(resultFile.getAbsolutePath());
 //            System.out.println("=======suffix=====" + suffix);
-//            System.out.println(unzipPath + "=======suffix=" + resultFile.getAbsolutePath() + "=2===" + savePos.getAbsolutePath());
+            System.out.println(unzipPath + "=======suffix=" + resultFile.getAbsolutePath() + "=2===" + savePos.getAbsolutePath());
 
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
@@ -219,26 +218,37 @@ public class ApkController {
                     e.printStackTrace();
                 }
                 resultMap.putAll(map);
+
+            } else if (".ipa".equals(suffix)) {
+                List<String> commands = new ArrayList<>();
+                ApaParser apaParser = new ApaParser();
+                apaParser.setAppType(appType);
+                LogUtils.logJson("======resultFile00========" + resultFile.getName());
+                commands.add("./json/parseipa.sh " + savePos.getAbsolutePath() + " " + resultFile.getName());
+                List<String> strings = CommandLineTool.executeNewFlow(commands);
+                Map<String, Object> objectMap = apaParser.parseIOSipa(savePos.getAbsolutePath());
+                resultMap.put("savePos", savePos.getAbsolutePath());
+                resultMap.putAll(objectMap);
+                LogUtils.logJson(strings);
             }
 
-            /**
-             * 拷贝文件
-             * application.packageName
-             */
-
-            Application application = (Application) resultMap.get("application");
-            String packageName = application.getPackageName();
-            File tempApp = new File("./tempApp/" + packageName);
-
-            if (tempApp.exists()) {
-                resultFile.delete();
-            }
-            if (!tempApp.exists()) {  // 不存在，则创建该文件夹
-                tempApp.mkdir();
-            }
-
-
-            FileUtils.moveFile(resultFile.getAbsolutePath(), tempApp.getAbsolutePath() + "/" + resultFile.getName());
+//            /**
+//             * 拷贝文件
+//             * application.packageName
+//             */
+//
+//            Application application = (Application) resultMap.get("application");
+//            String packageName = application.getPackageName();
+//            File tempApp = new File("./tempApp/" + packageName);
+//
+//            if (tempApp.exists()) {
+//                resultFile.delete();
+//            }
+//            if (!tempApp.exists()) {  // 不存在，则创建该文件夹
+//                tempApp.mkdir();
+//            }
+//
+//            FileUtils.moveFile(resultFile.getAbsolutePath(), tempApp.getAbsolutePath() + "/" + resultFile.getName());
 
 
 //            resultMap.put("localUrl", localUrl.toString() + fileName);

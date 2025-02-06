@@ -257,9 +257,13 @@ public class StringTask {
         ) {
             CommonModel model = new CommonModel();
             String content = item.replace(dir, "").replace("smali", "a").replace("/", ".");
+
+            LogUtils.log(content);
             if (content.length() > 400) {
                 content = content.substring(0, 395);
             }
+
+
             if (!checkContent(content)) {
                 continue;
             }

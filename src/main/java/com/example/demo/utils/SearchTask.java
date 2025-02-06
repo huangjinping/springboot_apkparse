@@ -209,6 +209,9 @@ public class SearchTask {
             if (item != null && item.contains(target)) {
                 try {
                     String[] targetList = item.split(target);
+                    if (targetList.length < 2) {
+                        continue;
+                    }
                     String targetRe1 = targetList[1];
                     String[] result = targetRe1.split("\"");
                     CommonModel domainName = new CommonModel();

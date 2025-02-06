@@ -215,4 +215,37 @@ public class PermissionUtils {
     };
 
 
+    public static final String[] permissionsIPAAll = new String[]{
+            "NSLocationWhenInUseUsageDescription",
+            "NSUserTrackingUsageDescription",
+            "NSLocalNetworkUsageDescription",
+            "NSPhotoLibraryAddUsageDescription",
+            "NSPhotoLibraryUsageDescription",
+            "NSContactsUsageDescription",
+            "NSLocationAlwaysUsageDescription",
+            "NSCalendarsUsageDescription",
+            "NSCalendarsFullAccessUsageDescription",
+            "NSCameraUsageDescription",
+            "NSRemindersFullAccessUsageDescription",
+    };
+
+
+    public static final String[] permissionsIPAReleaseMast = new String[]{
+            "NSLocationWhenInUseUsageDescription",
+            "NSUserTrackingUsageDescription",
+            "NSPhotoLibraryUsageDescription",
+            "NSContactsUsageDescription",
+            "NSCalendarsUsageDescription",
+            "NSCameraUsageDescription"
+    };
+
+
+    public static final String[] permissions2024ipaAll = new String[]{
+            "NSLocalNetworkUsageDescription"
+    };
+
+    public static final String[] permissions2024DebugipaMast = new String[]{
+
+    };
+
 }

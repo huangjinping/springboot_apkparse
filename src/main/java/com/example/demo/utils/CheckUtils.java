@@ -1,10 +1,12 @@
 package com.example.demo.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.bean.Jentity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -203,6 +205,35 @@ public class CheckUtils {
 
         }
         return 0;
+    }
+
+
+    public static Jentity getJentityByMapForArrayOrientationsIpad(String key, Map<String, Object> info) {
+
+        Jentity result = new Jentity("" + key, "", 0);
+        if (info != null && !TextUtils.isEmpty(key) && info.containsKey(key)) {
+            Object value = info.get(key);
+            LogUtils.logJson(value);
+            LogUtils.logJson(value.getClass().getSimpleName());
+            result.setValue(value);
+            if (value != null && ((Object[]) value).length == 4) {
+                result.setState(1);
+            }
+        }
+        return result;
+    }
+
+    public static Jentity getJentityByMap(String key, Map<String, Object> info) {
+
+        Jentity result = new Jentity("" + key, "", 0);
+
+        if (info != null && !TextUtils.isEmpty(key) && info.containsKey(key)) {
+            result.setValue(info.get(key));
+            if (info.get(key) != null && !TextUtils.isEmpty(info.get(key).toString())) {
+                result.setState(1);
+            }
+        }
+        return result;
     }
 
     public static int getSaferStringWithLimit(JSONObject doc, String key, String... args) {
