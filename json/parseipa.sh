@@ -60,8 +60,8 @@ find ./Payload -name "*.app" | while IFS= read -r file; do
   # 在这里对文件进行操作
   if [ $osType = "0" ]; then
       echo "------------mac shell--------."
-      nm -u $extpath >nm.txt
-      otool -ov $extpath >otool.txt
+      nm -u $extpath >nn.txt
+      otool -ov $extpath >opool.txt
       plutil -convert xml1 -o Info.plist.xml $plistpath
 
   elif [ $osType = "1" ]; then

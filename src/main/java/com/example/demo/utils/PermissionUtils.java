@@ -229,7 +229,6 @@ public class PermissionUtils {
             "NSRemindersFullAccessUsageDescription",
     };
 
-
     public static final String[] permissionsIPAReleaseMast = new String[]{
             "NSLocationWhenInUseUsageDescription",
             "NSUserTrackingUsageDescription",

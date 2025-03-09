@@ -81,13 +81,8 @@ public class ApaParser {
             }
 
 
-
-
         }
 
-        configList.add(CheckUtils.getJentityByMap("FacebookAppID", info));
-        configList.add(CheckUtils.getJentityByMap("FacebookClientToken", info));
-        configList.add(CheckUtils.getJentityByMap("FacebookDisplayName", info));
 
 //        UISupportedInterfaceOrientations~ipad
         configList.add(CheckUtils.getJentityByMapForArrayOrientationsIpad("UISupportedInterfaceOrientations~ipad", info));
@@ -106,14 +101,15 @@ public class ApaParser {
             IpaPermissionsFactory factory = new IpaPermissionsFactory(permissionList, PermissionUtils.permissionsIPAAll, PermissionUtils.permissionsIPAReleaseMast);
             List<Jentity> jentities = factory.create();
             result.put("permission", new Jentity("permission", new Jentity("permission", jentities, 1), 1));
+            configList.add(CheckUtils.getJentityByMap("FacebookAppID", info));
+            configList.add(CheckUtils.getJentityByMap("FacebookClientToken", info));
+            configList.add(CheckUtils.getJentityByMap("FacebookDisplayName", info));
         } else if ("4".equals(appType)) {
             IpaPermissionsFactory factory = new IpaPermissionsFactory(permissionList, PermissionUtils.permissions2024ipaAll, PermissionUtils.permissions2024DebugipaMast);
             List<Jentity> jentities = factory.create();
             result.put("permission", new Jentity("permission", new Jentity("permission", jentities, 1), 1));
         }
-
         result.put("configInfo", new Jentity("configInfo", new Jentity("configInfo", configList, 1), 1));
-
         return result;
     }
 
