@@ -938,7 +938,10 @@
                     } else if (-1 == v.state) {
                         stateText = "redText";
                         state = "建议删除";
-                    } else {
+                    }else if (-2 == v.state) {
+                        stateText = "redText";
+                        state = "这个版本有问题联系开发确认库版本";
+                    }  else {
                         stateText = "redText";
                         state = "缺失";
                     }

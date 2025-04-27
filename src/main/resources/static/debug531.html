@@ -595,9 +595,9 @@
 
 
                 var compileSdkVersion = data.targetSdkVersion;
-                if (compileSdkVersion < 34) {
+                if (compileSdkVersion < 35) {
                     $(".targetSdkVersion").addClass("redText");
-                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少34");
+                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少35");
                 } else {
                     $(".targetSdkVersion").html(compileSdkVersion);
                     $(".targetSdkVersion").removeClass("redText");
@@ -756,6 +756,9 @@
                     } else if (-1 == v.state) {
                         stateText = "redText";
                         state = "建议删除";
+                    } else if (-2 == v.state) {
+                        stateText = "redText";
+                        state = "这个版本有问题联系开发确认库版本";
                     } else {
                         stateText = "redText";
                         state = "缺失";

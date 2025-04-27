@@ -2,10 +2,7 @@ package com.example.demo.utils;
 
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -27,8 +24,6 @@ public class FolderFileScanner {
             "/com/lzy/okgo/" //okgo
 //            "/io/branch/"
     };
-
-
     public static final String[] PACKAGE_SHOULD_LIST = new String[]{
             "com/google/firebase/crashlytics",
             "com/google/android/gms/location",
@@ -36,22 +31,30 @@ public class FolderFileScanner {
 //            "io/branch/referral"
 //            "com/google/android/play/core/review"
     };
-
     public static final String[] STRING_SHOULD_LIST = new String[]{
             "com.google.firebase.crashlytics.mapping_file_id",
             "google_app_id",
             "google_crash_reporting_api_key",
             "firebase_database_url"
     };
-
-
     public static ArrayList<Object> scanFiles = new ArrayList<Object>();
-
     /**
      * linkedList实现
      **/
     public static LinkedList<File> queueFiles = new LinkedList<File>();
 
+    public static final Map<String, Integer> getPackageRule() {
+        Map<String, Integer> result = new HashMap<>();
+        result.put("com.facebook.soloadersoloader*", Integer.parseInt("0105"));
+        return result;
+    }
+
+
+//    public static final List<PackageRule> getRule() {
+//        List<PackageRule> result = new ArrayList<>();
+//        result.add(new PackageRule("com.facebook.soloadersoloader", 0105));
+//        return result;
+//    }
 
     public static String getRealNamePage(String packageLine) {
         packageLine = packageLine.replace(".smali", "");

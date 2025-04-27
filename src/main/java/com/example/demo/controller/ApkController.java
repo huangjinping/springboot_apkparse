@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.bean.KeepPackage;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.utils.*;
@@ -31,7 +32,6 @@ public class ApkController {
         ThreadSearchP threadp = new ThreadSearchP();
         Map<String, Object> map = threadp.parseData(savePos);
         resultMap.putAll(map);
-
         return RestResponse.success(resultMap);
     }
 
@@ -44,6 +44,7 @@ public class ApkController {
         return RestResponse.success(resultMap);
     }
 
+
     @RequestMapping(value = "/searchTaskJson", method = RequestMethod.POST)
     public RestResponse searchTaskJson(@RequestParam("savePos") String savePos) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -52,6 +53,7 @@ public class ApkController {
         resultMap.putAll(map);
         return RestResponse.success(resultMap);
     }
+
 
     @RequestMapping(value = "/uploadAppImage", method = RequestMethod.POST)
     public RestResponse uploadAppImage(@RequestParam("file") MultipartFile file) {
@@ -196,6 +198,17 @@ public class ApkController {
                     String mappingPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map";
 
                     try {
+                        List<KeepPackage> packageList = PackageParse.dependenciesRule(resultFile.getParentFile() +"/unzip/BUNDLE-METADATA/com.android.tools.build.libraries/dependencies.pb");
+
+                        List<KeepPackage> keepPackageList = (List<KeepPackage>) map.get("keepPackage");
+                        packageList.addAll(keepPackageList);
+
+                        map.put("keepPackage", packageList);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
                         File mappingFile = new File(mappingPath);
                         if (!mappingFile.exists()) {
                             map.put("minifyEnabled", "0");
@@ -259,6 +272,7 @@ public class ApkController {
 //        FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
         return RestResponse.success(resultMap);
     }
+
 
 //    @RequestMapping(value = "/getChannelPackage", method = RequestMethod.GET)
 //    public void getChannelPackage(HttpServletResponse response, @RequestParam("gclid") String gclid) {

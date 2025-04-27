@@ -10,6 +10,11 @@ import java.util.zip.GZIPOutputStream;
 public class GzipUtil {
 
 
+
+
+
+
+
     public static String compress(String str) throws IOException {
         if (null == str || str.length() <= 0) {
             return str;

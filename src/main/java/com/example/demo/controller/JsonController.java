@@ -5,11 +5,9 @@ import com.example.demo.bean.RestResponse;
 import com.example.demo.bean.UserParam;
 import com.example.demo.utils.CommandLineTool;
 import com.example.demo.utils.FileUtils;
+import com.example.demo.utils.GzipUtil;
 import com.example.demo.utils.JsonParser;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +54,72 @@ public class JsonController {
         return RestResponse.success(resultMap);
     }
 
+
+    @RequestMapping(value = "/msgFeatureV4", method = RequestMethod.POST)
+    public RestResponse msgFeatureV4(@RequestBody String compressedData) {
+        InputStream is = null;
+        Map<String, Object> resultMap = new HashMap<>();
+        String s = null;
+        try {
+//            String s = GzipUtil.unCompress(compressedData);
+            System.out.println("========server===111=================");
+//            System.out.println(s);
+            s = GzipUtil.unCompress(compressedData);
+            resultMap.put("result", s);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return RestResponse.success(resultMap);
+    }
+
+    @RequestMapping(value = "/msgFeatureV3", method = RequestMethod.POST)
+    public RestResponse msgFeatureV3(HttpServletRequest request) {
+        InputStream is = null;
+        Map<String, Object> resultMap = new HashMap<>();
+        String s = null;
+        try {
+//            String s = GzipUtil.unCompress(compressedData);
+            System.out.println("========server===111=================");
+//            System.out.println(s);
+
+            String result="{\n" +
+                    "  \"video_external\": 35,\n" +
+                    "  \"public_ip\": {\n" +
+                    "    \"second_ip\": \"172.19.0.1\",\n" +
+                    "    \"first_ip\": \"8.219.242.193\"\n" +
+                    "  }\n" +
+                    "}  ";
+
+            is = request.getInputStream();
+            s = FileUtils.inputStreamToString(is);
+            System.out.println("========server===111================="+s);
+            s = GzipUtil.unCompress(s);
+
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+//            StringBuffer sbf = new StringBuffer();
+//            String lines;
+//            while ((lines = reader.readLine()) != null) {
+//                lines = new String(lines.getBytes(), StandardCharsets.UTF_8);
+//                sbf.append(lines);
+//            }
+//            s = GzipUtil.unCompress(sbf.toString());
+
+//            System.out.println("解压大小：" + sbf);
+//            String key = "c73c94fad68f55df6d5f46e7c79ba9f5";
+            String jsontext = "ddd".toString();
+////            jsontext = AESUtil.decrypt(jsontext, key);
+////            jsontext = GzipUtil.unCompress(jsontext);
+//            System.out.println("解压大小==uploadImageForJson====：" + jsontext);
+            resultMap.put("result", s);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return RestResponse.success(resultMap);
+    }
+
+
     @RequestMapping(value = "/msgFeature", method = RequestMethod.POST)
     public RestResponse uploadImageForJson(HttpServletRequest request) {
         InputStream is = null;
@@ -91,6 +155,7 @@ public class JsonController {
         if (file.isEmpty()) {
             return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file cannot be empty");
         }
+
         String fileName = file.getOriginalFilename();
         String oldName = fileName;
         fileName = System.currentTimeMillis() + "";

@@ -9,9 +9,7 @@ import org.dom4j.XPath;
 import org.dom4j.io.SAXReader;
 import org.dom4j.xpath.DefaultXPath;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -327,6 +325,75 @@ public class PackageParse {
         return packageList;
     }
 
+
+    public static List<KeepPackage> dependenciesRule(String dependenciesPath) {
+
+        List<KeepPackage> resultList = new ArrayList<>();
+        LogUtils.log("----------dependenciesRule------" + dependenciesPath);
+
+        String reader = null;
+        BufferedReader br = null;
+        File f = new File(dependenciesPath);
+        String result = "";
+        if (f.exists()) {
+            try {
+                br = new BufferedReader(new FileReader(f));
+                while ((reader = br.readLine()) != null) {
+                    result += reader;
+//                    System.out.println("" + reader);
+
+
+                    Map<String, Integer> packageRule = FolderFileScanner.getPackageRule();
+                    for (Map.Entry<String, Integer> entry : packageRule.entrySet()) {
+                        reader = filterString(reader);
+//                        LogUtils.log("----------dependenciesRule------1---------"+reader);
+
+                        if (reader.contains(entry.getKey())) {
+                            LogUtils.log("----------dependenciesRule---------------" + reader);
+                            try {
+                                String[] codeSp = reader.split("[*]");
+                                Integer code = Integer.parseInt(codeSp[1].replace(".", ""));
+                                LogUtils.log("----------dependenciesRule-------2--------" + code);
+
+                                if (entry.getValue() > code) {
+                                    KeepPackage packageParse = new KeepPackage();
+                                    packageParse.setState(-2);
+                                    packageParse.setName(reader);
+                                    resultList.add(packageParse);
+                                    break;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+//                            if (checkRuleLine(reader, entry.getKey(), entry.getValue())) {
+//                                KeepPackage packageParse = new KeepPackage();
+//                                packageParse.setState(3);
+//                                packageParse.setName(reader);
+//                                resultList.add(packageParse);
+//                            }
+
+                            break;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return resultList;
+    }
+
+
+    private static boolean checkRuleLine(String source, String name, int code) {
+        source = source.replace("", "name").replace("*", "").replace(" ", "").replace("\"", "");
+        LogUtils.log("=======checkRuleLine=======" + source);
+        return true;
+    }
+
+
     public static Map<String, String> parseStringXML(String path, String appType) {
         SAXReader reader = new SAXReader();
         Map<String, String> colMap = new HashMap<>();
@@ -348,6 +415,14 @@ public class PackageParse {
             e.printStackTrace();
         }
         return colMap;
+    }
+
+    public static String filterString(String input) {
+        if (input == null) {
+            return "";
+        }
+        // 使用正则表达式替换非数字、非英文字符、非星号的内容
+        return input.replaceAll("[^a-zA-Z0-9*.]", "");
     }
 
 
@@ -441,9 +516,6 @@ public class PackageParse {
     public void setmRealFilePath(String mRealFilePath) {
         this.mRealFilePath = mRealFilePath;
     }
-
-
-
 
 
     public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {

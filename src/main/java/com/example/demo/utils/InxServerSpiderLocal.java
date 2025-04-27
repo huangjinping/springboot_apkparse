@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InxServerSpiderLocal {
+    private final JsonFilter mJsonFilter;
     //    public static final String reiterateheaderticketexplanation = "http://52.40.151.34/eastbay";
 //    public static final String host = "http://192.8.20.201:5700";
 //    public static final String host = "https://glby.ultracreditosmx.com/movcolombiapro";
@@ -23,7 +24,6 @@ public class InxServerSpiderLocal {
     String appssid = "40";
     Map<String, String> mPathMap;
     Map<String, String> mFieldMap;
-    private final JsonFilter mJsonFilter;
 
 
     public InxServerSpiderLocal(String json, String fileName, String appssid, String domainname, String phoneNo) {
@@ -74,9 +74,9 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("language"), "es");
 
 
-        String gaid="eb505a1a-14a0-4771-8450-9d6867319872";
-        comm.put(mFieldMap.get("googleGaid"),gaid);
-        comm.put(mFieldMap.get("gaid"),gaid);
+        String gaid = "eb505a1a-14a0-4771-8450-9d6867319872";
+        comm.put(mFieldMap.get("googleGaid"), gaid);
+        comm.put(mFieldMap.get("gaid"), gaid);
         comm.put(mFieldMap.get("imei"), gaid);
 
         if (loginUser != null) {
@@ -87,6 +87,7 @@ public class InxServerSpiderLocal {
         }
         return comm;
     }
+
 
     public Map<String, Object> start() {
         LogUtils.logJson("=============start=================");
@@ -100,13 +101,17 @@ public class InxServerSpiderLocal {
         if (loginUser != null) {
 //            checkFavorableComment();
 //            getAppConfig();
-
+//            getDocumentssmsMatcher();
 //            index();
 //            appIndex();
-            appIndexInstallment();
+//            appIndexInstallment();
 //            uploadImage();
+
 //            saveBasicCustInfo();
-            custInfoBasicQuery();
+//            addBank();
+//            custInfoBasicQuery();
+
+             queryProductInstallment();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV3();
@@ -137,7 +142,7 @@ public class InxServerSpiderLocal {
 //            getAppInfo();
 //            getSysSetting();
 //            counponList();
-//            queryProductInstallment();
+
 //            checkAddressJsonFileExist();
 //            getAppInfoUserId();
 //            getUrlForApp();
@@ -372,8 +377,10 @@ public class InxServerSpiderLocal {
 
         mapParam.put(mFieldMap.get("pageType"), "4");
         mapParam.put(mFieldMap.get("birthDay"), "10-10-2000");
-        mapParam.put(mFieldMap.get("curp"), "9212234999198");
-
+        mapParam.put(mFieldMap.get("curp"), "1234567890");
+        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
+        mapParam.put(mFieldMap.get("surnames"), "akusge");
+        mapParam.put(mFieldMap.get("names"), "asss");
 
 //        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
 //        mapParam.put(mFieldMap.get("surnames"), "akusge");
@@ -388,10 +395,13 @@ public class InxServerSpiderLocal {
 //        mapParam.put(mFieldMap.get("name"), "shhiwi");
 //        mapParam.put(mFieldMap.get("curp"), "182909872");
 
-//        mapParam.put(mFieldMap.get("phoneNumber"), "1821829112");
-//        mapParam.put(mFieldMap.get("relationshipSec"), "2");
-//        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
-//        mapParam.put(mFieldMap.get("phoneNumberSec"), "1822189922");
+        mapParam.put(mFieldMap.get("relationship"), "1");
+        mapParam.put(mFieldMap.get("name"), "shhiwi");
+        mapParam.put(mFieldMap.get("phoneNumber"), "182110112");
+        mapParam.put(mFieldMap.get("relationshipSec"), "2");
+        mapParam.put(mFieldMap.get("nameSec"), "shhiwiSec");
+        mapParam.put(mFieldMap.get("phoneNumberSec"), "182110110");
+
 
         LogUtils.logJson(mapParam);
 //        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/identification"), fileMap, mapParam, header);
@@ -526,8 +536,8 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("type"), "newrealterm");
-        mapParam.put("spanishShortsMicrocomputerLoudspeaker", "es");
+        mapParam.put(mFieldMap.get("type"), "incomeLevel");
+        mapParam.put("unhappyInformationBestConcert", "en");
         mapParam.put(mFieldMap.get("userId"), "kkkkkkkkkkk");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
@@ -562,7 +572,9 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
 //        mapParam.put(mFieldMap.get("type"), "sourceOfIncome");
-        mapParam.put(mFieldMap.get("type"), "sex");
+        mapParam.put(mFieldMap.get("type"), "loanPurpose");
+//        mapParam.put(mFieldMap.get("type"), "incomeLevel");
+
 
 //        mapParam.put("aggressiveBillHandsomeConvenientRiddle", "en");
         mapParam.put(mFieldMap.get("language"), "en");
@@ -639,7 +651,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("key"), "deafJacketFoolishExperience");
+        mapParam.put(mFieldMap.get("key"), "foreignPossibilityHarmfulSecondAirplane");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -703,6 +715,20 @@ public class InxServerSpiderLocal {
     }
 
 
+    public void getDocumentssmsMatcher() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        mapParam.put(mFieldMap.get("configKey"), "smsMatcher");
+        Map<String, String> header = commMap();
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/sysConfig/getDocuments"), header, mapParam);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+
+        }
+    }
+
     public void getDocuments(String orderId) {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -742,7 +768,7 @@ public class InxServerSpiderLocal {
         Map<String, String> header = commMap();
         Map<String, File> fileMap = new HashMap<>();
         fileMap.put(mFieldMap.get("frontImage"), new File("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/test.jpg"));
-        mapParam.put(mFieldMap.get("type"), "00");
+        mapParam.put(mFieldMap.get("type"), "02");
         String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/saveImage"), fileMap, mapParam, header);
 
         LogUtils.logJson(respStr);
@@ -901,10 +927,10 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         mapParam.put(mFieldMap.get("bankAccountNumber"), "82918372");
-        mapParam.put(mFieldMap.get("collectionType"), "1");
+        mapParam.put(mFieldMap.get("collectionType"), "2");
 
-        LogUtils.log("getAppConfig=============" + mPathMap.get("/anon/getAppConfig"));
-        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
+        LogUtils.log("getAppConfig=============" + mPathMap.get("/cust/addBank"));
+        String respStr = OkHttpUtils.postForm(host + mPathMap.get("/cust/addBank"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
@@ -1046,6 +1072,54 @@ public class InxServerSpiderLocal {
         JSONArray appArr = jsonObject.getJSONArray(mFieldMap.get("data"));
     }
 
+
+    public void msgFeatureV3ZIP() {
+        try {
+            Map<String, String> mapParam = new HashMap<>();
+            mapParam.putAll(commMap());
+            Map<String, String> header = commMap();
+            Map<String, File> fileMap = new HashMap<>();
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/182before.txt");
+
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9003.json");
+
+
+            textByPath = GzipUtil.compress(textByPath);
+//            LogUtils.logJson(textByPath);
+//            textByPath = GzipUtil.compress(textByPath);
+//            LogUtils.logJson("---------compress-----------------");
+//
+//            FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_compress.json");
+//            LogUtils.logJson("---------compress----1-------------");
+//
+//            LogUtils.logJson(textByPath);
+////            textByPath = AESUtil.encrypt(textByPath, "c8dabcd349f334a269b183837deb43f6");//9002
+//            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+//
+//            LogUtils.logJson("---------encrypt-----------------");
+//            FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_AES.json");
+
+//            textByPath = AESUtil.encrypt(textByPath, "c17f62eb9b624c86a777e25998683baa");//151
+//            textByPath = AESUtil.encrypt(textByPath, "cd417c070216a9d3da10f1d03b9446bd");//151
+//            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+
+            LogUtils.logJson(textByPath);
+            String url = "http://127.0.0.1:8092/msgFeatureV3";
+
+            url = "http://10.1.2.8:8092/msgFeatureV3";
+            String respStr = OkHttpUtils.postJson(url, textByPath, header);
+            LogUtils.logJson(respStr);
+            JSONObject jsonObject = JSON.parseObject(respStr);
+            String code = jsonObject.getString(mFieldMap.get("code"));
+            if ("1000".equals(code)) {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void msgFeatureV3() {
         try {
             Map<String, String> mapParam = new HashMap<>();
@@ -1055,20 +1129,22 @@ public class InxServerSpiderLocal {
 //            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/204.txt");
 //            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/182before.txt");
 
-            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9002.json");
+//            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9002.json");
 //            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/9003.json");
+            String textByPath = FileUtils.getTextByPath("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/466.json");
 
 
             LogUtils.logJson(textByPath);
             textByPath = GzipUtil.compress(textByPath);
             LogUtils.logJson("---------compress-----------------");
 
-            FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_compress.json");
+//            FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_compress.json");
             LogUtils.logJson("---------compress----1-------------");
 
             LogUtils.logJson(textByPath);
 //            textByPath = AESUtil.encrypt(textByPath, "c8dabcd349f334a269b183837deb43f6");//9002
-            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+//            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
+            textByPath = AESUtil.encrypt(textByPath, "c26706dec62dbb92917e27d81dbe03be");//9003
 
             LogUtils.logJson("---------encrypt-----------------");
             FileUtils.witermessage(textByPath, "/Users/huhuijie/Documents/GitHub/springboot_apkparse/json", appssid + "_AES.json");
@@ -1077,6 +1153,7 @@ public class InxServerSpiderLocal {
 //            textByPath = AESUtil.encrypt(textByPath, "cd417c070216a9d3da10f1d03b9446bd");//151
 //            textByPath = AESUtil.encrypt(textByPath, "eb5f389969d354350e3342b8d7a421b0");//9003
 
+//            header.put(mFieldMap.get("encyptFlag"),"1");
             LogUtils.logJson(textByPath);
             String respStr = OkHttpUtils.postJson(host + mPathMap.get("/feature/msgFeatureV3"), textByPath, header);
             LogUtils.logJson(respStr);
@@ -1150,7 +1227,6 @@ public class InxServerSpiderLocal {
             mapParam.put(mFieldMap.get("productId"), productId);
             mapParam.put(mFieldMap.get("productId"), productId);
             mapParam.put(mFieldMap.get("orderType"), "1");
-
 
             respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/preAmountInstallment"), header, mapParam);
             LogUtils.logJson(respStr);

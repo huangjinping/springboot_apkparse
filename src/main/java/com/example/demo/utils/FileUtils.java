@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -111,6 +112,16 @@ public class FileUtils {
 //            log.error("list path error", e);
             result.set(false);
         }
+    }
+
+    public static String inputStreamToString(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        return outputStream.toString(StandardCharsets.UTF_8.name());
     }
 
 }
