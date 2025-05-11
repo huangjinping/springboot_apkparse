@@ -17,6 +17,12 @@ import java.util.Map;
 
 public class PackageParse {
 
+    static final int APP_TYPE_FLUTTER = 3;
+
+  public   static final int ANDROID_PACKAGE_TYPE_APK = 0;
+    public static final int ANDROID_PACKAGE_TYPE_AAB = 1;
+
+
     static final String V8A = "arm64-v8a";
     static final String V71 = "armeabi-v7a";
 
@@ -450,8 +456,45 @@ public class PackageParse {
      */
     public static int checkTypeByPath(String path) {
         int result = 0;
+
+        LogUtils.log("==========checkTypeByPath>>>>>222>>>2=============" + path);
+
+
         try {
             String v8a = path + "/base/lib/arm64-v8a/";
+            File react = new File(v8a + "libreactnativejni.so");
+            File uni = new File(v8a + "libweexcore.so");
+            File flutter = new File(v8a + "libflutter.so");
+
+
+            if (react.exists()) {
+                result = 1;
+            } else if (uni.exists()) {
+                result = 2;
+            } else if (flutter.exists()) {
+                result = 3;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    /**
+     * @param path
+     * @return
+     */
+    public static int checkTypeByPathV2(String path) {
+        int result = 0;
+
+//        LogUtils.log("==========checkTypeByPath>>>>>222>>>2=============" + path);
+
+
+        try {
+            String v8a = path + "/lib/arm64-v8a/";
+//            LogUtils.log("==========checkTypeByPath>>>>>cccc>>>444============" + path);
+
             File react = new File(v8a + "libreactnativejni.so");
             File uni = new File(v8a + "libweexcore.so");
             File flutter = new File(v8a + "libflutter.so");
@@ -518,7 +561,7 @@ public class PackageParse {
     }
 
 
-    public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType) throws Exception {
+    public Map<String, Object> parseAndroidManifestByCmd(String apktoolPath, String apkFastPath, String outFilePath, String appType, int android_package_type) throws Exception {
 
 
 //        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
@@ -531,7 +574,7 @@ public class PackageParse {
 
         ThreadM threadM = new ThreadM(this);
 
-        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType);
+        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType,android_package_type);
 
 //        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
 //        File file = new File(apktoolPath);

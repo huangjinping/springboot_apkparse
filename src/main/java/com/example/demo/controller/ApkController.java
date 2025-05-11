@@ -136,10 +136,10 @@ public class ApkController {
             PackageParse packageParse = new PackageParse();
             packageParse.setmRealFilePath(resultFile.getAbsolutePath());
 //            System.out.println("=======suffix=====" + suffix);
-            System.out.println(unzipPath + "=======suffix=" + resultFile.getAbsolutePath() + "=2===" + savePos.getAbsolutePath());
+//            System.out.println(unzipPath + "=======suffix=" + resultFile.getAbsolutePath() + "=2===" + savePos.getAbsolutePath());
 
             if (".apk".equals(suffix)) {
-                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType);
+                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType,PackageParse.ANDROID_PACKAGE_TYPE_APK);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 map.putAll(PackageParse.getApkLengthByList(resultFile.getAbsolutePath()));
                 map.putAll(PackageParse.parseApkLibs(unzipPath));
@@ -166,6 +166,12 @@ public class ApkController {
 
                 File deviceApkFile = new File(deviceApkPath);
 
+//                =====解压缩====
+                String unzipAbsolutePath = resultFile.getParentFile() + "/unzip";
+                ZIPUtils.unzip(aabPath, unzipAbsolutePath);
+//                ----------
+
+
                 String masterApkPath = deviceApkPath + "/base-master.apk";
 
                 for (File childFile : deviceApkFile.listFiles()) {
@@ -175,9 +181,9 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
-                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType);
+                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType,PackageParse.ANDROID_PACKAGE_TYPE_AAB);
 
-                LogUtils.log("---------------get-size total---------------------->");
+//                LogUtils.log("---------------get-size total---------------------->");
                 cmd = bundletooPath + " get-size total --apks " + apksPath;
 
 //                cmd = bundletooPath + " get-size total --apks " + apksPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
@@ -186,8 +192,6 @@ public class ApkController {
                 List<String> result = CommandLineTool.executeNewFlow(commands);
 
                 try {
-                    String unzipAbsolutePath = resultFile.getParentFile() + "/unzip";
-                    ZIPUtils.unzip(aabPath, unzipAbsolutePath);
 
                     try {
                         map.putAll(PackageParse.getAbbLengthByList(aabPath, result, unzipAbsolutePath));
@@ -198,7 +202,7 @@ public class ApkController {
                     String mappingPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map";
 
                     try {
-                        List<KeepPackage> packageList = PackageParse.dependenciesRule(resultFile.getParentFile() +"/unzip/BUNDLE-METADATA/com.android.tools.build.libraries/dependencies.pb");
+                        List<KeepPackage> packageList = PackageParse.dependenciesRule(resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.libraries/dependencies.pb");
 
                         List<KeepPackage> keepPackageList = (List<KeepPackage>) map.get("keepPackage");
                         packageList.addAll(keepPackageList);
@@ -212,15 +216,15 @@ public class ApkController {
                         File mappingFile = new File(mappingPath);
                         if (!mappingFile.exists()) {
                             map.put("minifyEnabled", "0");
-                            System.out.println("----------minifyEnabled0------。");
+//                            System.out.println("----------minifyEnabled0------。");
 
                         } else {
                             map.put("minifyEnabled", "1");
-                            System.out.println("----------minifyEnabled1------。");
+//                            System.out.println("----------minifyEnabled1------。");
 
                         }
                     } catch (Exception e) {
-                        System.out.println("----------minifyEnabled2------。");
+//                        System.out.println("----------minifyEnabled2------。");
 
                         e.printStackTrace();
                     }
@@ -236,7 +240,7 @@ public class ApkController {
                 List<String> commands = new ArrayList<>();
                 ApaParser apaParser = new ApaParser();
                 apaParser.setAppType(appType);
-                LogUtils.logJson("======resultFile00========" + resultFile.getName());
+//                LogUtils.logJson("======resultFile00========" + resultFile.getName());
                 commands.add("./json/parseipa.sh " + savePos.getAbsolutePath() + " " + resultFile.getName());
                 List<String> strings = CommandLineTool.executeNewFlow(commands);
                 Map<String, Object> objectMap = apaParser.parseIOSipa(savePos.getAbsolutePath());

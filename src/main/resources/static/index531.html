@@ -938,10 +938,10 @@
                     } else if (-1 == v.state) {
                         stateText = "redText";
                         state = "建议删除";
-                    }else if (-2 == v.state) {
+                    } else if (-2 == v.state) {
                         stateText = "redText";
                         state = "这个版本有问题联系开发确认库版本";
-                    }  else {
+                    } else {
                         stateText = "redText";
                         state = "缺失";
                     }
@@ -960,6 +960,21 @@
 
 
                 });
+
+
+                var google_app_id = "google_app_id";
+                var google_app_id_Value = data.Strings["google_app_id"];
+                var state = 1;
+
+                if (!isEmpty(google_app_id_Value)) {
+                    state = google_app_id_Value;
+
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + google_app_id + "</span><span class=\"resultlistate " + google_app_id_Value + "\">" + state + "</span>\n" +
+                        "            </li>";
+                }
+
+
                 $(".keepLibUl").html(autoHtml);
 
             }

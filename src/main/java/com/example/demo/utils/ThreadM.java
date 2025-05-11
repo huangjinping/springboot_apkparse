@@ -5,6 +5,7 @@ import com.example.demo.bean.UserParam;
 import org.dom4j.DocumentException;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class ThreadM {
 //    }
 
 
-    public Map<String, Object> parseApkData(String apktoolPath, String apkFastPath, String outFilePath, String appType) {
+    public Map<String, Object> parseApkData(String apktoolPath, String apkFastPath, String outFilePath, String appType, int android_package_type) {
         Map<String, Object> result = new HashMap<>();
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(20, 50, 4, TimeUnit.SECONDS,
@@ -102,6 +103,28 @@ public class ThreadM {
             @Override
             public void run() {
                 try {
+                    String libPath = outFilePath;
+                    if (PackageParse.ANDROID_PACKAGE_TYPE_AAB == android_package_type) {
+                        File file = new File(outFilePath);
+                        libPath = file.getParentFile().getParentFile().getAbsolutePath() + "/unzip/base";
+                    }
+//                    LogUtils.log("==========threadPoolExecutor>>>>>222>>>2=============" + libPath);
+                    int i = PackageParse.checkTypeByPathV2(libPath);
+//                    LogUtils.log("==========threadPoolExecutor>>>>>444>>=============" + i);
+                    if (i == PackageParse.APP_TYPE_FLUTTER) {
+//                        LogUtils.log("==========threadPoolExecutor>>>>>333>>>=============" + libPath);
+                        List<String> commands = new ArrayList<>();
+                        String libflutterSoPath = libPath + "/lib/arm64-v8a/libflutter.so";
+                        String libappSoPath = libPath + "/lib/arm64-v8a/libapp.so";
+//                        LogUtils.log("==========threadPoolExecutor>>>>>333>>>=============" + libappSoPath);
+//                        LogUtils.log("==========threadPoolExecutor>>>>>333>>>=============" + libflutterSoPath);
+
+                        commands.add("strings " + libflutterSoPath + " >" + outFilePath + "/libflutter.txt");
+                        commands.add("strings " + libappSoPath + " >" + outFilePath + "/libapp.txt");
+
+                        CommandLineTool.executeNewFlow(commands);
+                    }
+
 
                     Map<String, Object> domainName = PackageParse.parseDomainName(outFilePath);
                     result.putAll(domainName);
