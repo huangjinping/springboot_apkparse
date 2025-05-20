@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>上传图片或 PDF</title>
+</head>
+<body>
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+  <label for="fileInput">选择图片或 PDF:</label>
+  <input type="file" id="fileInput" name="file" accept="image/*,application/pdf" />
+  <button type="submit">上传</button>
+</form>
+
+<div id="fileDetails"></div>
+
+<script>
+  // 显示选择的文件信息
+  document.getElementById('fileInput').addEventListener('change', function() {
+    const file = this.files[0];
+    const details = document.getElementById('fileDetails');
+    details.innerHTML = '';
+
+    if (file) {
+      const fileSize = file.size > 1024 * 1024
+              ? (file.size / (1024 * 1024)).toFixed(2) + ' MB'
+              : (file.size / 1024).toFixed(2) + ' KB';
+      details.innerHTML = `文件: ${file.name}<br>大小: ${fileSize}<br>类型: ${file.type}`;
+    }
+  });
+
+  // 提交表单并上传文件
+  document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+
+    // fetch('YOUR_SERVER_UPLOAD_URL', {
+    //   method: 'POST',
+    //   body: formData
+    // })
+    //         .then(response => response.json())
+    //         .then(data => alert(data.message))
+    //         .catch(error => alert('上传失败: ' + error));
+  });
+</script>
+</body>
+</html>

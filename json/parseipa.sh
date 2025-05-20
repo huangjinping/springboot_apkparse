@@ -3,6 +3,8 @@ echo "开始下载";
 
 pwd;
 
+#plistutil  linux 需要安装这个库  --------------注意！注意！注意！----------------
+
 rootPath=$1
 
 cd $rootPath
@@ -16,7 +18,6 @@ ls;
 # 打印传递给脚本的所有参数
 echo "第一个参数: $1"
 echo "第二个参数: $2"
-
 
 # for file in /path/to/directory/*; do
 #   echo $file

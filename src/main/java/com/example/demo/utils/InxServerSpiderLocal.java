@@ -104,7 +104,7 @@ public class InxServerSpiderLocal {
 //            getDocumentssmsMatcher();
 //            index();
 //            appIndex();
-            appIndexInstallment();
+//            appIndexInstallment();
 //            uploadImage();
 
 //            orderListForMulAppInstallment();
@@ -114,7 +114,7 @@ public class InxServerSpiderLocal {
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
 //
-//            queryProductInstallment();
+            queryProductInstallment();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV5();
@@ -686,7 +686,7 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("key"), "foreignPossibilityHarmfulSecondAirplane");
+        mapParam.put(mFieldMap.get("key"), "difficultTail,pacificCastleJam,lameProblemCanal,unhappySmogMarket,skilledSalaryTibetanPet,musicalCommunistSuffering,localChemistry");
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppSetting"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -906,45 +906,45 @@ public class InxServerSpiderLocal {
             mapParam.put(mFieldMap.get("productId"), productId);
 
 
-            respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/preAmount"), header, mapParam);
-            LogUtils.logJson(respStr);
-
-
-            respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/preSubmitOrder"), header, mapParam);
-            jsonObject = JSON.parseObject(respStr);
-            jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
-            LogUtils.logJson(respStr);
-            LogUtils.logJson("=====================0");
-
-            LogUtils.logJson(jsonData);
-
-            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
-
-                LogUtils.logJson("=====================1");
-
-                JSONArray contractList = jsonData.getJSONArray(mFieldMap.get("contractList"));
-                LogUtils.logJson("=====================2");
-
-                for (int i = 0; i < contractList.size(); i++) {
-                    int appListState = 1;
-                    JSONObject item1 = contractList.getJSONObject(i);
-                    String key = "url";
-                    Map<String, Object> app = new HashMap<>();
-                    String value = item1.getString(mFieldMap.get("url"));
-                    int i1 = checkRealPath(value);
-                    app.put(key, new Jentity(key, value, i1));
-                    if (i1 == 0) {
-                        appListState = 0;
-                    }
-                    if (appListState == 0) {
-                        appAllState = appListState;
-                    }
-                    appList.add(new Jentity(key, app, appListState));
-
-                }
-            } else {
-                appAllState = 0;
-            }
+//            respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/preAmount"), header, mapParam);
+//            LogUtils.logJson(respStr);
+//
+//
+//            respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/preSubmitOrder"), header, mapParam);
+//            jsonObject = JSON.parseObject(respStr);
+//            jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+//            LogUtils.logJson(respStr);
+//            LogUtils.logJson("=====================0");
+//
+//            LogUtils.logJson(jsonData);
+//
+//            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
+//
+//                LogUtils.logJson("=====================1");
+//
+//                JSONArray contractList = jsonData.getJSONArray(mFieldMap.get("contractList"));
+//                LogUtils.logJson("=====================2");
+//
+//                for (int i = 0; i < contractList.size(); i++) {
+//                    int appListState = 1;
+//                    JSONObject item1 = contractList.getJSONObject(i);
+//                    String key = "url";
+//                    Map<String, Object> app = new HashMap<>();
+//                    String value = item1.getString(mFieldMap.get("url"));
+//                    int i1 = checkRealPath(value);
+//                    app.put(key, new Jentity(key, value, i1));
+//                    if (i1 == 0) {
+//                        appListState = 0;
+//                    }
+//                    if (appListState == 0) {
+//                        appAllState = appListState;
+//                    }
+//                    appList.add(new Jentity(key, app, appListState));
+//
+//                }
+//            } else {
+//                appAllState = 0;
+//            }
         } catch (Exception e) {
             appAllState = 0;
             e.printStackTrace();
@@ -1269,42 +1269,42 @@ public class InxServerSpiderLocal {
             respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/commonContractList"), header, mapParam);
             LogUtils.logJson(respStr);
 
-
-            respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/submitOrderInstallment"), header, mapParam);
-            jsonObject = JSON.parseObject(respStr);
-            jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
-            LogUtils.logJson(respStr);
-            LogUtils.logJson("=====================0");
-
-            LogUtils.logJson(jsonData);
-
-            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
-
-                LogUtils.logJson("=====================1");
-
-                JSONArray contractList = jsonData.getJSONArray(mFieldMap.get("contractList"));
-                LogUtils.logJson("=====================2");
-
-                for (int i = 0; i < contractList.size(); i++) {
-                    int appListState = 1;
-                    JSONObject item1 = contractList.getJSONObject(i);
-                    String key = "url";
-                    Map<String, Object> app = new HashMap<>();
-                    String value = item1.getString(mFieldMap.get("url"));
-                    int i1 = checkRealPath(value);
-                    app.put(key, new Jentity(key, value, i1));
-                    if (i1 == 0) {
-                        appListState = 0;
-                    }
-                    if (appListState == 0) {
-                        appAllState = appListState;
-                    }
-                    appList.add(new Jentity(key, app, appListState));
-
-                }
-            } else {
-                appAllState = 0;
-            }
+//
+//            respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/submitOrderInstallment"), header, mapParam);
+//            jsonObject = JSON.parseObject(respStr);
+//            jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
+//            LogUtils.logJson(respStr);
+//            LogUtils.logJson("=====================0");
+//
+//            LogUtils.logJson(jsonData);
+//
+//            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
+//
+//                LogUtils.logJson("=====================1");
+//
+//                JSONArray contractList = jsonData.getJSONArray(mFieldMap.get("contractList"));
+//                LogUtils.logJson("=====================2");
+//
+//                for (int i = 0; i < contractList.size(); i++) {
+//                    int appListState = 1;
+//                    JSONObject item1 = contractList.getJSONObject(i);
+//                    String key = "url";
+//                    Map<String, Object> app = new HashMap<>();
+//                    String value = item1.getString(mFieldMap.get("url"));
+//                    int i1 = checkRealPath(value);
+//                    app.put(key, new Jentity(key, value, i1));
+//                    if (i1 == 0) {
+//                        appListState = 0;
+//                    }
+//                    if (appListState == 0) {
+//                        appAllState = appListState;
+//                    }
+//                    appList.add(new Jentity(key, app, appListState));
+//
+//                }
+//            } else {
+//                appAllState = 0;
+//            }
         } catch (Exception e) {
             appAllState = 0;
             e.printStackTrace();
