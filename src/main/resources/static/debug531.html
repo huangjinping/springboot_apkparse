@@ -195,6 +195,8 @@
         </ul>
         <ul class="isDebugUl">
         </ul>
+        <ul class="minifyEnabled">
+        </ul>
         <div class="resultTitle">
             Application (占坑配置)
         </div>
@@ -778,15 +780,15 @@
 
                 });
 
-                var google_app_id = "google_app_id";
-                var google_app_id_Value = "";
-                var state = 1;
-                if (!isEmpty(data.Strings["google_app_id"])) {
-                    google_app_id_Value = data.Strings["google_app_id"];
-                    autoHtml += "  <li class=\"resultli\">\n" +
-                        "                <span class=\"resultliname\">" + google_app_id + "</span><span class=\"resultlistate " + google_app_id_Value + "\">" + state + "</span>\n" +
-                        "            </li>";
-                }
+                // var google_app_id = "google_app_id";
+                // var google_app_id_Value = "";
+                // var state = 1;
+                // if (!isEmpty(data.Strings["google_app_id"])) {
+                //     google_app_id_Value = data.Strings["google_app_id"];
+                //     autoHtml += "  <li class=\"resultli\">\n" +
+                //         "                <span class=\"resultliname\">" + google_app_id + "</span><span class=\"resultlistate " + google_app_id_Value + "\">" + state + "</span>\n" +
+                //         "            </li>";
+                // }
 
 
 
@@ -914,6 +916,28 @@
                 $(".isDebugUl").html(autoHtml);
 
             }
+
+
+            $(".minifyEnabled").html("");
+            if (!isEmpty(data.minifyEnabled)) {
+                var autoHtml = "";
+                var v = data.isDebug;
+                var state = "";
+                var stateText = "";
+                if ("0" == data.minifyEnabled) {
+                    stateText = "redText";
+                    state = "该包代码未混淆";
+                } else if ("1" == data.minifyEnabled) {
+                    state = "该包代码已混淆";
+                }
+                autoHtml += "  <li class=\"resultli\">\n" +
+                    "                <span class=\"resultliname\">" + "" + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                    "            </li>";
+                $(".minifyEnabled").html(autoHtml);
+            }
+
+
+
 
         }
 

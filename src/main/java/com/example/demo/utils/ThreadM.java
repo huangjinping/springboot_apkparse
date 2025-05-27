@@ -85,7 +85,7 @@ public class ThreadM {
             public void run() {
                 try {
 
-                    Map<String, Object> parsePackage = PackageParse.parsePackage(outFilePath);
+                    Map<String, Object> parsePackage = PackageParse.parsePackage(outFilePath,appType);
                     result.putAll(parsePackage);
                     Map<String, Object> objectMap = PackageParse.parseFileCert(packageParse.getmRealFilePath());
                     result.putAll(objectMap);

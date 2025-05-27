@@ -62,6 +62,9 @@ public class InxServerSpider {
             if (srcUrl.contains("ultracreditosmx.com")) {
                 return -1;
             }
+            if (srcUrl.contains("www.baidu.com")) {
+                return -1;
+            }
         } catch (Exception e) {
         }
 

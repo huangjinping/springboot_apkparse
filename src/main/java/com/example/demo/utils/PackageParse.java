@@ -17,12 +17,9 @@ import java.util.Map;
 
 public class PackageParse {
 
-    static final int APP_TYPE_FLUTTER = 3;
-
-  public   static final int ANDROID_PACKAGE_TYPE_APK = 0;
+    public static final int ANDROID_PACKAGE_TYPE_APK = 0;
     public static final int ANDROID_PACKAGE_TYPE_AAB = 1;
-
-
+    static final int APP_TYPE_FLUTTER = 3;
     static final String V8A = "arm64-v8a";
     static final String V71 = "armeabi-v7a";
 
@@ -234,12 +231,12 @@ public class PackageParse {
         return parseDomainNameResult;
     }
 
-    public static Map<String, Object> parsePackage(String filePath) {
+    public static Map<String, Object> parsePackage(String filePath, String appType) {
         Map<String, Object> parsePackageResult = new HashMap<>();
         try {
             LogUtils.log("parsePackage====:" + filePath);
             ArrayList<Object> fileList = FolderFileScanner.startScanFilesWithRecursion(filePath);
-            parsePackageResult.put("keepPackage", getKeepList(fileList));
+            parsePackageResult.put("keepPackage", getKeepList(fileList, appType));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,17 +278,19 @@ public class PackageParse {
         return parseFileCert;
     }
 
-    private static List<KeepPackage> getKeepList(ArrayList<Object> fileList) {
+    private static List<KeepPackage> getKeepList(ArrayList<Object> fileList, String appType) {
         Map<String, String> catchMap = new HashMap<>();
         List<KeepPackage> packageList = new ArrayList<>();
 
 
         List<KeepPackage> shouldList = new ArrayList<>();
-        for (String shouldItem : FolderFileScanner.PACKAGE_SHOULD_LIST) {
-            KeepPackage keepPackage = new KeepPackage();
-            keepPackage.setName(shouldItem);
-            keepPackage.setState(0);
-            shouldList.add(keepPackage);
+        if (AppConfig.AppType.TYPE_RELEASE531.equals(appType) || AppConfig.AppType.TYPE_RELEASE.equals(appType)) {
+            for (String shouldItem : FolderFileScanner.PACKAGE_SHOULD_LIST) {
+                KeepPackage keepPackage = new KeepPackage();
+                keepPackage.setName(shouldItem);
+                keepPackage.setState(0);
+                shouldList.add(keepPackage);
+            }
         }
 
 
@@ -574,7 +573,7 @@ public class PackageParse {
 
         ThreadM threadM = new ThreadM(this);
 
-        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType,android_package_type);
+        Map<String, Object> map = threadM.parseApkData(apktoolPath, apkFastPath, outFilePath, appType, android_package_type);
 
 //        Map<String, Object> map = ManiParse.parseAndroidManifest(outFilePath + "/AndroidManifest.xml", appType);
 //        File file = new File(apktoolPath);
