@@ -227,6 +227,10 @@ public class PermissionUtils {
             "NSCalendarsFullAccessUsageDescription",
             "NSCameraUsageDescription",
             "NSRemindersFullAccessUsageDescription",
+            "NSLocationUsageDescription",
+            "NSMicrophoneUsageDescription",
+            "NSLocationAlwaysAndWhenInUseUsageDescription",
+
     };
 
     public static final String[] permissionsIPAReleaseMast = new String[]{

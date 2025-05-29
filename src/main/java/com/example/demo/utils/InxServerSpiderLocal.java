@@ -103,7 +103,7 @@ public class InxServerSpiderLocal {
 //        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
-//            getAppConfig();
+            getAppConfig();
 //            getDocumentssmsMatcher();
 //            index();
 //            appIndex();
@@ -117,7 +117,7 @@ public class InxServerSpiderLocal {
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
 //
-            queryProductInstallment();
+//            queryProductInstallment();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV5();
@@ -610,7 +610,8 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
 //        mapParam.put(mFieldMap.get("type"), "sourceOfIncome");
-        mapParam.put(mFieldMap.get("type"), "bankNameList");
+        mapParam.put(mFieldMap.get("type"), "collectiontype");
+
 //        mapParam.put(mFieldMap.get("type"), "prettyJeansSoftSki");
 
 

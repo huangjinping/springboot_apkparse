@@ -18,7 +18,6 @@ public class HelloController {
 
 
     @RequestMapping("/demo/nbjson")
-
     public ModelAndView nbjson() {
         return new ModelAndView("nbjson");
     }

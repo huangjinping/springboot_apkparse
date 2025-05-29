@@ -66,7 +66,6 @@ public class JsonController {
 //            System.out.println(s);
             s = GzipUtil.unCompress(compressedData);
             resultMap.put("result", s);
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

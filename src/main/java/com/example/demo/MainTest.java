@@ -188,6 +188,29 @@ public class MainTest {
 
         try {
 
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretimmediat.json");
+                String fileName = "pretimmediat";
+                String appssid = "478";
+//                String domainname = "https://test.pretimmediatpi.com/";
+                String domainname = "https://www.pretimmediatpi.com/";
+                String phoneNo = "1831006111";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/cashnow.json");
+//                String fileName = "cashnow";
+//                String appssid = "9160";
+//                String domainname = "https://malaysia.alpacashapple.com/";
+////                String domainname = "https://temp.alpacashapple.com";
+////                String domainname = "https://my.ultracreditosmx.com/";
+//                String phoneNo = "183662122";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+
 
 //                        {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/prestamoexpres.json");
@@ -269,15 +292,15 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/efectivolisto.json");
-                String fileName = "efectivolisto";
-                String appssid = "494";
-                String domainname = "https://temp.platacolombia.com/";
-                String phoneNo = "183990099";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/efectivolisto.json");
+//                String fileName = "efectivolisto";
+//                String appssid = "494";
+//                String domainname = "https://temp.platacolombia.com/";
+//                String phoneNo = "183990099";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/financiasmart.json");
@@ -321,15 +344,6 @@ public class MainTest {
 //                inxServerSpiderLocal.start();
 //            }
 
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/cashnow.json");
-//                String fileName = "cashnow";
-//                String appssid = "9160";
-//                String domainname = "https://temp.alpacashapple.com/";
-//                String phoneNo = "183662152";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/gradualfinancing.json");
@@ -365,15 +379,6 @@ public class MainTest {
 //            https://test.pretimmediatpi.com/pretimmediat/tightThirst/divideBusyKey
 
 
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretimmediat.json");
-//                String fileName = "pretimmediat";
-//                String appssid = "478";
-//                String domainname = "https://test.pretimmediatpi.com/";
-//                String phoneNo = "1831006111";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
 //            https://test.pretimmediatpi.com/pretimmediatpis/privacy.html
 
 //            {
