@@ -15,11 +15,20 @@ public class StringTask {
             "CLICK_BASIC_INF_NP",
             "CLICK_BASIC_INF_SUBMIT",
             "CLICK_WORK_INF_BOX",
-            "CLICK_WORK_INF_NP",
-            "CLICK_WORK_INF_SUBMIT",
-            "CLICK_CONTACT_INF_BOX",
-            "CLICK_CONTACT_INF_NP",
-            "CLICK_CONTACT_INF_SUBMIT",
+//            "CLICK_WORK_INF_NP",
+//            "CLICK_WORK_INF_SUBMIT",
+//            "CLICK_CONTACT_INF_BOX",
+//            "CLICK_CONTACT_INF_NP",
+//            "CLICK_CONTACT_INF_SUBMIT",
+//            "ID_PICTURE_FORE_START",
+//            "ID_PICTURE_BACK_START",
+//            "FACE_PICTURE_START",
+//            "USER_INFO_ENTER",
+//            "USER_INFO_SUBMIT",
+//            "FORE_PICTURE_CANCEL",
+//            "BACK_PICTURE_CANCEL",
+//            "FACE_PICTURE_CANCEL"
+
 //            "CLICK_CONTACT_INF_SUBMIT_T",
 //            "SYSTEM_ENTER_ID_INF",
 //            "CLICK_ID_PICTURE_SUBMIT_1",
@@ -54,12 +63,31 @@ public class StringTask {
             "CLICK_ID_FACE_SUBMIT",
             "ID_FACE_SUBMIT_T",
             "ID_FACE_SUBMIT_F",
-            "CLICK_ID_INF_SUBMIT",
-            "CLICK_BANK_CARD_BOX",
-            "CLICK_BANK_CARD_NP",
-            "CLICK_BANK_CARD_SUBMIT",
-            "CLICK_BANK_CARD_SUBMIT_T",
-            "CLICK_LOAN_SUBMIT"
+//            "CLICK_ID_INF_SUBMIT",
+//            "CLICK_BANK_CARD_BOX",
+//            "CLICK_BANK_CARD_NP",
+//            "CLICK_BANK_CARD_SUBMIT",
+//            "CLICK_BANK_CARD_SUBMIT_T",
+//            "CLICK_LOAN_SUBMIT",
+//            "ACCESS_LOCATION_1",
+//            "ACCESS_LOCATION_2",
+//            "ACCESS_LOCATION_3",
+//            "SAVE_LOCATION_1",
+//            "SAVE_LOCATION_2",
+//            "SAVE_LOCATION_3",
+//            "ACCESS_LOCATION_PERMISSION",
+//            "ACCESS_LOCATION_HOME",
+//            "ACCESS_LOCATION_BASIC",
+//            "ACCESS_LOCATION_WORK",
+//            "ACCESS_LOCATION_CONTACT",
+//            "ACCESS_LOCATION_ID",
+//            "ID_PICTURE_UPLOAD_1_F",
+//            "ID_FACE_UPLOAD_F",
+//            "ACCESS_LOCATION_BANK",
+//            "ACCESS_LOCATION_LOAN",
+//            "ID_PICTURE_UPLOAD_2_F",
+
+
     };
 
 
@@ -181,7 +209,11 @@ public class StringTask {
             "regionLevel",
             "frontImage",
             "frontUrl",
-            "cardBackUrl"
+            "cardBackUrl",
+
+
+
+
     };
 
     public static String[] SearchLog4 = {
@@ -205,6 +237,69 @@ public class StringTask {
             "orderListForMulApp",
             "uploadRiskPoint",
             "uploadOperation"
+    };
+
+
+
+    public static String[] getSearchLog5={
+            "CLICK_ID_INF_SUBMIT",
+            "CLICK_BANK_CARD_BOX",
+            "CLICK_BANK_CARD_NP",
+            "CLICK_BANK_CARD_SUBMIT",
+            "CLICK_BANK_CARD_SUBMIT_T",
+            "CLICK_LOAN_SUBMIT",
+            "ACCESS_LOCATION_1",
+            "ACCESS_LOCATION_2",
+            "ACCESS_LOCATION_3",
+            "SAVE_LOCATION_1",
+            "SAVE_LOCATION_2",
+            "SAVE_LOCATION_3",
+            "ACCESS_LOCATION_PERMISSION",
+            "ACCESS_LOCATION_HOME",
+            "ACCESS_LOCATION_BASIC",
+            "ACCESS_LOCATION_WORK",
+            "ACCESS_LOCATION_CONTACT",
+            "ACCESS_LOCATION_ID",
+            "ID_PICTURE_UPLOAD_1_F",
+            "ID_FACE_UPLOAD_F",
+            "ACCESS_LOCATION_BANK",
+            "ACCESS_LOCATION_LOAN",
+            "ID_PICTURE_UPLOAD_2_F",
+            "CLICK_WORK_INF_NP",
+            "CLICK_WORK_INF_SUBMIT",
+            "CLICK_CONTACT_INF_BOX",
+            "CLICK_CONTACT_INF_NP",
+            "CLICK_CONTACT_INF_SUBMIT",
+            "ID_PICTURE_FORE_START",
+            "ID_PICTURE_BACK_START",
+            "FACE_PICTURE_START",
+            "USER_INFO_ENTER",
+            "USER_INFO_SUBMIT",
+            "FORE_PICTURE_CANCEL",
+            "BACK_PICTURE_CANCEL",
+            "FACE_PICTURE_CANCEL",
+            "SYSTEM_INIT_OPEN_",
+            "BASIC_INFO_START",
+            "BASIC_INFO_END",
+            "WORK_INFO_START",
+            "WORK_INFO_END",
+            "CONTACT_INFO_START",
+            "CONTACT_INFO_END",
+            "IDENTITY_INFO_START",
+            "ID_PICTURE_FORE_START",
+            "ID_PICTURE_BACK_START",
+            "FACE_PICTURE_START",
+            "FACE_PICTURE_END",
+            "USER_INFO_ENTER",
+            "USER_INFO_SUBMIT",
+            "BANK_CARD_MODIFY",
+            "CONTACT_INFO_MODIFY",
+            "FORE_PICTURE_UPLOAD",
+            "BACK_PICTURE_UPLOAD",
+            "FACE_PICTURE_UPLOAD",
+            "FORE_PICTURE_CANCEL",
+            "BACK_PICTURE_CANCEL",
+            "FACE_PICTURE_CANCEL",
     };
 
 

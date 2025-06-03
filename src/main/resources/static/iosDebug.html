@@ -273,6 +273,8 @@
         </ul>
         <ul class="searchResultJson">
         </ul>
+        <ul class="searchResultLog">
+        </ul>
 
         <div class="resultTitle">
             <div>接口字段字符串关联检测 <span class="appAlert" style="padding: 10px">（注意：已提交单产品业务包的不必考虑此项）</span></div>
@@ -370,6 +372,8 @@
                     searchTaskFiled(res);
                     searchTaskPath(res);
                     searchTaskJson(res);
+                    searchTaskLog(res);
+
                 },
                 error: function (err) {
                     $(".appFileNameView").css("display", 'none');
@@ -477,6 +481,56 @@
                 }
             });
         }
+
+
+        function searchTaskLog(e) {
+            var savePos = e.data.savePos;
+            if (isEmpty(savePos)) {
+                return;
+            }
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            $.ajax({
+                url: "/searchTaskLog",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    console.log("---------searchTaskLog-------");
+                    var res = eval('(' + data + ')');
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    dataRes.searchJson.forEach(function (v, i) {
+                        var state = "";
+                        var stateText = "";
+                        if (1 == v.state) {
+                            state = "";
+                        } else if (-1 == v.state) {
+                            stateText = "redText";
+                            state = "问题字符";
+                        }
+                        stateText = "redText";
+                        state = "问题字符";
+                        // stateText = "redText";
+                        autoHtml += "  <li class=\"resultli\">\n" +
+                            "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                            "            </li>";
+                    });
+                    $(".searchResultLog").html(autoHtml);
+
+
+
+                },
+                error: function (err) {
+
+                    console.error(err);
+                }
+            });
+        }
+
 
         function searchTaskFiled(e) {
             var savePos = e.data.savePos;

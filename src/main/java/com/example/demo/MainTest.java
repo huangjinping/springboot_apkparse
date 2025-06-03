@@ -1,13 +1,18 @@
 package com.example.demo;
 
 import com.example.demo.bean.CommonModel;
-import com.example.demo.utils.*;
+import com.example.demo.utils.FileSizeUtil;
+import com.example.demo.utils.LogUtils;
+import com.example.demo.utils.StringTask;
 import org.eclipse.jgit.api.Git;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainTest {
@@ -82,10 +87,27 @@ public class MainTest {
 //            LogUtils.logJson(objectMap);
 //            LogUtils.logJson("------222222222--------------");
 
+            String strDateFormat = "yyyy-MM-dd HH:mm:ss";//设置日期格式
+//            date.setTime(longValue);
+            SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+            Date parse = sdf.parse("2025-06-30 16:00:00 +0000");
+            Calendar c = Calendar.getInstance();
+            c.setTime(parse);
+            int year = c.get(Calendar.YEAR);    //获取年
+
+            int month = c.get(Calendar.MONTH) + 1;   //获取月份，0表示1月份
+
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            System.out.println(year + "===========" + month + "===========" + day);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+
+
 
 //        LogUtils.logJson(localizedStrings);
 //        // 打印解析后的键值对
@@ -188,25 +210,54 @@ public class MainTest {
 
         try {
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretimmediat.json");
-                String fileName = "pretimmediat";
-                String appssid = "478";
-//                String domainname = "https://test.pretimmediatpi.com/";
-                String domainname = "https://www.pretimmediatpi.com/";
-                String phoneNo = "1831006111";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+
+//            {
+//                /**
+//                 * 获取验证码
+//                 */
+//                InxServerSpiderLocal.startWhatAppCode();
+//            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/funloan.json");
+//                String fileName = "funloan";
+//                String appssid = "257";
+//                String domainname = "https://tanzania.inxsac.com/";
+//                String phoneNo = "182123123";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ghana/funloan.json");
+//                String fileName = "funloan";
+//                String appssid = "257";
+//                String domainname = "https://jn.prestaclp.com/";
+//                String phoneNo = "182123123";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
+
+
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretimmediat.json");
+//                String fileName = "pretimmediat";
+//                String appssid = "478";
+////                String domainname = "https://test.pretimmediatpi.com/";
+//                String domainname = "https://www.pretimmediatpi.com/";
+//                String phoneNo = "1831006111";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/cashnow.json");
 //                String fileName = "cashnow";
 //                String appssid = "9160";
-//                String domainname = "https://malaysia.alpacashapple.com/";
-////                String domainname = "https://temp.alpacashapple.com";
+////                String domainname = "https://malaysia.alpacashapple.com/";
+//                String domainname = "https://temp.alpacashapple.com";
 ////                String domainname = "https://my.ultracreditosmx.com/";
-//                String phoneNo = "183662122";
+//                String phoneNo = "183586936";
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
@@ -415,17 +466,6 @@ public class MainTest {
 ////                inxServerSpiderLocal.start();
 //                inxServerSpiderLocal.msgFeatureV3ZIP();
 //
-//            }
-
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/platapuntual.json");
-//                String fileName = "platapuntual";
-//                String appssid = "257";
-//                String domainname = "https://temp.prestamogratis.com/";
-//                String phoneNo = "183535353";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-////                inxServerSpiderLocal.msgFeatureV3ZIP();
 //            }
 
 

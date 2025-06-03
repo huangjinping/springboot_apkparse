@@ -55,6 +55,16 @@ public class ApkController {
     }
 
 
+    @RequestMapping(value = "/searchTaskLog", method = RequestMethod.POST)
+    public RestResponse searchTaskLog(@RequestParam("savePos") String savePos) {
+        Map<String, Object> resultMap = new HashMap<>();
+        ThreadSearchG threadg = new ThreadSearchG();
+        Map<String, Object> map = threadg.parseData(savePos);
+        resultMap.putAll(map);
+        return RestResponse.success(resultMap);
+    }
+
+
     @RequestMapping(value = "/uploadAppImage", method = RequestMethod.POST)
     public RestResponse uploadAppImage(@RequestParam("file") MultipartFile file) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -139,7 +149,7 @@ public class ApkController {
 //            System.out.println(unzipPath + "=======suffix=" + resultFile.getAbsolutePath() + "=2===" + savePos.getAbsolutePath());
 
             if (".apk".equals(suffix)) {
-                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType,PackageParse.ANDROID_PACKAGE_TYPE_APK);
+                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType, PackageParse.ANDROID_PACKAGE_TYPE_APK);
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 map.putAll(PackageParse.getApkLengthByList(resultFile.getAbsolutePath()));
                 map.putAll(PackageParse.parseApkLibs(unzipPath));
@@ -181,7 +191,7 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
-                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType,PackageParse.ANDROID_PACKAGE_TYPE_AAB);
+                Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType, PackageParse.ANDROID_PACKAGE_TYPE_AAB);
 
 //                LogUtils.log("---------------get-size total---------------------->");
                 cmd = bundletooPath + " get-size total --apks " + apksPath;

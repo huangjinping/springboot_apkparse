@@ -45,6 +45,26 @@ public class InxServerSpiderLocal {
         mFieldMap = mJsonFilter.getFieldMap();
     }
 
+    static public void startWhatAppCode() {
+        Map<String, String> header = new HashMap<>();
+        header.put("token", "a607a81a7f0d45a7aa24a3c90d11b6bc");
+        String textByPath = "{\"content\":{\"template\":" +
+                "{\"components\":[{\"index\":0,\"parameters\":[{\"payload\":\"8888\",\"type\":\"payload\"}]," +
+                "\"sub_type\":\"URL\",\"type\":\"button\"}," +
+                "{\"parameters\":[{\"text\":\"8888\",\"type\":\"text\"}],\"type\":\"body\"}]," +
+                "\"language\":{\"code\":\"fr\"}," +
+                "\"name\":\"otp_official_test\"}}," +
+                "\"from\":\"118871211184869\"," +
+                "\"to\":\"923171315439\"," +
+                "\"type\":\"template\"}";
+        String respStr = OkHttpUtils.postJson("https://sg.sobot.com/chat-whatsapp/api/whatsapp/forword", textByPath, header);
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+
+    }
+
+//    public static final String host = "https://www.glbyeastbay.com/eastbay";
+
     public int checkRealPath(String srcUrl) {
         try {
             if (srcUrl.contains(host_URL)) {
@@ -64,8 +84,6 @@ public class InxServerSpiderLocal {
 
         return 0;
     }
-
-//    public static final String host = "https://www.glbyeastbay.com/eastbay";
 
     public Map<String, String> commMap() {
         Map<String, String> comm = new HashMap<>();
@@ -91,7 +109,6 @@ public class InxServerSpiderLocal {
         return comm;
     }
 
-
     public Map<String, Object> start() {
         LogUtils.logJson("=============start=================");
 
@@ -99,11 +116,13 @@ public class InxServerSpiderLocal {
 
 
         Map<String, Object> root = new HashMap<>();
+        Map<String, Object> stringStorage = getImageList();
+
         getVerifCode();
 //        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
-            getAppConfig();
+//            getAppConfig();
 //            getDocumentssmsMatcher();
 //            index();
 //            appIndex();
@@ -113,7 +132,7 @@ public class InxServerSpiderLocal {
 //            orderListForMulAppInstallment();
 
 //            saveBasicCustInfo();
-//            addBank();
+            addBank();
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
 //
@@ -160,7 +179,6 @@ public class InxServerSpiderLocal {
         return root;
     }
 
-
     public void userAppList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -174,7 +192,6 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
-
 
     public void orderListForMulAppInstallment() {
         Map<String, String> mapParam = new HashMap<>();
@@ -216,7 +233,6 @@ public class InxServerSpiderLocal {
 
     }
 
-
     private void getTableShardingValue(String gaid) {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("tableShardingValue", gaid);
@@ -251,7 +267,7 @@ public class InxServerSpiderLocal {
     public Map<String, Object> getImageList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
-        mapParam.put(mFieldMap.get("imageType"), "03");
+        mapParam.put("bigCarpetHopelessCentre", "03");
 //        mapParam.put("blueGreyAmerica", "03");
 
 //        mapParam.put("tinyElectricityRace", "03");
@@ -376,7 +392,6 @@ public class InxServerSpiderLocal {
         result.put("msg", msg);
         return result;
     }
-
 
     public void saveBasicCustInfo() {
         Map<String, String> mapParam = new HashMap<>();
@@ -540,7 +555,6 @@ public class InxServerSpiderLocal {
         }
     }
 
-
     public void custInfoBasicQuery() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -568,7 +582,6 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
-
 
     public void getNewRealTerm() {
         Map<String, String> mapParam = new HashMap<>();
@@ -604,7 +617,6 @@ public class InxServerSpiderLocal {
         }
     }
 
-
     public void getAppConfig() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -630,7 +642,6 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
-
 
     public void getTimeout() {
         Map<String, String> mapParam = new HashMap<>();
@@ -662,7 +673,6 @@ public class InxServerSpiderLocal {
         }
     }
 
-
     public void checkFavorableComment() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -687,7 +697,6 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
-
 
     public void getAppSetting() {
         Map<String, String> mapParam = new HashMap<>();
@@ -756,7 +765,6 @@ public class InxServerSpiderLocal {
         }
     }
 
-
     public void getDocumentssmsMatcher() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -803,7 +811,6 @@ public class InxServerSpiderLocal {
         String code = jsonObject.getString(mFieldMap.get("code"));
     }
 
-
     public void uploadImage() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
@@ -820,7 +827,6 @@ public class InxServerSpiderLocal {
             JSONObject jsonData = jsonObject.getJSONObject(mFieldMap.get("data"));
         }
     }
-
 
     public Map<String, Object> getIdentificationResult() {
         Map<String, String> mapParam = new HashMap<>();
@@ -884,7 +890,6 @@ public class InxServerSpiderLocal {
         result.put("msg", "");
         return result;
     }
-
 
     public Map<String, Object> queryProduct() {
         Map<String, Object> preSubmitOrderResult = new HashMap<>();
@@ -963,22 +968,21 @@ public class InxServerSpiderLocal {
         return result;
     }
 
-
     public void addBank() {
+
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("bankAccountNumber"), "82918372");
-        mapParam.put(mFieldMap.get("collectionType"), "2");
-
+        mapParam.put(mFieldMap.get("bankAccountNumber"), "829183722");
+        mapParam.put(mFieldMap.get("collectionType"), "1");
         LogUtils.log("getAppConfig=============" + mPathMap.get("/cust/addBank"));
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/cust/addBank"), header, mapParam);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
         String code = jsonObject.getString(mFieldMap.get("code"));
         if ("1000".equals(code)) {
-        }
 
+        }
     }
 
     public void getAppValueList() {
@@ -1005,7 +1009,6 @@ public class InxServerSpiderLocal {
 
     }
 
-
     public void getSysSetting() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("key", "crispKey");
@@ -1014,7 +1017,6 @@ public class InxServerSpiderLocal {
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getSysSetting"), header, mapParam);
         LogUtils.logJson(respStr);
     }
-
 
     public void getAppInfoUserId() {
         Map<String, String> mapParam = new HashMap<>();
@@ -1056,6 +1058,7 @@ public class InxServerSpiderLocal {
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppInfo"), header, mapParam);
         LogUtils.logJson(respStr);
     }
+
 
     public void getBankList() {
         Map<String, String> mapParam = new HashMap<>();
@@ -1113,7 +1116,6 @@ public class InxServerSpiderLocal {
         String code = jsonObject.getString(mFieldMap.get("code"));
         JSONArray appArr = jsonObject.getJSONArray(mFieldMap.get("data"));
     }
-
 
     public void msgFeatureV3ZIP() {
         try {
@@ -1210,7 +1212,6 @@ public class InxServerSpiderLocal {
         }
     }
 
-
     public void msgFeatureV5() {
         try {
             Map<String, String> mapParam = new HashMap<>();
@@ -1247,7 +1248,6 @@ public class InxServerSpiderLocal {
         OkHttpUtils.downLoad(url, file.getAbsolutePath());
 
     }
-
 
     public Map<String, Object> queryProductInstallment() {
         Map<String, Object> preSubmitOrderResult = new HashMap<>();
