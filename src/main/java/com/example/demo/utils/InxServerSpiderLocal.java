@@ -99,6 +99,9 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("googleGaid"), gaid);
         comm.put(mFieldMap.get("gaid"), gaid);
         comm.put(mFieldMap.get("imei"), gaid);
+        comm.put(mFieldMap.get("lbs"), "0,0");
+
+
 
         if (loginUser != null) {
             comm.put(mFieldMap.get("token"), loginUser.getToken());
@@ -132,7 +135,7 @@ public class InxServerSpiderLocal {
 //            orderListForMulAppInstallment();
 
 //            saveBasicCustInfo();
-            addBank();
+//            addBank();
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
 //

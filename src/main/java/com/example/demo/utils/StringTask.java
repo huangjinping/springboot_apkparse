@@ -212,8 +212,6 @@ public class StringTask {
             "cardBackUrl",
 
 
-
-
     };
 
     public static String[] SearchLog4 = {
@@ -240,8 +238,7 @@ public class StringTask {
     };
 
 
-
-    public static String[] getSearchLog5={
+    public static String[] getSearchLog5 = {
             "CLICK_ID_INF_SUBMIT",
             "CLICK_BANK_CARD_BOX",
             "CLICK_BANK_CARD_NP",
@@ -300,6 +297,15 @@ public class StringTask {
             "FORE_PICTURE_CANCEL",
             "BACK_PICTURE_CANCEL",
             "FACE_PICTURE_CANCEL",
+            "googleLatitude",
+            "googleLongitude",
+            "LocalLocationBySDK",
+            "LocalLocationByService",
+            "LocalLocationByLast",
+            "saveLocalLocationBySDK",
+            "saveLocalLocationByService",
+            "saveLocalLocationByLast",
+            "getLocalLocation"
     };
 
 

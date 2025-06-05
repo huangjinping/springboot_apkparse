@@ -166,7 +166,8 @@ public class PermissionUtils {
             "android.permission.FOREGROUND_SERVICE",
             "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
             "com.google.android.providers.gsf.permission.READ_GSERVICES",
-            "android.permission.ACCESS_ADSERVICES_AD_ID"
+            "android.permission.ACCESS_ADSERVICES_AD_ID",
+            "android.permission.RECORD_AUDIO"
 
     };
 
