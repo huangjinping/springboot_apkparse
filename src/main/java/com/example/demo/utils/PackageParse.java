@@ -246,6 +246,16 @@ public class PackageParse {
     public static Map<String, Object> parseFileCert(String filePath) {
         Map<String, Object> parseFileCert = new HashMap<>();
         try {
+
+            if (filePath.endsWith(".apk")){
+                CommonModel commonModel = new CommonModel();
+                commonModel.setName("--");
+                commonModel.setState(1);
+
+                parseFileCert.put("fileCert", commonModel);
+                return parseFileCert;
+            }
+
             LogUtils.log("parseFileCert====:" + filePath);
             List<String> commands = new ArrayList<>();
             commands.add("keytool -printcert -jarfile " + filePath);

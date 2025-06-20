@@ -102,7 +102,6 @@ public class InxServerSpiderLocal {
         comm.put(mFieldMap.get("lbs"), "0,0");
 
 
-
         if (loginUser != null) {
             comm.put(mFieldMap.get("token"), loginUser.getToken());
             comm.put(mFieldMap.get("currentUserId"), loginUser.getUserId());
@@ -119,13 +118,13 @@ public class InxServerSpiderLocal {
 
 
         Map<String, Object> root = new HashMap<>();
-        Map<String, Object> stringStorage = getImageList();
+//        Map<String, Object> stringStorage = getImageList();
 
         getVerifCode();
 //        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
-//            getAppConfig();
+            getAppConfig();
 //            getDocumentssmsMatcher();
 //            index();
 //            appIndex();
@@ -159,7 +158,7 @@ public class InxServerSpiderLocal {
 //            getBankList();
 //            getAppValueList();
 //            getNewRealTerm();
-//            Map<String, Object> queryProduct = queryProduct();
+            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
 //            uploadRiskPoint();
@@ -270,7 +269,7 @@ public class InxServerSpiderLocal {
     public Map<String, Object> getImageList() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
-        mapParam.put("bigCarpetHopelessCentre", "03");
+        mapParam.put("freeAggressionLearnedExpedition", "03");
 //        mapParam.put("blueGreyAmerica", "03");
 
 //        mapParam.put("tinyElectricityRace", "03");
@@ -431,12 +430,12 @@ public class InxServerSpiderLocal {
 //        mapParam.put(mFieldMap.get("phoneNumberSec"), "183868689");
 
 
-        mapParam.put(mFieldMap.get("pageType"), "4");
-        mapParam.put(mFieldMap.get("birthDay"), "10-10-2000");
-        mapParam.put(mFieldMap.get("curp"), "1234567890");
-        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
-        mapParam.put(mFieldMap.get("surnames"), "akusge");
-        mapParam.put(mFieldMap.get("names"), "asss");
+        mapParam.put(mFieldMap.get("pageType"), "3");
+//        mapParam.put(mFieldMap.get("birthDay"), "10-10-2000");
+//        mapParam.put(mFieldMap.get("curp"), "1234567890");
+//        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
+//        mapParam.put(mFieldMap.get("surnames"), "akusge");
+//        mapParam.put(mFieldMap.get("names"), "asss");
 
 //        mapParam.put(mFieldMap.get("email"), "ahishia@gmail.com");
 //        mapParam.put(mFieldMap.get("surnames"), "akusge");
@@ -625,7 +624,7 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
 //        mapParam.put(mFieldMap.get("type"), "sourceOfIncome");
-        mapParam.put(mFieldMap.get("type"), "collectiontype");
+        mapParam.put(mFieldMap.get("type"), "sex");
 
 //        mapParam.put(mFieldMap.get("type"), "prettyJeansSoftSki");
 
@@ -634,7 +633,7 @@ public class InxServerSpiderLocal {
 
 
 //        mapParam.put("aggressiveBillHandsomeConvenientRiddle", "en");
-        mapParam.put(mFieldMap.get("language"), "en");
+        mapParam.put(mFieldMap.get("language"), "fr");
 
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/anon/getAppConfig"), header, mapParam);
         LogUtils.logJson("/anon/getAppConfig");
@@ -904,7 +903,7 @@ public class InxServerSpiderLocal {
 
             mapParam.putAll(commMap());
 
-            mapParam.put(mFieldMap.get("type"), "00");
+//            mapParam.put(mFieldMap.get("type"), "00");
             Map<String, String> header = commMap();
             String respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/queryProduct"), header, mapParam);
             LogUtils.logJson(respStr);
@@ -921,8 +920,8 @@ public class InxServerSpiderLocal {
             mapParam.put(mFieldMap.get("productId"), productId);
 
 
-//            respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/preAmount"), header, mapParam);
-//            LogUtils.logJson(respStr);
+            respStr = OkHttpUtils.postForm(host + mPathMap.get("/product/preAmount"), header, mapParam);
+            LogUtils.logJson(respStr);
 //
 //
 //            respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/preSubmitOrder"), header, mapParam);

@@ -208,11 +208,12 @@ public class PermissionUtils {
     };
 
     public static final String[] permissions2024All = new String[]{
-            "android.permission.INTERNET"
+            "android.permission.INTERNET",
+            "android.permission.CAMERA"
     };
 
     public static final String[] permissions2024DebugMast = new String[]{
-            "android.permission.INTERNET"
+            "android.permission.INTERNET",
     };
 
 

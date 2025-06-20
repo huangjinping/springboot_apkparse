@@ -197,6 +197,15 @@
         </ul>
         <ul class="minifyEnabled">
         </ul>
+
+        <div class="packageSize">
+            <div class="resultTitle">
+                包大小
+            </div>
+            <ul class="resultUl packageSizeUl">
+            </ul>
+        </div>
+
         <div class="resultTitle">
             Application (占坑配置)
         </div>
@@ -606,6 +615,35 @@
                 });
 
                 $(".permissionUl").html(autoHtml);
+            }
+
+
+            if (data.packageSize) {
+                var autoHtml = "";
+                data.packageSize.forEach(function (v, i) {
+
+                    var state = "";
+                    var stateText = "greenText";
+                    if (0 == v.state) {
+                        state = "";
+                        stateText = "redText";
+                    } else if (1 == v.state) {
+                        stateText = "garyText";
+
+                        state = "";
+                    } else if (2 == v.state) {
+                        stateText = "garyText";
+                        state = "";
+                    } else if (3 == v.state) {
+                        stateText = "redText";
+                        state = "";
+                    }
+                    autoHtml += "  <li class=\"resultli\">\n" +
+                        "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + v.value + state + "</span>\n" +
+                        "            </li>";
+                });
+
+                $(".packageSizeUl").html(autoHtml);
             }
 
 
