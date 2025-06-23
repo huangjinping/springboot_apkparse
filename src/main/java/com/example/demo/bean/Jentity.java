@@ -4,7 +4,13 @@ public class Jentity {
     String name;
     Object value;
     int state;
-    String msg;
+    String msg = "";
+
+    public Jentity(String name, Object value, int state) {
+        this.name = name;
+        this.value = value;
+        this.state = state;
+    }
 
     public String getMsg() {
         return msg;
@@ -35,12 +41,6 @@ public class Jentity {
     }
 
     public void setState(int state) {
-        this.state = state;
-    }
-
-    public Jentity(String name, Object value, int state) {
-        this.name = name;
-        this.value = value;
         this.state = state;
     }
 

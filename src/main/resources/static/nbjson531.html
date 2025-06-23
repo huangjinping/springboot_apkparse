@@ -561,7 +561,7 @@
             var stateText = "greenText";
 
             if (0 == e.state) {
-                state = "error";
+                state = "error" + e.msg;
                 stateText = "redText";
             } else if (1 == e.state) {
                 stateText = "greenText";
@@ -963,6 +963,8 @@
                     addRed(".applicationTitle .pMessage");
                 } else {
                     message += "数据正常";
+
+                    message += application.value.desc;
                     addGreen(".applicationTitle .pMessage");
                 }
                 $(".applicationTitle .pMessage").html(message)

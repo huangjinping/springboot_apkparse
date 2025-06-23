@@ -1485,11 +1485,22 @@ public class JsonParser {
                         app_type0++;
                     }
 
+
                     if ("1".equals(app_type)) {
                         app_type1++;
                     }
 
+//                    int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
+
                     int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
+                    Jentity jentity = new Jentity(key, app_type, app_typeState);
+
+                    if (!CheckUtils.onCheckInteger(item, key)) {
+                        jentity.setState(0);
+                        app_typeState = 0;
+                        jentity.setMsg("类型不对");
+                    }
+
                     app.put(key, new Jentity(key, app_type, app_typeState));
                     if (app_typeState != 1) {
                         appListState = 0;
@@ -1625,6 +1636,12 @@ public class JsonParser {
                     appAllState = 0;
                 }
 
+                StringBuilder descBuilder = new StringBuilder();
+
+                descBuilder.append("(系统" + app_type1 + ")");
+                descBuilder.append("(三方" + app_type0 + ")");
+
+                builder.append(descBuilder.toString());
                 try {
                     Collections.sort(appList, new AppComparator());
                 } catch (Exception e) {
@@ -1633,6 +1650,8 @@ public class JsonParser {
                 other_dataResult.put("value", appList);
                 other_dataResult.put("state", appAllState);
                 other_dataResult.put("msg", builder);
+                other_dataResult.put("desc", descBuilder.toString());
+
             } catch (Exception e) {
 //                e.printStackTrace();
             }

@@ -257,6 +257,21 @@ public class CheckUtils {
         return 0;
     }
 
+
+    public static boolean onCheckInteger(JSONObject doc, String key) {
+        try {
+            if (doc.get(key) instanceof Integer) {
+
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+
     public static boolean checkNumber(String number) {
         return RegexUtils.isMatch(RegexConstants.REGEX_All_NUM, number);
     }
