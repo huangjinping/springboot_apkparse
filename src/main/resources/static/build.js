@@ -31,6 +31,12 @@
             name: "大json检测",
             url: "nbjson"
         }, {
+            name: "appscheme测试",
+            url: "appscheme"
+        }, {
+            name: "json交叉测试",
+            url: "JsonNodeComparator"
+        }, {
             name: "serverTest",
             url: "serverTest"
         }, {

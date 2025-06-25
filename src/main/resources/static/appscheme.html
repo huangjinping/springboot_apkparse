@@ -10,6 +10,7 @@
     <title>Android启发器</title>
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 
     <script>
         (function () {
@@ -25,6 +26,7 @@
 
         .container {
             padding: 1rem;
+            text-align: center;
         }
 
         .txt_scheme {
@@ -37,19 +39,74 @@
         }
 
         .txt_openapp {
-            text-decoration: underline;
+            /*text-decoration: underline;*/
             font-size: 0.4rem;
+            background-color: #0058FE;
+            color: white;
+            border: 1px solid #ddd;
+            padding: 5px 0.3rem;
+            border-radius: 0.2rem;
 
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        #qrcode {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            display: inline-block;
+        }
+
+        .spiritContainer {
+            width: 200px;
+            height: 40px;
+            border: deepskyblue solid 1px;
+            border-radius: 10px;
+            background-color: deepskyblue;
+            color: white;
+            position: absolute;
+            top: 20px;
+            overflow: hidden;
+            right: 10px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .spiritContainer:hover {
+            background-color: #f40;
+            border: #f40 solid 1px;
+            height: auto;
+            overflow: hidden;
+
+
+        }
+
+        .spiritContainer a {
+            color: white;
         }
 
     </style>
 </head>
 <body>
 <div class="pageCenter">
-    <div class="container">
 
+    <div class="spiritContainer">
+        <span class="spirit">菜单</span>
+        <ul class="menuList">
+            <!--                <li><a href="/index">Apk aab</a></li>-->
+            <!--                <li><a href="/nbjson">检测大json</a></li>-->
+            <!--                <li><a href="">意见反馈</a></li>-->
+        </ul>
+    </div>
+
+    <div class="container">
+        <div id="qrcode"></div>
         <div>
-            <input class="txt_scheme" type="text">
+            <input class="txt_scheme" placeholder="请输入scheme" type="text">
         </div>
         <div>
             <a class="txt_openapp">点击打开App</a>
@@ -68,7 +125,24 @@
             }
             window.location.href = value;
         });
+
+        const currentUrl = window.location.href;
+
+        // 生成二维码
+        QRCode.toCanvas(
+            currentUrl,
+            {width: 200},
+            (error, canvas) => {
+                if (error) {
+                    console.error("生成二维码失败:", error);
+                    return;
+                }
+                document.getElementById("qrcode").appendChild(canvas);
+            }
+        );
     })();
 </script>
 </body>
+<script type="text/javascript" src="build.js"></script>
+
 </html>

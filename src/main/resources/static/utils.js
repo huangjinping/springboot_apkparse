@@ -1001,7 +1001,7 @@ function showToast(msg) {
     if (msg.toLowerCase().indexOf("exception") != -1) {
         msg = "拼命加载中...稍后重试哦 (^_^)";
     }
-    Toast(msg, 2000);
+    Toast(msg, 2300);
     // $.MsgBox.Alert({
     //     msg: msg,
     //     positiveTitle: "我知道了"

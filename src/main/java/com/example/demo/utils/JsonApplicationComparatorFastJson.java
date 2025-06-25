@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.utils;
 
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +30,11 @@ public class JsonApplicationComparatorFastJson {
             e.printStackTrace();
         }
     }
+
+
+
+
+
 
     public static ComparisonResult compareApplications(String file1Path, String file2Path) throws IOException {
         // 读取 JSON 文件内容

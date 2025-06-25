@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json交叉比较</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .file-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .file-drop-area.highlight {
+            border-color: #4CAF50;
+            background-color: #f8f8f8;
+        }
+
+        .file-input-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-msg {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .file-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .redColor {
+            color: #FF0000;
+        }
+
+        .spiritContainer {
+            width: 200px;
+            height: 40px;
+            border: deepskyblue solid 1px;
+            border-radius: 10px;
+            background-color: deepskyblue;
+            color: white;
+            position: absolute;
+            top: 20px;
+            overflow: hidden;
+            right: 10px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .spiritContainer:hover {
+            background-color: #f40;
+            border: #f40 solid 1px;
+            height: auto;
+            overflow: hidden;
+
+
+        }
+
+        .spiritContainer a {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="spiritContainer">
+    <span class="spirit">菜单</span>
+    <ul class="menuList">
+        <!--                <li><a href="/index">Apk aab</a></li>-->
+        <!--                <li><a href="/nbjson">检测大json</a></li>-->
+        <!--                <li><a href="">意见反馈</a></li>-->
+    </ul>
+</div>
+
+
+<h1>文件选择示例</h1>
+
+<div class="file-drop-area" id="dropArea1">
+    <label class="file-input-label" for="file1">文件1</label>
+    <input type="file" id="file1" class="file-input">
+    <div class="file-msg">
+        拖放文件到这里或
+        <span class="file-link">点击选择文件</span>
+        <div class="file-name" id="fileName1">没有选择文件</div>
+    </div>
+</div>
+
+<div class="file-drop-area" id="dropArea2">
+    <label class="file-input-label" for="file2">文件2</label>
+    <input type="file" id="file2" class="file-input">
+    <div class="file-msg">
+        拖放文件到这里或
+        <span class="file-link">点击选择文件</span>
+        <div class="file-name" id="fileName2">没有选择文件</div>
+    </div>
+</div>
+
+<button id="checkBtn">检查文件选择状态</button>
+
+<div id="result"></div>
+<div id="jsonResult"></div>
+
+<script>
+    // 为两个文件输入框设置事件监听器
+    setupFileInput('file1', 'dropArea1', 'fileName1');
+    setupFileInput('file2', 'dropArea2', 'fileName2');
+
+    function setupFileInput(inputId, dropAreaId, fileNameId) {
+        const fileInput = document.getElementById(inputId);
+        const dropArea = document.getElementById(dropAreaId);
+        const fileNameDisplay = document.getElementById(fileNameId);
+        const fileLink = dropArea.querySelector('.file-link');
+
+        // 点击区域触发文件选择
+        fileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileInput.click();
+        });
+
+        // 处理文件选择变化
+        fileInput.addEventListener('change', (e) => {
+            updateFileNameDisplay(fileInput, fileNameDisplay);
+        });
+
+        // 拖放相关事件
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('highlight');
+        }
+
+        // 处理文件拖放
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length) {
+                fileInput.files = files;
+                updateFileNameDisplay(fileInput, fileNameDisplay);
+            }
+        }
+    }
+
+    function updateFileNameDisplay(fileInput, fileNameDisplay) {
+        if (fileInput.files && fileInput.files.length > 0) {
+            fileNameDisplay.textContent = fileInput.files[0].name;
+        } else {
+            fileNameDisplay.textContent = '没有选择文件';
+        }
+    }
+
+    // 检查按钮点击事件
+    document.getElementById('checkBtn').addEventListener('click', () => {
+        const file1 = document.getElementById('file1');
+        const file2 = document.getElementById('file2');
+        const resultDiv = document.getElementById('result');
+
+        const file1Selected = file1.files && file1.files.length > 0;
+        const file2Selected = file2.files && file2.files.length > 0;
+
+        let resultHTML = '<h3>检查结果:</h3><ul>';
+        resultHTML += `<li>文件1: ${file1Selected ? '已选择 (' + file1.files[0].name + ')' : '未选择'}</li>`;
+        resultHTML += `<li>文件2: ${file2Selected ? '已选择 (' + file2.files[0].name + ')' : '未选择'}</li>`;
+        resultHTML += '</ul>';
+
+        resultDiv.innerHTML = resultHTML;
+
+        // 根据选择状态设置背景色
+        if (file1Selected && file2Selected) {
+            resultDiv.style.backgroundColor = '#dff0d8';
+        } else if (file1Selected || file2Selected) {
+            resultDiv.style.backgroundColor = '#fcf8e3';
+        } else {
+            resultDiv.style.backgroundColor = '#f2dede';
+        }
+        const $file1 = $('#file1');
+        const $file2 = $('#file2');
+
+        const value1 = $file1[0].files[0];
+        const value2 = $file2[0].files[0];
+        console.log(value1);
+        console.log(value2);
+        showLoading();
+
+        var formData = new FormData();
+        formData.append("file1", value1); // 要上传的文件
+        formData.append("file2", value2); // 要上传的文件
+
+        formData.append("appType", "1");
+        $.ajax({
+            url: "/JsonNodeComparatorFastJson",
+            type: "post",
+            data: formData,
+            timeout: 1000 * 120,
+            contentType: false,
+            processData: false,
+            dataType: "text",
+            success: function (data) {
+                dismissLoading();
+                var res = eval('(' + data + ')');
+                console.log(res);
+
+                $("#jsonResult").html(res.data.data);
+
+            },
+            error: function (err) {
+                dismissLoading();
+                console.error(err);
+            }
+        });
+
+
+    });
+</script>
+<script type="text/javascript" src="build.js"></script>
+
+</body>
+</html>

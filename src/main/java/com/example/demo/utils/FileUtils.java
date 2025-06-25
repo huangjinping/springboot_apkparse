@@ -1,5 +1,7 @@
 package com.example.demo.utils;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -91,6 +93,47 @@ public class FileUtils {
 
     }
 
+    public static String inputStreamToString(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        return outputStream.toString(StandardCharsets.UTF_8.name());
+    }
+
+    public static String getDataFromPath(MultipartFile file) {
+
+        String result = "";
+        String fileName = file.getOriginalFilename();
+        String oldName = fileName;
+        fileName = System.currentTimeMillis() + "";
+        oldName = "" + System.currentTimeMillis();
+        File savePos = new File("./.tempJson" + System.currentTimeMillis());
+        if (!savePos.exists()) {  // 不存在，则创建该文件夹
+            savePos.mkdir();
+        }
+
+
+        try {
+            // 获取存放位置的规范路径
+            String realPath = savePos.getCanonicalPath();
+            // 上传该文件/图像至该文件夹下
+            File resultFile = new File(realPath + "/" + fileName);
+            if (resultFile.exists()) {
+                resultFile.delete();
+            }
+            file.transferTo(resultFile);
+            result = realPath + "/" + oldName;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     /**
      * 递归删除目录和下面的文件————java api删除目录的话，目录必须是空的才能删除
      */
@@ -112,16 +155,6 @@ public class FileUtils {
 //            log.error("list path error", e);
             result.set(false);
         }
-    }
-
-    public static String inputStreamToString(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
-        return outputStream.toString(StandardCharsets.UTF_8.name());
     }
 
 }

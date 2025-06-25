@@ -55,15 +55,27 @@ public class IndexRestController {
         return new ModelAndView("router");
     }
 
+    @RequestMapping("/JsonNodeComparator")
+    public ModelAndView JsonNodeComparator() {
+        return new ModelAndView("JsonNodeComparator");
+    }
+
     @RequestMapping("/nbjson")
     public ModelAndView nbjson() {
         return new ModelAndView("nbjson");
     }
 
+
     @RequestMapping("/index531")
     public ModelAndView index531() {
         return new ModelAndView("index531");
     }
+
+    @RequestMapping("/appscheme")
+    public ModelAndView appscheme() {
+        return new ModelAndView("appscheme");
+    }
+
 
     @RequestMapping("/debug531")
     public ModelAndView debug531() {

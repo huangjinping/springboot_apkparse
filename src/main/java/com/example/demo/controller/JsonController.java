@@ -3,10 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.bean.ResponseCode;
 import com.example.demo.bean.RestResponse;
 import com.example.demo.bean.UserParam;
-import com.example.demo.utils.CommandLineTool;
-import com.example.demo.utils.FileUtils;
-import com.example.demo.utils.GzipUtil;
-import com.example.demo.utils.JsonParser;
+import com.example.demo.utils.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,7 +80,7 @@ public class JsonController {
             System.out.println("========server===111=================");
 //            System.out.println(s);
 
-            String result="{\n" +
+            String result = "{\n" +
                     "  \"video_external\": 35,\n" +
                     "  \"public_ip\": {\n" +
                     "    \"second_ip\": \"172.19.0.1\",\n" +
@@ -93,7 +90,7 @@ public class JsonController {
 
             is = request.getInputStream();
             s = FileUtils.inputStreamToString(is);
-            System.out.println("========server===111================="+s);
+            System.out.println("========server===111=================" + s);
             s = GzipUtil.unCompress(s);
 
 //            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -198,4 +195,44 @@ public class JsonController {
         FileUtils.deleteDirWithPath(savePos.getAbsolutePath());
         return RestResponse.success(resultMap);
     }
+
+
+    @RequestMapping(value = "/JsonNodeComparatorFastJson", method = RequestMethod.POST)
+    public RestResponse JsonNodeComparatorFastJson(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2, @RequestParam("appType") String appType) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if (file1.isEmpty()) {
+            return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file1 cannot be empty");
+        }
+
+        if (file2.isEmpty()) {
+            return RestResponse.response(ResponseCode.INVALID_PARAM.getCode(), "publish file2 cannot be empty");
+        }
+
+        try {
+            String dataFromPath1 = FileUtils.getDataFromPath(file1);
+            String dataFromPath2 = FileUtils.getDataFromPath(file2);
+
+            System.out.println("======dataFromPath1==" + dataFromPath1);
+            System.out.println("======dataFromPath2==" + dataFromPath2);
+
+            JsonNodeComparatorFastJson json = new JsonNodeComparatorFastJson(dataFromPath1, dataFromPath2);
+            JsonNodeComparatorFastJson.ComparisonResult comparisonResult = JsonNodeComparatorFastJson.compareJsonFiles(json.getFile1Path(), json.getFile2Path());
+//            String jsontext = FileUtils.getTextByPath(dataFromPath1);
+//            UserParam userParam = new UserParam();
+//            userParam.setAppType(appType);
+//            JsonParser jsonParser = new JsonParser(userParam);
+//            Map<String, Object> stringObjectMap = jsonParser.parseRoot(jsontext);
+            String result = JsonNodeComparatorFastJson.printResultsToHtml(comparisonResult);
+            resultMap.put("data", result);
+            FileUtils.deleteDirWithPath(dataFromPath1);
+            FileUtils.deleteDirWithPath(dataFromPath2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return RestResponse.success(resultMap);
+    }
+
+
 }

@@ -1,15 +1,15 @@
-package com.example.demo;
+package com.example.demo.utils;
 
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.utils.FileUtils;
 
 import java.io.IOException;
 import java.util.*;
 
 public class JsonNodeComparatorFastJson {
+
     // 配置忽略的字段（全局）
     private static final Set<String> IGNORED_FIELDS = new HashSet<>(Arrays.asList("in_time", "up_time", "currentSystemTime"));
     // SMS 节点只比较的字段
@@ -19,16 +19,22 @@ public class JsonNodeComparatorFastJson {
     // 只比较的根节点
     private static final Set<String> COMPARED_NODES = new HashSet<>(Arrays.asList(
             "calendar", "public_ip", "create_time", "other_data", "storage", "battery_status",
-            "build_name", "contact_group", "application", "video_internal", "build_id", "sms",
-            "general_data", "package_name", "location", "audio_internal", "hardware"
+            "build_name", "contact", "application", "build_id", "sms",
+            "general_data", "package_name", "location", "hardware", "call"
     ));
 
+    String file1Path;
+    String file2Path;
+
+    public JsonNodeComparatorFastJson(String file1Path, String file2Path) {
+        this.file1Path = file1Path;
+        this.file2Path = file2Path;
+    }
 
     public static void main(String[] args) {
         // 示例文件路径，实际使用时可通过命令行参数或输入获取
         String file1Path = "/Users/huhuijie/Downloads/492_479/392应用同意时.txt";
         String file2Path = "/Users/huhuijie/Downloads/492_479/479应用同意时.txt";
-
 
         try {
             ComparisonResult result = compareJsonFiles(file1Path, file2Path);
@@ -57,8 +63,8 @@ public class JsonNodeComparatorFastJson {
         allKeys.addAll(json2.keySet());
 
 
-//        for (String key : COMPARED_NODES) {
-        for (String key : allKeys) {
+        for (String key : COMPARED_NODES) {
+//        for (String key : allKeys) {
             Object value1 = json1.get(key);
             Object value2 = json2.get(key);
 
@@ -286,6 +292,98 @@ public class JsonNodeComparatorFastJson {
         }
     }
 
+    public static String printResultsToHtml(ComparisonResult result) throws IOException {
+        StringBuilder html = new StringBuilder();
+//        html.append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n");
+//        html.append("<title>JSON Comparison Results</title>\n");
+//        html.append("<style>\n");
+//        html.append("body { font-family: Arial, sans-serif; margin: 20px; }\n");
+//        html.append("h1 { color: #333; }\n");
+//        html.append("h2 { color: #555; }\n");
+//        html.append("table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }\n");
+//        html.append("th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }\n");
+//        html.append("th { background-color: #f2f2f2; }\n");
+//        html.append("tr:nth-child(even) { background-color: #f9f9f9; }\n");
+//        html.append(".section { margin-bottom: 40px; }\n");
+//        html.append(".redColor { color: #FF0000; }\n");
+//
+//        html.append("</style>\n</head>\n<body>\n");
+        html.append("<h1>JSON Comparison Results</h1>\n");
+
+        for (String nodeName : result.identicalItems.keySet()) {
+            html.append("<div class=\"section\">\n");
+            html.append("<h2>Node: ").append(escapeHtml(nodeName)).append("</h2>\n");
+
+            // 1. 完全相同的条目
+            html.append("<h3>1. Identical Items</h3>\n");
+            List<Object> identical = result.identicalItems.get(nodeName);
+            if (identical.isEmpty()) {
+                html.append("<p>None</p>\n");
+            } else {
+//                html.append("<table>\n<tr><th>Item</th></tr>\n");
+//                for (Object item : identical) {
+//                    html.append("<tr><td>").append(escapeHtml(item.toString())).append("</td></tr>\n");
+//                }
+//                html.append("</table>\n");
+            }
+
+            // 2. 字段不同的条目
+            html.append("<h3>2. Items with Differing Fields</h3>\n");
+            Map<String, Map<String, Object[]>> differing = result.differingItems.get(nodeName);
+            if (differing.isEmpty()) {
+                html.append("<p>None</p>\n");
+            } else {
+                html.append("<table class=\"redColor\">\n<tr><th>Key</th><th>Field</th><th>File1 Value</th><th>File2 Value</th></tr>\n");
+                for (Map.Entry<String, Map<String, Object[]>> entry : differing.entrySet()) {
+                    String key = entry.getKey();
+                    Map<String, Object[]> differences = entry.getValue();
+                    for (Map.Entry<String, Object[]> diff : differences.entrySet()) {
+                        String field = diff.getKey();
+                        Object[] values = diff.getValue();
+                        html.append("<tr><td>").append(escapeHtml(key)).append("</td>");
+                        html.append("<td>").append(escapeHtml(field)).append("</td>");
+                        html.append("<td>").append(escapeHtml(String.valueOf(values[0]))).append("</td>");
+                        html.append("<td>").append(escapeHtml(String.valueOf(values[1]))).append("</td></tr>\n");
+                    }
+                }
+                html.append("</table>\n");
+            }
+
+            // 3. 仅在文件1中存在的条目
+            html.append("<h3>3. Items Only in File 1</h3>\n");
+            List<Object> onlyIn1 = result.onlyInFile1.get(nodeName);
+            if (onlyIn1.isEmpty()) {
+                html.append("<p>None</p>\n");
+            } else {
+                html.append("<table class=\"redColor\">\n<tr><th>Item</th></tr>\n");
+                for (Object item : onlyIn1) {
+                    html.append("<tr><td>").append(escapeHtml(item.toString())).append("</td></tr>\n");
+                }
+                html.append("</table>\n");
+            }
+
+            // 4. 仅在文件2中存在的条目
+            html.append("<h3>4. Items Only in File 2</h3>\n");
+            List<Object> onlyIn2 = result.onlyInFile2.get(nodeName);
+            if (onlyIn2.isEmpty()) {
+                html.append("<p>None</p>\n");
+            } else {
+                html.append("<table class=\"redColor\">\n<tr><th>Item</th></tr>\n");
+                for (Object item : onlyIn2) {
+                    html.append("<tr><td>").append(escapeHtml(item.toString())).append("</td></tr>\n");
+                }
+                html.append("</table>\n");
+            }
+
+            html.append("</div>\n");
+        }
+
+//        html.append("</body>\n</html>");
+//        Files.writeString(Paths.get(outputPath), html.toString());
+
+        return html.toString();
+    }
+
     private static void printResultsToHtml(ComparisonResult result, String outputPath) throws IOException {
         StringBuilder html = new StringBuilder();
         html.append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n");
@@ -388,8 +486,24 @@ public class JsonNodeComparatorFastJson {
                 .replace("'", "&#39;");
     }
 
+    public String getFile1Path() {
+        return file1Path;
+    }
+
+    public void setFile1Path(String file1Path) {
+        this.file1Path = file1Path;
+    }
+
+    public String getFile2Path() {
+        return file2Path;
+    }
+
+    public void setFile2Path(String file2Path) {
+        this.file2Path = file2Path;
+    }
+
     // 比较结果
-    static class ComparisonResult {
+    public static class ComparisonResult {
         Map<String, List<Object>> identicalItems = new HashMap<>();
         Map<String, Map<String, Map<String, Object[]>>> differingItems = new HashMap<>();
         Map<String, List<Object>> onlyInFile1 = new HashMap<>();
