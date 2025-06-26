@@ -138,6 +138,10 @@
             width: 100px;
             height: 100px;
         }
+        
+        .alertDesc {
+            color: orange;
+        }
     </style>
 </head>
 <body>
@@ -228,6 +232,7 @@
             </li>
             <li class="resultli">
                 <span class="resultliname">targetSdkVersion</span><span class="resultlistate targetSdkVersion"></span>
+                <span class="targetSdkVersionAlertDesc alertDesc"></span>
             </li>
             <li class="resultli">
                 <span class="resultliname">versionCode</span><span class="resultlistate versionCode"></span>
@@ -355,7 +360,6 @@
 
         <ul class="searchResultLog">
         </ul>
-
 
 
         <div class="resultTitle">
@@ -554,7 +558,6 @@
                     $(".searchResultJson").html(autoHtml);
 
 
-
                 },
                 error: function (err) {
 
@@ -600,7 +603,6 @@
                             "            </li>";
                     });
                     $(".searchResultLog").html(autoHtml);
-
 
 
                 },
@@ -826,11 +828,18 @@
                 var compileSdkVersion = data.targetSdkVersion;
                 if (compileSdkVersion < 34) {
                     $(".targetSdkVersion").addClass("redText");
+                    $(".targetSdkVersionAlertDesc").html("");
                     $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少34");
                 } else {
                     $(".targetSdkVersion").html(compileSdkVersion);
                     $(".targetSdkVersion").removeClass("redText");
+                    $(".targetSdkVersionAlertDesc").html("");
+                    if (compileSdkVersion >= 35) {
+                        $(".targetSdkVersionAlertDesc").html("（请测试人员使用android15 手机跑下兼容）");
+                    }
+
                 }
+
 
                 var networkSecurityConfig = data.application.networkSecurityConfig;
                 if (isEmpty(networkSecurityConfig)) {

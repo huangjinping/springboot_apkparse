@@ -225,13 +225,40 @@ public class JsonController {
 //            Map<String, Object> stringObjectMap = jsonParser.parseRoot(jsontext);
             String result = JsonNodeComparatorFastJson.printResultsToHtml(comparisonResult);
             resultMap.put("data", result);
-            FileUtils.deleteDirWithPath(dataFromPath1);
-            FileUtils.deleteDirWithPath(dataFromPath2);
+
+            LogUtils.log("============dataFromPath1========" + dataFromPath1);
+            LogUtils.log("============dataFromPath2========" + dataFromPath2);
+
+
+//            FileUtils.deleteDirWithPath(dataFromPath1);
+//            FileUtils.deleteDirWithPath(dataFromPath2);
+
+            deleteTempFile(dataFromPath1);
+            deleteTempFile(dataFromPath2);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return RestResponse.success(resultMap);
+    }
+
+
+    private String deleteTempFile(String input) {
+        try {
+            File file = new File(input);
+            File parentFile = file.getParentFile();
+            String absolutePath = parentFile.getAbsolutePath();
+            LogUtils.log("============absolutePath========" + absolutePath);
+
+            if (absolutePath.contains(".tempJson")) {
+                FileUtils.deleteDirWithPath(absolutePath);
+                return absolutePath;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

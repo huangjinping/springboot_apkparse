@@ -268,10 +268,13 @@
         // 根据选择状态设置背景色
         if (file1Selected && file2Selected) {
             resultDiv.style.backgroundColor = '#dff0d8';
+
         } else if (file1Selected || file2Selected) {
             resultDiv.style.backgroundColor = '#fcf8e3';
+            return;
         } else {
             resultDiv.style.backgroundColor = '#f2dede';
+            return;
         }
         const $file1 = $('#file1');
         const $file2 = $('#file2');

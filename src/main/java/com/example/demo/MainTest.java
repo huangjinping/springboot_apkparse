@@ -261,15 +261,15 @@ public class MainTest {
 //            }
 
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/argentrapide.json");
-                String fileName = "argentrapide";
-                String appssid = "504";
-                String domainname = "https://temp.cimoneycote.com/";
-                String phoneNo = "1821231223";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/argentrapide.json");
+//                String fileName = "argentrapide";
+//                String appssid = "504";
+//                String domainname = "https://temp.cimoneycote.com/";
+//                String phoneNo = "1821231223";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/creditexpress.json");
 //                String fileName = "creditexpress";
@@ -281,18 +281,18 @@ public class MainTest {
 //            }
 
 //
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretfacile.json");
-//                String fileName = "pretfacile";
-//                String appssid = "506";
-//                String domainname = "https://temp.biviprestamo.com/";
-////                String phoneNo = "1821231232";
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretfacile.json");
+                String fileName = "pretfacile";
+                String appssid = "506";
+                String domainname = "https://temp.biviprestamo.com/";
+                String phoneNo = "1821231232";
 //                String phoneNo = "2226665559";
-//
-//
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+
+
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 
 
 //            {

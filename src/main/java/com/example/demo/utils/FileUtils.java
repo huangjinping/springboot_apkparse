@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -108,9 +109,14 @@ public class FileUtils {
         String result = "";
         String fileName = file.getOriginalFilename();
         String oldName = fileName;
-        fileName = System.currentTimeMillis() + "";
-        oldName = "" + System.currentTimeMillis();
-        File savePos = new File("./.tempJson" + System.currentTimeMillis());
+        String UUID_S = UUID.randomUUID().toString().replace("-", "");
+
+
+        fileName = System.currentTimeMillis() + UUID_S;
+        oldName = "" + System.currentTimeMillis() + UUID_S;
+
+
+        File savePos = new File("./.tempJson" + System.currentTimeMillis() + "_" + UUID_S);
         if (!savePos.exists()) {  // 不存在，则创建该文件夹
             savePos.mkdir();
         }

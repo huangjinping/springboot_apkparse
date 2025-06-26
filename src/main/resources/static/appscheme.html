@@ -117,6 +117,26 @@
 
 <script>
     (function () {
+
+        init()
+
+        function init() {
+            var url = window.location.href;
+            var scheme = getSchemeFromUrl(url);
+            if (!isEmpty(scheme)) {
+                $('.txt_scheme').val(scheme)
+            }
+        }
+
+
+        function getSchemeFromUrl(url) {
+            // 使用 URLSearchParams 解析查询参数
+            const params = new URLSearchParams(new URL(url).search);
+            // 获取 scheme 参数值
+            return params.get('scheme');
+        }
+
+
         $(".txt_openapp").click(function () {
             var value = $(".txt_scheme").val();
             if (isEmpty(value)) {
@@ -126,20 +146,46 @@
             window.location.href = value;
         });
 
-        const currentUrl = window.location.href;
 
-        // 生成二维码
-        QRCode.toCanvas(
-            currentUrl,
-            {width: 200},
-            (error, canvas) => {
-                if (error) {
-                    console.error("生成二维码失败:", error);
-                    return;
-                }
-                document.getElementById("qrcode").appendChild(canvas);
+        $('.txt_scheme').on('input', function () {
+            console.log($(this).val()); // 输出输入框的当前值
+            updateQR();
+        });
+        updateQR();
+
+        function addSchemeToUrl(url, scheme) {
+            // 检查 URL 是否已包含问号
+            const separator = url.includes('?') ? '&' : '?';
+            // 拼接 scheme 参数
+            return `${url}${separator}scheme=${encodeURIComponent(scheme)}`;
+        }
+
+
+        function updateQR() {
+
+            var currentUrl = window.location.href;
+            var scheme = $('.txt_scheme').val()
+
+            if (!isEmpty(scheme)) {
+                currentUrl = addSchemeToUrl(currentUrl, scheme);
             }
-        );
+
+            console.log(currentUrl);
+            // 生成二维码
+            QRCode.toCanvas(
+                currentUrl,
+                {width: 200},
+                (error, canvas) => {
+                    if (error) {
+                        console.error("生成二维码失败:", error);
+                        return;
+                    }
+                    $("#qrcode").html(canvas)
+                    // document.getElementById("qrcode")
+                    // document.getElementById("qrcode").appendChild(canvas);
+                }
+            );
+        }
     })();
 </script>
 </body>

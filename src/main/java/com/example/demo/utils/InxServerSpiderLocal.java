@@ -124,7 +124,7 @@ public class InxServerSpiderLocal {
 //        getTimeout();
         if (loginUser != null) {
 //            checkFavorableComment();
-            getAppConfig();
+//            getAppConfig();
 //            getDocumentssmsMatcher();
 //            index();
 //            appIndex();
@@ -158,7 +158,7 @@ public class InxServerSpiderLocal {
 //            getBankList();
 //            getAppValueList();
 //            getNewRealTerm();
-            Map<String, Object> queryProduct = queryProduct();
+//            Map<String, Object> queryProduct = queryProduct();
 //            Jentity queryProductResult = new Jentity("preSubmitOrder", queryProduct, queryProduct.isEmpty() ? 0 : 1);
 //            root.put("preSubmitOrder", queryProductResult);
 //            uploadRiskPoint();
