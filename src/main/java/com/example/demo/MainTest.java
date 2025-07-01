@@ -281,29 +281,29 @@ public class MainTest {
 //            }
 
 //
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretfacile.json");
-                String fileName = "pretfacile";
-                String appssid = "506";
-                String domainname = "https://temp.biviprestamo.com/";
-                String phoneNo = "1821231232";
-//                String phoneNo = "2226665559";
-
-
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
-
-
 //            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/creditoya.json");
-//                String fileName = "creditoya";
-//                String appssid = "508";
-//                String domainname = "https://temp.fourcredy.com/";
-//                String phoneNo = "182123123";
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ivorian/pretfacile.json");
+//                String fileName = "pretfacile";
+//                String appssid = "506";
+//                String domainname = "https://temp.biviprestamo.com/";
+//                String phoneNo = "1821231232";
+////                String phoneNo = "2226665559";
+//
+//
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
+
+
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/creditoya.json");
+                String fileName = "creditoya";
+                String appssid = "508";
+                String domainname = "https://temp.fourcredy.com/";
+                String phoneNo = "182123123";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/funloan.json");

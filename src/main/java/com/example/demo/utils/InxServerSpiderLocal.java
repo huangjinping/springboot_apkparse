@@ -138,7 +138,7 @@ public class InxServerSpiderLocal {
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
 //
-//            queryProductInstallment();
+            queryProductInstallment();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV5();
