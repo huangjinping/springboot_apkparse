@@ -3,10 +3,5 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/json/Info.plist" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/tempApp/20250206113131755/Payload/clothes.app/zh-Hans.lproj/Localizable.strings" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/tempApp/20250206133131191/Payload/clothes.app/Info.plist" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/tempApp/20250206133131191/Payload/clothes.app/en.lproj/Localizable.strings" charset="UTF-16" />
-    <file url="file://$PROJECT_DIR$/tempApp/20250206133131191/Payload/clothes.app/zh-Hans.lproj/Localizable.strings" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/tempApp/20250206133923078/Payload/clothes.app/zh-Hans.lproj/InfoPlist.strings" charset="UTF-16" />
   </component>
 </project>
