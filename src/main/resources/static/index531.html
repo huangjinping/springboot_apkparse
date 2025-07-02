@@ -823,10 +823,10 @@
 
 
                 var compileSdkVersion = data.targetSdkVersion;
-                if (compileSdkVersion < 34) {
+                if (compileSdkVersion < 35) {
                     $(".targetSdkVersion").addClass("redText");
                     $(".targetSdkVersionAlertDesc").html("");
-                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少34");
+                    $(".targetSdkVersion").html("当前" + compileSdkVersion + ",google play targetSdk 最少35");
                 } else {
                     $(".targetSdkVersion").html(compileSdkVersion);
                     $(".targetSdkVersion").removeClass("redText");
@@ -834,7 +834,7 @@
                     if (compileSdkVersion >= 35) {
                         $(".targetSdkVersionAlertDesc").html("（请测试人员使用android15 手机跑下兼容）");
                     }
-
+                    
                 }
 
 

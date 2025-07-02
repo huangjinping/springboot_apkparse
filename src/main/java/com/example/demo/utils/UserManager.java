@@ -54,7 +54,7 @@ public class UserManager {
         jianzhi.add(new User(303, "ec_493", 1));
         jianzhi.add(new User(304, "ec_494", 1));
         jianzhi.add(new User(305, "ec_495", 1));
-        jianzhi.add(new User(306, "", 1));
+        jianzhi.add(new User(306, "ec_484", 1));
         jianzhi.add(new User(307, "", 1));
         jianzhi.add(new User(308, "", 1));
         jianzhi.add(new User(309, "", 1));
