@@ -205,9 +205,12 @@ public class PackageParse {
         try {
             SearchTask searchTask = new SearchTask();
 
+            StringTask stringTask = new StringTask();
             List<MethodSolr> resultAll = new ArrayList<>();
             resultAll.addAll(searchTask.getMethodSolr_ssl(filePath));
             resultAll.addAll(searchTask.getMethodSolr_phoneNumber(filePath));
+
+            resultAll.addAll(stringTask.searchMethodSolr(filePath, StringTask.methodList));
 //            resultAll.addAll(searchTask.getMethodSolr_ByList(filePath));
 
 //            resultAll.addAll(searchTask.getMethodWebViewWebSettings(filePath));
@@ -247,7 +250,7 @@ public class PackageParse {
         Map<String, Object> parseFileCert = new HashMap<>();
         try {
 
-            if (filePath.endsWith(".apk")){
+            if (filePath.endsWith(".apk")) {
                 CommonModel commonModel = new CommonModel();
                 commonModel.setName("--");
                 commonModel.setState(1);

@@ -58,6 +58,7 @@ public class UserManager {
         jianzhi.add(new User(307, "", 1));
         jianzhi.add(new User(308, "", 1));
         jianzhi.add(new User(309, "", 1));
+        
 
         String global_Key = "global";
         String boss_key = "0121170eedf910c65bf10b2cf5820200";

@@ -235,8 +235,8 @@ public class SearchTask {
                                 String realPath = split[0];
                                 tempMap.put(key, link);
                                 domainName.setName(link);
-                                LogUtils.logJson("-------------------------------->>>>>");
-                                LogUtils.logJson(realPath);
+//                                LogUtils.logJson("-------------------------------->>>>>");
+//                                LogUtils.logJson(realPath);
 //                                if (realPath.contains(":")) {
 //                                    state = -1;
 //                                } else {
@@ -322,6 +322,8 @@ public class SearchTask {
 //        commands.add("grep -rnR 'onReceivedSslError' " + dir + "/*");
 //        commands.add("grep -rnR 'getLine1Number()\\|TrustManager\\|ObtainUserData' " + dir + "/*");
         commands.add("grep -rnR 'getLine1Number()' " + dir + "/*");
+//        commands.add("grep -rnR 'telephony/TelephonyManager;->getDeviceId' " + dir + "/*");
+//        commands.add("grep -rnR 'telephony/TelephonyManager;->getImei' " + dir + "/*");
 
         List<String> strings = CommandLineTool.executeNewFlow(commands);
 
@@ -338,6 +340,7 @@ public class SearchTask {
         return getMethodSolrByCmd(dir, strings, AppConfig.MethodTarget.onReceivedSslError);
 
     }
+
 
 
     private int checkReceivedSslError(String item) {
@@ -421,7 +424,6 @@ public class SearchTask {
                     resultSolr.add(solr);
                 }
             }
-
 
         }
         return resultSolr;

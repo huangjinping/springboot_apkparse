@@ -134,11 +134,11 @@ public class InxServerSpiderLocal {
 //            orderListForMulAppInstallment();
 
 //            saveBasicCustInfo();
-//            addBank();
+            addBank();
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
-//
-            queryProductInstallment();
+
+//            queryProductInstallment();
 //            saveCustInfo();
 //            custInfoQuery();
 //            msgFeatureV5();
@@ -975,7 +975,8 @@ public class InxServerSpiderLocal {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
-        mapParam.put(mFieldMap.get("bankAccountNumber"), "829183722");
+        mapParam.put(mFieldMap.get("cuilCuit"), "78987656782");//11
+        mapParam.put(mFieldMap.get("bankAccountNumber"), "2345654345654323456789");//
         mapParam.put(mFieldMap.get("collectionType"), "1");
         LogUtils.log("getAppConfig=============" + mPathMap.get("/cust/addBank"));
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/cust/addBank"), header, mapParam);

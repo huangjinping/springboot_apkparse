@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import com.example.demo.bean.CommonModel;
+import com.example.demo.bean.MethodSolr;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +48,12 @@ public class StringTask {
 //            "CLICK_BANK_CARD_SUBMIT",
 //            "CLICK_BANK_CARD_SUBMIT_T",
 //            "CLICK_LOAN_SUBMIT"
+    };
+
+
+    public static String[] methodList = {
+            "telephony/TelephonyManager;->getDeviceId",
+            "telephony/TelephonyManager;->getImei"
     };
 
     public static String[] searchLogs1 = {
@@ -168,6 +175,8 @@ public class StringTask {
             "\"download_files\"",
             "\"contact_group\"",
             "\"build_id\"",
+            "\"imei\"",
+            "\"getImei\"",
             "\"build_name\""
     };
 
@@ -210,6 +219,7 @@ public class StringTask {
             "frontImage",
             "frontUrl",
             "cardBackUrl",
+            "getImei"
 
 
     };
@@ -299,6 +309,7 @@ public class StringTask {
             "FACE_PICTURE_CANCEL",
             "googleLatitude",
             "googleLongitude",
+            "getImei",
             "LocalLocationBySDK",
             "LocalLocationByService",
             "LocalLocationByLast",
@@ -313,18 +324,51 @@ public class StringTask {
 
     }
 
-    public static List<String> getLenIndex(String[] result, int len, int index) {
 
-        List<String> strs = Arrays.asList(result);
-        int cro = strs.size() / len;
-        List<String> strings = new ArrayList<>();
-        if (cro * (index + 1) > strs.size() - 1) {
-            strings = strs.subList(cro * index, strs.size() - 1);
-        } else {
-            strings = strs.subList(cro * index, cro * (index + 1));
+    public static List<String> getLenIndex(String[] a, int b, int i) {
+        // 参数校验
+        if (a == null || b <= 0 || i < 0 || i >= b) {
+            throw new IllegalArgumentException("Invalid parameters");
         }
-        return strings;
+
+        int totalSize = a.length;
+        int baseSize = totalSize / b;  // 每组的基本大小
+        int remainder = totalSize % b; // 余数，前remainder组每组多1个元素
+
+        // 计算第i组的起始和结束索引
+        int startIndex;
+        int endIndex;
+
+        if (i < remainder) {
+            // 前remainder组，每组有baseSize + 1个元素
+            startIndex = i * (baseSize + 1);
+            endIndex = startIndex + baseSize + 1;
+        } else {
+            // 剩余组，每组有baseSize个元素
+            startIndex = remainder * (baseSize + 1) + (i - remainder) * baseSize;
+            endIndex = startIndex + baseSize;
+        }
+
+        // 确保结束索引不超过数组长度
+        endIndex = Math.min(endIndex, totalSize);
+
+        // 将数组转换为List
+        return new ArrayList<>(Arrays.asList(Arrays.copyOfRange(a, startIndex, endIndex)));
     }
+
+
+//    public static List<String> getLenIndex(String[] result, int len, int index) {
+//
+//        List<String> strs = Arrays.asList(result);
+//        int cro = strs.size() / len;
+//        List<String> strings = new ArrayList<>();
+//        if (cro * (index + 1) > strs.size() - 1) {
+//            strings = strs.subList(cro * index, strs.size() - 1);
+//        } else {
+//            strings = strs.subList(cro * index, cro * (index + 1));
+//        }
+//        return strings;
+//    }
 
     public List<CommonModel> searchLogs(String dir, String[] arr) {
         List<String> commands = new ArrayList<>();
@@ -347,10 +391,51 @@ public class StringTask {
         return resultData;
     }
 
+    public List<MethodSolr> searchMethodSolr(String dir, String[] arr) {
+        List<String> commands = new ArrayList<>();
+        List<String> strs = Arrays.asList(arr);
+        String command = CommandLineTool.buildCMDbyList(dir, strs);
+        LogUtils.log(command);
+        commands.add(command);
+        List<String> result = CommandLineTool.executeNewFlow(commands);
+        List<MethodSolr> resultData = new ArrayList<>();
+        for (String item : result
+        ) {
+            MethodSolr model = new MethodSolr();
+            String content = item.replace(dir, "").replace("smali", "a").replace("/", ".");
+            if (content.length() > 200) {
+                content = content.substring(0, 190);
+            }
+
+            int i = checkMethod(content);
+            if (i == -1) {
+                model.setState(-1);
+                model.setName(content);
+                resultData.add(model);
+            }
+
+        }
+        return resultData;
+    }
+
+
+    private int checkMethod(String item) {
+
+//        LogUtils.log("-------------------checkMethod------------------------------");
+//        LogUtils.log(item);
+        if (item.contains(".androidx.core.telephony.TelephonyManagerCompat")) {
+            return 1;
+        }
+        return -1;
+    }
+
+
     public List<CommonModel> searchLogs(String dir, List<String> strs) {
         List<String> commands = new ArrayList<>();
         String command = CommandLineTool.buildCMDbyList(dir, strs);
+//        LogUtils.log("----------------------------searchLogs--------------------------------------------------");
 //        LogUtils.log(command);
+
         commands.add(command);
         List<String> result = CommandLineTool.executeNewFlow(commands);
         List<CommonModel> resultData = new ArrayList<>();
@@ -363,8 +448,6 @@ public class StringTask {
             if (content.length() > 400) {
                 content = content.substring(0, 395);
             }
-
-
             if (!checkContent(content)) {
                 continue;
             }
@@ -379,33 +462,39 @@ public class StringTask {
         if (TextUtils.isEmpty(content)) {
             return false;
         }
-        if (content.contains(".facebook.")) {
+        if (content.contains(".facebook.") || content.contains(".google.") || content.contains(".branch.") || content.contains(".flutter.") || content.contains(".dcloud.")) {
             return false;
         }
-        if (content.contains(".google.")) {
+//        if (content.contains(".google.")) {
+//            return false;
+//        }
+//        if (content.contains(".branch.")) {
+//            return false;
+//        }
+//        if (content.contains(".flutter.")) {
+//            return false;
+//        }
+//        if (content.contains(".dcloud.")) {
+//            return false;
+//        }
+//        if (content.contains(".android.billingclient.")) {
+//            return false;
+//        }
+//        if (content.contains(".hamcrest.core.")) {
+//            return false;
+//        }
+//        if (content.contains(".androidx.camera")) {
+//            return false;
+//        }
+//        if (content.contains(".json.JSONObject")) {
+//            return false;
+//        }
+        if (content.contains(".android.billingclient.") || content.contains(".hamcrest.core.") || content.contains(".androidx.camera") || content.contains(".json.JSONObject") || content.contains(".androidx.core.telephony.TelephonyManagerCompat") || content.contains("java.lang.String getImei(android.telephony.TelephonyManager):") || content.contains(".com.appsflyer.deeplink")) {
             return false;
         }
-        if (content.contains(".branch.")) {
-            return false;
-        }
-        if (content.contains(".flutter.")) {
-            return false;
-        }
-        if (content.contains(".dcloud.")) {
-            return false;
-        }
-        if (content.contains(".android.billingclient.")) {
-            return false;
-        }
-        if (content.contains(".hamcrest.core.")) {
-            return false;
-        }
-        if (content.contains(".androidx.camera")) {
-            return false;
-        }
-        if (content.contains(".json.JSONObject")) {
-            return false;
-        }
+//        if (content.contains("java.lang.String getImei(android.telephony.TelephonyManager):")) {
+//            return false;
+//        }
         return !content.contains(".com.appsflyer.internal");
     }
 
