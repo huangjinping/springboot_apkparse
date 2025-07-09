@@ -211,7 +211,9 @@ public class PermissionUtils {
 
     public static final String[] permissions2024All = new String[]{
             "android.permission.INTERNET",
-            "android.permission.CAMERA"
+            "android.permission.CAMERA",
+            "android.permission.ACCESS_NETWORK_STATE",
+            "android.permission.ACCESS_WIFI_STATE",
     };
 
     public static final String[] permissions2024DebugMast = new String[]{

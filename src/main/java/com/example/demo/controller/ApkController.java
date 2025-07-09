@@ -191,7 +191,9 @@ public class ApkController {
                 }
 
                 String masterApkBPath = deviceApkPath + "/base-master";
+
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, masterApkPath, masterApkBPath, appType, PackageParse.ANDROID_PACKAGE_TYPE_AAB);
+
 
 //                LogUtils.log("---------------get-size total---------------------->");
                 cmd = bundletooPath + " get-size total --apks " + apksPath;
@@ -329,6 +331,7 @@ public class ApkController {
 
         Map<String, Object> resultMap = new HashMap<>();
         LogUtils.log("================================");
+
 
         return RestResponse.success(resultMap);
 
