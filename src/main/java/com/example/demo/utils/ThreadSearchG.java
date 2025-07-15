@@ -48,7 +48,6 @@ public class ThreadSearchG {
         } catch (InterruptedException e) {
             throw new NullPointerException(e.getMessage());
         }
-
         return result;
     }
 

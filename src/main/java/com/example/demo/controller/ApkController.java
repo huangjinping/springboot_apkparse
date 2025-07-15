@@ -55,6 +55,20 @@ public class ApkController {
     }
 
 
+    @RequestMapping(value = "/checkSdk", method = RequestMethod.POST)
+    public RestResponse checkSdk(@RequestParam("savePos") String savePos, @RequestParam("apkPath") String apkPath) {
+        Map<String, Object> resultMap = new HashMap<>();
+        LogUtils.log("=======checkSdk=======savePos===========" + savePos);
+        LogUtils.log("=======checkSdk=======apkPath===========" + apkPath);
+
+        ThreadSearchQ threadg = new ThreadSearchQ();
+        Map<String, Object> map = threadg.parseData(savePos, apkPath);
+        resultMap.putAll(map);
+
+        return RestResponse.success(resultMap);
+    }
+
+
     @RequestMapping(value = "/searchTaskLog", method = RequestMethod.POST)
     public RestResponse searchTaskLog(@RequestParam("savePos") String savePos) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -150,6 +164,8 @@ public class ApkController {
 
             if (".apk".equals(suffix)) {
                 Map<String, Object> map = packageParse.parseAndroidManifestByCmd(apktoolPath, resultFile.getAbsolutePath(), unzipPath, appType, PackageParse.ANDROID_PACKAGE_TYPE_APK);
+                map.put("apkPath", resultFile.getAbsolutePath());
+
                 map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                 map.putAll(PackageParse.getApkLengthByList(resultFile.getAbsolutePath()));
                 map.putAll(PackageParse.parseApkLibs(unzipPath));
@@ -213,6 +229,8 @@ public class ApkController {
 
                     String mappingPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map";
 
+                    String dependenciesPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.libraries/dependencies.pb";
+
                     try {
                         List<KeepPackage> packageList = PackageParse.dependenciesRule(resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.libraries/dependencies.pb");
 
@@ -241,7 +259,12 @@ public class ApkController {
                         e.printStackTrace();
                     }
                     FileUtils.moveFile(mappingPath, masterApkBPath + "/proguard.map");
+                    FileUtils.moveFile(dependenciesPath, masterApkBPath + "/dependencies.map");
+
+
+
                     map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
+                    map.put("apkPath", masterApkPath);
                     map.putAll(PackageParse.parseLibs(resultFile.getParentFile() + "/unzip/base/lib"));
                 } catch (Exception e) {
                     e.printStackTrace();

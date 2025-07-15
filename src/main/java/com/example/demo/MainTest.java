@@ -1,10 +1,14 @@
 package com.example.demo;
 
 import com.example.demo.bean.CommonModel;
-import com.example.demo.utils.*;
+import com.example.demo.utils.FileSizeUtil;
+import com.example.demo.utils.LogUtils;
+import com.example.demo.utils.StringTask;
 import org.eclipse.jgit.api.Git;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -67,9 +71,61 @@ public class MainTest {
 //        }
 //    }
 
+    public static List<String> filterBlockedAPIsWithUsage(String filePath) {
+        List<String> blockedAPIs = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            StringBuilder currentBlock = new StringBuilder();
+            boolean isBlockedBlock = false;
+
+            while ((line = br.readLine()) != null) {
+                if (line.contains("Linking blocked") || line.contains("Reflection blocked")) {
+                    // 如果是新的 blocked API，先保存之前的（如果有）
+                    if (isBlockedBlock && currentBlock.length() > 0) {
+                        blockedAPIs.add(currentBlock.toString());
+                        currentBlock = new StringBuilder();
+                    }
+                    isBlockedBlock = true;
+                    currentBlock.append(line).append("\n");
+                } else if (isBlockedBlock) {
+                    // 捕获所有关联行（包括 use(s): 和缩进行）
+                    if (line.trim().startsWith("use(s):") || line.trim().startsWith("L")) {
+                        currentBlock.append(line).append("\n");
+                    } else {
+                        // 非关联行，结束当前 block
+                        if (currentBlock.length() > 0) {
+                            blockedAPIs.add(currentBlock.toString());
+                            currentBlock = new StringBuilder();
+                        }
+                        isBlockedBlock = false;
+                    }
+                }
+            }
+            // 处理最后一个未保存的 blocked API
+            if (isBlockedBlock && currentBlock.length() > 0) {
+                blockedAPIs.add(currentBlock.toString());
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+        return blockedAPIs;
+    }
+
+    private static void onAppcompat() {
+        String filePath = "/Users/huhuijie/Downloads/506result.txt"; // 替换为你的文件路径
+        List<String> blockedAPIs = filterBlockedAPIsWithUsage(filePath);
+
+        System.out.println("Blocked APIs and their usage:");
+        for (String api : blockedAPIs) {
+            System.out.println(api);
+            System.out.println(); // 空行分隔
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 //        System.out.println(RegexUtils.isTel1("123416789"));
 
+        onAppcompat();
         String source = "I love  china";
 
 //        ApaParser.parseInfoPlist("/Users/huhuijie/Documents/GitHub/springboot_apkparse/json/Info.plist");
@@ -295,15 +351,15 @@ public class MainTest {
 //            }
 
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/creditoya.json");
-                String fileName = "creditoya";
-                String appssid = "508";
-                String domainname = "https://temp.fourcredy.com/";
-                String phoneNo = "1836786778";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/creditoya.json");
+//                String fileName = "creditoya";
+//                String appssid = "508";
+//                String domainname = "https://temp.fourcredy.com/";
+//                String phoneNo = "1836786778";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "tanzania/funloan.json");

@@ -371,6 +371,12 @@
 
         </ul>
 
+<!--        <div class="resultTitle">-->
+<!--            <div>针对非SDK接口的限制检测 <span class="appAlert" style="padding: 10px">（注意：排查）</span></div>-->
+<!--        </div>-->
+<!--        <ul class="checkSDKResultPath">-->
+<!--        </ul>-->
+
     </div>
 
 </div>
@@ -456,6 +462,11 @@
                     searchTaskPath(res);
                     searchTaskJson(res);
                     searchTaskLog(res)
+
+                    setTimeout(function () {
+                        checkSDK(res);
+                    }, 3000)
+
                 },
                 error: function (err) {
                     $(".appFileNameView").css("display", 'none');
@@ -510,6 +521,67 @@
                 },
                 error: function (err) {
 
+                    console.error(err);
+                }
+            });
+        }
+
+        function checkSDK(e) {
+            var savePos = e.data.savePos;
+
+            if (isEmpty(savePos)) {
+                return;
+            }
+            console.log("---------searchTaskPath---start----");
+
+            var formData = new FormData();
+            formData.append("savePos", e.data.savePos);
+            formData.append("apkPath", e.data.apkPath);
+            $.ajax({
+                url: "/checkSdk",
+                type: "post",
+                data: formData,
+                timeout: 1000 * 120,
+                contentType: false,
+                processData: false,
+                dataType: "text",
+                success: function (data) {
+                    console.log("---------searchTaskPath---result----");
+                    console.log(data);
+                    var res = eval('(' + data + ')');
+
+                    var dataRes = res.data;
+                    var autoHtml = "";
+                    if (dataRes.searchPath) {
+                        dataRes.searchPath.forEach(function (v, i) {
+
+                            var state = "";
+                            var stateText = "";
+                            if (1 == v.state) {
+                                state = "";
+                            } else if (-1 == v.state) {
+                                stateText = "redText";
+                                state = "问题字符";
+                            }
+                            stateText = "redText";
+                            state = "问题字符";
+                            autoHtml += "  <li class=\"resultli\">\n" +
+                                "                <span class=\"resultliname\">" + v.name + "</span><span class=\"resultlistate " + stateText + "\">" + state + "</span>\n" +
+                                "            </li>";
+                        });
+                        console.log("---------searchTaskPath---result---1-");
+
+                        $(".checkSDKResultPath").html(autoHtml);
+                    } else {
+                        console.log("---------searchTaskPath---result---2-");
+
+                        $(".checkSDKResultPath").html("");
+                    }
+                },
+                error: function (err) {
+                    console.log("---------searchTaskPath---result---3-");
+
+                    $(".checkSDKResultPath").html("");
                     console.error(err);
                 }
             });
@@ -1182,6 +1254,7 @@
             $(".searchResultUl").html(getLoadingViews());
             $(".searchResultFiled").html(getLoadingViews());
             $(".searchResultPath").html(getLoadingViews());
+            $(".checkSDKResultPath").html(getLoadingViews());
             $(".searchResultJson").html(getLoadingViews());
             $(".searchResultLog").html(getLoadingViews());
 

@@ -19,11 +19,14 @@ public class FolderFileScanner {
             "/com/amap/api",//高德定位
             "/me/jessyan/autosize",//头条适配
             "/com/alibaba/android/arouter",//router
+            "/com/alibaba/",//阿里
             "/com/meituan/",//美团
             "/com/didi/",//滴滴
-            "/com/lzy/okgo/" //okgo
-//            "/io/branch/"
+            "/com/lzy/okgo/", //okgo
+            "/com/blankj/utilcode"//utilcode
     };
+
+
     public static final String[] PACKAGE_SHOULD_LIST = new String[]{
             "com/google/firebase/crashlytics",
             "com/google/android/gms/location",

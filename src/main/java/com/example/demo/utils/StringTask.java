@@ -219,7 +219,9 @@ public class StringTask {
             "frontImage",
             "frontUrl",
             "cardBackUrl",
-            "getImei"
+            "getImei",
+            "TelephonyManagerCompat.getImei(",
+            "com.alibaba"
 
 
     };
@@ -423,9 +425,9 @@ public class StringTask {
 
 //        LogUtils.log("-------------------checkMethod------------------------------");
 //        LogUtils.log(item);
-        if (item.contains(".androidx.core.telephony.TelephonyManagerCompat")) {
-            return 1;
-        }
+//        if (item.contains(".androidx.core.telephony.TelephonyManagerCompat")) {
+//            return 1;
+//        }
         return -1;
     }
 
@@ -462,7 +464,11 @@ public class StringTask {
         if (TextUtils.isEmpty(content)) {
             return false;
         }
-        if (content.contains(".facebook.") || content.contains(".google.") || content.contains(".branch.") || content.contains(".flutter.") || content.contains(".dcloud.")) {
+        if (content.contains(".facebook.")
+                || content.contains(".google.")
+                || content.contains(".branch.")
+                || content.contains(".flutter.")
+                || content.contains(".dcloud.")) {
             return false;
         }
 //        if (content.contains(".google.")) {
@@ -489,7 +495,13 @@ public class StringTask {
 //        if (content.contains(".json.JSONObject")) {
 //            return false;
 //        }
-        if (content.contains(".android.billingclient.") || content.contains(".hamcrest.core.") || content.contains(".androidx.camera") || content.contains(".json.JSONObject") || content.contains(".androidx.core.telephony.TelephonyManagerCompat") || content.contains("java.lang.String getImei(android.telephony.TelephonyManager):") || content.contains(".com.appsflyer.deeplink")) {
+        if (content.contains(".android.billingclient.")
+                || content.contains(".hamcrest.core.")
+                || content.contains(".androidx.camera")
+                || content.contains(".json.JSONObject")
+//                || content.contains(".androidx.core.telephony.TelephonyManagerCompat")
+//                || content.contains("java.lang.String getImei(android.telephony.TelephonyManager):")
+                || content.contains(".com.appsflyer.deeplink")) {
             return false;
         }
 //        if (content.contains("java.lang.String getImei(android.telephony.TelephonyManager):")) {
