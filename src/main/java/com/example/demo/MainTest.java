@@ -1,9 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.bean.CommonModel;
-import com.example.demo.utils.FileSizeUtil;
-import com.example.demo.utils.LogUtils;
-import com.example.demo.utils.StringTask;
+import com.example.demo.utils.*;
 import org.eclipse.jgit.api.Git;
 
 import java.io.BufferedReader;
@@ -294,15 +292,15 @@ public class MainTest {
 //                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
 //                inxServerSpiderLocal.start();
 //            }
-//            {
-//                String json = FileUtils.getTextByPath(HOME_PATH + "ghana/zipmoney.json");
-//                String fileName = "zipmoney";
-//                String appssid = "513";
-//                String domainname = "https://temp.angelacredito.com/";
-//                String phoneNo = "1821231222";
-//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-//                inxServerSpiderLocal.start();
-//            }
+            {
+                String json = FileUtils.getTextByPath(HOME_PATH + "ghana/zipmoney.json");
+                String fileName = "zipmoney";
+                String appssid = "513";
+                String domainname = "https://temp.angelacredito.com/";
+                String phoneNo = "182000800";
+                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+                inxServerSpiderLocal.start();
+            }
 
 
 //            {

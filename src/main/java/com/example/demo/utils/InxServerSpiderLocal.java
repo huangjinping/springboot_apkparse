@@ -134,7 +134,7 @@ public class InxServerSpiderLocal {
 //            orderListForMulAppInstallment();
 
 //            saveBasicCustInfo();
-            addBank();
+//            addBank();
 ////            custInfoBasicQuery();
 //            msgFeatureV3();
 
@@ -164,7 +164,7 @@ public class InxServerSpiderLocal {
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
-//            v3indexForMulApp();
+            v3indexForMulApp();
 //            getAppInfo();
 //            getSysSetting();
 //            counponList();

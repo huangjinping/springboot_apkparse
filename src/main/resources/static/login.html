@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery.min.js"></script>
+    <!--    <script src="./res/js/UserManager.js"></script>-->
+    <!--    <script src="./res/js/utils.js"></script>-->
+
+    <script>
+        document.write("<script src='utils.js?=" + Math.random() + "'><\/script>");
+        document.write("<script src='UserManager.js?=" + Math.random() + "'><\/script>");
+    </script>
+    <title>用户登录</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #4285f4;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+
+        .captcha-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .captcha-input {
+            flex: 1;
+        }
+
+        .captcha-img {
+            width: 120px;
+            height: 40px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #333;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>用户登录</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">账号</label>
+            <input type="text" id="username" name="username" placeholder="请输入您的账号" required>
+            <div id="usernameError" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" name="password" placeholder="请输入您的密码" required>
+            <div id="passwordError" class="error-message"></div>
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--            <label for="captcha">验证码</label>-->
+        <!--            <div class="captcha-group">-->
+        <!--                <input type="text" id="captcha" name="captcha" class="captcha-input" placeholder="请输入验证码" required>-->
+        <!--                <div id="captchaImage" class="captcha-img"></div>-->
+        <!--            </div>-->
+        <!--            <div id="captchaError" class="error-message"></div>-->
+        <!--        </div>-->
+
+        <button type="submit" class="login-btn">登录</button>
+    </form>
+</div>
+
+<script>
+    // 生成随机验证码
+    function generateCaptcha() {
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let captcha = '';
+        for (let i = 0; i < 6; i++) {
+            captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return captcha;
+    }
+
+    // // 初始化验证码
+    // let currentCaptcha = generateCaptcha();
+    // const captchaImage = document.getElementById('captchaImage');
+    // captchaImage.textContent = currentCaptcha;
+    //
+    // // 点击验证码刷新
+    // captchaImage.addEventListener('click', function () {
+    //     currentCaptcha = generateCaptcha();
+    //     captchaImage.textContent = currentCaptcha;
+    // });
+
+    function getSchemeFromUrl(url) {
+        // 使用 URLSearchParams 解析查询参数
+        const params = new URLSearchParams(new URL(url).search);
+        // 获取 scheme 参数值
+        return params.get('scheme');
+    }
+
+
+    function onLogin(username, password) {
+        showLoading()
+        $.ajax({
+            type: "get",
+            url: "userinfo?v=" + Math.random(),
+            dataType: "json",
+            success: function (res) {
+                onUserLogin({
+                    username: myTrim(username),
+                    password: myTrim(password),
+                    userList: res,
+                    callback: function (e) {
+                        console.log(e);
+                        dismissLoading()
+                        if (0 == e) {
+                            showToast("账号不存在!");
+                            return;
+                        } else if (-1 == e) {
+                            showToast("该账号状态异常!请联系管理员");
+                            return;
+                        } else if (-2 == e) {
+                            showToast("账号密码不正确！")
+                            return;
+                        }
+                        let schemeFromUrl = getSchemeFromUrl(window.location.href);
+                        if (isEmpty(schemeFromUrl)) {
+                            window.location.replace("index531");
+                        } else {
+                            window.location.replace(decodeURI(schemeFromUrl));
+                        }
+                    }
+                })
+
+            },
+            error: function (msg) {
+                showToast("" + msg)
+                dismissLoading()
+            }
+        })
+    }
+
+    // 表单提交处理
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        // 获取输入值
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        // const captcha = document.getElementById('captcha').value.trim();
+
+        // 重置错误信息
+        document.getElementById('usernameError').style.display = 'none';
+        document.getElementById('passwordError').style.display = 'none';
+        // document.getElementById('captchaError').style.display = 'none';
+
+        // 验证输入
+        let isValid = true;
+
+        if (!username) {
+            document.getElementById('usernameError').textContent = '请输入账号';
+            document.getElementById('usernameError').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!password) {
+            document.getElementById('passwordError').textContent = '请输入密码';
+            document.getElementById('passwordError').style.display = 'block';
+            isValid = false;
+        } else if (password.length < 6) {
+            document.getElementById('passwordError').textContent = '密码长度不能少于6位';
+            document.getElementById('passwordError').style.display = 'block';
+            isValid = false;
+        }
+
+        // if (!captcha) {
+        //     document.getElementById('captchaError').textContent = '请输入验证码';
+        //     document.getElementById('captchaError').style.display = 'block';
+        //     isValid = false;
+        // } else if (captcha.toUpperCase() !== currentCaptcha) {
+        //     document.getElementById('captchaError').textContent = '验证码不正确';
+        //     document.getElementById('captchaError').style.display = 'block';
+        //     isValid = false;
+        //
+        //     // 刷新验证码
+        //     currentCaptcha = generateCaptcha();
+        //     captchaImage.textContent = currentCaptcha;
+        // }
+
+        // 如果验证通过，模拟登录
+        if (isValid) {
+            // 这里应该是实际的登录AJAX请求
+            // alert('登录成功！\n账号: ' + username + '\n将跳转到主页...');
+
+            // window.location.href = 'dashboard.html';
+            onLogin(username, password)
+        }
+    });
+
+</script>
+</body>
+</html>

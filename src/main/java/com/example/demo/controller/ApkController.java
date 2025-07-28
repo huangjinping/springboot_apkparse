@@ -212,7 +212,7 @@ public class ApkController {
 
 
 //                LogUtils.log("---------------get-size total---------------------->");
-                cmd = bundletooPath + " get-size total --apks " + apksPath;
+                cmd = bundletooPath + " get-size total --apks " + apksPath + "";
 
 //                cmd = bundletooPath + " get-size total --apks " + apksPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
                 List<String> commands = new ArrayList<>();
@@ -258,10 +258,15 @@ public class ApkController {
 
                         e.printStackTrace();
                     }
+
+
                     FileUtils.moveFile(mappingPath, masterApkBPath + "/proguard.map");
-                    FileUtils.moveFile(dependenciesPath, masterApkBPath + "/dependencies.map");
+//                    FileUtils.moveFile(dependenciesPath, masterApkBPath + "/dependencies.map");
 
-
+                    commands.clear();
+                    cmd = "Strings " + dependenciesPath + " >>" + masterApkBPath + "/dependencies.txt";
+                    commands.add(cmd);
+                    CommandLineTool.executeNewFlow(commands);
 
                     map.put("savePos", savePos.getAbsolutePath() + "/" + t_name);
                     map.put("apkPath", masterApkPath);
@@ -282,6 +287,7 @@ public class ApkController {
                 resultMap.put("savePos", savePos.getAbsolutePath());
                 resultMap.putAll(objectMap);
                 LogUtils.logJson(strings);
+
 
             }
 

@@ -87,6 +87,13 @@ public class IndexRestController {
         return new ModelAndView("nbjson531");
     }
 
+
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
+
+
     @RequestMapping("/serverTest")
     public ModelAndView serverSpider() {
 
