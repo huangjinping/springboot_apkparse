@@ -51,7 +51,7 @@ function addWatermark(name) {
 
     // 绘制水印
     ctx.font = '10px Arial';
-    ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
+    ctx.fillStyle = 'rgba(200, 200, 200, 0.5)';
     ctx.rotate(-45 * Math.PI / 180);
     ctx.fillText(formatDateTime() + "\n", 50, 200);
     ctx.fillText("" + name, 50, 300);
