@@ -228,7 +228,6 @@ public class ApkController {
                     }
 
                     String mappingPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map";
-
                     String dependenciesPath = resultFile.getParentFile() + "/unzip/BUNDLE-METADATA/com.android.tools.build.libraries/dependencies.pb";
 
                     try {
