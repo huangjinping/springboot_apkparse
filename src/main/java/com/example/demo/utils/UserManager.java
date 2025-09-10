@@ -19,9 +19,10 @@ public class UserManager {
         beijing.add(new User(4, "zhangrongsheng", 1));
         beijing.add(new User(5, "huangjinping", 1));
         beijing.add(new User(6, "zhangmeng", 1));
-        beijing.add(new User(7, "", 1));
+        beijing.add(new User(7, "zhanggaifeng", 1));
         beijing.add(new User(8, "", 1));
         beijing.add(new User(9, "", 1));
+
 
         List<User> ceshi = new ArrayList<>();
         ceshi.add(new User(100, "wenyue", 1));
@@ -44,21 +45,21 @@ public class UserManager {
         chengdu.add(new User(205, "konglingfeng", 1));
         chengdu.add(new User(206, "chengyijia", 1));
         chengdu.add(new User(207, "wangshifu", 1));
-        chengdu.add(new User(208, "kaifa2", 1));
+        chengdu.add(new User(208, "kaifa2", -1));
         chengdu.add(new User(209, "kaifa3", 1));
 
         List<User> jianzhi = new ArrayList<>();
-        jianzhi.add(new User(300, "ec_475", 1));
-        jianzhi.add(new User(301, "ec_481", 1));
+        jianzhi.add(new User(300, "ec_475", -1));
+        jianzhi.add(new User(301, "ec_481", -1));
         jianzhi.add(new User(302, "ec_482", 1));
         jianzhi.add(new User(303, "ec_493", 1));
-        jianzhi.add(new User(304, "ec_494", 1));
-        jianzhi.add(new User(305, "ec_495", 1));
-        jianzhi.add(new User(306, "ec_484", 1));
+        jianzhi.add(new User(304, "ec_494", -1));
+        jianzhi.add(new User(305, "ec_495", -1));
+        jianzhi.add(new User(306, "ec_484", -1));
         jianzhi.add(new User(307, "", 1));
         jianzhi.add(new User(308, "", 1));
         jianzhi.add(new User(309, "", 1));
-        
+
 
         String global_Key = "global";
         String boss_key = "0121170eedf910c65bf10b2cf5820200";
@@ -72,8 +73,8 @@ public class UserManager {
             User user = allList.get(i);
             user.setName(global_Key + "" + user.getId());
             String password = AESUtil.encrypt(global_Key + "" + user.getId(), boss_key).substring(0, 6);
-//            user.setPassword(MD5Util.md5(password));
-            user.setPassword(password);
+            user.setPassword(MD5Util.md5(password));
+//            user.setPassword(password);
         }
         Gson gson = new Gson();
         System.out.println(gson.toJson(allList));

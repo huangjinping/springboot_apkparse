@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class InxServerSpiderLocal {
     private final JsonFilter mJsonFilter;
@@ -130,6 +131,7 @@ public class InxServerSpiderLocal {
 //            appIndex();
 //            appIndexInstallment();
 //            uploadImage();
+            getRegion();
 
 //            orderListForMulAppInstallment();
 
@@ -164,7 +166,7 @@ public class InxServerSpiderLocal {
 //            uploadRiskPoint();
 //            uploadOperation();
 //            addBank();
-            v3indexForMulApp();
+//            v3indexForMulApp();
 //            getAppInfo();
 //            getSysSetting();
 //            counponList();
@@ -218,7 +220,13 @@ public class InxServerSpiderLocal {
 //        header.put("v-flag", "true");
 //        header.put("apiName", AESUtil.encrypt("/login/getVerifCode", "0121170eedf910c65bf10b2cf5820202"));
 //        LogUtils.logJson(commMap());
+        long startTime = System.nanoTime();
+
+
         String respStr = OkHttpUtils.postForm(host + mPathMap.get("/login/getVerifCode"), header, mapParam);
+
+
+
         JSONObject jsonObject = JSON.parseObject(respStr);
         JSONObject data = jsonObject.getJSONObject(mFieldMap.get("data"));
         LogUtils.logJson(respStr);
@@ -577,6 +585,7 @@ public class InxServerSpiderLocal {
         mapParam.putAll(commMap());
         Map<String, String> header = commMap();
         Map<String, File> fileMap = new HashMap<>();
+
         String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/cust/custInfoQuery"), fileMap, mapParam, header);
         LogUtils.logJson(respStr);
         JSONObject jsonObject = JSON.parseObject(respStr);
@@ -584,6 +593,44 @@ public class InxServerSpiderLocal {
         if ("1000".equals(code)) {
         }
     }
+
+    public void getRegion() {
+        Map<String, String> mapParam = new HashMap<>();
+        mapParam.putAll(commMap());
+        Map<String, String> header = commMap();
+        Map<String, File> fileMap = new HashMap<>();
+        mapParam.put(mFieldMap.get("regionParentId"), "-1");
+        mapParam.put(mFieldMap.get("regionlevel"), "1");
+        long startTime = System.nanoTime();
+
+        String respStr = OkHttpUtils.postFormWithImge(host + mPathMap.get("/anon/region"), fileMap, mapParam, header);
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+
+        System.out.println("===========================");
+        System.out.println(String.format("方法执行完成!\n\n" +
+                        "执行时间: %d 纳秒\n" +
+                        "执行时间: %d 毫秒\n" +
+                        "执行时间: %d 秒\n\n" +
+                        "详细信息:\n" +
+                        "- 开始时间: %d ns\n" +
+                        "- 结束时间: %d ns\n" +
+                        "- 总耗时: %d ns",
+                duration,
+                TimeUnit.NANOSECONDS.toMillis(duration),
+                TimeUnit.NANOSECONDS.toSeconds(duration),
+                startTime, endTime, duration));
+        LogUtils.logJson(respStr);
+        JSONObject jsonObject = JSON.parseObject(respStr);
+        String code = jsonObject.getString(mFieldMap.get("code"));
+        if ("1000".equals(code)) {
+        }
+    }
+
+
+
+
 
     public void getNewRealTerm() {
         Map<String, String> mapParam = new HashMap<>();
@@ -931,7 +978,7 @@ public class InxServerSpiderLocal {
 //            LogUtils.logJson("=====================0");
 //
 //            LogUtils.logJson(jsonData);
-//
+
 //            if (jsonData != null && jsonData.containsKey(mFieldMap.get("contractList"))) {
 //
 //                LogUtils.logJson("=====================1");
@@ -1280,6 +1327,7 @@ public class InxServerSpiderLocal {
 
             respStr = OkHttpUtils.postForm(host + mPathMap.get("/order/commonContractList"), header, mapParam);
             LogUtils.logJson(respStr);
+
 
 //
 //            respStr = OkHttpUtils.postForm(host + mPathMap.get("/installment/submitOrderInstallment"), header, mapParam);

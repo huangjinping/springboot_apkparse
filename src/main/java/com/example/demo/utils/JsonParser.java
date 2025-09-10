@@ -1478,18 +1478,14 @@ public class JsonParser {
 
                     key = "app_type";
                     String app_type = item.getString(key);
-
                     if ("0".equals(app_type)) {
                         solrGroup.addPropSolr("app_name", app_name);
-
                         app_type0++;
                     }
-
 
                     if ("1".equals(app_type)) {
                         app_type1++;
                     }
-
 //                    int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
 
                     int app_typeState = CheckUtils.getSaferStringWithLimit(item, key, "0", "1");
@@ -1520,6 +1516,9 @@ public class JsonParser {
 
                     try {
                         if (currentPackageName.equals(packageName)) {
+                            LogUtils.log("======currentPackageStats==========" + currentPackageStats);
+                            LogUtils.log(item);
+
                             if (app_type.equals("0")) {
                                 currentPackageStats = 1;
                             }
@@ -1858,8 +1857,9 @@ public class JsonParser {
                     } else {
                         app.put(key, new Jentity(key, name, 0));
                         appListState = 0;
-
                     }
+
+
 
 
                     key = "number";
@@ -1880,8 +1880,19 @@ public class JsonParser {
                     }
 
 
+                    key = "id";
+                    String _id = item.getString(key);
+                    solrGroup.addPropSolr(key, _id);
+                    int _idStats = CheckUtils.getSaferLimitDouble(item, key, 0);
+                    app.put(key, new Jentity(key, _id, _idStats));
+                    if (_idStats != 1) {
+                        appListState = 0;
+                    }
+
+
                     key = "type";
                     String type = item.getString(key);
+
                     int typeStats = CheckUtils.getSaferStringWithLimit(item, key, "1", "2", "3", "4", "5", "6", "7");
                     app.put(key, new Jentity(key, type, typeStats));
                     if (typeStats != 1) {

@@ -49,6 +49,8 @@ public class FolderFileScanner {
     public static final Map<String, Integer> getPackageRule() {
         Map<String, Integer> result = new HashMap<>();
         result.put("com.facebook.soloadersoloader*", Integer.parseInt("0105"));
+        result.put("com.appsflyerafandroidsdk*", Integer.parseInt("694"));
+
         return result;
     }
 
