@@ -58,8 +58,8 @@ public class ApkController {
     @RequestMapping(value = "/checkSdk", method = RequestMethod.POST)
     public RestResponse checkSdk(@RequestParam("savePos") String savePos, @RequestParam("apkPath") String apkPath) {
         Map<String, Object> resultMap = new HashMap<>();
-        LogUtils.log("=======checkSdk=======savePos===========" + savePos);
-        LogUtils.log("=======checkSdk=======apkPath===========" + apkPath);
+//        LogUtils.log("=======checkSdk=======savePos===========" + savePos);
+//        LogUtils.log("=======checkSdk=======apkPath===========" + apkPath);
 
         ThreadSearchQ threadg = new ThreadSearchQ();
         Map<String, Object> map = threadg.parseData(savePos, apkPath);
@@ -175,11 +175,7 @@ public class ApkController {
                 String aabPath = resultFile.getAbsolutePath();
                 String bundletooPath = "java -jar " + projectFile.getAbsolutePath() + "/jks/bundletool.jar";
 //                String cmdaabToApks = "bundletool build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
-                String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
-
-//                System.out.println(cmdaabToApks);
-//                System.out.println("====cmdaabToApks=========");
-
+                String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --mode=universal --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
                 Process process = Runtime.getRuntime().exec(cmdaabToApks);
                 int value = process.waitFor();
 
@@ -200,11 +196,14 @@ public class ApkController {
 
                 String masterApkPath = deviceApkPath + "/base-master.apk";
 
+
+
                 for (File childFile : deviceApkFile.listFiles()) {
                     if (childFile.isFile() && childFile.getName().startsWith("base-master")) {
                         masterApkPath = childFile.getAbsolutePath();
                     }
                 }
+                masterApkPath=deviceApkPath+"/universal.apk";
 
                 String masterApkBPath = deviceApkPath + "/base-master";
 

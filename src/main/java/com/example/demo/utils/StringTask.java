@@ -432,6 +432,34 @@ public class StringTask {
         return -1;
     }
 
+    public CommonModel check_elf_alignment(String input) {
+        if (input == null) {
+            return null;
+        }
+        if (input.contains("UNALIGNED")) {
+            CommonModel model = new CommonModel();
+            model.setName(filterCheckElfAlignment(input));
+            model.setState(0);
+            return model;
+        } else {
+            return null;
+        }
+
+    }
+
+    public String filterCheckElfAlignment(String input) {
+
+        String temp = input;
+        try {
+            String[] split = temp.split("/lib/");
+            temp = split[1].split(".so:")[0];
+            return "/lib/" + temp + ".so:";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return input;
+    }
+
 
     public List<CommonModel> searchLogs(String dir, List<String> strs) {
         List<String> commands = new ArrayList<>();

@@ -20,7 +20,7 @@ public class ThreadSearchQ {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(20, 50, 4, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
 
-        int poolLength = 11;//需要用的线程个数
+        int poolLength = 2;//需要用的线程个数
 
         CountDownLatch countDownLatch = new CountDownLatch(poolLength);
 
@@ -42,6 +42,10 @@ public class ThreadSearchQ {
 //            }));
 //        }
 
+
+//        LogUtils.logJson("ThreadSearchQ   ==============0=====>>>>>");
+
+
         threadPoolExecutor.execute(new Thread(new Runnable() {
             @Override
             public void run() {
@@ -50,11 +54,13 @@ public class ThreadSearchQ {
 //                LogUtils.logJson("======resultFile00========" + resultFile.getName());
                     commands.add("./json/veridex/appcompat.sh --dex-file=" + apkPath);
                     List<String> strings = CommandLineTool.executeNewFlow(commands);
+//                    LogUtils.logJson("ThreadSearchQ   ==============1=====>>>>>");
 
 
-                    for (String item : strings) {
-                        LogUtils.logJson("ThreadSearchQ   " + item);
-                    }
+//                    for (String item : strings) {
+//                        LogUtils.logJson("ThreadSearchQ   " + item);
+//                    }
+
 
 //                    StringTask stringTask = new StringTask();
 //                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.getLenIndex(StringTask.getSearchLog5, poolLength, index));
@@ -65,14 +71,46 @@ public class ThreadSearchQ {
                 countDownLatch.countDown();
             }
         }));
+        List<CommonModel> checkField = new ArrayList<>();
 
-        result.put("searchJson", searchField);
+        threadPoolExecutor.execute(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<String> commands = new ArrayList<>();
+//                LogUtils.logJson("======resultFile00========" + resultFile.getName());
+                    commands.add("./json/check_elf_alignment.sh " + apkPath);
+                    List<String> strings = CommandLineTool.executeNewFlow(commands);
+//                    LogUtils.logJson("ThreadSearchQ   ==============1=====>>>>>");
+
+                    StringTask stringTask = new StringTask();
+                    for (String item : strings) {
+                        CommonModel model = stringTask.check_elf_alignment(item);
+                        if (model != null) {
+                            checkField.add(model);
+                        }
+                    }
+//                    StringTask stringTask = new StringTask();
+//                    List<CommonModel> strings = stringTask.searchLogs(outFilePath, StringTask.getLenIndex(StringTask.getSearchLog5, poolLength, index));
+//                    searchField.addAll(strings);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                countDownLatch.countDown();
+            }
+        }));
+//        LogUtils.logJson("ThreadSearchQ   ================2===>>>>>");
+
         try {
             // 让当前线程处于阻塞状态，直到锁存器计数为零
             countDownLatch.await();
         } catch (InterruptedException e) {
             throw new NullPointerException(e.getMessage());
         }
+//        result.put("searchJson", searchField);
+        result.put("checkLibJson", checkField);
+//        LogUtils.logJson("ThreadSearchQ   ================3===>>>>>");
+
         return result;
     }
 

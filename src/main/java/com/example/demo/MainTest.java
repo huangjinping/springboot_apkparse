@@ -1,7 +1,9 @@
 package com.example.demo;
 
 import com.example.demo.bean.CommonModel;
-import com.example.demo.utils.*;
+import com.example.demo.utils.FileSizeUtil;
+import com.example.demo.utils.LogUtils;
+import com.example.demo.utils.StringTask;
 import org.eclipse.jgit.api.Git;
 
 import java.io.BufferedReader;
@@ -257,6 +259,10 @@ public class MainTest {
         String autoFileOrFilesSize = FileSizeUtil.getAutoFileOrFilesSize("/Users/huhuijie/Downloads/card_back_7654_094647602.jpeg");
         LogUtils.log("======autoFileOrFilesSize=========" + autoFileOrFilesSize);
 
+
+//        StringTask stringTask=new StringTask();
+//        LogUtils.log("StringTask==="+        stringTask.filterCheckElfAlignment(""));
+
         try {
 //            {
 //                /**
@@ -265,17 +271,17 @@ public class MainTest {
 //                InxServerSpiderLocal.startWhatAppCode();
 //            }
 
-            {
-                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/creditoactivo.json");
-                String fileName = "creditoactivo";
-                String appssid = "549";
-//                String domainname = "https://ecuador.ultracreditosmx.com/";
-                String domainname = "https://www.creditoactivo.com/";
-
-                String phoneNo = "182000800";
-                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
-                inxServerSpiderLocal.start();
-            }
+//            {
+//                String json = FileUtils.getTextByPath(HOME_PATH + "ecuador/creditoactivo.json");
+//                String fileName = "creditoactivo";
+//                String appssid = "549";
+////                String domainname = "https://ecuador.ultracreditosmx.com/";
+//                String domainname = "https://www.creditoactivo.com/";
+//
+//                String phoneNo = "182000800";
+//                InxServerSpiderLocal inxServerSpiderLocal = new InxServerSpiderLocal(json, fileName, appssid, domainname, phoneNo);
+//                inxServerSpiderLocal.start();
+//            }
 //            {
 //                String json = FileUtils.getTextByPath(HOME_PATH + "malaysia/speedyaid.json");
 //                String fileName = "speedyaid";

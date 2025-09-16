@@ -53,5 +53,9 @@ public class ThreadSearchP {
         return result;
     }
 
+    public void  check_elf_alignment(String input){
+
+    }
+
 
 }
