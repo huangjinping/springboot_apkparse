@@ -84,12 +84,8 @@ public class PackageParse {
             result.add(checkFileLib(V71, v7a, allMap));
 //            result.add(checkFileLib(X86, x86, allMap));
 //            result.add(checkFileLib(X8664, x8664, allMap));
-
-
         }
-
         rootResult.put("cpu", result);
-
         return rootResult;
     }
 
@@ -475,11 +471,14 @@ public class PackageParse {
         try {
             String v8a = path + "/base/lib/arm64-v8a/";
             File react = new File(v8a + "libreactnativejni.so");
+            File react1 = new File(v8a + "libreactnative.so");
+
+
             File uni = new File(v8a + "libweexcore.so");
             File flutter = new File(v8a + "libflutter.so");
 
 
-            if (react.exists()) {
+            if (react.exists() || react1.exists()) {
                 result = 1;
             } else if (uni.exists()) {
                 result = 2;
@@ -579,7 +578,7 @@ public class PackageParse {
 //        LogUtils.log("==parseAndroidManifestByCmd==============appType===========" + appType);
 
         String cmd = "java -jar " + apktoolPath + " d " + apkFastPath + " -o " + outFilePath;
-//        System.out.println(cmd);
+        System.out.println(cmd);
         Process process = Runtime.getRuntime().exec(cmd);
         int value = process.waitFor();
         stringMap.putAll(PackageParse.parseStringXMLToMap(outFilePath + "/res/values/strings.xml"));
@@ -610,12 +609,9 @@ public class PackageParse {
             BufferedReader bis = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = "";
 
-
             while ((line = bis.readLine()) != null) {
                 try {
-
 //                    LogUtils.logJson(line);
-
                     if (line.contains("sdkVersion")) {
                         try {
                             String sdkVersion = line.replace("sdkVersion:'", "").replace("'", "");
@@ -672,10 +668,9 @@ public class PackageParse {
         Application application = parseApplication(document);
         Activity activity = parseLauncherActivity(path, document);
         List<MetaData> metaData = parseMetadata(document);
-
-
         List<Query> queries = parseQueries(document);
         List<Provider> providers = parseProviders(document);
+        List<Jentity> usesFeature = parseUsesFeature(document);
         BackUp backUp = parseBackUp(path, document);
         Map<String, Object> map = new HashMap<>();
         map.put("activity", activity);
@@ -683,9 +678,28 @@ public class PackageParse {
         map.put("permission", appPermissions);
         map.put("application", application);
         map.put("backUp", backUp);
+        map.put("usesFeature", usesFeature);
         map.put("queries", queries);
         map.put("providers", providers);
         return map;
+    }
+
+
+    private List<Jentity> parseUsesFeature(Document document) {
+        XPath xPath = new DefaultXPath("/manifest/uses-feature");
+        List<Element> list = xPath.selectNodes(document.getRootElement());
+        List<Jentity> dataList = new ArrayList<>();
+        for (Element element : list) {
+            String name = element.attributeValue("name");
+            String required = element.attributeValue("required");
+            int state = 0;
+            if ("false".equals(required)) {
+                state = 1;
+            }
+            Jentity jentity = new Jentity(name, required, state);
+            dataList.add(jentity);
+        }
+        return dataList;
     }
 
     private List<Provider> parseProviders(Document document) {

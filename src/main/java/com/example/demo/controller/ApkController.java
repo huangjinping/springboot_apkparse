@@ -171,13 +171,21 @@ public class ApkController {
                 map.putAll(PackageParse.parseApkLibs(unzipPath));
                 resultMap.putAll(map);
             } else if (".aab".equals(suffix)) {
+                String apksPathIversal = unzipPath + "Iversal.apks";
                 String apksPath = unzipPath + ".apks";
+
                 String aabPath = resultFile.getAbsolutePath();
                 String bundletooPath = "java -jar " + projectFile.getAbsolutePath() + "/jks/bundletool.jar";
 //                String cmdaabToApks = "bundletool build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --ks=" + savePos.getParentFile().getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
-                String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --mode=universal --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
+                String cmdaabToApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPathIversal + " --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
                 Process process = Runtime.getRuntime().exec(cmdaabToApks);
                 int value = process.waitFor();
+
+
+                String cmdaabToUniversalApks = bundletooPath + " build-apks --bundle=" + aabPath + "  --output=" + apksPath + " --mode=universal --ks=" + projectFile.getAbsolutePath() + "/jks/firepayn1.jks --ks-pass=pass:firepayn1 --ks-key-alias=firepay --key-pass=pass:firepayn1";
+                Process processuniversal = Runtime.getRuntime().exec(cmdaabToUniversalApks);
+                processuniversal.waitFor();
+
 
                 String deviceApkPath = unzipPath;
 //                String cmd = "bundletool extract-apks --apks=" + apksPath + " --output-dir=" + deviceApkPath + " --device-spec=" + savePos.getParentFile().getAbsolutePath() + "/json/device-spec.json";
@@ -197,13 +205,12 @@ public class ApkController {
                 String masterApkPath = deviceApkPath + "/base-master.apk";
 
 
-
                 for (File childFile : deviceApkFile.listFiles()) {
                     if (childFile.isFile() && childFile.getName().startsWith("base-master")) {
                         masterApkPath = childFile.getAbsolutePath();
                     }
                 }
-                masterApkPath=deviceApkPath+"/universal.apk";
+                masterApkPath = deviceApkPath + "/universal.apk";
 
                 String masterApkBPath = deviceApkPath + "/base-master";
 
@@ -211,7 +218,7 @@ public class ApkController {
 
 
 //                LogUtils.log("---------------get-size total---------------------->");
-                cmd = bundletooPath + " get-size total --apks " + apksPath + "";
+                cmd = bundletooPath + " get-size total --apks " + apksPathIversal + "";
 
 //                cmd = bundletooPath + " get-size total --apks " + apksPath + " --device-spec=" + projectFile.getAbsolutePath() + "/json/device-spec.json";
                 List<String> commands = new ArrayList<>();

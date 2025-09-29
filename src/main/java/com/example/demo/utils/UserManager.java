@@ -31,7 +31,7 @@ public class UserManager {
         ceshi.add(new User(103, "fengzhen", 1));
         ceshi.add(new User(104, "ceshi1", 1));
         ceshi.add(new User(105, "ceshi2", 1));
-        ceshi.add(new User(106, "ceshi3", 1));
+        ceshi.add(new User(106, "ceshi3", -1));
         ceshi.add(new User(107, "ceshi4", 1));
         ceshi.add(new User(108, "ceshi4", 1));
         ceshi.add(new User(109, "ceshi4", 1));

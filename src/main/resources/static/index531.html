@@ -597,7 +597,7 @@
 
 
                     if (dataRes.checkLibJson) {
-                        var autoHtml = "未见异常！";
+                        var autoHtml = "";
 
                         dataRes.checkLibJson.forEach(function (v, i) {
 
@@ -616,6 +616,10 @@
                                 "            </li>";
                         });
                         console.log("---------elfAlignmentResultPath---result---1-");
+
+                        if (isEmpty(autoHtml)){
+                            autoHtml="未见异常!";
+                        }
 
                         $(".elfAlignmentResultPath").html(autoHtml);
                     } else {
